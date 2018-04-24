@@ -1,0 +1,19 @@
+.board {
+  display: flex;
+  flex-direction: column;
+}
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+    .square {
+      border: 1px solid black;
+      line-height: 50px;
+      height: 50px;
+      margin-right: -1px;
+      margin-top: -1px;
+      padding: 0;
+      text-align: center;
+      width: 50px;
+    }
+

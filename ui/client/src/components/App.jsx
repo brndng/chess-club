@@ -22,7 +22,7 @@ const App = () => {
   // const rotateBoard = (matrix) => {
   // }
   
-  return <div>Hello from App!!!{initBoard()}</div>;
+  return <div><Board /></div>;
 }
 
 export default App;
