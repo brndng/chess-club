@@ -1,65 +1,52 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import selectPiece from '../actions';
 
 class Square extends Component {
   constructor(props) {
     super(props);
-    const { file, rank } = props;
-    const pieces = {
-      a8:'r',
-      b8:'k',
-      c8:'b',
-      d8:'q',
-      e8:'k',
-      f8:'b',
-      g8:'k',
-      h8:'r',
-      a7:'p',
-      b7:'p',
-      c7:'p',
-      d7:'p',
-      e7:'p',
-      f7:'p',
-      g7:'p',
-      h7:'p',
-      a1:'r',
-      b1:'k',
-      c1:'b',
-      d1:'q',
-      e1:'k',
-      f1:'b',
-      g1:'k',
-      h1:'r',
-      a2:'p',
-      b2:'p',
-      c2:'p',
-      d2:'p',
-      e2:'p',
-      f2:'p',
-      g2:'p',
-      h2:'p',
-    }
+    const { file, rank, pieces } = props;
     this.state = { 
-      file, 
-      rank,
-      currentPiece: pieces[file+rank] || ' ',
+      currentPiece: pieces[file+rank] || null,
       validMoveOption: false,
      }
   }
 
-  displayCoordinate() {
-    const { file, rank } = this.state;
-    console.log(file+rank);
+  initColor() {
+    const { file, rank } = this.props;
+    const files = 'abcdefgh';
+    return (
+      ((files.indexOf(file) + 1) % 2 === 0 && rank % 2 === 0) ||
+      ((files.indexOf(file) + 1) % 2 !== 0 && rank % 2 !== 0)
+    ) ? 'black' : 'white';
   }
 
   render() {
+    const { currentPiece } = this.state;
+    const { file, rank, selectPiece } = this.props;
     return (
-      <div className="square">
-        <button onClick={() => this.displayCoordinate()}>
-          {this.state.currentPiece}
-        </button>
+      <div className="square" id={this.initColor()} onClick={() => {selectPiece(currentPiece)}}>
+        {currentPiece === null ? null : 
+          <button>
+            {currentPiece}
+          </button>
+        }
       </div>
     )
   }
 }
 
-export default Square;
+// mapStatetoProps: takes data from store, passes it to component as props
+const mapStatetoProps = (state) => {
+  return {
+    pieces: state.pieces,
+    selectedPiece: state.selectedPiece,
+  }
+}
+
+const matchDispatchToProps = (dispatch) => {
+  return bindActionCreators({ selectPiece }, dispatch);
+}
+
+export default connect(mapStatetoProps, matchDispatchToProps)(Square);

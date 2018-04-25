@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Square from './Square.jsx';
 
 class Board extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
   }
 
   createRow(rank) {
@@ -11,7 +11,10 @@ class Board extends Component {
     const files = 'abcdefgh';
     for (let i=0; i<8; i++) {
       let file = files[i];
-      row[i] = <Square rank={rank} file={file} key={i} />;
+      row[i] = <Square 
+        rank={rank} 
+        file={file}
+        key={i} />;
     }
     return <div className="row">{row}</div>;
   }
