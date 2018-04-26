@@ -1,5 +1,5 @@
 const selectPiece = (piece) => {
-  console.log('you clicked on a piece')
+  console.log('piece selected:', piece)
   return {
     type: 'PIECE_SELECTED',
     payload: piece,

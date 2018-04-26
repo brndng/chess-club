@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 import PiecesReducer from './reducer-pieces.js';
-import SelectedPieceReducer from './reducer-selected-piece.js';
+import PieceToMoveReducer from './reducer-piece-tomove.js';
+import OriginSquareReducer from './reducer-origin-square.js';
 
 //import all individual reducers
 
 export default combineReducers({
   pieces: PiecesReducer,
-  selectedPiece: SelectedPieceReducer,
-  // users: UserReducer,
-  // activeUser: ActiveUserReducer,
+  pieceToMove: PieceToMoveReducer,
+  originSquare: OriginSquareReducer,
 });
 
 // reducers take in actions and update part of application's state, sends to store

@@ -4,6 +4,15 @@ import Square from './Square.jsx';
 class Board extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      placed: false,
+    }
+  }
+
+  togglePlaced() {
+    this.state.placed ? 
+    this.setState({ placed: false }) :
+    this.setState({ placed: true });
   }
 
   createRow(rank) {
@@ -14,6 +23,8 @@ class Board extends Component {
       row[i] = <Square 
         rank={rank} 
         file={file}
+        togglePlaced={this.togglePlaced.bind(this)}
+        placed={this.state.placed}
         key={i} />;
     }
     return <div className="row">{row}</div>;
