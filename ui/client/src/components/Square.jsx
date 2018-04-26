@@ -18,16 +18,18 @@ class Square extends Component {
   // getSnapshotBeforeUpdate?
 
   componentDidUpdate() {
-    const { selectOrigin, originSquare, placed, togglePlaced } = this.props;
+    const { selectPiece, selectOrigin, originSquare, placed, togglePlaced, toggleTurn } = this.props;
     const { coordinate } = this.state;
     if (coordinate === originSquare && placed) {
-      this.setState({ currentPiece: null })
+      this.setState({ currentPiece: null });
+      selectPiece(null);
       selectOrigin(null);
       togglePlaced();
+      toggleTurn();
     }  
   }
 
-  initColor() {
+  initSquareColor() {
     const { file, rank } = this.props;
     const files = 'abcdefgh';
     return (
@@ -36,7 +38,14 @@ class Square extends Component {
     ) ? 'black' : 'white';
   }
 
-  checkValidSquare(){
+  isWhite(piece) {
+    if (piece === null) {
+      return null;
+    }
+    return piece === piece.toLowerCase() ? false : true;
+  }
+
+  checkValidSquare() {
     //returns boolean
   }
 
@@ -48,21 +57,27 @@ class Square extends Component {
   }
 
   handleMoveConditions() {
-    const { selectPiece, selectOrigin, pieceToMove } = this.props;
+    const { selectPiece, selectOrigin, pieceToMove, whiteToMove } = this.props;
     const { currentPiece, coordinate } = this.state;
-    selectPiece(currentPiece);
-    if (currentPiece !== null) {
+    const { isWhite } = this;
+
+    if ((isWhite(currentPiece) === whiteToMove)) { 
+      selectPiece(currentPiece);
       selectOrigin(coordinate);
     }
-    if (pieceToMove && currentPiece === null) {
-      this.movePiece();
+    if (pieceToMove !== null && (isWhite(currentPiece) !== isWhite(pieceToMove))) {
+      movePiece();
     }
   }
 
   render() {
     const { currentPiece, coordinate } = this.state;
     return (
-      <div className="square" id={this.initColor()} onClick={() => {this.handleMoveConditions()}}>
+      <div 
+        className="square" 
+        id={this.initSquareColor()} 
+        onClick={() => {this.handleMoveConditions()}}
+      >
         {currentPiece === null ? null : 
           <button>
             {currentPiece}

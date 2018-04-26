@@ -6,6 +6,7 @@ class Board extends Component {
     super(props);
     this.state = {
       placed: false,
+      whiteToMove: true,
     }
   }
 
@@ -13,6 +14,12 @@ class Board extends Component {
     this.state.placed ? 
     this.setState({ placed: false }) :
     this.setState({ placed: true });
+  }
+
+  toggleTurn() {
+    this.state.whiteToMove ?
+    this.setState({ whiteToMove: false }) :
+    this.setState({ whiteToMove: true })
   }
 
   createRow(rank) {
@@ -25,12 +32,15 @@ class Board extends Component {
         file={file}
         togglePlaced={this.togglePlaced.bind(this)}
         placed={this.state.placed}
+        toggleTurn={this.toggleTurn.bind(this)}
+        whiteToMove={this.state.whiteToMove}
         key={i} />;
     }
     return <div className="row">{row}</div>;
   }
 
   render() {
+    console.log('whiteToMove:', this.state.whiteToMove, 'placed:', this.state.placed)
     return (
       <div className="board">
         {this.createRow(8)}
