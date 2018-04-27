@@ -28,6 +28,7 @@ class Board extends Component {
     for (let i=0; i<8; i++) {
       let file = files[i];
       row[i] = <Square 
+        files={files}
         rank={rank} 
         file={file}
         togglePlaced={this.togglePlaced.bind(this)}
@@ -42,16 +43,20 @@ class Board extends Component {
   render() {
     console.log('whiteToMove:', this.state.whiteToMove, 'placed:', this.state.placed)
     return (
-      <div className="board">
-        {this.createRow(8)}
-        {this.createRow(7)}
-        {this.createRow(6)}
-        {this.createRow(5)}
-        {this.createRow(4)}
-        {this.createRow(3)}
-        {this.createRow(2)}
-        {this.createRow(1)}
+      <div>
+        <h3>{this.state.whiteToMove ? 'White To Move' : 'Black To Move'}</h3>
+        <div className="board">
+          {this.createRow(8)}
+          {this.createRow(7)}
+          {this.createRow(6)}
+          {this.createRow(5)}
+          {this.createRow(4)}
+          {this.createRow(3)}
+          {this.createRow(2)}
+          {this.createRow(1)}
+        </div>
       </div>
+      
     );
   }
 }
