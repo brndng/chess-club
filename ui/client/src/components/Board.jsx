@@ -12,14 +12,14 @@ class Board extends Component {
 
   togglePlaced() {
     this.state.placed ? 
-    this.setState({ placed: false }) :
-    this.setState({ placed: true });
+      this.setState({ placed: false }) :
+      this.setState({ placed: true });
   }
 
   toggleTurn() {
     this.state.whiteToMove ?
-    this.setState({ whiteToMove: false }) :
-    this.setState({ whiteToMove: true })
+      this.setState({ whiteToMove: false }) :
+      this.setState({ whiteToMove: true })
   }
 
   createRow(rank) {

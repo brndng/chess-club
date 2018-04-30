@@ -6,6 +6,8 @@ import selectPiece from '../actions/action-select-piece.js';
 import selectOrigin from '../actions/action-select-origin.js';
 import storeCandidates from '../actions/action-store-candidates.js';
 import baseMoves from '../../base-moves.js';
+import pathLimits from '../../path-limits.js'; ///
+import updateMatrix from '../actions/action-update-matrix.js'; ///
 
 class Square extends Component {
   constructor(props) {
@@ -59,10 +61,11 @@ class Square extends Component {
   }
 
   placePiece() {
-    const { pieceToMove, togglePlaced } = this.props;
+    const { pieceToMove, togglePlaced, updateMatrix } = this.props;
     const { currentPiece } = this.state;
     this.setState({ currentPiece: pieceToMove });
     togglePlaced();
+    updateMatrix('x');///
   }
 
   handleSquareClick() {
@@ -93,24 +96,42 @@ class Square extends Component {
         onClick={() => {this.handleSquareClick()}}
       >
         {currentPiece === null ? null : <Piece currentPiece={currentPiece} file={file} rank={rank}/>}
+        
       </div>
     )
   }
 }
 
 const mapStatetoProps = (state) => { // passes data from store, to component as props
+  //console.log('my state', state)
   return {
     pieces: state.pieces,
     pieceToMove: state.pieceToMove,
     originSquare: state.originSquare,
     candidateSquares: state.candidateSquares,
+    currentPosition: state.currentPosition,
   }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, selectOrigin, storeCandidates }, dispatch);
+  return bindActionCreators({ selectPiece, selectOrigin, storeCandidates, updateMatrix }, dispatch);
 }
 
 export default connect(mapStatetoProps, matchDispatchToProps)(Square);
 
 // getSnapshotBeforeUpdate?
+
+// calculateDistance(fromFile, fromRank, toFile, toRank) {
+//   fromFile = fromFile.charCodeAt()-96;
+//   toFile = toFile.charCodeAt()-96;
+//   return Math.sqrt(Math.pow(toRank-fromRank, 2) - Math.pow(toFile-fromFile, 2));
+// }
+
+// test() {
+//   const { originSquare, pieceToMove, file, rank, candidateSquares} = this.props;
+//   const piece = pieceToMove.toUpperCase();
+//   const fromFile = originSquare.split('')[0];
+//   const fromRank = Number(originSquare.split('')[1]);
+//   const maxDist = this.calculateDistance(fromFile, fromRank, file, rank)
+//   pathLimits[piece](fromFile, fromRank, file, rank, maxDist);
+// }

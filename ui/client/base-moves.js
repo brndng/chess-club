@@ -3,7 +3,10 @@ module.exports={
       fromFile = fromFile.charCodeAt()-96;
       toFile = toFile.charCodeAt()-96;
 
-      if (toFile-fromFile === 0) {
+      if ((fromRank === 2 || fromRank === 7) && Math.abs(toRank-fromRank) === 2) {
+        return true;
+      }
+      if (toFile-fromFile === 0 && Math.abs(toRank-fromRank) === 1) {
         return true;
       }
     },
