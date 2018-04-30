@@ -72,6 +72,7 @@ class Board extends Component {
   // }
 
   render() {
+    console.log('placed', this.props.placed)
     const { matrix, placed } = this.state; //todo: move matrix to store?
     return (
       <div className="board">
