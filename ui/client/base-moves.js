@@ -1,55 +1,49 @@
 module.exports={
-  P: (fromFile, fromRank, toFile, toRank) => {
-      fromFile = fromFile.charCodeAt()-96;
-      toFile = toFile.charCodeAt()-96;
+  P: (rowStart, colStart, rowEnd, colEnd) => {
+      
 
-      if ((fromRank === 2 || fromRank === 7) && Math.abs(toRank-fromRank) === 2) {
+      if ((rowStart === 2 || rowStart === 7) && Math.abs(rowEnd-rowStart) === 2) {
         return true;
       }
-      if (toFile-fromFile === 0 && Math.abs(toRank-fromRank) === 1) {
-        return true;
-      }
-    },
-  K: (fromFile, fromRank, toFile, toRank) => {
-      fromFile = fromFile.charCodeAt()-96;
-      toFile = toFile.charCodeAt()-96;
-
-      if (Math.abs(toFile-fromFile) === 1 && Math.abs(toRank-fromRank) === 0 || 
-          Math.abs(toRank-fromRank) === 1 && Math.abs(toFile-fromFile) === 0 || 
-          Math.abs(toFile-fromFile) === 1 && Math.abs(toRank-fromRank) === 1) {
+      if (colEnd-colStart === 0 && Math.abs(rowEnd-rowStart) === 1) {
         return true;
       }
     },
-  Q: (fromFile, fromRank, toFile, toRank) => {
-      fromFile = fromFile.charCodeAt()-96;
-      toFile = toFile.charCodeAt()-96;
+  K: (rowStart, colStart, rowEnd, colEnd) => {
+      
 
-      if (fromFile === toFile || fromRank === toRank || Math.abs(toFile-fromFile) === Math.abs(toRank-fromRank)) {
+      if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 0 || 
+          Math.abs(rowEnd-rowStart) === 1 && Math.abs(colEnd-colStart) === 0 || 
+          Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 1) {
         return true;
       }
     },
-  B: (fromFile, fromRank, toFile, toRank) => {
-      fromFile = fromFile.charCodeAt()-96;
-      toFile = toFile.charCodeAt()-96;
+  Q: (rowStart, colStart, rowEnd, colEnd) => {
+      
 
-      if (Math.abs(toFile-fromFile) === Math.abs(toRank-fromRank)) {
+      if (colStart === colEnd || rowStart === rowEnd || Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
         return true;
       }
     },
-  N: (fromFile, fromRank, toFile, toRank) => {
-      fromFile = fromFile.charCodeAt()-96;
-      toFile = toFile.charCodeAt()-96;
+  B: (rowStart, colStart, rowEnd, colEnd) => {
+      
 
-      if (Math.abs(toFile-fromFile) === 1 && Math.abs(toRank-fromRank) === 2 ||
-          Math.abs(toFile-fromFile) === 2 && Math.abs(toRank-fromRank) === 1) {
+      if (Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
         return true;
       }
     },
-  R: (fromFile, fromRank, toFile, toRank) => {
-      fromFile = fromFile.charCodeAt()-96;
-      toFile = toFile.charCodeAt()-96;
+  N: (rowStart, colStart, rowEnd, colEnd) => {
+      
 
-      if (fromFile  === toFile || fromRank === toRank) {
+      if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 2 ||
+          Math.abs(colEnd-colStart) === 2 && Math.abs(rowEnd-rowStart) === 1) {
+        return true;
+      }
+    },
+  R: (rowStart, colStart, rowEnd, colEnd) => {
+      
+
+      if (colStart  === colEnd || rowStart === rowEnd) {
         return true;
       }
     },

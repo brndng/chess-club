@@ -4,7 +4,9 @@ import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import selectPiece from '../actions/action-select-piece.js';
 import selectOrigin from '../actions/action-select-origin.js';
+import storeCandidates from '../actions/action-store-candidates.js';
 import baseMoves from '../../base-moves.js';
+import pathLimits from '../../path-limits.js'; ///
 import updateMatrix from '../actions/action-update-matrix.js'; ///
 import togglePlaced from '../actions/action-toggle-placed.js';
 import toggleTurn from '../actions/action-toggle-turn.js';
@@ -74,7 +76,8 @@ const mapStateToProps = (state) => { // passes data from store, to component as 
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, selectOrigin, updateMatrix, togglePlaced, toggleTurn }, dispatch);
+  return bindActionCreators({ selectPiece, selectOrigin, storeCandidates, updateMatrix, togglePlaced, toggleTurn }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
+
