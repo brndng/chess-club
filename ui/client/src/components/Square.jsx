@@ -48,16 +48,37 @@ class Square extends Component {
     if ((isWhite(piece) === whiteToMove)) { 
       selectPiece(piece);
       selectOrigin(row, col);
+      
+
     }
     if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove))) {
       this.placePiece();
+      // this.getCandidateSquares(pieceToMove);
       selectPiece(null);
       selectOrigin(null, null);
     }
   }
 
+  getCandidateSquares(input) {
+    const { pieceToMove, originSquare, row, col } = this.props;
+    const rowStart = originSquare.row;
+    const colStart = originSquare.col;
+    const squares = [];
+    const piece = input.toUpperCase();
+    for (let i=0; i<7; i++) {
+      for (let j=0; j<7; j++) {
+        if (baseMoves[piece](rowStart, colStart, row, col)) {
+          squares.push([i,j]);
+        }
+      }
+    }
+    console.log('list', squares)
+    storeCandidates(squares);
+  }
+
   render() {
-    const { piece } = this.props;
+    const { piece, candidateSquares } = this.props;
+    // console.log('candidateSquares', candidateSquares)
     return (
       <div className="square" id={this.initSquareColor()} onClick={() => this.handleSquareClick()}>
         {piece === null ? null : <Piece piece={piece} />}
