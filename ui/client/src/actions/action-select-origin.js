@@ -1,8 +1,8 @@
-const selectOrigin = (square) => {
-  console.log('origin selected:', square)
+const selectOrigin = (row, col) => {
+  console.log('origin selected:', row, col)
   return {
     type: 'ORIGIN_SELECTED',
-    payload: square,
+    payload: {row, col}
   };
 }
 

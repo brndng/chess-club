@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Square from './Square.jsx';
+import togglePlaced from '../actions/action-toggle-placed.js';
 
 class Board extends Component {
   constructor(props) {
@@ -10,11 +13,12 @@ class Board extends Component {
     // }
     this.state = {
       matrix: [],
+      // placed: false,
     }
   }
 
   componentDidMount() {
-    const matrix = [ //todo: fetch current matrix from DB to initialize state/store
+    const dataDB = [ //todo: fetch current matrix from DB to initialize state/store
       ['r','n','b','q','k','b','n','r'],
       ['p','p','p','p','p','p','p','p'],
       [null,null,null,null,null,null,null,null],
@@ -24,9 +28,18 @@ class Board extends Component {
       ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
       ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
     ]
-    this.setState({ matrix });
+    this.setState({ matrix: dataDB });
   }
 
+  componentDidUpdate() {
+    const { placed, togglePlaced } = this.props;
+
+    if (placed) {
+      this.setState({ matrix: this.props.currentPosition });
+      togglePlaced();
+    }
+    
+  }
 
   // togglePlaced() {
   //   this.state.placed ? 
@@ -59,7 +72,7 @@ class Board extends Component {
   // }
 
   render() {
-    const { matrix } = this.state; //todo: move matrix to store?
+    const { matrix, placed } = this.state; //todo: move matrix to store?
     return (
       <div className="board">
         {matrix.map((row, i) => 
@@ -91,4 +104,15 @@ class Board extends Component {
   // }
 }
 
-export default Board;
+const mapStateToProps = (state) => {
+  return {
+    currentPosition: state.currentPosition,
+    placed: state.placed,
+  }
+}
+
+const matchDispatchToProps = (dispatch) => {
+  return bindActionCreators({ togglePlaced }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Board);

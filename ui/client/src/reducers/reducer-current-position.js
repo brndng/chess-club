@@ -1,17 +1,22 @@
-export default (state=null, action) => {
+const init = [
+  ['r','n','b','q','k','b','n','r'],
+  ['p','p','p','p','p','p','p','p'],
+  [null,null,null,null,null,null,null,null],
+  [null,null,null,null,null,null,null,null],
+  [null,null,null,null,null,null,null,null],
+  [null,null,null,null,null,null,null,null],
+  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+];
+
+export default (state=init, action) => {
   switch (action.type) {
     case 'POSITION_CHANGED': 
       console.log('\tPOSITION_CHANGED -- sub-state:', state);
-      if (state === null) {
-        return [1,2,3,4];
-      } else {
-        // state[1] = 8;
-        // return state;
-        return state.map(elem => elem === 2 ? 8: elem );
-        //return [...state, state[1] = 8]
-      }
-      //return {...state, currentPosition: [...state.currentPosition, 'anything']}
-    // return {...state, currentPosition: state.currentPosition.map(elem => elem === 'target' ? 'anything': elem)}
+      const { piece, rowStart, colStart, rowEnd, colEnd } = action.payload;
+        state[rowEnd][colEnd] = piece;
+        state[rowStart][colStart] = null;
+        return state;
     break;
   }
   return state;

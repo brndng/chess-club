@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import selectPiece from '../actions/action-select-piece.js';
 import selectOrigin from '../actions/action-select-origin.js';
@@ -8,6 +8,8 @@ import storeCandidates from '../actions/action-store-candidates.js';
 import baseMoves from '../../base-moves.js';
 import pathLimits from '../../path-limits.js'; ///
 import updateMatrix from '../actions/action-update-matrix.js'; ///
+import togglePlaced from '../actions/action-toggle-placed.js';
+import toggleTurn from '../actions/action-toggle-turn.js';
 
 class Square extends Component {
   constructor(props) {
@@ -16,6 +18,9 @@ class Square extends Component {
     // const coordinate = file+rank;
     // const currentPiece = pieces[coordinate] || null;
     // this.state = { currentPiece, coordinate }
+    // const { piece } = this.props;
+    // const piece = piece || null;
+    // this.state = { piece }
   }
 
   // componentDidUpdate() {
@@ -36,12 +41,31 @@ class Square extends Component {
       'white' : 'black';
   }
 
-  // isWhite(piece) {
-  //   if (piece === null) {
-  //     return null;
-  //   }
-  //   return piece === piece.toUpperCase() ? true : false;
-  // }
+  handleSquareClick() {
+    const { updateMatrix, selectPiece, selectOrigin, row, col, piece, togglePlaced, toggleTurn, whiteToMove, pieceToMove, originSquare } = this.props;
+    
+    const { isWhite } = this;
+    console.log('piece, isWhite(piece), whiteToMove',piece, isWhite(piece), whiteToMove);
+    if ((isWhite(piece) === whiteToMove)) { 
+      selectPiece(piece);
+      selectOrigin(row, col);
+    }
+
+    if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove))) {
+      const rowStart = originSquare.row;
+      const colStart = originSquare.col;
+      updateMatrix(pieceToMove, rowStart, colStart, row, col);
+      togglePlaced();
+      toggleTurn();
+    }
+  }
+
+  isWhite(piece) {
+    if (piece === null) {
+      return null;
+    }
+    return piece === piece.toUpperCase() ? true : false;
+  }
 
   // getCandidateSquares() {
   //   const { file, rank, files, storeCandidates } = this.props;
@@ -102,29 +126,29 @@ class Square extends Component {
   render() {
     const { piece } = this.props;
     return (
-      <div className="square" id={this.initSquareColor()}>
+      <div className="square" id={this.initSquareColor()} onClick={() => this.handleSquareClick()}>
         {piece === null ? null : <Piece piece={piece} />}
       </div>
     )
   }
 }
 
-const mapStatetoProps = (state) => { // passes data from store, to component as props
-  //console.log('my state', state)
+const mapStateToProps = (state) => { // passes data from store, to component as props
+  // console.log('my state', state)
   return {
-    pieces: state.pieces,
     pieceToMove: state.pieceToMove,
     originSquare: state.originSquare,
     candidateSquares: state.candidateSquares,
     currentPosition: state.currentPosition,
+    whiteToMove: state.whiteToMove,
   }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, selectOrigin, storeCandidates, updateMatrix }, dispatch);
+  return bindActionCreators({ selectPiece, selectOrigin, storeCandidates, updateMatrix, togglePlaced, toggleTurn }, dispatch);
 }
 
-export default connect(mapStatetoProps, matchDispatchToProps)(Square);
+export default connect(mapStateToProps, matchDispatchToProps)(Square);
 
 // getSnapshotBeforeUpdate?
 

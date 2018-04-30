@@ -1,7 +1,7 @@
-const updateMatrix = (piece) => {
+const updateMatrix = (piece, rowStart, colStart, rowEnd, colEnd) => {
   return {
     type: 'POSITION_CHANGED',
-    payload: ['a','b','c','d'] //can be anything!
+    payload: { piece, rowStart, colStart, rowEnd, colEnd } 
   };
 }
 
