@@ -39,6 +39,8 @@ class Square extends Component {
     toggleTurn();
   }
 
+  
+
   handleSquareClick() {
     const { selectPiece, selectOrigin, row, col, piece, whiteToMove, pieceToMove } = this.props;
     const { isWhite } = this;
