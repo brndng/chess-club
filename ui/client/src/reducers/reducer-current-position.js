@@ -1,6 +1,4 @@
 export default (state=null, action) => {
-  console.log('---- reducer current position');
-  let newState = {...state}
   switch (action.type) {
     case 'POSITION_CHANGED': 
       console.log('\tPOSITION_CHANGED -- sub-state:', state);

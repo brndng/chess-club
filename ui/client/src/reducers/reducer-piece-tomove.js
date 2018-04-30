@@ -1,5 +1,4 @@
 export default (state=null, action) => {
-  console.log('reducer -- piece to move -- action:', action)
   switch (action.type) {
     case 'PIECE_SELECTED': 
       return action.payload;
