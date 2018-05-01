@@ -35,7 +35,7 @@ class Board extends Component {
   }
 
   render() {
-    const { matrix, placed } = this.state; //todo: move matrix to store?
+    const { matrix, placed } = this.state; 
     return (
       <div className="board">
         {matrix.map((row, i) => 

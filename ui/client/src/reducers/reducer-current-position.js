@@ -13,8 +13,8 @@ export default (state=init, action) => {
   switch (action.type) {
     case 'POSITION_CHANGED': 
       console.log('\tPOSITION_CHANGED -- sub-state:', state);
-      const { piece, rowStart, colStart, rowEnd, colEnd } = action.payload;
-        state[rowEnd][colEnd] = piece;
+      const { rowStart, colStart, rowEnd, colEnd, pieceToMove } = action.payload;
+        state[rowEnd][colEnd] = pieceToMove;
         state[rowStart][colStart] = null;
         return state;
     break;

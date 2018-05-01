@@ -16,6 +16,10 @@
       text-align: center;
       width: 50px;
     }
+
+    .square.highlight {
+      border: 1px solid red;
+    }
       #black {
         background-color: #b5722f;
       }

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import selectPiece from '../actions/action-select-piece.js';
 import selectOrigin from '../actions/action-select-origin.js';
-// import storeCandidates from '../actions/action-store-candidates.js';
 import baseMoves from '../../base-moves.js';
 import validatePath from '../../validate-path.js'; ///
 import updateMatrix from '../actions/action-update-matrix.js'; ///
@@ -30,11 +29,9 @@ class Square extends Component {
   }
 
   placePiece() {
-    const { selectOrigin, selectPiece, originSquare, pieceToMove, updateMatrix, togglePlaced, toggleTurn, row, col } = this.props
-    const rowStart = originSquare.row;
-    const colStart = originSquare.col;
-      
-    updateMatrix(pieceToMove, rowStart, colStart, row, col);
+    const { selectOrigin, selectPiece, updateMatrix, togglePlaced, toggleTurn, originSquare, pieceToMove, row, col } = this.props;
+    const [rowStart, colStart] = originSquare;
+    updateMatrix(rowStart, colStart, row, col, pieceToMove);
     selectPiece(null);
     selectOrigin(null, null);
     togglePlaced();
@@ -44,20 +41,11 @@ class Square extends Component {
   handleSquareClick() {
     const { selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
     const { isWhite } = this;
-
-    if ((isWhite(piece) === whiteToMove)) { 
+    if ((this.isWhite(piece) === whiteToMove)) { 
       selectPiece(piece);
       selectOrigin(row, col);
     }
-    // if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove))) {
-    //   // 
-    //   this.placePiece();
-    //   // this.getCandidateSquares(pieceToMove);
-    //   selectPiece(null);
-    //   selectOrigin(null, null);
-    // }
-    
-    if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove)) && this.validateDestination()) {
+    if (pieceToMove !== null && (this.isWhite(piece) !== this.isWhite(pieceToMove)) && this.validateDestination()) {
       if (pieceToMove === 'n' || pieceToMove === 'N') {
         this.placePiece();
       } else {
@@ -65,44 +53,30 @@ class Square extends Component {
           this.placePiece();
         } 
       }
-      
     }
-    
   }
 
   validateDestination() {
-    
     const { originSquare, pieceToMove, row, col } = this.props;
-     
-      const rowStart = originSquare['row'];
-      const colStart = originSquare['col'];
-      const piece = pieceToMove.toUpperCase();
-      return (baseMoves[piece](rowStart, colStart, row, col));
-    
-    
+    const [rowStart, colStart] = originSquare;
+    const piece = pieceToMove.toUpperCase();
+    return (baseMoves[piece](rowStart, colStart, row, col));
   }
 
-  // getCandidateSquares(input) {
-  //   const { pieceToMove, originSquare, row, col } = this.props;
-  //   const rowStart = originSquare.row;
-  //   const colStart = originSquare.col;
-  //   const squares = [];
-  //   const piece = input.toUpperCase();
-  //   for (let i=0; i<=7; i++) {
-  //     for (let j=0; j<=7; j++) {
-  //       if (baseMoves[piece](rowStart, colStart, i, j)) {
-  //         squares.push([i,j]);
-  //       }
-  //     }
-  //   }
-  //   console.log('squares', squares)
-  //   storeCandidates(squares);
-  // }
+  highlight() {
+    const { row, col, piece, originSquare } = this.props;
+    if (originSquare !== null) {
+      const [rowStart, colStart] = originSquare;
+      return row === rowStart && col === colStart ?
+        'highlight' : null;
+    }
+    return null;
+  }
 
   render() {
     const { piece, candidateSquares } = this.props;
     return (
-      <div className="square" id={this.initSquareColor()} onClick={() => this.handleSquareClick()}>
+      <div id={this.initSquareColor()} className={`square ${this.highlight()}`} onClick={() => this.handleSquareClick()}>
         {piece === null ? null : <Piece piece={piece} />}
       </div>
     )
@@ -111,13 +85,8 @@ class Square extends Component {
 
 const mapStateToProps = (state) => { // passes data from store, to component as props
   // console.log('my state', state)
-  return {
-    pieceToMove: state.pieceToMove,
-    originSquare: state.originSquare,
-    // candidateSquares: state.candidateSquares,
-    currentPosition: state.currentPosition,
-    whiteToMove: state.whiteToMove,
-  }
+  const { pieceToMove, originSquare, currentPosition, whiteToMove } = state;
+  return { pieceToMove, originSquare, currentPosition, whiteToMove };
 }
 
 const matchDispatchToProps = (dispatch) => {
