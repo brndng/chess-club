@@ -1,8 +1,6 @@
 module.exports = {
   P: (rowStart, colStart, rowEnd, colEnd) => {
       let isValid = false;
-      console.log('(rowStart === 2 || rowStart === 7)',(rowStart === 2 || rowStart === 7));
-      console.log('Math.abs(rowEnd-rowStart) === 2',Math.abs(rowEnd-rowStart) === 2);
       if ((rowStart === 1 || rowStart === 6) && Math.abs(rowEnd-rowStart) === 2) {
         isValid = true;
       }
