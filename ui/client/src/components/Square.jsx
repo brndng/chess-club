@@ -30,38 +30,56 @@ class Square extends Component {
   }
 
   placePiece() {
-    const { originSquare, pieceToMove, updateMatrix, togglePlaced, toggleTurn, row, col } = this.props
+    const { selectOrigin, selectPiece, originSquare, pieceToMove, updateMatrix, togglePlaced, toggleTurn, row, col } = this.props
     const rowStart = originSquare.row;
     const colStart = originSquare.col;
       
     updateMatrix(pieceToMove, rowStart, colStart, row, col);
+    selectPiece(null);
+    selectOrigin(null, null);
     togglePlaced();
     toggleTurn();
   }
 
   handleSquareClick() {
-    const { selectPiece, selectOrigin, row, col, piece, whiteToMove, pieceToMove } = this.props;
+    const { selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
     const { isWhite } = this;
 
     if ((isWhite(piece) === whiteToMove)) { 
       selectPiece(piece);
       selectOrigin(row, col);
     }
-    if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove))) {
-      this.placePiece();
-      // this.getCandidateSquares(pieceToMove);
-      selectPiece(null);
-      selectOrigin(null, null);
+    // if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove))) {
+    //   // 
+    //   this.placePiece();
+    //   // this.getCandidateSquares(pieceToMove);
+    //   selectPiece(null);
+    //   selectOrigin(null, null);
+    // }
+    
+    if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove)) && this.validateDestination()) {
+      if (pieceToMove === 'n' || pieceToMove === 'N') {
+        this.placePiece();
+      } else {
+        if (validatePath(originSquare, [row,col], currentPosition)) {
+          this.placePiece();
+        } 
+      }
+      
     }
+    
   }
 
   validateDestination() {
+    
     const { originSquare, pieceToMove, row, col } = this.props;
-    const rowStart = originSquare.row;
-    const colStart = originSquare.col;
-    const piece = pieceToMove.toUpperCase();
-
-    return (baseMoves[piece](rowStart, colStart, row, col));
+     
+      const rowStart = originSquare['row'];
+      const colStart = originSquare['col'];
+      const piece = pieceToMove.toUpperCase();
+      return (baseMoves[piece](rowStart, colStart, row, col));
+    
+    
   }
 
   // getCandidateSquares(input) {
