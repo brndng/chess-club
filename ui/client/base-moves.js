@@ -1,50 +1,50 @@
-module.exports={
+module.exports = {
   P: (rowStart, colStart, rowEnd, colEnd) => {
-      
-
+      let isValid = false;
       if ((rowStart === 2 || rowStart === 7) && Math.abs(rowEnd-rowStart) === 2) {
-        return true;
+        isValid = true;
       }
       if (colEnd-colStart === 0 && Math.abs(rowEnd-rowStart) === 1) {
-        return true;
+        isValid = true;
       }
+      return isValid;
     },
   K: (rowStart, colStart, rowEnd, colEnd) => {
-      
-
+      let isValid = false;
       if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 0 || 
           Math.abs(rowEnd-rowStart) === 1 && Math.abs(colEnd-colStart) === 0 || 
           Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 1) {
-        return true;
+        isValid = true;
       }
+      return isValid;
     },
   Q: (rowStart, colStart, rowEnd, colEnd) => {
-      
-
+      let isValid = false;
       if (colStart === colEnd || rowStart === rowEnd || Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
-        return true;
+        isValid = true;
       }
+      return isValid;
     },
   B: (rowStart, colStart, rowEnd, colEnd) => {
-      
-
+      let isValid = false;
       if (Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
-        return true;
+        isValid = true;
       }
+      return isValid;
     },
   N: (rowStart, colStart, rowEnd, colEnd) => {
-      
-
+      let isValid = false;
       if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 2 ||
           Math.abs(colEnd-colStart) === 2 && Math.abs(rowEnd-rowStart) === 1) {
-        return true;
+        isValid = true;
       }
+      return isValid;
     },
   R: (rowStart, colStart, rowEnd, colEnd) => {
-      
-
+      let isValid = false;
       if (colStart  === colEnd || rowStart === rowEnd) {
-        return true;
+        isValid = true;
       }
+      return isValid;
     },
 }

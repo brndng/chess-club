@@ -4,9 +4,9 @@ import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import selectPiece from '../actions/action-select-piece.js';
 import selectOrigin from '../actions/action-select-origin.js';
-import storeCandidates from '../actions/action-store-candidates.js';
+// import storeCandidates from '../actions/action-store-candidates.js';
 import baseMoves from '../../base-moves.js';
-import pathLimits from '../../path-limits.js'; ///
+import validatePath from '../../validate-path.js'; ///
 import updateMatrix from '../actions/action-update-matrix.js'; ///
 import togglePlaced from '../actions/action-toggle-placed.js';
 import toggleTurn from '../actions/action-toggle-turn.js';
@@ -39,8 +39,6 @@ class Square extends Component {
     toggleTurn();
   }
 
-  
-
   handleSquareClick() {
     const { selectPiece, selectOrigin, row, col, piece, whiteToMove, pieceToMove } = this.props;
     const { isWhite } = this;
@@ -48,8 +46,6 @@ class Square extends Component {
     if ((isWhite(piece) === whiteToMove)) { 
       selectPiece(piece);
       selectOrigin(row, col);
-      
-
     }
     if (pieceToMove !== null && (isWhite(piece) !== isWhite(pieceToMove))) {
       this.placePiece();
@@ -59,26 +55,34 @@ class Square extends Component {
     }
   }
 
-  getCandidateSquares(input) {
-    const { pieceToMove, originSquare, row, col } = this.props;
+  validateDestination() {
+    const { originSquare, pieceToMove, row, col } = this.props;
     const rowStart = originSquare.row;
     const colStart = originSquare.col;
-    const squares = [];
-    const piece = input.toUpperCase();
-    for (let i=0; i<7; i++) {
-      for (let j=0; j<7; j++) {
-        if (baseMoves[piece](rowStart, colStart, row, col)) {
-          squares.push([i,j]);
-        }
-      }
-    }
-    console.log('list', squares)
-    storeCandidates(squares);
+    const piece = pieceToMove.toUpperCase();
+
+    return (baseMoves[piece](rowStart, colStart, row, col));
   }
+
+  // getCandidateSquares(input) {
+  //   const { pieceToMove, originSquare, row, col } = this.props;
+  //   const rowStart = originSquare.row;
+  //   const colStart = originSquare.col;
+  //   const squares = [];
+  //   const piece = input.toUpperCase();
+  //   for (let i=0; i<=7; i++) {
+  //     for (let j=0; j<=7; j++) {
+  //       if (baseMoves[piece](rowStart, colStart, i, j)) {
+  //         squares.push([i,j]);
+  //       }
+  //     }
+  //   }
+  //   console.log('squares', squares)
+  //   storeCandidates(squares);
+  // }
 
   render() {
     const { piece, candidateSquares } = this.props;
-    // console.log('candidateSquares', candidateSquares)
     return (
       <div className="square" id={this.initSquareColor()} onClick={() => this.handleSquareClick()}>
         {piece === null ? null : <Piece piece={piece} />}
@@ -92,14 +96,14 @@ const mapStateToProps = (state) => { // passes data from store, to component as 
   return {
     pieceToMove: state.pieceToMove,
     originSquare: state.originSquare,
-    candidateSquares: state.candidateSquares,
+    // candidateSquares: state.candidateSquares,
     currentPosition: state.currentPosition,
     whiteToMove: state.whiteToMove,
   }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, selectOrigin, storeCandidates, updateMatrix, togglePlaced, toggleTurn }, dispatch);
+  return bindActionCreators({ selectPiece, selectOrigin, updateMatrix, togglePlaced, toggleTurn }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
