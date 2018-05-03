@@ -10,7 +10,7 @@ import updateMatrix from '../actions/action-update-matrix.js';
 import togglePlaced from '../actions/action-toggle-placed.js';
 import toggleTurn from '../actions/action-toggle-turn.js';
 
-import castle from '../actions/action-castle.js';
+import castleKing from '../actions/action-castle-king.js';
 
 class Square extends Component {
   constructor(props) {
@@ -31,7 +31,7 @@ class Square extends Component {
   }
 
   placePiece() {
-    const { selectOrigin, selectPiece, updateMatrix, togglePlaced, toggleTurn, originSquare, pieceToMove, row, col } = this.props;
+    const { castleKing, selectOrigin, selectPiece, updateMatrix, togglePlaced, toggleTurn, originSquare, pieceToMove, row, col } = this.props;
     const [rowStart, colStart] = originSquare;
     updateMatrix(rowStart, colStart, row, col, pieceToMove);
     selectPiece(null);
@@ -41,30 +41,28 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
-    const { isWhite } = this;
-    
-    
-
+    const { togglePlaced, toggleTurn, castleKing, selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
     if ((this.isWhite(piece) === whiteToMove)) { 
       selectPiece(piece);
       selectOrigin(row, col);
     }
 
-    ///TESTING
-    if ((pieceToMove === 'K' || pieceToMove === 'k') && (this.isWhite(piece) !== this.isWhite(pieceToMove))) {
-      if (originSquare !== null) {
-        const [rowStart, colStart] = originSquare;
-        console.log('rowStart, colStart, row, col', rowStart, colStart, row, col);
-        castle(rowStart, colStart, row, col);
-      }
-    }
-    ///TESTING
+    // /TESTING
+    if ((pieceToMove === 'K' || pieceToMove === 'k')) {
+      const [rowStart, colStart] = originSquare;
 
+        castleKing(rowStart, colStart, row, col, pieceToMove);
+        selectPiece(null);
+        selectOrigin(null, null);
+        togglePlaced();
+        toggleTurn();
+      
+    } else 
     if (pieceToMove !== null && (this.isWhite(piece) !== this.isWhite(pieceToMove)) && this.validateDestination()) {
       if (pieceToMove === 'n' || pieceToMove === 'N') {
         this.placePiece();
       } else {
+
         if (validatePath(originSquare, [row,col], currentPosition)) {
           this.placePiece();
         } 
@@ -73,12 +71,17 @@ class Square extends Component {
   }
 
   validateDestination() {
-    const { originSquare, pieceToMove, row, col } = this.props;
+    const { originSquare, pieceToMove, row, col, piece } = this.props;
     const [rowStart, colStart] = originSquare;
-    const piece = pieceToMove.toUpperCase();
-    return (baseMoves[piece](rowStart, colStart, row, col));
-  }
+    const selection = pieceToMove.toUpperCase();
 
+    ///TESTING
+    if (selection === 'P') {
+      return (baseMoves['P'](rowStart, colStart, row, col, piece, pieceToMove));
+    } else {
+      return (baseMoves[selection](rowStart, colStart, row, col));
+    }
+  }
 
   highlight() {
     const { row, col, piece, originSquare } = this.props;
@@ -107,7 +110,7 @@ const mapStateToProps = (state) => { // passes data from store, to component as 
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, selectOrigin, updateMatrix, togglePlaced, toggleTurn, castle }, dispatch);
+  return bindActionCreators({ castleKing, selectPiece, selectOrigin, updateMatrix, togglePlaced, toggleTurn }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);

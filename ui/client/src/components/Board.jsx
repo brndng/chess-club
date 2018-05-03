@@ -11,7 +11,6 @@ class Board extends Component {
       matrix: [],
     }
   }
-
   componentDidMount() {
     const dataDB = [ //todo: fetch current matrix from DB to initialize state/store
       ['r','n','b','q','k','b','n','r'],
@@ -27,6 +26,7 @@ class Board extends Component {
   }
 
   componentDidUpdate() {
+    console.log('this.props.currentPosition',this.props.currentPosition)
     const { placed, togglePlaced } = this.props;
     if (placed) {
       this.setState({ matrix: this.props.currentPosition });
@@ -36,6 +36,7 @@ class Board extends Component {
 
   render() {
     const { matrix, placed } = this.state; 
+    console.log('matrix board', matrix)
     return (
       <div className="board">
         {matrix.map((row, i) => 

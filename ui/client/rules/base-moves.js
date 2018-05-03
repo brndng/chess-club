@@ -1,13 +1,25 @@
 module.exports = {
-  P: (rowStart, colStart, rowEnd, colEnd) => {
+  P: (rowStart, colStart, rowEnd, colEnd, piece, pieceToMove) => {
       let isValid = false;
-      if ((rowStart === 1 || rowStart === 6) && Math.abs(rowEnd-rowStart) === 2) {
-        isValid = true;
+      if (piece === null) {
+        if ((rowStart === 1 || rowStart === 6) && Math.abs(rowEnd-rowStart) === 2) {
+          isValid = true;
+        }
+        if (colEnd-colStart === 0 && Math.abs(rowEnd-rowStart) === 1) {
+          isValid = true;
+        }
+      } else {
+        if (pieceToMove === pieceToMove.toUpperCase()) {
+          if (Math.abs(colEnd-colStart) === 1 && (rowEnd-rowStart) === -1) {
+            isValid = true;
+          }
+        }
+        if (pieceToMove === pieceToMove.toLowerCase()) {
+          if (Math.abs(colEnd-colStart) === 1 && (rowEnd-rowStart) === 1) {
+            isValid = true;
+          }
+        }
       }
-      if (colEnd-colStart === 0 && Math.abs(rowEnd-rowStart) === 1) {
-        isValid = true;
-      }
-      
       return isValid;
     },
   K: (rowStart, colStart, rowEnd, colEnd) => {
