@@ -26,7 +26,6 @@ class Board extends Component {
   }
 
   componentDidUpdate() {
-    console.log('this.props.currentPosition',this.props.currentPosition)
     const { placed, togglePlaced } = this.props;
     if (placed) {
       this.setState({ matrix: this.props.currentPosition });
@@ -36,7 +35,6 @@ class Board extends Component {
 
   render() {
     const { matrix, placed } = this.state; 
-    console.log('matrix board', matrix)
     return (
       <div className="board">
         {matrix.map((row, i) => 

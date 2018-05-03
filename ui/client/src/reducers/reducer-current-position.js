@@ -10,10 +10,8 @@ const init = [
 ];
 
 export default (state=init, action) => {
-
   switch (action.type) {
     case 'POSITION_CHANGED': {
-      console.log('action looks like', action)
       // console.log('\tPOSITION_CHANGED -- sub-state:', state);
       let { rowStart, colStart, rowEnd, colEnd, pieceToMove } = action.payload;
       state[rowEnd][colEnd] = pieceToMove;
@@ -21,9 +19,8 @@ export default (state=init, action) => {
       return state;
       break;
     }
-
     case 'CASTLING': {
-      console.log('action.payload castling', action.payload)
+      // console.log('\tCASTLING -- sub-state:', state);
       let { rowStart, colStart, rowEnd, colEnd, pieceToMove } = action.payload;
       if (rowStart === 0) {
         if (colEnd === 6) {
