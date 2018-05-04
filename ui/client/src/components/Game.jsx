@@ -11,44 +11,47 @@ class Game extends Component {
     this.state = {
       message: '',
       messages: [],
+      currMove: [],
     }
   }
 
-  // componentDidMount() {
-  // eventually don't want to form a new socket connection on every update
-  // }
-
   componentDidMount() {
-    const { gameId } = this.props;
+    const { updateMatrix, gameId } = this.props;
+    const { currMove, messages } = this.state;
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('gameId', gameId));
     this.socket.on('guestJoin', (data) => console.log(`someone has joined game room ${data}`))
-    this.socket.on('chat', (message) => this.setState({ messages: [...this.state.messages, message], message: '' }))
-    // this.socket.on('currentPosition')
+    this.socket.on('chat', (message) => this.setState({ messages: [...messages, message], message: '' }))
+    this.socket.on('newMove', (newMove) => {
+      if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
+        updateMatrix(...newMove);
+        this.setState({ currMove: newMove})
+      }
+    });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { currentPosition, gameId } = this.props;
-    console.log('currentPosition from game', currentPosition)
-    this.socket.emit('currentPosition:', { currentPosition, gameId });
-    //im going to receive the current position from store on re render
-    //so send that to socket server and broadcast
-    //or recent coordinates?
+  componentDidUpdate() {
+    const { moveList, gameId } = this.props;
+    const { currMove } = this.state;
+    const newMove = moveList.slice(-1)[0];
+
+    if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
+      this.socket.emit('newMove', { newMove, gameId });
+      this.setState({ currMove: newMove });
+    }
   }
   
   setText(e) {
     this.setState({ message: e.target.value });
-
   }
+
   sendChat() {
     const { message, messages } = this.state;
     const { gameId } = this.props;
     this.socket.emit('chat', { message, gameId } );
-    // this.setState({ messages: [...messages, message], message: '', });
   }
 
   render() {
-    console.log('rerenders', this.props.currentPosition)
     const { message, messages } = this.state;
     return (
       <div>
@@ -61,7 +64,6 @@ class Game extends Component {
           <button onClick={() => {this.sendChat()}}>SEND</button>
         </div>
       </div>
-      
     )
   }
 }
@@ -69,6 +71,7 @@ class Game extends Component {
 const mapStateToProps = (state) => {
   return {
     currentPosition: state.currentPosition,
+    moveList: state.moveList,
   }
 }
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Square from './Square.jsx';
-import togglePlaced from '../actions/action-toggle-placed.js';
 
 class Board extends Component {
   constructor(props) {
@@ -25,16 +23,14 @@ class Board extends Component {
     this.setState({ matrix: dataDB });
   }
 
-  componentDidUpdate() {
-    const { placed, togglePlaced } = this.props;
-    if (placed) {
+  componentDidUpdate(prevProps, prevState) {
+    if (JSON.stringify(prevState) !== JSON.stringify(this.state)) {
       this.setState({ matrix: this.props.currentPosition });
-      togglePlaced();
     }
   }
 
   render() {
-    const { matrix, placed } = this.state; 
+    const { matrix } = this.state;
     return (
       <div className="board">
         {matrix.map((row, i) => 
@@ -47,14 +43,10 @@ class Board extends Component {
 }
 
 const mapStateToProps = (state) => {
+  // console.log('my board state', state)
   return {
     currentPosition: state.currentPosition,
-    placed: state.placed,
   }
 }
 
-const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ togglePlaced }, dispatch);
-}
-
-export default connect(mapStateToProps, matchDispatchToProps)(Board);
+export default connect(mapStateToProps)(Board);

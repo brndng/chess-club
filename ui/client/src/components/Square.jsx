@@ -36,7 +36,7 @@ class Square extends Component {
     updateMatrix(rowStart, colStart, row, col, pieceToMove);
     selectPiece(null);
     selectOrigin(null, null);
-    togglePlaced();
+    // togglePlaced();
     toggleTurn();
   }
 
@@ -62,7 +62,6 @@ class Square extends Component {
       if (pieceToMove === 'n' || pieceToMove === 'N') {
         this.placePiece();
       } else {
-
         if (validatePath(originSquare, [row,col], currentPosition)) {
           this.placePiece();
         } 
@@ -105,8 +104,8 @@ class Square extends Component {
 
 const mapStateToProps = (state) => { // passes data from store, to component as props
   // console.log('my state', state)
-  const { pieceToMove, originSquare, currentPosition, whiteToMove } = state;
-  return { pieceToMove, originSquare, currentPosition, whiteToMove };
+  const { pieceToMove, originSquare, currentPosition, whiteToMove, moveList } = state;
+  return { pieceToMove, originSquare, currentPosition, whiteToMove, moveList };
 }
 
 const matchDispatchToProps = (dispatch) => {

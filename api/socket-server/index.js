@@ -32,11 +32,10 @@ io.on('connection', (socket) => {
     io.sockets.in(data.gameId).emit('chat', data.message);
   })
 
-  socket.on('currentPosition', (data) => {
-    console.log('currentPosition', data.currentPosition)
-    socket.broadcast.to(data.gameId).emit('currentPosition', data.currentPosition)
+  socket.on('newMove', (data) => {
+    console.log('newMove', data)
+    socket.broadcast.to(data.gameId).emit('newMove', data.newMove)
   })
-  
 })
 
 app.use(...middleware);

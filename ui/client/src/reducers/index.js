@@ -4,6 +4,7 @@ import OriginSquareReducer from './reducer-origin-square.js';
 import PlacedReducer from './reducer-placed.js';
 import ToggleTurnReducer from './reducer-toggle-turn.js';
 import CurrentPositionReducer from './reducer-current-position.js';
+import MoveListReducer from './reducer-move-list.js';
 
 //import all individual reducers
 export default combineReducers({
@@ -12,6 +13,7 @@ export default combineReducers({
   currentPosition: CurrentPositionReducer,
   placed: PlacedReducer,
   whiteToMove: ToggleTurnReducer,
+  moveList: MoveListReducer,
 });
 
 // reducers take in actions and update part of application's state, sends to store
