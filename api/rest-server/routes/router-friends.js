@@ -6,5 +6,4 @@ router.route('/request').post(friendsController.createFriend);
 router.route('/accept').put(friendsController.confirmFriend);
 router.route('/decline').delete(friendsController.deleteFriend);
 
-
 module.exports = router;

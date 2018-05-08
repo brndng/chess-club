@@ -12,13 +12,13 @@ const User = sequelize.define('user', {
 
 const Game = sequelize.define('game', {
   position: Sequelize.ARRAY(Sequelize.TEXT),
-  moves: Sequelize.ARRAY(Sequelize.TEXT),
-  accepted: Sequelize.BOOLEAN,
-  completed: Sequelize.BOOLEAN,
+  moves: Sequelize.ARRAY(Sequelize.TEXT) ,
+  accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+  completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
 
 const Friend = sequelize.define('friends', {
-  accepted: Sequelize.BOOLEAN
+  accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 });
 
 Game.belongsTo(User, { foreignKey: 'id_white' });

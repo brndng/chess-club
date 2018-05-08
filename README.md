@@ -23,7 +23,7 @@ visits friends page: GET
 requests friend: POST
 /friends/request
 
-accepts friend: put
+accepts friend: PUT
 /friends/accept
 
 declines friend: DELETE
@@ -43,6 +43,12 @@ accept challange from friend: PUT
 
 declines challenges: DELETE
 /games/decline
+
+user makes a move: PUT
+/games/update
+
+user finishes a game: PUT
+/games/save
 
 # schema design // TODO: change this to screenshot once finalized
 <?xml version="1.0" encoding="utf-8" ?>

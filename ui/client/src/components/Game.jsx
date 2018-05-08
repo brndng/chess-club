@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import io from 'socket.io-client/dist/socket.io.js';
+import axios from 'axios';
 import Board from './Board.jsx';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 
