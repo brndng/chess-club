@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
-
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
 class Game extends Component {
@@ -33,13 +32,15 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    const { id, currentPosition, moveList, whiteToMove, toggleTurn  } = this.props;
+    const { id, currentPosition, moveList, whiteToMove, toggleTurn, gameState, userId  } = this.props;
+    console.log('user:', userId, 'white_id:', gameState.white, 'whiteToMove:', whiteToMove)
+
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
       this.socket.emit('newMove', { newMove, id });
+      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
       toggleTurn();
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove } )
       this.setState({ currMove: newMove });
     }
   }

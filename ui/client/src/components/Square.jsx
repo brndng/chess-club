@@ -41,31 +41,34 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { toggleTurn, castleKing, selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
-    if ((this.isWhite(piece) === whiteToMove)) { 
-      selectPiece(piece);
-      selectOrigin(row, col);
-    }
-
-    // /TESTING
-    if ((pieceToMove === 'K' || pieceToMove === 'k')) {
-      const [rowStart, colStart] = originSquare;
-
-        castleKing(rowStart, colStart, row, col, pieceToMove);
-        selectPiece(null);
-        selectOrigin(null, null);
-        toggleTurn();
-      
-    } else 
-    if (pieceToMove !== null && (this.isWhite(piece) !== this.isWhite(pieceToMove)) && this.validateDestination()) {
-      if (pieceToMove === 'n' || pieceToMove === 'N') {
-        this.placePiece();
-      } else {
-        if (validatePath(originSquare, [row,col], currentPosition)) {
+    const { userId, gameState, toggleTurn, castleKing, selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition } = this.props;
+    const { white } = gameState;
+    if ((userId === white) === whiteToMove) {
+      if ((this.isWhite(piece) === whiteToMove)) { 
+        selectPiece(piece);
+        selectOrigin(row, col);
+      }
+      // /TESTING
+      if ((pieceToMove === 'K' || pieceToMove === 'k')) {
+        const [rowStart, colStart] = originSquare;
+  
+          castleKing(rowStart, colStart, row, col, pieceToMove);
+          selectPiece(null);
+          selectOrigin(null, null);
+          toggleTurn();
+        
+      } else 
+      if (pieceToMove !== null && (this.isWhite(piece) !== this.isWhite(pieceToMove)) && this.validateDestination()) {
+        if (pieceToMove === 'n' || pieceToMove === 'N') {
           this.placePiece();
-        } 
+        } else {
+          if (validatePath(originSquare, [row,col], currentPosition)) {
+            this.placePiece();
+          } 
+        }
       }
     }
+    
   }
 
   validateDestination() {
@@ -103,8 +106,8 @@ class Square extends Component {
 
 const mapStateToProps = (state) => { // passes data from store, to component as props
   // console.log('my state', state)
-  const { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId } = state;
-  return { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId };
+  const { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId, gameState } = state;
+  return { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId, gameState };
 }
 
 const matchDispatchToProps = (dispatch) => {
