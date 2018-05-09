@@ -26,13 +26,12 @@ class App extends Component {
   logIn() {
     const { storeUser } = this.props;
     const { username, password } = this.state;
-      axios.post('http://localhost:3000/users/login', { username, password }).then((data)=>{
-        if (data.data !== '') {
-          storeUser(data.data.id);
-          this.setState({ verified: true });
-          
-        }
-      })
+    axios.post('http://localhost:3000/users/login', { username, password }).then((data)=>{
+      if (data.data !== '') {
+        storeUser(data.data.id);
+        this.setState({ verified: true });
+      }
+    })
   }
 
   signUp() {
@@ -61,14 +60,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userId: state.userId,
-  }
-}
-
 const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({ storeUser }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(App)
+export default connect(null, matchDispatchToProps)(App)

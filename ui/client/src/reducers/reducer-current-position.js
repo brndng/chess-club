@@ -20,6 +20,11 @@ export default (state=init, action) => {
       return newState;
       break;
     }
+    case 'GAME_INITIALIZED': {
+      let { position } = action.payload;
+      return position || newState;
+      break;
+    }
     case 'CASTLING': {
       // console.log('\tCASTLING -- sub-state:', state);
       let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;

@@ -25,10 +25,10 @@ module.exports = {
     }
   },
   createGame: async (req, res) => {
-    const { position, moves, accepted, completed, white, black } = req.body;
+    const { position, moves, whiteToMove, accepted, completed, white, black } = req.body;
     try {
       const game = await db.Game.create({
-        position, moves, accepted, completed, white, black
+        position, moves, whiteToMove, accepted, completed, white, black
       });
       res.send(game.dataValues);
     } catch(err) {

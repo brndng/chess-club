@@ -4,72 +4,50 @@ import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import Game from './Game.jsx';
 import loadGames from '../actions/action-load-games.js';
+import initGame from '../actions/action-init-game.js';
 
 class GameList extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      gameId: null,
-      initialPosition: [],
-    }
   }
 
   async componentDidMount() {
     const { loadGames, userId } = this.props;
     const games = await axios(`http://localhost:3000/games/all/${userId}`)
-    console.log('games cdm',games)
     loadGames(games.data);
   }
 
-  setLocalState(id, position) {
-    this.setState({ gameId: id, initialPosition: position });
+  async setGlobalState(id) {
+    const { initGame } = this.props;
+    const game = await axios.get(`http://localhost:3000/games/${id}`)
+    const { white, black, position, whiteToMove } = game.data;
+    initGame(id, white, black, position, whiteToMove);
   }
 
   render() {
-    const { userGames } = this.props;
-   
+    const { userGames, gameState } = this.props;
     return (
       <div>
-        {userGames.map((game, i) => {
-          // let { id, position, whiteToMove } = game;
-          // const { id, position, whiteToMove } = game;
-          return <li key={i}><a href="#" onClick={()=>this.setLocalState(game.id, game.position)}>{`GAME # ${game.id}`}</a></li>
+        {userGames.map((game) => {
+          return <li key={game.id}><a href="#" onClick={()=>this.setGlobalState(game.id)}>{`GAME # ${game.id}`}</a></li>
         })}
         <br/>
-        {this.state.gameId === null ? null: <Game position={this.state.initialPosition} id={this.state.gameId} />}
+        {gameState === null ? null : <Game />}
       </div>
     )
   }
-
-  // render() {
-  //   const { userGames } = this.props;
-  //   console.log('userGames', userGames)
-  //   return (
-  //     <div>
-  //       {userGames.map((game, i) => {
-  //         let { id, white, black, position } = game;
-  //         return <Game 
-  //           id={id} 
-  //           white={white} 
-  //           black={black} 
-  //           position={position} 
-  //           key={i}/>
-  //       })}
-  //     </div>
-  //   )
-  // }
 }
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.userId,
     userGames: state.userGames,
-    whiteToMove: state.whiteToMove,
+    gameState: state.gameState,
+    userId: state.userId,
   }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ loadGames }, dispatch);
+  return bindActionCreators({ loadGames, initGame }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(GameList)

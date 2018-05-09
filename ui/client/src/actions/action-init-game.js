@@ -1,7 +1,8 @@
-const initGame = (white, black, position) => {
+const initGame = (id, white, black, position, whiteToMove) => {
+  console.log('from action initgame', id, white, black, position, whiteToMove)
   return {
     type: 'GAME_INITIALIZED',
-    payload: { white, black, position },
+    payload: { id, white, black, position, whiteToMove },
   };
 }
 
