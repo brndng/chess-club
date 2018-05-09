@@ -33,6 +33,7 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
+    console.log('game updating from move? by user: ',this.props.id)
     const { id, moveList, toggleTurn } = this.props;
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
@@ -78,6 +79,7 @@ const mapStateToProps = (state) => {
   return {
     moveList: state.moveList,
     gameState: state.gameState,
+    currentPosition: state.currentPosition
   }
 }
 

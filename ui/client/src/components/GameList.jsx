@@ -32,7 +32,7 @@ class GameList extends Component {
           return <li key={game.id}><a href="#" onClick={()=>this.setGlobalState(game.id)}>{`GAME # ${game.id}`}</a></li>
         })}
         <br/>
-        {gameState === null ? null : <Game />}
+        {gameState === null ? null : <Game id={gameState.id}/>}
       </div>
     )
   }

@@ -13,16 +13,16 @@ export default (state=init, action) => {
   const newState = [...state];
   switch (action.type) {
     case 'POSITION_CHANGED': {
-      // console.log('\tPOSITION_CHANGED -- sub-state:', state);
       let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
       newState[rowEnd][colEnd] = pieceToMove;
       newState[rowStart][colStart] = null;
+      console.log('\tPOSITION_CHANGED -- sub-state:', newState);
       return newState;
       break;
     }
     case 'GAME_INITIALIZED': {
       let { position } = action.payload;
-      return position || newState;
+      return [...position];
       break;
     }
     case 'CASTLING': {

@@ -7,7 +7,6 @@ import selectOrigin from '../actions/action-select-origin.js';
 import baseMoves from '../../rules/base-moves.js';
 import validatePath from '../../rules/validate-path.js'; 
 import updateMatrix from '../actions/action-update-matrix.js'; 
-import togglePlaced from '../actions/action-toggle-placed.js';
 import toggleTurn from '../actions/action-toggle-turn.js';
 
 import castleKing from '../actions/action-castle-king.js';
@@ -31,18 +30,18 @@ class Square extends Component {
   }
 
   placePiece() {
-    const { castleKing, selectOrigin, selectPiece, updateMatrix, togglePlaced, toggleTurn, originSquare, pieceToMove, row, col } = this.props;
+    const { castleKing, selectOrigin, selectPiece, updateMatrix, toggleTurn, originSquare, pieceToMove, row, col } = this.props;
     const [rowStart, colStart] = originSquare;
     updateMatrix(rowStart, colStart, row, col, pieceToMove);
     selectPiece(null);
     selectOrigin(null, null);
-    // togglePlaced();
+
     // toggleTurn(); //no longer needed here? updates in game cdu
-    console.log('place piece completed')
+    console.log('placed piece by user: ', this.props.userId)
   }
 
   handleSquareClick() {
-    const { togglePlaced, toggleTurn, castleKing, selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
+    const { toggleTurn, castleKing, selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition, placed } = this.props;
     if ((this.isWhite(piece) === whiteToMove)) { 
       selectPiece(piece);
       selectOrigin(row, col);
@@ -55,7 +54,6 @@ class Square extends Component {
         castleKing(rowStart, colStart, row, col, pieceToMove);
         selectPiece(null);
         selectOrigin(null, null);
-        togglePlaced();
         toggleTurn();
       
     } else 
@@ -110,7 +108,7 @@ const mapStateToProps = (state) => { // passes data from store, to component as 
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ castleKing, selectPiece, selectOrigin, updateMatrix, togglePlaced, toggleTurn }, dispatch);
+  return bindActionCreators({ castleKing, selectPiece, selectOrigin, updateMatrix, toggleTurn }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
