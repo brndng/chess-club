@@ -47,16 +47,19 @@ module.exports = {
 
   updateGame: async (req, res) => {
     //send new stringified position and move list
-    const { id, currentPosition, moveList } = req.body;
+    const { id, currentPosition, moveList, whiteToMove } = req.body;
     try {
+      
       const update = await db.Game.update({ 
         position: currentPosition,
-        moves: moveList
+        moves: moveList,
+        whiteToMove: !whiteToMove,
       }, {
         where: { id },
         returning: true,
         plain: true
       })
+      console.log('\tupdateGame', update)
       res.send('hello from gamesController')
     } catch(err) {
       console.log('err from updateGame', err);

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import PieceToMoveReducer from './reducer-piece-tomove.js';
 import OriginSquareReducer from './reducer-origin-square.js';
-import WhiteToMoveReducer from './reducer-toggle-turn.js';
+import WhiteToMoveReducer from './reducer-white-tomove.js';
 import CurrentPositionReducer from './reducer-current-position.js';
 import MoveListReducer from './reducer-move-list.js';
 import GameStateReducer from './reducer-game-state.js';

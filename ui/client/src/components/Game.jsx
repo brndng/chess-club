@@ -33,16 +33,15 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    console.log('game updating from move? by user: ',this.props.id)
-    const { id, moveList, toggleTurn } = this.props;
+    const { id, currentPosition, moveList, whiteToMove, toggleTurn  } = this.props;
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
       this.socket.emit('newMove', { newMove, id });
       toggleTurn();
+      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove } )
       this.setState({ currMove: newMove });
     }
-    // axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove } )
   }
   
   setText(e) {
@@ -77,9 +76,11 @@ class Game extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    userId: state.userId,
     moveList: state.moveList,
     gameState: state.gameState,
-    currentPosition: state.currentPosition
+    currentPosition: state.currentPosition,
+    whiteToMove: state.whiteToMove
   }
 }
 
