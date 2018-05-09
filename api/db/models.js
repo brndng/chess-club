@@ -13,6 +13,7 @@ const User = sequelize.define('user', {
 const Game = sequelize.define('game', {
   position: Sequelize.ARRAY(Sequelize.TEXT),
   moves: Sequelize.ARRAY(Sequelize.TEXT) ,
+  // whiteToMove: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
@@ -21,10 +22,10 @@ const Friend = sequelize.define('friends', {
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 });
 
-Game.belongsTo(User, { foreignKey: 'id_white' });
-Game.belongsTo(User, { foreignKey: 'id_black' });
-Friend.belongsTo(User, { foreignKey: 'id_user1' });
-Friend.belongsTo(User, { foreignKey: 'id_user2' });
+Game.belongsTo(User, { foreignKey: 'white' });
+Game.belongsTo(User, { foreignKey: 'black' });
+Friend.belongsTo(User, { foreignKey: 'user1' });
+Friend.belongsTo(User, { foreignKey: 'user2' });
 
 module.exports = { User, Game, Friend }
 

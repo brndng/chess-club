@@ -29,12 +29,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat', (data) => {
-    io.sockets.in(data.gameId).emit('chat', data.message);
+    io.sockets.in(data.id).emit('chat', data.message);
   })
 
   socket.on('newMove', (data) => {
-    console.log('newMove', data)
-    socket.broadcast.to(data.gameId).emit('newMove', data.newMove)
+    socket.broadcast.to(data.id).emit('newMove', data.newMove)
   })
 })
 

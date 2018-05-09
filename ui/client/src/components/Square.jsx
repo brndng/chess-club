@@ -37,7 +37,8 @@ class Square extends Component {
     selectPiece(null);
     selectOrigin(null, null);
     // togglePlaced();
-    toggleTurn();
+    // toggleTurn(); //no longer needed here? updates in game cdu
+    console.log('place piece completed')
   }
 
   handleSquareClick() {
@@ -104,8 +105,8 @@ class Square extends Component {
 
 const mapStateToProps = (state) => { // passes data from store, to component as props
   // console.log('my state', state)
-  const { pieceToMove, originSquare, currentPosition, whiteToMove, moveList } = state;
-  return { pieceToMove, originSquare, currentPosition, whiteToMove, moveList };
+  const { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId } = state;
+  return { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId };
 }
 
 const matchDispatchToProps = (dispatch) => {

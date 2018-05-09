@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
-// import Game from './Game.jsx';
-import GameRooms from  './GameRooms.jsx';
+import GameList from  './GameList.jsx';
+import storeUser from '../actions/action-store-user.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      verified: true,
+      verified: false,
       username: '' ,
       password: '',
     }
@@ -22,10 +24,13 @@ class App extends Component {
   }
 
   logIn() {
+    const { storeUser } = this.props;
     const { username, password } = this.state;
       axios.post('http://localhost:3000/users/login', { username, password }).then((data)=>{
         if (data.data !== '') {
+          storeUser(data.data.id);
           this.setState({ verified: true });
+          
         }
       })
   }
@@ -37,7 +42,7 @@ class App extends Component {
 
   render() {
     const { verified, username, password } = this.state;
-    return verified ? <div><GameRooms /></div> : 
+    return verified ? <div><GameList /></div> : 
       <div>
         <div>
           LOG IN
@@ -56,4 +61,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    userId: state.userId,
+  }
+}
+
+const matchDispatchToProps = (dispatch) => {
+  return bindActionCreators({ storeUser }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(App)

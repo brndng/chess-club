@@ -1,7 +1,7 @@
-const initGame = (white, black, board) => {
+const initGame = (white, black, position) => {
   return {
     type: 'GAME_INITIALIZED',
-    payload: { white, black, board },
+    payload: { white, black, position },
   };
 }
 

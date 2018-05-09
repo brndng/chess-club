@@ -1,39 +1,34 @@
 const Op = require('sequelize').Op;
-const models = require('../../db/models.js');
+const db = require('../../db/models.js');
 
 module.exports = {
   fetchAllGames: async (req, res) => {
     const { user_id } = req.params;
-    console.log('user_id',user_id);
     try {
-      const games = await models.Game.findAll({ 
+      const games = await db.Game.findAll({ 
         where: { 
-          [Op.or]: [{ id_white: user_id }, { id_black: user_id }]
+          [Op.or]: [{ white: user_id }, { black: user_id }]
         } 
       });
-      console.log('result', games.map(game => game.dataValues)); ///*** */
       res.send(games.map(game => game.dataValues));
     } catch (err) {
       console.log('err from fetchAllGames', err)
     }
   },
-  fetchGame: async (req, res) => { //filter by ...
-    console.log('req.body', req.body)
+  fetchGame: async (req, res) => { 
+    const { id } = req.params;
     try {
-      const game = await models.Game.findOne({ where: {
-        id: '3',
-      }});
-      console.log('game', game)
+      const game = await db.Game.findOne({ where: { id } });
       res.send(game);
     } catch (err) {
       console.log('err from fetchGame', err)
     }
   },
   createGame: async (req, res) => {
-    const { position, moves, accepted, completed, id_white, id_black } = req.body;
+    const { position, moves, accepted, completed, white, black } = req.body;
     try {
-      const game = await models.Game.create({
-        position, moves, accepted, completed, id_white, id_black
+      const game = await db.Game.create({
+        position, moves, accepted, completed, white, black
       });
       res.send(game.dataValues);
     } catch(err) {
@@ -52,7 +47,21 @@ module.exports = {
 
   updateGame: async (req, res) => {
     //send new stringified position and move list
-    res.send('hello from gamesController')
+    const { id, currentPosition, moveList } = req.body;
+    try {
+      const update = await db.Game.update({ 
+        position: currentPosition,
+        moves: moveList
+      }, {
+        where: { id },
+        returning: true,
+        plain: true
+      })
+      res.send('hello from gamesController')
+    } catch(err) {
+      console.log('err from updateGame', err);
+    }
+    
   },
 
   saveGame: async (req, res) => {

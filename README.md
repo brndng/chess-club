@@ -1,6 +1,11 @@
 # chess
 A chess app from scratch. Challenge friends and play at your convenience.
 
+# notes
+reduce reducers?
+babel polyfill in webpack?
+'startup file'?
+https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
 # stories
 signs up: POST
 /users/signup
