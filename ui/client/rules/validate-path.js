@@ -6,6 +6,8 @@ module.exports = (origin, destination, matrix) => {
   let [m,n] = destination;
   let slope = [Math.sign(m-a), Math.sign(n-b)];
   let [x,y] = slope;
+
+  //let [x,y] = [Math.sign(m-a), Math.sign(n-b)];
   
   while (!(a === m && b === n )) {
     a += x;

@@ -14,9 +14,10 @@ export default (state=init, action) => {
   switch (action.type) {
     case 'POSITION_CHANGED': {
       let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
+      console.log('\tPOSITION_CHANGED -- sub-state:', newState);
+
       newState[rowEnd][colEnd] = pieceToMove;
       newState[rowStart][colStart] = null;
-      console.log('\tPOSITION_CHANGED -- sub-state:', newState);
       return newState;
       break;
     }
@@ -25,40 +26,40 @@ export default (state=init, action) => {
       return [...position];
       break;
     }
-    case 'CASTLING': {
-      // console.log('\tCASTLING -- sub-state:', state);
-      let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
-      if (rowStart === 0) {
-        if (colEnd === 6) {
-          newState[0][6] = 'k';
-          newState[0][5] = 'r';
-          newState[0][4] = null;
-          newState[0][7] = null;
-        } 
-        if (colEnd === 2) {
-          newState[0][2] = 'k';
-          newState[0][3] = 'r';
-          newState[0][4] = null;
-          newState[0][0] = null;
-        }
-      } 
-      if (rowStart === 7) {
-        if (colEnd === 6) {
-          newState[7][6] = 'K';
-          newState[7][5] = 'R';
-          newState[7][4] = null;
-          newState[7][7] = null;
-        } 
-        if (colEnd === 2) {
-          newState[7][2] = 'K';
-          newState[7][3] = 'R';
-          newState[7][4] = null;
-          newState[7][0] = null;
-        }
-      }
-      return newState;
-      break;
-    }
+    // case 'CASTLING': {
+    //   // console.log('\tCASTLING -- sub-state:', state);
+    //   let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
+    //   if (rowStart === 0) {
+    //     if (colEnd === 6) {
+    //       newState[0][6] = 'k';
+    //       newState[0][5] = 'r';
+    //       newState[0][4] = null;
+    //       newState[0][7] = null;
+    //     } 
+    //     if (colEnd === 2) {
+    //       newState[0][2] = 'k';
+    //       newState[0][3] = 'r';
+    //       newState[0][4] = null;
+    //       newState[0][0] = null;
+    //     }
+    //   } 
+    //   if (rowStart === 7) {
+    //     if (colEnd === 6) {
+    //       newState[7][6] = 'K';
+    //       newState[7][5] = 'R';
+    //       newState[7][4] = null;
+    //       newState[7][7] = null;
+    //     } 
+    //     if (colEnd === 2) {
+    //       newState[7][2] = 'K';
+    //       newState[7][3] = 'R';
+    //       newState[7][4] = null;
+    //       newState[7][0] = null;
+    //     }
+    //   }
+    //   return newState;
+    //   break;
+    // }
   }
   return newState;
 };

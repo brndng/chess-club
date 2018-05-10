@@ -2,12 +2,12 @@ module.exports = {
   P: (rowStart, colStart, rowEnd, colEnd) => {
       let isValid = false;
       if (colEnd === colStart) {
-        if (Math.abs(rowEnd-rowStart === 1) || Math.abs(rowEnd-rowStart === 2)) {
-          isValue = true;
+        if (Math.abs(rowEnd-rowStart) === 1 || Math.abs(rowEnd-rowStart) === 2) {
+          isValid = true;
         }
       }
       if (Math.abs(colEnd-colStart) === 1) {
-        if (rowEnd === rowStart || Math.abs(rowEnd-rowStart === 1)) {
+        if (rowEnd === rowStart || Math.abs(rowEnd-rowStart) === 1) {
           isValid = true;
         }
       }
