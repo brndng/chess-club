@@ -22,7 +22,7 @@ class Game extends Component {
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('gameId', id));
     this.socket.on('guestJoin', (data) => console.log(`someone has joined game room ${data}`))
-    this.socket.on('chat', (message) => this.setState({ messages: [...this.state.messages, message], message: '' }))
+    this.socket.on('chat', (message) => {this.setState({ messages: [...this.state.messages, message], message: '' })})
     this.socket.on('newMove', (newMove) => {
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
         updateMatrix(...newMove);
@@ -32,8 +32,8 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    const { id, currentPosition, moveList, whiteToMove, toggleTurn, gameState, userId  } = this.props;
-    console.log('user:', userId, 'white_id:', gameState.white, 'whiteToMove:', whiteToMove)
+    const { id, currentPosition, moveList, whiteToMove, toggleTurn, gameSnapshot, userId  } = this.props;
+    console.log('user:', userId, 'white_id:', gameSnapshot.white, 'whiteToMove:', whiteToMove)
 
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
@@ -57,11 +57,11 @@ class Game extends Component {
 
   render() {
     const { message, messages } = this.state;
-    const { gameState } = this.props;
+    const { gameSnapshot } = this.props;
     return (
-      gameState === null? null :
+      gameSnapshot === null? null :
         <div>
-          GAME # {gameState.id}
+          GAME # {gameSnapshot.id}
           <Board />
           <div className="chat-container">
             <div className="output">
@@ -79,7 +79,7 @@ const mapStateToProps = (state) => {
   return {
     userId: state.userId,
     moveList: state.moveList,
-    gameState: state.gameState,
+    gameSnapshot: state.gameSnapshot,
     currentPosition: state.currentPosition,
     whiteToMove: state.whiteToMove
   }

@@ -1,33 +1,29 @@
 module.exports = {
-  P: (rowStart, colStart, rowEnd, colEnd, piece, pieceToMove) => {
+  P: (rowStart, colStart, rowEnd, colEnd) => {
       let isValid = false;
-      if (piece === null) {
-        if ((rowStart === 1 || rowStart === 6) && Math.abs(rowEnd-rowStart) === 2) {
+      if (colEnd === colStart) {
+        if (Math.abs(rowEnd-rowStart === 1) || Math.abs(rowEnd-rowStart === 2)) {
+          isValue = true;
+        }
+      }
+      if (Math.abs(colEnd-colStart) === 1) {
+        if (rowEnd === rowStart || Math.abs(rowEnd-rowStart === 1)) {
           isValid = true;
-        }
-        if (colEnd-colStart === 0 && Math.abs(rowEnd-rowStart) === 1) {
-          isValid = true;
-        }
-      } else {
-        if (pieceToMove === pieceToMove.toUpperCase()) {
-          if (Math.abs(colEnd-colStart) === 1 && (rowEnd-rowStart) === -1) {
-            isValid = true;
-          }
-        }
-        if (pieceToMove === pieceToMove.toLowerCase()) {
-          if (Math.abs(colEnd-colStart) === 1 && (rowEnd-rowStart) === 1) {
-            isValid = true;
-          }
         }
       }
       return isValid;
     },
   K: (rowStart, colStart, rowEnd, colEnd) => {
       let isValid = false;
-      if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 0 || 
-          Math.abs(rowEnd-rowStart) === 1 && Math.abs(colEnd-colStart) === 0 || 
-          Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 1) {
-        isValid = true;
+      if (rowEnd === rowStart) {
+        if (Math.abs(colEnd-colStart) === 1 || Math.abs(colEnd-colStart) === 2) {
+          isValid = true;
+        }
+      }
+      if (Math.abs(rowEnd-rowStart) === 1) {
+        if (colEnd === colStart || Math.abs(colEnd-colStart) === 1) {
+          isValid = true;
+        }
       }
       return isValid;
     },

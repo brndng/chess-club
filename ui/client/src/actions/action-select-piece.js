@@ -1,8 +1,9 @@
-const selectPiece = (piece) => {
-  console.log('piece selected:', piece)
+const selectPiece = (rowStart, colStart, piece) => {
+  const origin = [rowStart, colStart]
+  console.log('piece and origin selected:', origin, piece,)
   return {
     type: 'PIECE_SELECTED',
-    payload: piece,
+    payload: { origin, piece },
   };
 }
 

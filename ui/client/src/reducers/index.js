@@ -1,21 +1,19 @@
 import { combineReducers } from 'redux';
-import PieceToMoveReducer from './reducer-piece-tomove.js';
-import OriginSquareReducer from './reducer-origin-square.js';
+import SelectionReducer from './reducer-selection.js';
 import WhiteToMoveReducer from './reducer-white-tomove.js';
 import CurrentPositionReducer from './reducer-current-position.js';
 import MoveListReducer from './reducer-move-list.js';
-import GameStateReducer from './reducer-game-state.js';
+import GameSnapshotReducer from './reducer-game-snapshot.js';
 import UserGamesReducer from './reducer-user-games.js';
 import UserIdReducer from './reducer-user-id.js';
 
 //import all individual reducers
 export default combineReducers({
-  pieceToMove: PieceToMoveReducer,
-  originSquare: OriginSquareReducer,
+  selection: SelectionReducer,
   currentPosition: CurrentPositionReducer,
   whiteToMove: WhiteToMoveReducer,
   moveList: MoveListReducer,
-  gameState: GameStateReducer,
+  gameSnapshot: GameSnapshotReducer,
   userGames: UserGamesReducer,
   userId: UserIdReducer,
 });

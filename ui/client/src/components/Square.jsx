@@ -3,13 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import selectPiece from '../actions/action-select-piece.js';
-import selectOrigin from '../actions/action-select-origin.js';
 import baseMoves from '../../rules/base-moves.js';
 import validatePath from '../../rules/validate-path.js'; 
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
 
-import castleKing from '../actions/action-castle-king.js';
+// import castleKing from '../actions/action-castle-king.js';
 
 class Square extends Component {
   constructor(props) {
@@ -29,65 +28,53 @@ class Square extends Component {
     return piece === piece.toUpperCase() ? true : false;
   }
 
-  placePiece() {
-    const { castleKing, selectOrigin, selectPiece, updateMatrix, toggleTurn, originSquare, pieceToMove, row, col } = this.props;
-    const [rowStart, colStart] = originSquare;
-    updateMatrix(rowStart, colStart, row, col, pieceToMove);
-    selectPiece(null);
-    selectOrigin(null, null);
-
-    // toggleTurn(); //no longer needed here? updates in game cdu
-    console.log('placed piece by user: ', this.props.userId)
+  applyMoveLogic() {
+    const { selection, row, col, currentPosition } = this.props;
+    if (this.validateDestination()) {
+      if (selection.piece === 'n' || selection.piece === 'N') {
+        this.placePiece();
+      } else {
+        if (validatePath(selection.origin, [row,col], currentPosition)) {
+          this.placePiece();
+        } 
+      }
+    }
   }
 
   handleSquareClick() {
-    const { userId, gameState, toggleTurn, castleKing, selectPiece, selectOrigin, originSquare, row, col, piece, whiteToMove, pieceToMove, currentPosition } = this.props;
-    const { white } = gameState;
+    const { userId, gameSnapshot, selection, toggleTurn, selectPiece, row, col, piece, whiteToMove, currentPosition } = this.props;
+    const { white } = gameSnapshot;
     if ((userId === white) === whiteToMove) {
       if ((this.isWhite(piece) === whiteToMove)) { 
-        selectPiece(piece);
-        selectOrigin(row, col);
+        selectPiece(row, col, piece);
       }
-      // /TESTING
-      if ((pieceToMove === 'K' || pieceToMove === 'k')) {
-        const [rowStart, colStart] = originSquare;
-  
-          castleKing(rowStart, colStart, row, col, pieceToMove);
-          selectPiece(null);
-          selectOrigin(null, null);
-          toggleTurn();
-        
-      } else 
-      if (pieceToMove !== null && (this.isWhite(piece) !== this.isWhite(pieceToMove)) && this.validateDestination()) {
-        if (pieceToMove === 'n' || pieceToMove === 'N') {
-          this.placePiece();
-        } else {
-          if (validatePath(originSquare, [row,col], currentPosition)) {
-            this.placePiece();
-          } 
-        }
+      if (selection !== null && (this.isWhite(piece) !== this.isWhite(selection.piece))) {
+        this.applyMoveLogic()
       }
     }
-    
+  }
+
+  placePiece() {
+    const { selectPiece, updateMatrix, selection, row, col } = this.props;
+    const [rowStart, colStart] = selection.origin;
+    updateMatrix(rowStart, colStart, row, col, selection.piece);
+    selectPiece(null, null, null);
+
+    console.log('placed piece by user: ', this.props.userId)
   }
 
   validateDestination() {
-    const { originSquare, pieceToMove, row, col, piece } = this.props;
-    const [rowStart, colStart] = originSquare;
-    const selection = pieceToMove.toUpperCase();
+    const { selection, row, col, piece } = this.props;
+    const [rowStart, colStart] = selection.origin;
+    const pieceToMove = selection.piece.toUpperCase();
 
-    ///TESTING
-    if (selection === 'P') {
-      return (baseMoves['P'](rowStart, colStart, row, col, piece, pieceToMove));
-    } else {
-      return (baseMoves[selection](rowStart, colStart, row, col));
-    }
+    
   }
 
   highlight() {
-    const { row, col, piece, originSquare } = this.props;
-    if (originSquare !== null) {
-      const [rowStart, colStart] = originSquare;
+    const { row, col, piece, selection } = this.props;
+    if (selection !== null) {
+      const [rowStart, colStart] = selection.origin;
       return row === rowStart && col === colStart ?
         'highlight' : null;
     }
@@ -106,13 +93,31 @@ class Square extends Component {
 
 const mapStateToProps = (state) => { // passes data from store, to component as props
   // console.log('my state', state)
-  const { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId, gameState } = state;
-  return { pieceToMove, originSquare, currentPosition, whiteToMove, moveList, userId, gameState };
+  const { selection, currentPosition, whiteToMove, moveList, userId, gameSnapshot } = state;
+  return { selection, currentPosition, whiteToMove, moveList, userId, gameSnapshot };
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ castleKing, selectPiece, selectOrigin, updateMatrix, toggleTurn }, dispatch);
+  return bindActionCreators({ selectPiece, updateMatrix, toggleTurn }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
+
+// /TESTING
+      // if ((pieceToMove === 'K' || pieceToMove === 'k')) {
+      //   const [rowStart, colStart] = originSquare;
+  
+      //     castleKing(rowStart, colStart, row, col, pieceToMove);
+      //     selectPiece(null);
+      //     selectOrigin(null, null);
+      //     toggleTurn();
+        
+      // } 
+
+      ///TESTING
+    // if (pieceToMove === 'P') {
+    //   return (baseMoves['P'](rowStart, colStart, row, col, piece, selection.piece));
+    // } else {
+    //   return (baseMoves[pieceToMove](rowStart, colStart, row, col));
+    // }
 
