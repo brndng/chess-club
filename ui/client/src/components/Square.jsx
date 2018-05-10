@@ -2,14 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
+import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import selectPiece from '../actions/action-select-piece.js';
-import baseMoves from '../../rules/base-moves.js';
-import validatePath from '../../rules/validate-path.js'; 
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
-
 // import castleKing from '../actions/action-castle-king.js';
-
 class Square extends Component {
   constructor(props) {
     super(props);
@@ -30,61 +27,21 @@ class Square extends Component {
     // STYLE
     // return piece === null ? null :
     //   piece === piece.toUpperCase() ? true : false;
-
     //ALSO order of props destructure?
   }
 
-  verifyLegalSquare() {
-    const { selection, row, col, currentPosition } = this.props;
-    const [ rowStart, colStart ] = selection.origin;
-    const selectedPiece = selection.piece.toUpperCase();
-    if (baseMoves[selectedPiece](rowStart, colStart, row, col)) {
-      if (selectedPiece === 'N') {
-        this.placeSelectedPiece();
-      } else {
-          if(validatePath(selection.origin, [row, col], currentPosition)) {
-            if(selectedPiece !== 'P' && selectedPiece !== 'K') {
-              this.placeSelectedPiece();
-            } else {
-              if (selectedPiece === 'P') {
-                //if forward
-                  //sq piece === null?
-                    //if last rank
-                      //place and promote
-                    //else
-                      //place
-                //if diagonal
-                  //sq piece === null?
-                    //en passant conditions?
-                      //place
-                //else
-                  //place
-              }
-              if (selectedPiece === 'K') {
-                //if inCheck
-                  //if 1 sq
-                    //place
-                //else
-                  //if 1 sq
-                    //place
-                  //if 2 sq
-                    //castle
-              }
-            }
-          } 
-      }      
-    }
-  }
-
   handleSquareClick() {
-    const { userId, gameSnapshot, selection, selectPiece, row, col, piece, whiteToMove } = this.props;
+    const { userId, gameSnapshot, selection, selectPiece, row, col, piece, whiteToMove, currentPosition } = this.props;
     const { white } = gameSnapshot;
     if ((userId === white) === whiteToMove) {
       if ((this.isWhite(piece) === whiteToMove)) { 
         selectPiece(row, col, piece);
       }
       if (selection !== null && (this.isWhite(piece) !== this.isWhite(selection.piece))) {
-        this.verifyLegalSquare();
+        const params = [selection.piece, selection.origin, [row, col], currentPosition]
+        if (verifyLegalSquare(...params)) {
+          this.placeSelectedPiece();
+        }
       }
     }
   }
@@ -92,18 +49,11 @@ class Square extends Component {
   placeSelectedPiece() {
     const { selectPiece, updateMatrix, selection, row, col } = this.props;
     const [rowStart, colStart] = selection.origin;
+    //preview update, king in check?
     updateMatrix(rowStart, colStart, row, col, selection.piece);
     selectPiece(null, null, null);
     console.log('placed piece by user: ', this.props.userId)
   }
-
-  // validateDestination() {
-  //   const { selection, row, col, piece } = this.props;
-  //   const [rowStart, colStart] = selection.origin;
-  //   const pieceToMove = selection.piece.toUpperCase();
-
-    
-  // }
 
   highlight() {
     const { row, col, piece, selection } = this.props;
@@ -139,36 +89,52 @@ const matchDispatchToProps = (dispatch) => {
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
 
-// /TESTING
-      // if ((pieceToMove === 'K' || pieceToMove === 'k')) {
-      //   const [rowStart, colStart] = originSquare;
-  
-      //     castleKing(rowStart, colStart, row, col, pieceToMove);
-      //     selectPiece(null);
-      //     selectOrigin(null, null);
-      //     toggleTurn();
-        
-      // } 
+// verifyLegalSquare() {
+//   const { selection, row, col, currentPosition } = this.props;
+//   const [ rowStart, colStart ] = selection.origin;
+//   const selectedPiece = selection.piece.toUpperCase();
+//   let legal = false;
+//   if (baseMoves[selectedPiece](rowStart, colStart, row, col)) {
+//     if (selectedPiece === 'N') {
+//       legal = true;      
+//     } else {
+//       if(validatePath(selection.origin, [row, col], currentPosition)) {
+//         if(selectedPiece !== 'P' && selectedPiece !== 'K') {
+//           legal = true;          
+//         } else {
+//           if (selectedPiece === 'P') {
+//             legal = true;              
+//             //if forward
+//               //sq piece === null?
+//                 //if last rank
+//                   //place and promote
+//                 //else
+//                   //place
+//             //if diagonal
+//               //sq piece === null?
+//                 //en passant conditions?
+//                   //place
+//             //else
+//               //place
+//           }
+//           if (selectedPiece === 'K') {
+//             legal = true;              
+//             //if inCheck
+//               //if 1 sq
+//                 //place
+//             //else
+//               //if 1 sq
+//                 //place
+//               //if 2 sq
+//                 //castle
+//           }
+//         }
+//       } 
+//     }      
+//   }
+//   return legal;
+// }
 
-      ///TESTING
-    // if (pieceToMove === 'P') {
-    //   return (baseMoves['P'](rowStart, colStart, row, col, piece, selection.piece));
-    // } else {
-    //   return (baseMoves[pieceToMove](rowStart, colStart, row, col));
-    // }
 
-
-    // verifyLegalSquare() {
-    //   const { selection, row, col, currentPosition } = this.props;
-    //   if (this.validateDestination()) {
-    //     if (selection.piece === 'n' || selection.piece === 'N') {
-    //       this.placePiece();
-    //     } else {
-    //       if (validatePath(selection.origin, [row,col], currentPosition)) {
-    //         this.placePiece();
-    //       } 
-    //     }
-    //   }
-    // }
 
     
