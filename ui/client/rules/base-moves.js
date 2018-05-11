@@ -1,59 +1,59 @@
 module.exports = {
   P: (rowStart, colStart, rowEnd, colEnd) => {
-      let isValid = false;
+      let valid = false;
       if (colEnd === colStart) {
         if (Math.abs(rowEnd-rowStart) === 1 || Math.abs(rowEnd-rowStart) === 2) {
-          isValid = true;
+          valid = true;
         }
       }
       if (Math.abs(colEnd-colStart) === 1) {
         if (rowEnd === rowStart || Math.abs(rowEnd-rowStart) === 1) {
-          isValid = true;
+          valid = true;
         }
       }
-      return isValid;
+      return valid;
     },
   K: (rowStart, colStart, rowEnd, colEnd) => {
-      let isValid = false;
+      let valid = false;
       if (rowEnd === rowStart) {
         if (Math.abs(colEnd-colStart) === 1 || Math.abs(colEnd-colStart) === 2) {
-          isValid = true;
+          valid = true;
         }
       }
       if (Math.abs(rowEnd-rowStart) === 1) {
         if (colEnd === colStart || Math.abs(colEnd-colStart) === 1) {
-          isValid = true;
+          valid = true;
         }
       }
-      return isValid;
+      return valid;
     },
   Q: (rowStart, colStart, rowEnd, colEnd) => {
-      let isValid = false;
+      let valid = false;
       if (colStart === colEnd || rowStart === rowEnd || Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
-        isValid = true;
+        valid = true;
       }
-      return isValid;
+      return valid;
     },
   B: (rowStart, colStart, rowEnd, colEnd) => {
-      let isValid = false;
+      let valid = false;
       if (Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
-        isValid = true;
+        valid = true;
       }
-      return isValid;
+      return valid;
     },
   N: (rowStart, colStart, rowEnd, colEnd) => {
-      let isValid = false;
+      let valid = false;
       if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 2 ||
           Math.abs(colEnd-colStart) === 2 && Math.abs(rowEnd-rowStart) === 1) {
-        isValid = true;
+        valid = true;
       }
-      return isValid;
+      return valid;
     },
   R: (rowStart, colStart, rowEnd, colEnd) => {
-      let isValid = false;
+      let valid = false;
       if (colStart  === colEnd || rowStart === rowEnd) {
-        isValid = true;
+        valid = true;
       }
-      return isValid;
+      return valid;
     },
 }

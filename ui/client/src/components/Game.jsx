@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
+import inCheck from '../../rules/in-check.js';
+import findKingSquare from '../../rules/find-king-square.js';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
 class Game extends Component {
@@ -34,7 +36,6 @@ class Game extends Component {
   componentDidUpdate() {
     const { id, currentPosition, moveList, whiteToMove, toggleTurn, gameSnapshot, userId  } = this.props;
     console.log('user:', userId, 'white_id:', gameSnapshot.white, 'whiteToMove:', whiteToMove)
-
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
@@ -42,6 +43,19 @@ class Game extends Component {
       axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
       toggleTurn();
       this.setState({ currMove: newMove });
+    }
+    this.isKingInCheck()
+  }
+
+  isKingInCheck() {
+    const { userId, gameSnapshot, currentPosition } = this.props;
+    const { white } = gameSnapshot;
+    if(userId === white) { 
+      let kingSquare = findKingSquare('K', currentPosition)
+      console.log('GAME, inCheck:', inCheck(kingSquare, currentPosition, 'white'))
+    } else {
+      let kingSquare = findKingSquare('k', currentPosition)
+      console.log('GAME, inCheck:', inCheck(kingSquare, currentPosition, 'black'))
     }
   }
   

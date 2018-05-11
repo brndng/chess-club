@@ -4,7 +4,7 @@ module.exports = (origin, destination, matrix) => {
   const path = [];
   let [a,b] = origin;
   let [m,n] = destination;
-  let [x,y] = [Math.sign(m-a), Math.sign(n-b)];
+  let [x,y] = [Math.sign(m-a), Math.sign(n-b)]; //slope
   
   while (!(a === m && b === n )) {
     a += x;
