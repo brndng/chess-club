@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isWhite } from '../../rules/helpers';
+import { isWhite, findKingSquare, inCheck } from '../../rules/helpers';
 import selectPiece from '../actions/action-select-piece.js';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
@@ -17,6 +17,16 @@ class Square extends Component {
     const { row, col } = this.props;
     return (row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0) ?
       'white' : 'black';
+  }
+
+  highlight() {
+    const { row, col, piece, selection } = this.props;
+    if (selection !== null) {
+      const [rowStart, colStart] = selection.origin;
+      return row === rowStart && col === colStart ?
+        'highlight' : null;
+    }
+    return null;
   }
 
   handleSquareClick() {
@@ -35,28 +45,40 @@ class Square extends Component {
     }
   }
 
-  placeSelectedPiece() {
-    const { selectPiece, updateMatrix, selection, row, col } = this.props;
-    const [rowStart, colStart] = selection.origin;
-    //preview update, king in check?
-    updateMatrix(rowStart, colStart, row, col, selection.piece);
-    selectPiece(null, null, null);
-    console.log('placed piece by user: ', this.props.userId)
+  isKingInCheck(position) {
+    const { userId, gameSnapshot } = this.props;
+    const { white } = gameSnapshot;
+    
+    if(userId === white) { 
+      let kingSquare = findKingSquare('K', position)
+      let params = [kingSquare, position, 'white', verifyLegalSquare]
+      return inCheck(...params);
+    } else {
+      let kingSquare = findKingSquare('k', position)
+      let params = [kingSquare, position, 'black', verifyLegalSquare]
+      return inCheck(...params);
+    }
   }
 
-  highlight() {
-    const { row, col, piece, selection } = this.props;
-    if (selection !== null) {
-      const [rowStart, colStart] = selection.origin;
-      return row === rowStart && col === colStart ?
-        'highlight' : null;
+  placeSelectedPiece() {
+    const { selectPiece, updateMatrix, selection, row, col, currentPosition } = this.props;
+    const [rowStart, colStart] = selection.origin;
+
+    const preview = currentPosition.map(row => row.slice());
+    preview[row][col] = selection.piece;
+    preview[rowStart][colStart] = null;
+
+    if (!this.isKingInCheck(preview)) {
+      console.log('update block')
+      updateMatrix(rowStart, colStart, row, col, selection.piece);
+      selectPiece(null, null, null);
+      console.log('placed piece by user: ', this.props.userId)
+    } else {
+      console.log('youre in check SON!');
     }
-    return null;
   }
 
   render() {
-    // console.log('selection  made in time for render?', this.props.selection)
-
     const { piece, candidateSquares } = this.props;
     return (
       <div id={this.initSquareColor()} className={`square ${this.highlight()}`} onClick={() => this.handleSquareClick()}>
@@ -66,8 +88,7 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = (state) => { // passes data from store, to component as props
-  // console.log('my state', state)
+const mapStateToProps = (state) => { 
   const { selection, currentPosition, whiteToMove, moveList, userId, gameSnapshot } = state;
   return { selection, currentPosition, whiteToMove, moveList, userId, gameSnapshot };
 }

@@ -1,15 +1,4 @@
-const init = [
-  ['r','n','b','q','k','b','n','r'],
-  ['p','p','p','p','p','p','p','p'],
-  [null,null,null,null,null,null,null,null],
-  [null,null,null,null,null,null,null,null],
-  [null,null,null,null,null,null,null,null],
-  [null,null,null,null,null,null,null,null],
-  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
-  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
-];
-
-export default (state=init, action) => {
+export default (state=[], action) => {
   const newState = [...state];
   switch (action.type) {
     case 'POSITION_CHANGED': {

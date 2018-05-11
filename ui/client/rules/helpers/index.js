@@ -21,7 +21,6 @@ module.exports = {
           if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toLowerCase()) {
             let oppPiece = matrix[i][j];
             if(cb(oppPiece, [i,j], kingSquare, matrix)) {
-              console.log('incheck true, oppPiece, [i,j]',oppPiece, [i,j])
               inCheck = true;
             }
           }
@@ -34,7 +33,6 @@ module.exports = {
           if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toUpperCase()) {
             let oppPiece = matrix[i][j];
             if(cb(oppPiece, [i,j], kingSquare, matrix)) {
-              console.log('incheck true, oppPiece, [i,j]',oppPiece, [i,j])
               inCheck = true;
             }
           }
