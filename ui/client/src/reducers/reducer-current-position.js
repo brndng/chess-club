@@ -14,8 +14,6 @@ export default (state=init, action) => {
   switch (action.type) {
     case 'POSITION_CHANGED': {
       let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
-      console.log('\tPOSITION_CHANGED -- sub-state:', newState);
-
       newState[rowEnd][colEnd] = pieceToMove;
       newState[rowStart][colStart] = null;
       return newState;

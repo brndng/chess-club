@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
-import inCheck from '../../rules/in-check.js';
-import findKingSquare from '../../rules/find-king-square.js';
+import verifyLegalSquare from '../../rules/verify-legal-square.js';
+import { findKingSquare, inCheck } from '../../rules/helpers';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
 class Game extends Component {
@@ -35,9 +35,10 @@ class Game extends Component {
 
   componentDidUpdate() {
     const { id, currentPosition, moveList, whiteToMove, toggleTurn, gameSnapshot, userId  } = this.props;
-    console.log('user:', userId, 'white_id:', gameSnapshot.white, 'whiteToMove:', whiteToMove)
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
+    console.log('whiteToMove:', whiteToMove)
+
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
       this.socket.emit('newMove', { newMove, id });
       axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
@@ -50,12 +51,15 @@ class Game extends Component {
   isKingInCheck() {
     const { userId, gameSnapshot, currentPosition } = this.props;
     const { white } = gameSnapshot;
+    
     if(userId === white) { 
       let kingSquare = findKingSquare('K', currentPosition)
-      console.log('GAME, inCheck:', inCheck(kingSquare, currentPosition, 'white'))
+      let params = [kingSquare, currentPosition, 'white', verifyLegalSquare]
+      console.log(`User ${userId}, inCheck:`, inCheck(...params))
     } else {
       let kingSquare = findKingSquare('k', currentPosition)
-      console.log('GAME, inCheck:', inCheck(kingSquare, currentPosition, 'black'))
+      let params = [kingSquare, currentPosition, 'black', verifyLegalSquare]
+      console.log(`User ${userId}, inCheck:`, inCheck(...params))
     }
   }
   

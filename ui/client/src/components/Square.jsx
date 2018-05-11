@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import isWhite from '../../rules/is-white.js';
+import { isWhite } from '../../rules/helpers';
 import selectPiece from '../actions/action-select-piece.js';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
