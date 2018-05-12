@@ -74,7 +74,7 @@ class Square extends Component {
       selectPiece(null, null, null);
       console.log('placed piece by user: ', this.props.userId)
     } else {
-      console.log('youre in check SON!');
+      console.log('thats check SON!');
     }
   }
 

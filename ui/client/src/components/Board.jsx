@@ -19,45 +19,34 @@ class Board extends Component {
     }
   }
 
-  // rotate(grid) {
-  //   const copy = [...grid]
-  //   copy.reverse().forEach(row => row.reverse());
-  //   return copy;
-  // }
+  rotate(matrix) {
+    const copy = matrix.map(row => row.slice())
+    copy.reverse().forEach(row => row.reverse());
+    return copy;
+  }
 
   render() {
-    return (
+    const { currentPosition, userId, gameSnapshot } = this.props;
+    const { white } = gameSnapshot;
+    const matrixRotated = this.rotate(this.state.matrix);
+
+    return userId === white ? (
       <div>
         <div className="board">
         {this.state.matrix.map((row, i) => 
           <div className="row" key={i}>{row.map((elem, j) => 
             <Square piece={elem} row={i} col={j} key={[i,j]}/>)}
           </div>)}
+       </div>
+      </div>) : (
+      <div>
+        <div className="board">
+        {matrixRotated.map((row, i) => 
+          <div className="row" key={i}>{row.map((elem, j) => 
+            <Square piece={elem} row={matrixRotated.length-1-i} col={row.length-1-j} key={[i,j]}/>)}
+          </div>)}
         </div>
-      </div>
-    );
-    // const { currentPosition, userId, gameSnapshot } = this.props;
-    // const { white } = gameSnapshot;
-    // const matrixRotated = this.rotate(this.state.matrix);
-    // console.log('userId, white',userId, white)
-
-    // return userId === white ? (
-    //   <div>
-    //     <div className="board">
-    //     {this.state.matrix.map((row, i) => 
-    //       <div className="row" key={i}>{row.map((elem, j) => 
-    //         <Square piece={elem} row={i} col={j} key={[i,j]}/>)}
-    //       </div>)}
-    //    </div>
-    //   </div>) : (
-    //   <div>
-    //     <div className="board">
-    //     {matrixRotated.map((row, i) => 
-    //       <div className="row" key={i}>{row.map((elem, j) => 
-    //         <Square piece={elem} row={i} col={j} key={[i,j]}/>)}
-    //       </div>)}
-    //     </div>
-    //   </div>);
+      </div>);
   }
 }
 
@@ -70,4 +59,8 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Board);
+
+
+
+
 
