@@ -15,54 +15,46 @@ const isWhite = (piece) => {
   return piece === null ? null :
     piece === piece.toUpperCase() ? true : false;
 }
-
-const inCheck = (kingSquare, matrix, color, cb) => {
+  
+const inCheck = (kingSquare, matrix, currentPlayerColor) => {
   let inCheck = false;
 
-  if (color === 'white') {
-    for (let i = 0; i < matrix.length; i++) {
-      for (let j = 0; j < matrix[i].length; j++) {
-        if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toLowerCase()) {
-          let oppPiece = matrix[i][j];
-          if(cb(oppPiece, [i,j], kingSquare, matrix)) {
-            inCheck = true;
-          }
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      let square = matrix[i][j];
+      if (currentPlayerColor === 'white') {
+        let oppColoredPiece = square.toLowerCase()
+      } else {
+        let oppColoredPiece = square.toUpperCase()
+      }
+      if (square !== null && square === oppColoredPiece) {
+        if(verifyLegalSquare(square, [i,j], kingSquare, matrix)) {
+          inCheck = true;
         }
       }
     }
+  }
 
-  }
-  if (color === 'black') {
-    for (let i = 0; i < matrix.length; i++) {
-      for (let j = 0; j < matrix[i].length; j++) {
-        if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toUpperCase()) {
-          let oppPiece = matrix[i][j];
-          if(cb(oppPiece, [i,j], kingSquare, matrix)) {
-            inCheck = true;
-          }
-        }
-      }
-    }
-  }
+  //hasEnemyPiece(currentPlayerColor, square)//think about this
   return inCheck;
 }
 
-const isKingInCheck = (userId, white, position) => {
+const isKingInCheck = (userId, white, position) => { 
+  //TODO: combine inCheck and isKingInCheck, make it nice, make it one time color check, not two ok
   if(userId === white) { 
     let kingSquare = findKingSquare('K', position)
-    let params = [kingSquare, position, 'white', verifyLegalSquare]
-    return inCheck(...params);
+    return inCheck(kingSquare, position, 'white');
   } else {
     let kingSquare = findKingSquare('k', position)
-    let params = [kingSquare, position, 'black', verifyLegalSquare]
-    return inCheck(...params);
+    return inCheck(kingSquare, position, 'black');
   }
 }
 
 module.exports = { findKingSquare, isWhite, inCheck, isKingInCheck} 
 
 
-
+///move rotateMatrix(matrix ) in here
+///dont use matrix
 
 
 
