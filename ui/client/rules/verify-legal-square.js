@@ -4,18 +4,18 @@ import validatePath from './validate-path.js';
 module.exports = (selectedPiece, origin, destination, matrix) => {
   const [ rowStart, colStart ] = origin;
   const [ row, col ] = destination;
-  let legal = false;
+  let isLegal = false;
   selectedPiece = selectedPiece.toUpperCase();
   if (baseMoves[selectedPiece](rowStart, colStart, row, col)) {
     if (selectedPiece === 'N') {
-      legal = true;      
+      isLegal = true;      
     } else {
       if(validatePath(origin, [row, col], matrix)) {
         if(selectedPiece !== 'P' && selectedPiece !== 'K') {
-          legal = true;          
+          isLegal = true;          
         } else {
           if (selectedPiece === 'P') {
-            legal = true;              
+            isLegal = true;              
             //if forward
               //sq piece === null?
                 //if last rank
@@ -30,7 +30,7 @@ module.exports = (selectedPiece, origin, destination, matrix) => {
               //place
           }
           if (selectedPiece === 'K') {
-            legal = true;              
+            isLegal = true;              
             //if inCheck
               //if 1 sq
                 //place
@@ -44,5 +44,5 @@ module.exports = (selectedPiece, origin, destination, matrix) => {
       } 
     }      
   }
-  return legal;
+  return isLegal;
 }

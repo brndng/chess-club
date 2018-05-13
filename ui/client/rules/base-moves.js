@@ -1,59 +1,59 @@
 module.exports = {
   P: (rowStart, colStart, rowEnd, colEnd) => {
-      let valid = false;
+      let isBaseMove = false;
       if (colEnd === colStart) {
         if (Math.abs(rowEnd-rowStart) === 1 || Math.abs(rowEnd-rowStart) === 2) {
-          valid = true;
+          isBaseMove = true;
         }
       }
       if (Math.abs(colEnd-colStart) === 1) {
         if (rowEnd === rowStart || Math.abs(rowEnd-rowStart) === 1) {
-          valid = true;
+          isBaseMove = true;
         }
       }
-      return valid;
+      return isBaseMove;
     },
   K: (rowStart, colStart, rowEnd, colEnd) => {
-      let valid = false;
+      let isBaseMove = false;
       if (rowEnd === rowStart) {
         if (Math.abs(colEnd-colStart) === 1 || Math.abs(colEnd-colStart) === 2) {
-          valid = true;
+          isBaseMove = true;
         }
       }
       if (Math.abs(rowEnd-rowStart) === 1) {
         if (colEnd === colStart || Math.abs(colEnd-colStart) === 1) {
-          valid = true;
+          isBaseMove = true;
         }
       }
-      return valid;
+      return isBaseMove;
     },
   Q: (rowStart, colStart, rowEnd, colEnd) => {
-      let valid = false;
+      let isBaseMove = false;
       if (colStart === colEnd || rowStart === rowEnd || Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
-        valid = true;
+        isBaseMove = true;
       }
-      return valid;
+      return isBaseMove;
     },
   B: (rowStart, colStart, rowEnd, colEnd) => {
-      let valid = false;
+      let isBaseMove = false;
       if (Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
-        valid = true;
+        isBaseMove = true;
       }
-      return valid;
+      return isBaseMove;
     },
   N: (rowStart, colStart, rowEnd, colEnd) => {
-      let valid = false;
+      let isBaseMove = false;
       if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 2 ||
           Math.abs(colEnd-colStart) === 2 && Math.abs(rowEnd-rowStart) === 1) {
-        valid = true;
+        isBaseMove = true;
       }
-      return valid;
+      return isBaseMove;
     },
   R: (rowStart, colStart, rowEnd, colEnd) => {
-      let valid = false;
+      let isBaseMove = false;
       if (colStart  === colEnd || rowStart === rowEnd) {
-        valid = true;
+        isBaseMove = true;
       }
-      return valid;
+      return isBaseMove;
     },
 }

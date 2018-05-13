@@ -1,7 +1,6 @@
-  // TODO: there must be a better way
 import verifyLegalSquare from '../verify-legal-square.js';
 
-const findKingSquare = (king, matrix) => {
+const locateKing = (king, matrix) => {
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
       if (matrix[i][j] === king) {
@@ -16,41 +15,44 @@ const isWhite = (piece) => {
     piece === piece.toUpperCase() ? true : false;
 }
   
-const inCheck = (kingSquare, matrix, currentPlayerColor) => {
+const isKingInCheck = (userId, white, position) => {
   let inCheck = false;
 
-  for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < matrix[i].length; j++) {
-      let square = matrix[i][j];
-      if (currentPlayerColor === 'white') {
-        let oppColoredPiece = square.toLowerCase()
-      } else {
-        let oppColoredPiece = square.toUpperCase()
-      }
-      if (square !== null && square === oppColoredPiece) {
-        if(verifyLegalSquare(square, [i,j], kingSquare, matrix)) {
-          inCheck = true;
+  for (let i = 0; i < position.length; i++) {
+    for (let j = 0; j < position[i].length; j++) {
+      let square = position[i][j];
+      if (square !== null) {
+        let opponentPiece = '';
+        let king = '';
+        userId === white
+          ? (opponentPiece = square.toLowerCase(), king = 'K')
+          : (opponentPiece = square.toUpperCase(), king = 'k');
+        if (square === opponentPiece) {
+          if(verifyLegalSquare(opponentPiece, [i,j], locateKing(king, position), position)) {
+            inCheck = true;
+          }
         }
       }
     }
   }
-
-  //hasEnemyPiece(currentPlayerColor, square)//think about this
   return inCheck;
 }
 
-const isKingInCheck = (userId, white, position) => { 
-  //TODO: combine inCheck and isKingInCheck, make it nice, make it one time color check, not two ok
-  if(userId === white) { 
-    let kingSquare = findKingSquare('K', position)
-    return inCheck(kingSquare, position, 'white');
-  } else {
-    let kingSquare = findKingSquare('k', position)
-    return inCheck(kingSquare, position, 'black');
-  }
-}
+// const isKingInCheck = (userId, white, position) => { 
+//   //TODO: combine inCheck and isKingInCheck, make it nice, make it one time color check, not two ok
+//   if(userId === white) { 
+//     let kingSquare = locateKing('K', position)
+//     return inCheck(kingSquare, position, 'white');
+//   } else {
+//     let kingSquare = locateKing('k', position)
+//     return inCheck(kingSquare, position, 'black');
+//   }
+// }
 
-module.exports = { findKingSquare, isWhite, inCheck, isKingInCheck} 
+module.exports = { locateKing, isWhite, isKingInCheck} 
+
+
+
 
 
 ///move rotateMatrix(matrix ) in here
