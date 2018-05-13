@@ -1,8 +1,22 @@
 import React from 'react';
 
+const lookupPieces = {
+  p: '♟',
+  n: '♞',
+  b: '♝',
+  r: '♜',
+  q: '♛',
+  k: '♚',
+  P: '♙',
+  N: '♘',
+  B: '♗',
+  R: '♖',
+  Q: '♕',
+  K: '♔',
+}
+
 const Piece = (props) => {
-  //this.props.hasMoved...how do I 'see' this from parent component
-  return <button>{props.piece}</button>
+  return <button>{lookupPieces[props.piece]}</button>
 }
 
 export default Piece;

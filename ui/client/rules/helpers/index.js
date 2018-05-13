@@ -1,47 +1,69 @@
-module.exports = {
-  findKingSquare: (king, matrix) => {
+  // TODO: there must be a better way
+import verifyLegalSquare from '../verify-legal-square.js';
+
+const findKingSquare = (king, matrix) => {
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      if (matrix[i][j] === king) {
+        return [i,j];
+      }
+    }
+  }
+}
+
+const isWhite = (piece) => {
+  return piece === null ? null :
+    piece === piece.toUpperCase() ? true : false;
+}
+
+const inCheck = (kingSquare, matrix, color, cb) => {
+  let inCheck = false;
+
+  if (color === 'white') {
     for (let i = 0; i < matrix.length; i++) {
       for (let j = 0; j < matrix[i].length; j++) {
-        if (matrix[i][j] === king) {
-          return [i,j];
-        }
-      }
-    }
-  },
-  isWhite: (piece) => {
-    return piece === null ? null :
-      piece === piece.toUpperCase() ? true : false;
-  },
-  inCheck: (kingSquare, matrix, color, cb) => {
-    let inCheck = false;
-  
-    if (color === 'white') {
-      for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[i].length; j++) {
-          if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toLowerCase()) {
-            let oppPiece = matrix[i][j];
-            if(cb(oppPiece, [i,j], kingSquare, matrix)) {
-              inCheck = true;
-            }
+        if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toLowerCase()) {
+          let oppPiece = matrix[i][j];
+          if(cb(oppPiece, [i,j], kingSquare, matrix)) {
+            inCheck = true;
           }
         }
       }
     }
-    if (color === 'black') {
-      for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[i].length; j++) {
-          if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toUpperCase()) {
-            let oppPiece = matrix[i][j];
-            if(cb(oppPiece, [i,j], kingSquare, matrix)) {
-              inCheck = true;
-            }
+
+  }
+  if (color === 'black') {
+    for (let i = 0; i < matrix.length; i++) {
+      for (let j = 0; j < matrix[i].length; j++) {
+        if (matrix[i][j] !== null && matrix[i][j] === matrix[i][j].toUpperCase()) {
+          let oppPiece = matrix[i][j];
+          if(cb(oppPiece, [i,j], kingSquare, matrix)) {
+            inCheck = true;
           }
         }
       }
     }
-    return inCheck;
-  },
+  }
+  return inCheck;
 }
+
+const isKingInCheck = (userId, white, position) => {
+  if(userId === white) { 
+    let kingSquare = findKingSquare('K', position)
+    let params = [kingSquare, position, 'white', verifyLegalSquare]
+    return inCheck(...params);
+  } else {
+    let kingSquare = findKingSquare('k', position)
+    let params = [kingSquare, position, 'black', verifyLegalSquare]
+    return inCheck(...params);
+  }
+}
+
+module.exports = { findKingSquare, isWhite, inCheck, isKingInCheck} 
+
+
+
+
 
 
 

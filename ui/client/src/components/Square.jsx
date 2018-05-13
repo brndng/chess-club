@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isWhite, findKingSquare, inCheck } from '../../rules/helpers';
+import { isWhite, isKingInCheck } from '../../rules/helpers';
 import selectPiece from '../actions/action-select-piece.js';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
@@ -45,31 +45,16 @@ class Square extends Component {
     }
   }
 
-  isKingInCheck(position) {
-    const { userId, gameSnapshot } = this.props;
-    const { white } = gameSnapshot;
-    
-    if(userId === white) { 
-      let kingSquare = findKingSquare('K', position)
-      let params = [kingSquare, position, 'white', verifyLegalSquare]
-      return inCheck(...params);
-    } else {
-      let kingSquare = findKingSquare('k', position)
-      let params = [kingSquare, position, 'black', verifyLegalSquare]
-      return inCheck(...params);
-    }
-  }
-
   placeSelectedPiece() {
-    const { selectPiece, updateMatrix, selection, row, col, currentPosition } = this.props;
+    const { userId, selectPiece, updateMatrix, selection, row, col, currentPosition, gameSnapshot } = this.props;
     const [rowStart, colStart] = selection.origin;
 
     const preview = currentPosition.map(row => row.slice());
     preview[row][col] = selection.piece;
     preview[rowStart][colStart] = null;
-
-    if (!this.isKingInCheck(preview)) {
-      console.log('update block')
+    
+    if (!isKingInCheck(userId, gameSnapshot.white, preview)) {
+      console.log('update block yay')
       updateMatrix(rowStart, colStart, row, col, selection.piece);
       selectPiece(null, null, null);
       console.log('placed piece by user: ', this.props.userId)

@@ -5,7 +5,7 @@ import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { findKingSquare, inCheck } from '../../rules/helpers';
+import { isKingInCheck } from '../../rules/helpers';
 import updateMatrix from '../actions/action-update-matrix.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
 class Game extends Component {
@@ -34,7 +34,7 @@ class Game extends Component {
   }
 
   componentDidUpdate() {
-    const { id, currentPosition, moveList, whiteToMove, toggleTurn, gameSnapshot, userId  } = this.props;
+    const { id, userId, currentPosition, moveList, whiteToMove, toggleTurn, gameSnapshot } = this.props;
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
     console.log('whiteToMove:', whiteToMove)
@@ -45,22 +45,9 @@ class Game extends Component {
       toggleTurn();
       this.setState({ currMove: newMove });
     }
-    this.isKingInCheck()
-  }
-
-  isKingInCheck() {
-    const { userId, gameSnapshot, currentPosition } = this.props;
-    const { white } = gameSnapshot;
-    
-    if(userId === white) { 
-      let kingSquare = findKingSquare('K', currentPosition)
-      let params = [kingSquare, currentPosition, 'white', verifyLegalSquare]
-      console.log(`User ${userId}, inCheck:`, inCheck(...params))
-    } else {
-      let kingSquare = findKingSquare('k', currentPosition)
-      let params = [kingSquare, currentPosition, 'black', verifyLegalSquare]
-      console.log(`User ${userId}, inCheck:`, inCheck(...params))
-    }
+    if (isKingInCheck(userId, gameSnapshot.white, currentPosition)) {
+      console.log('youre in CHECK SON!!!')
+    };
   }
   
   setText(e) {
