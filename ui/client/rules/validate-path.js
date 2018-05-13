@@ -1,4 +1,4 @@
-module.exports = (origin, destination, matrix) => {
+module.exports = (origin, destination, position) => {
   let isClear = true;
 
   const path = [];
@@ -18,7 +18,7 @@ module.exports = (origin, destination, matrix) => {
    
   path.forEach(square => {
     let [i,j] = square;
-    if (matrix[i][j] !== null && !(i === m && j === n)) {
+    if (position[i][j] !== null && !(i === m && j === n)) {
       isClear = false;
     } 
   });

@@ -1,5 +1,6 @@
 export default (state=[], action) => {
-  const newState = [...state];
+  // const newState = [...state];
+  const newState = state.map(row => row.slice());
   switch (action.type) {
     case 'POSITION_CHANGED': {
       let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;

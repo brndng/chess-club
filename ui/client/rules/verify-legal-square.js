@@ -1,7 +1,7 @@
 import baseMoves from './base-moves.js';
 import validatePath from './validate-path.js'; 
 
-module.exports = (selectedPiece, origin, destination, matrix) => {
+module.exports = (selectedPiece, origin, destination, position) => {
   const [ rowStart, colStart ] = origin;
   const [ row, col ] = destination;
   let isLegal = false;
@@ -10,7 +10,7 @@ module.exports = (selectedPiece, origin, destination, matrix) => {
     if (selectedPiece === 'N') {
       isLegal = true;      
     } else {
-      if(validatePath(origin, [row, col], matrix)) {
+      if(validatePath(origin, [row, col], position)) {
         if(selectedPiece !== 'P' && selectedPiece !== 'K') {
           isLegal = true;          
         } else {

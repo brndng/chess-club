@@ -25,14 +25,14 @@ class GameList extends Component {
   }
 
   render() {
-    const { userGames, gameSnapshot } = this.props;
+    const { userGames, game } = this.props;
     return (
       <div>
         {userGames.map((game) => {
           return <li key={game.id}><a href="#" onClick={()=>this.setGlobalState(game.id)}>{`GAME # ${game.id}`}</a></li>
         })}
         <br/>
-        {gameSnapshot === null ? null : <Game id={gameSnapshot.id}/>}
+        {game === null ? null : <Game id={game.id}/>}
       </div>
     )
   }
@@ -41,7 +41,7 @@ class GameList extends Component {
 const mapStateToProps = (state) => {
   return {
     userGames: state.userGames,
-    gameSnapshot: state.gameSnapshot,
+    game: state.game,
     userId: state.userId,
   }
 }

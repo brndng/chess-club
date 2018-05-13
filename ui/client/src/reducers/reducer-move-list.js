@@ -1,10 +1,10 @@
 export default (state=[], action) => {
-  const newState = [...state];
+  const newState = state.map(move => move.slice());
   switch(action.type) {
     case 'POSITION_CHANGED':
-      state.push([...action.payload ]);
-      return state;
+      newState.push(action.payload);
+      return newState;
       break;
   }
-  return state;
+  return newState;
 }

@@ -6,8 +6,9 @@ import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { isKingInCheck } from '../../rules/helpers';
-import updateMatrix from '../actions/action-update-matrix.js'; 
+import updatePosition from '../actions/action-update-position.js'; 
 import toggleTurn from '../actions/action-toggle-turn.js';
+import updateCheckStatus from '../actions/action-update-check-status.js';
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { id, updateMatrix } = this.props;
+    const { id, updatePosition } = this.props;
     const { currMove } = this.state;
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('gameId', id));
@@ -27,14 +28,14 @@ class Game extends Component {
     this.socket.on('chat', (message) => {this.setState({ messages: [...this.state.messages, message], message: '' })})
     this.socket.on('newMove', (newMove) => {
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
-        updateMatrix(...newMove);
+        updatePosition(...newMove);
         this.setState({ currMove: newMove})
       }
     });
   }
 
   componentDidUpdate() {
-    const { id, userId, currentPosition, moveList, whiteToMove, toggleTurn, gameSnapshot } = this.props;
+    const { id, userId, currentPosition, moveList, whiteToMove, toggleTurn, game, updateCheckStatus } = this.props;
     const { currMove } = this.state;
     const newMove = moveList.slice(-1)[0];
     console.log('whiteToMove:', whiteToMove)
@@ -45,10 +46,37 @@ class Game extends Component {
       toggleTurn();
       this.setState({ currMove: newMove });
     }
-    if (isKingInCheck(userId, gameSnapshot.white, currentPosition)) {
+    if (isKingInCheck(userId, game.white, currentPosition)) {
       console.log('youre in CHECK SON!!!')
+      // updateCheckStatus(userId);
     };
   }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   const newMove = [...nextProps.moveList.slice(-1)];
+  //   const currMove = [...this.props.moveList.slice(-1)];
+
+  //   console.log('currMove, newMove', this.props.moveList, nextProps.moveList)
+  
+  //   return JSON.stringify(newMove) !== JSON.stringify(currMove);
+    
+
+  //   // if (this.props.moveList.length !== nextProps.moveList.length) {
+  //   //   console.log('DIFFERENT PROPS')
+  //   // }
+
+  //   // return nextProps.moveList.length !== this.props.moveList.length || nextProps.whiteToMove !== this.props.whiteToMove;
+  //   // return JSON.stringify(this.props.moveList) !== JSON.stringify(nextProps.moveList);
+  //   // const { moveList } = this.props;
+  //   // const { currMove } = this.state;    
+  //   // const newMove = moveList.slice(-1)[0];
+
+  //   // if (!(newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)))  {
+  //   //   return false;
+  //   // }
+
+  //   return true;
+  // }
   
   setText(e) {
     this.setState({ message: e.target.value });
@@ -61,12 +89,13 @@ class Game extends Component {
   }
 
   render() {
+    console.log('currMove',this.state.currMove)
     const { message, messages } = this.state;
-    const { gameSnapshot } = this.props;
+    const { game } = this.props;
     return (
-      gameSnapshot === null? null :
+      game === null? null :
         <div>
-          GAME # {gameSnapshot.id}
+          GAME # {game.id}
           <Board />
           <div className="chat-container">
             <div className="output">
@@ -84,14 +113,14 @@ const mapStateToProps = (state) => {
   return {
     userId: state.userId,
     moveList: state.moveList,
-    gameSnapshot: state.gameSnapshot,
+    game: state.game,
     currentPosition: state.currentPosition,
     whiteToMove: state.whiteToMove
   }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ updateMatrix, toggleTurn }, dispatch);
+  return bindActionCreators({ updatePosition, toggleTurn, updateCheckStatus }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game)

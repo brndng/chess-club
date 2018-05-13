@@ -1,9 +1,15 @@
 import verifyLegalSquare from '../verify-legal-square.js';
 
-const locateKing = (king, matrix) => {
-  for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < matrix[i].length; j++) {
-      if (matrix[i][j] === king) {
+const rotateBoard = (position) => {
+  const copy = position.map(row => row.slice())
+  copy.reverse().forEach(row => row.reverse());
+  return copy;
+}
+
+const locateKing = (king, position) => {
+  for (let i = 0; i < position.length; i++) {
+    for (let j = 0; j < position[i].length; j++) {
+      if (position[i][j] === king) {
         return [i,j];
       }
     }
@@ -22,11 +28,8 @@ const isKingInCheck = (userId, white, position) => {
     for (let j = 0; j < position[i].length; j++) {
       let square = position[i][j];
       if (square !== null) {
-        let opponentPiece = '';
-        let king = '';
-        userId === white
-          ? (opponentPiece = square.toLowerCase(), king = 'K')
-          : (opponentPiece = square.toUpperCase(), king = 'k');
+        let opponentPiece = userId === white ? square.toLowerCase() : square.toUpperCase();
+				let king = userId === white ? 'K' : 'k';
         if (square === opponentPiece) {
           if(verifyLegalSquare(opponentPiece, [i,j], locateKing(king, position), position)) {
             inCheck = true;
@@ -38,18 +41,7 @@ const isKingInCheck = (userId, white, position) => {
   return inCheck;
 }
 
-// const isKingInCheck = (userId, white, position) => { 
-//   //TODO: combine inCheck and isKingInCheck, make it nice, make it one time color check, not two ok
-//   if(userId === white) { 
-//     let kingSquare = locateKing('K', position)
-//     return inCheck(kingSquare, position, 'white');
-//   } else {
-//     let kingSquare = locateKing('k', position)
-//     return inCheck(kingSquare, position, 'black');
-//   }
-// }
-
-module.exports = { locateKing, isWhite, isKingInCheck} 
+module.exports = { rotateBoard, locateKing, isWhite, isKingInCheck} 
 
 
 
