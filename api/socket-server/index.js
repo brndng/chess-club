@@ -33,6 +33,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('newMove', (data) => {
+    console.log('getting a new Move', data)
     socket.broadcast.to(data.id).emit('newMove', data.newMove)
   })
 })

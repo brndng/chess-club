@@ -1,15 +1,16 @@
-module.exports = (origin, destination, position) => {
-  let isClear = true;
+module.exports = (origin, destin, position) => {
 
-  const path = [];
-  let [a,b] = origin; // { x: 2, y: 3 } --> origin.x, origin.y
-  let [m,n] = destination; //x2,y2
-  let [x,y] = [Math.sign(m-a), Math.sign(n-b)]; //slope //dx,dy
-  
-  while (!(a === m && b === n )) {
-    a += x;
-    b += y;
-    path.push([a,b]);
+  let isClear = true;
+  let path = [];
+  let y = origin.row;
+  let x = origin.col;
+  let dy = Math.sign(destin.row-origin.row);
+  let dx = Math.sign(destin.col-origin.col);  
+
+  while (!(y === destin.row && x === destin.col)) {
+    y += dy;
+    x += dx;
+    path.push([y, x]);
   }
 
   if (path.length === 1) { 
@@ -18,10 +19,11 @@ module.exports = (origin, destination, position) => {
    
   path.forEach(square => {
     let [i,j] = square;
-    if (position[i][j] !== null && !(i === m && j === n)) {
+    if (position[i][j] !== null && !(i === destin.row && j === destin.col)) {
       isClear = false;
     } 
   });
+
   return isClear;
 }
 

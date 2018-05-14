@@ -1,10 +1,13 @@
 export default (state=[], action) => {
-  const newState = state.map(move => move.slice());
+  const newState = [...state];
   switch(action.type) {
     case 'POSITION_CHANGED':
-      newState.push(action.payload);
-      return newState;
+      return [...newState, action.payload];
+      
       break;
   }
   return newState;
 }
+
+
+// If you want to be safe with arrays, you need to restrict the operations you perform on the state to the safe accessor methods. Instead of `.push()`, use `.concat()`.

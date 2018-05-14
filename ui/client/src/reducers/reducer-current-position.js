@@ -3,15 +3,15 @@ export default (state=[], action) => {
   const newState = state.map(row => row.slice());
   switch (action.type) {
     case 'POSITION_CHANGED': {
-      let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
-      newState[rowEnd][colEnd] = pieceToMove;
-      newState[rowStart][colStart] = null;
+      const { origin, destination, pieceToMove }  = action.payload;
+      newState[destination.row][destination.col] = pieceToMove;
+      newState[origin.row][origin.col] = null;
       return newState;
       break;
     }
     case 'GAME_INITIALIZED': {
       let { position } = action.payload;
-      return [...position];
+      return [...position]; //test this vs position vs postion.map(row => row.slice())
       break;
     }
     // case 'CASTLING': {

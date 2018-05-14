@@ -15,7 +15,7 @@ class Game extends Component {
     this.state = {
       message: '',
       messages: [],
-      currMove: [],
+      currMove: {},
     }
   }
 
@@ -28,8 +28,10 @@ class Game extends Component {
     this.socket.on('chat', (message) => {this.setState({ messages: [...this.state.messages, message], message: '' })})
     this.socket.on('newMove', (newMove) => {
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
-        updatePosition(...newMove);
-        this.setState({ currMove: newMove})
+        const { origin, destination, pieceToMove } = newMove;
+        // updatePosition(...newMove);
+        updatePosition(origin, destination, pieceToMove) ;
+        this.setState({ currMove: newMove })
       }
     });
   }
@@ -42,7 +44,10 @@ class Game extends Component {
 
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
       this.socket.emit('newMove', { newMove, id });
+      // const saved = await axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
       axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
+
+      // console.log('saved data back from DB:', saved.data.moves)
       toggleTurn();
       this.setState({ currMove: newMove });
     }
@@ -89,7 +94,6 @@ class Game extends Component {
   }
 
   render() {
-    console.log('currMove',this.state.currMove)
     const { message, messages } = this.state;
     const { game } = this.props;
     return (

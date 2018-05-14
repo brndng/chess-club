@@ -7,10 +7,10 @@ const rotateBoard = (position) => {
 }
 
 const locateKing = (king, position) => {
-  for (let i = 0; i < position.length; i++) {
-    for (let j = 0; j < position[i].length; j++) {
-      if (position[i][j] === king) {
-        return [i,j];
+  for (let row = 0; row < position.length; row++) {
+    for (let col = 0; col < position[row].length; col++) {
+      if (position[row][col] === king) {
+        return {row, col};
       }
     }
   }
@@ -24,15 +24,16 @@ const isWhite = (piece) => {
 const isKingInCheck = (userId, white, position) => {
   let inCheck = false;
 
-  for (let i = 0; i < position.length; i++) {
-    for (let j = 0; j < position[i].length; j++) {
-      let square = position[i][j];
+  for (let row = 0; row < position.length; row++) {
+    for (let col = 0; col < position[row].length; col++) {
+      let square = position[row][col];
       if (square !== null) {
         let opponentPiece = userId === white ? square.toLowerCase() : square.toUpperCase();
 				let king = userId === white ? 'K' : 'k';
         if (square === opponentPiece) {
-          if(verifyLegalSquare(opponentPiece, [i,j], locateKing(king, position), position)) {
+          if(verifyLegalSquare(opponentPiece, {row, col}, locateKing(king, position), position)) {
             inCheck = true;
+            break;
           }
         }
       }

@@ -2,15 +2,13 @@ import baseMoves from './base-moves.js';
 import validatePath from './validate-path.js'; 
 
 module.exports = (selectedPiece, origin, destination, position) => {
-  const [ rowStart, colStart ] = origin;
-  const [ row, col ] = destination;
   let isLegal = false;
   selectedPiece = selectedPiece.toUpperCase();
-  if (baseMoves[selectedPiece](rowStart, colStart, row, col)) {
+  if (baseMoves[selectedPiece](origin, destination)) {
     if (selectedPiece === 'N') {
-      isLegal = true;      
+      isLegal = true;    
     } else {
-      if(validatePath(origin, [row, col], position)) {
+      if(validatePath(origin, destination, position)) {
         if(selectedPiece !== 'P' && selectedPiece !== 'K') {
           isLegal = true;          
         } else {

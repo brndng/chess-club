@@ -1,7 +1,7 @@
-const selectPiece = (rowStart, colStart, piece) => {
-  const origin = [rowStart, colStart]
-  console.log('piece and origin selected:', origin, piece,)
-  if (rowStart, colStart, piece === null) {
+const selectPiece = (origin, piece) => {
+  console.log('piece and origin selected:', origin, piece)
+
+  if (origin, piece === null) {
     return {
       type: 'PIECE_SELECTED',
       payload: null,
@@ -9,7 +9,7 @@ const selectPiece = (rowStart, colStart, piece) => {
   } else {
     return {
       type: 'PIECE_SELECTED',
-      payload: { origin, piece },
+      payload: { origin: {...origin}, piece },
     };
   }
 }

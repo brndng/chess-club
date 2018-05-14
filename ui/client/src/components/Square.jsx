@@ -14,48 +14,48 @@ class Square extends Component {
   }
 
   initSquareColor() {
-    const { row, col } = this.props;
+    const { coords } = this.props;
+    const { row, col } = coords;
     return (row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0) ?
       'white' : 'black';
   }
 
   highlight() {
-    const { row, col, piece, selection } = this.props;
-    if (selection !== null) {
-      const [rowStart, colStart] = selection.origin;
-      return row === rowStart && col === colStart ?
+    const { coords, selection } = this.props;
+    if (selection !== null ) {
+      const { origin } = selection;
+      return coords.row === origin.row && coords.col === origin.col ?
         'highlight' : null;
     }
     return null;
   }
 
   handleSquareClick() {
-    const { userId, game, selection, selectPiece, row, col, piece, whiteToMove, currentPosition } = this.props;
-    const { white } = game;
-    if ((userId === white) === whiteToMove) {
+    const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition } = this.props;
+    if ((userId === game.white) === whiteToMove) {
       if ((isWhite(piece) === whiteToMove)) { 
-        selectPiece(row, col, piece);
+        selectPiece({...coords}, piece);
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
-        const params = [selection.piece, selection.origin, [row, col], currentPosition]
-        if (verifyLegalSquare(...params)) {
-          this.placeSelectedPiece();
+        if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition)) {
+          console.log('verifyLegalSquare block')
+          this.placeSelectedPiece(); 
         }
       }
     }
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, row, col, currentPosition, game } = this.props;
-    const [rowStart, colStart] = selection.origin;
-
-    const preview = currentPosition.map(row => row.slice());
-    preview[row][col] = selection.piece;
-    preview[rowStart][colStart] = null;
+    const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game } = this.props;
+    const { origin } = selection;
     
+    const preview = currentPosition.map(row => row.slice());
+    preview[coords.row][coords.col] = selection.piece;
+    preview[origin.row][origin.col] = null;
+
     if (!isKingInCheck(userId, game.white, preview)) {
-      updatePosition(rowStart, colStart, row, col, selection.piece);
-      selectPiece(null, null, null);
+      updatePosition(origin, coords, selection.piece);
+      selectPiece(null, null);
       console.log('placed piece by user: ', this.props.userId)
     } else {
       console.log('thats check SON!');

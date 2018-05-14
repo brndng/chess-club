@@ -1,7 +1,7 @@
-const updatePosition = (rowStart, colStart, rowEnd, colEnd, pieceToMove) => {
+const updatePosition = (origin, destination, pieceToMove) => {
   return {
     type: 'POSITION_CHANGED',
-    payload: [ rowStart, colStart, rowEnd, colEnd, pieceToMove ]
+    payload: { origin, destination, pieceToMove } 
   };
 }
 

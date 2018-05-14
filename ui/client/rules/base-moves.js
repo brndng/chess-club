@@ -1,57 +1,57 @@
 module.exports = {
-  P: (rowStart, colStart, rowEnd, colEnd) => {
+  P: (origin, destin) => {
       let isBaseMove = false;
-      if (colEnd === colStart) {
-        if (Math.abs(rowEnd-rowStart) === 1 || Math.abs(rowEnd-rowStart) === 2) {
+      if (destin.col === origin.col) {
+        if (Math.abs(destin.row-origin.row) === 1 || Math.abs(destin.row-origin.row) === 2) {
           isBaseMove = true;
         }
       }
-      if (Math.abs(colEnd-colStart) === 1) {
-        if (rowEnd === rowStart || Math.abs(rowEnd-rowStart) === 1) {
+      if (Math.abs(destin.col-origin.col) === 1) {
+        if (destin.row === origin.row || Math.abs(destin.row-origin.row) === 1) {
           isBaseMove = true;
         }
       }
       return isBaseMove;
     },
-  K: (rowStart, colStart, rowEnd, colEnd) => {
+  K: (origin, destin) => {
       let isBaseMove = false;
-      if (rowEnd === rowStart) {
-        if (Math.abs(colEnd-colStart) === 1 || Math.abs(colEnd-colStart) === 2) {
+      if (destin.row === origin.row) {
+        if (Math.abs(destin.col-origin.col) === 1 || Math.abs(destin.col-origin.col) === 2) {
           isBaseMove = true;
         }
       }
-      if (Math.abs(rowEnd-rowStart) === 1) {
-        if (colEnd === colStart || Math.abs(colEnd-colStart) === 1) {
+      if (Math.abs(destin.row-origin.row) === 1) {
+        if (destin.col === origin.col || Math.abs(destin.col-origin.col) === 1) {
           isBaseMove = true;
         }
       }
       return isBaseMove;
     },
-  Q: (rowStart, colStart, rowEnd, colEnd) => {
+  Q: (origin, destin) => {
       let isBaseMove = false;
-      if (colStart === colEnd || rowStart === rowEnd || Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
+      if (origin.col === destin.col || origin.row === destin.row || Math.abs(destin.col-origin.col) === Math.abs(destin.row-origin.row)) {
         isBaseMove = true;
       }
       return isBaseMove;
     },
-  B: (rowStart, colStart, rowEnd, colEnd) => {
+  B: (origin, destin) => {
       let isBaseMove = false;
-      if (Math.abs(colEnd-colStart) === Math.abs(rowEnd-rowStart)) {
+      if (Math.abs(destin.col-origin.col) === Math.abs(destin.row-origin.row)) {
         isBaseMove = true;
       }
       return isBaseMove;
     },
-  N: (rowStart, colStart, rowEnd, colEnd) => {
+  N: (origin, destin) => {
       let isBaseMove = false;
-      if (Math.abs(colEnd-colStart) === 1 && Math.abs(rowEnd-rowStart) === 2 ||
-          Math.abs(colEnd-colStart) === 2 && Math.abs(rowEnd-rowStart) === 1) {
+      if (Math.abs(destin.col-origin.col) === 1 && Math.abs(destin.row-origin.row) === 2 ||
+          Math.abs(destin.col-origin.col) === 2 && Math.abs(destin.row-origin.row) === 1) {
         isBaseMove = true;
       }
       return isBaseMove;
     },
-  R: (rowStart, colStart, rowEnd, colEnd) => {
+  R: (origin, destin) => {
       let isBaseMove = false;
-      if (colStart  === colEnd || rowStart === rowEnd) {
+      if (origin.col  === destin.col || origin.row === destin.row) {
         isBaseMove = true;
       }
       return isBaseMove;
