@@ -1,18 +1,4 @@
 module.exports = {
-  P: (origin, destin) => {
-      let isBaseMove = false;
-      if (destin.col === origin.col) {
-        if (Math.abs(destin.row-origin.row) === 1 || Math.abs(destin.row-origin.row) === 2) {
-          isBaseMove = true;
-        }
-      }
-      if (Math.abs(destin.col-origin.col) === 1) {
-        if (destin.row === origin.row || Math.abs(destin.row-origin.row) === 1) {
-          isBaseMove = true;
-        }
-      }
-      return isBaseMove;
-    },
   K: (origin, destin) => {
       let isBaseMove = false;
       if (destin.row === origin.row) {
@@ -56,4 +42,21 @@ module.exports = {
       }
       return isBaseMove;
     },
+  P: (origin, destin) => {
+      let isBaseMove = false;
+
+      if (origin.row === 6 && destin.row-origin.row === -2) {
+        isBaseMove = true;
+      } else if (origin.row === 1 && destin.row-origin.row === 2) {
+        isBaseMove = true;
+      } else {
+        if (destin.col === origin.col && Math.abs(destin.row-origin.row) === 1) {
+          isBaseMove = true;
+        }
+        if (Math.abs(destin.col-origin.col) === 1 && Math.abs(destin.row-origin.row) === 1) {
+          isBaseMove = true;
+        }
+      }
+      return isBaseMove;
+    }, 
 }

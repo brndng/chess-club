@@ -1,5 +1,6 @@
 import baseMoves from './base-moves.js';
 import validatePath from './validate-path.js'; 
+import { lookupSquare } from './utilities';
 
 export default (piece, origin, destin, position) => {
   let isLegal = false;
@@ -13,7 +14,16 @@ export default (piece, origin, destin, position) => {
           isLegal = true;          
         } else {
           if (piece === 'P') {
-            isLegal = true;              
+            if (origin.col === destin.col) { 
+              if (lookupSquare(destin, position) === null) {
+                isLegal = true;
+              }
+            } else {
+              if (lookupSquare(destin, position) !== null) {
+                isLegal = true;
+              }
+            }
+                         
             //if forward
               //sq piece === null?
                 //if last rank

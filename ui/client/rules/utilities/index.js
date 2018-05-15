@@ -5,6 +5,10 @@ export const isWhite = (piece) => {
     piece === piece.toUpperCase() ? true : false;
 } 
 
+export const lookupSquare = (square, position) => {
+  return position[square.row][square.col];
+}
+
 export const rotateBoard = (position) => {
   const copy = position.map(row => [...row])
   copy.reverse().forEach(row => row.reverse());
