@@ -7,8 +7,7 @@ export default (state=[], action) => {
     }
     case 'GAME_INITIALIZED': {
       let { moves } = action.payload;
-      console.log('GAME_INITIALIZED', moves)
-      return [...moves]; //test this vs position vs postion.map(row => row.slice())
+      return [...moves]; 
       break;
       }
   }

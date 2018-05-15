@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import Game from './Game.jsx';
-import loadGames from '../actions/action-load-games.js';
-import initGame from '../actions/action-init-game.js';
+import { loadGames, initGame } from '../actions/';
 
 class GameList extends Component {
   constructor(props) {

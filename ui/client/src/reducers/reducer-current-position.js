@@ -13,7 +13,7 @@ export default (state=[], action) => {
       return [...position]; //test this vs position vs postion.map(row => row.slice())
       break;
     }
-    // case 'CASTLING': {
+    // case 'PLAYER_CASTLING': {
     //   // console.log('\tCASTLING -- sub-state:', state);
     //   let [ rowStart, colStart, rowEnd, colEnd, pieceToMove ] = action.payload;
     //   if (rowStart === 0) {

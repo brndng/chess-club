@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isWhite, isKingInCheck } from '../../rules/helpers';
-import selectPiece from '../actions/action-select-piece.js';
-import updatePosition from '../actions/action-update-position.js'; 
-// import castleKing from '../actions/action-castle-king.js';
+import { isWhite, isKingInCheck } from '../../rules/utilities';
+import { selectPiece, updatePosition } from '../actions/'; 
 class Square extends Component {
   constructor(props) {
     super(props);
