@@ -44,12 +44,8 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentPosition: state.currentPosition,
-    userId: state.userId,
-    game: state.game
-  }
+const mapStateToProps = ({ userId, game, currentPosition }) => {
+  return { userId, game, currentPosition };
 }
 
 export default connect(mapStateToProps)(Board);

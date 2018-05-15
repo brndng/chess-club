@@ -76,14 +76,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userId: state.userId,
-    moves: state.moves,
-    game: state.game,
-    currentPosition: state.currentPosition,
-    whiteToMove: state.whiteToMove
-  }
+const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove }) => {
+  return { userId, moves, game, currentPosition, whiteToMove }
 }
 
 const matchDispatchToProps = (dispatch) => {

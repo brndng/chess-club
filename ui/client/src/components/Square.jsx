@@ -68,8 +68,7 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = (state) => { 
-  const { selection, currentPosition, whiteToMove, moves, userId, game } = state;
+const mapStateToProps = ({ selection, currentPosition, whiteToMove, moves, userId, game }) => { 
   return { selection, currentPosition, whiteToMove, moves, userId, game };
 }
 
@@ -78,6 +77,8 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
+
+
 
 
 

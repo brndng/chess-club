@@ -37,12 +37,8 @@ class GameList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userGames: state.userGames,
-    game: state.game,
-    userId: state.userId,
-  }
+const mapStateToProps = ({ userId, userGames, game }) => {
+  return { userId, userGames, game };
 }
 
 const matchDispatchToProps = (dispatch) => {
