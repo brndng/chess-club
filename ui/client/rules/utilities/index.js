@@ -1,20 +1,5 @@
 import verifyLegalSquare from '../verify-legal-square.js';
 
-export const isWhite = (piece) => {
-  return piece === null ? null :
-    piece === piece.toUpperCase() ? true : false;
-} 
-
-export const lookupSquare = (square, position) => {
-  return position[square.row][square.col];
-}
-
-export const rotateBoard = (position) => {
-  const copy = position.map(row => [...row])
-  copy.reverse().forEach(row => row.reverse());
-  return copy;
-}
-
 export const locateKing = (king, position) => {
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
@@ -27,7 +12,6 @@ export const locateKing = (king, position) => {
   
 export const isKingInCheck = (userId, white, position) => {
   let inCheck = false;
-
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
       let piece = position[row][col];
@@ -44,6 +28,24 @@ export const isKingInCheck = (userId, white, position) => {
     }
   }
   return inCheck;
+}
+
+export const lookupSquare = (square, position) => {
+  return position[square.row][square.col];
+}
+
+export const isWhite = (piece) => {
+  return piece === null 
+    ? null 
+    : piece === piece.toUpperCase() 
+      ? true 
+      : false;
+} 
+
+export const rotateBoard = (position) => {
+  const copy = position.map(row => [...row])
+  copy.reverse().forEach(row => row.reverse());
+  return copy;
 }
 
 

@@ -5,10 +5,10 @@ export const castleKing = (rowStart, colStart, rowEnd, colEnd, pieceToMove) => {
   };
 }
 
-export const initGame = (id, white, black, position, whiteToMove, moves) => {
+export const initGame = (id, white, black, position, whiteToMove, moves, inCheck) => {
   return {
     type: 'GAME_INITIALIZED',
-    payload: { id, white, black, position, whiteToMove, moves },
+    payload: { id, white, black, position, whiteToMove, moves, inCheck },
   };
 }
 
@@ -49,10 +49,25 @@ export const toggleTurn = () => {
 }
 
 export const updateCheckStatus = (userId) => {
+  console.log('updateCheckStatus ACTION', userId)
   return {
     type: 'CHECK_STATUS_UPDATED',
-    payload: userId,
+    payload: userId
   }
+  // if (userId === null) {
+  //   console.log('///HERE1')
+  //   return {
+  //     type: 'CHECK_STATUS_UPDATED',
+  //     payload: null,
+  //   }
+  // } else {
+  //   console.log('///HERE2')
+  //   return {
+  //     type: 'CHECK_STATUS_UPDATED',
+  //     payload: userId,
+  //   }
+  // }
+  
 }
 
 export const updatePosition = (origin, destination, pieceToMove) => {

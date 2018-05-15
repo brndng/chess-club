@@ -19,7 +19,9 @@ export default (piece, origin, destin, position) => {
                 isLegal = true;
               }
             } else {
-              if (lookupSquare(destin, position) !== null) {
+              if (lookupSquare(destin, position) !== null) { 
+                // || move history shows adjacent pawn advancing twice
+                // destin col === moves[i].destin.col && Math.abs(moves[i].destin.row - moves[i].destin.col === 2)
                 isLegal = true;
               }
             }

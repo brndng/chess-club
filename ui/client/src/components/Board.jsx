@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import axios from 'axios';
-import { rotateBoard } from '../../rules/utilities/';
+import { rotateBoard } from '../../rules/utilities';
 class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: this.props.currentPosition,
+      position: this.props.currentPosition
     }
   }
   

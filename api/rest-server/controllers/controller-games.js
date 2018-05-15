@@ -47,7 +47,7 @@ module.exports = {
 
   updateGame: async (req, res) => {
     const { id, currentPosition, moves, whiteToMove } = req.body;
-    console.log('incoming moves', moves);
+    // console.log('incoming moves', moves);
     try {
       
       const update = await db.Game.update({ 
@@ -59,7 +59,7 @@ module.exports = {
         returning: true,
         plain: true
       })
-      console.log('\t//////updateGame', update[1].dataValues)
+      // console.log('\t//////updateGame', update[1].dataValues)
       res.send(update[1].dataValues)
     } catch(err) {
       console.log('err from updateGame', err);

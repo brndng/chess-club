@@ -23,7 +23,7 @@ const middleware = [
 io.on('connection', (socket) => {
   console.log('made SOCKET connection!', socket.id);
 
-  socket.on('gameId', (data) => {
+  socket.on('game_id', (data) => {
     socket.join(data);
     socket.broadcast.to(data).emit('guestJoin', data);
   });
@@ -32,9 +32,12 @@ io.on('connection', (socket) => {
     io.sockets.in(data.id).emit('chat', data.message);
   })
 
-  socket.on('newMove', (data) => {
-    console.log('getting a new Move', data)
-    socket.broadcast.to(data.id).emit('newMove', data.newMove)
+  socket.on('new_move', (data) => {
+    socket.broadcast.to(data.id).emit('new_move', data.newMove)
+  })
+
+  socket.on('in_check', (data) => {
+    socket.broadcast.to(data.id).emit('in_check', data.userId)
   })
 })
 

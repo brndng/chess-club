@@ -19,8 +19,8 @@ class GameList extends Component {
   async loadGameState(id) {
     const { initGame } = this.props;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
-    const { white, black, position, whiteToMove, moves } = game.data;
-    initGame(id, white, black, position, whiteToMove, moves);
+    const { white, black, position, whiteToMove, moves, inCheck } = game.data;
+    initGame(id, white, black, position, whiteToMove, moves, inCheck);
   }
 
   render() {

@@ -12,9 +12,9 @@ const User = sequelize.define('user', {
 
 const Game = sequelize.define('game', {
   position: Sequelize.ARRAY(Sequelize.TEXT),
-  // moves: Sequelize.ARRAY(Sequelize.TEXT) ,
   moves: Sequelize.JSON,
   whiteToMove: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
+  inCheck: Sequelize.INTEGER,
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
