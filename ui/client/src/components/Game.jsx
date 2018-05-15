@@ -41,7 +41,7 @@ class Game extends Component {
     const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus } = this.props;
     const { currMove } = this.state;
     const newMove = moves.slice(-1)[0];
-    console.log('prevProps.id,id',prevProps.id,id)
+    // console.log('prevProps.id,id',prevProps.id,id)
     console.log('whiteToMove:', whiteToMove)
 
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove) && prevProps.id === id) {
