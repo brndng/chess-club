@@ -36,13 +36,15 @@ class Game extends Component {
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    
     const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus } = this.props;
     const { currMove } = this.state;
     const newMove = moves.slice(-1)[0];
+    console.log('prevProps.id,id',prevProps.id,id)
     console.log('whiteToMove:', whiteToMove)
 
-    if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
+    if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove) && prevProps.id === id) {
       //TODO: executes on switch game, unwanted toggle turn 
       this.socket.emit('newMove', { newMove, id });
       // const saved = await axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove });
