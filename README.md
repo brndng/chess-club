@@ -1,7 +1,7 @@
 # chess
 A chess app from scratch. Challenge friends and play at your convenience.
 
-# notes
+<!-- # notes
 reduce reducers?
 babel polyfill in webpack?
 'startup file'?
@@ -162,4 +162,4 @@ user finishes a game: PUT
 <part>id</part>
 </key>
 </table>
-</sql>
+</sql> -->
