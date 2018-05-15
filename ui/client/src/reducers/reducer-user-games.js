@@ -1,6 +1,6 @@
-export default (state=null, action) => {
+export default (state=[], action) => {
   switch (action.type) {
-    case 'ORIGIN_SELECTED': 
+    case 'GAMES_ACCESSED': 
       return action.payload;
       break;
   }

@@ -1,7 +1,5 @@
 module.exports = {
-  entry: [
-    './src/index.js'
-  ],
+  entry: ['babel-polyfill', './src/index.js'],
   module: {
     rules: [
       {
@@ -20,6 +18,6 @@ module.exports = {
     filename: 'bundle.js'
   },
   devServer: {
-    contentBase: './dist'
+    contentBase: './dist',
   }
 };

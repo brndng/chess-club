@@ -1,59 +1,60 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Square from './Square.jsx';
-
+import axios from 'axios';
+import { rotateBoard } from '../../rules/helpers/';
 class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placed: false,
-      whiteToMove: true,
+      position: this.props.currentPosition,
     }
   }
-
-  togglePlaced() {
-    this.state.placed ? 
-    this.setState({ placed: false }) :
-    this.setState({ placed: true });
-  }
-
-  toggleTurn() {
-    this.state.whiteToMove ?
-    this.setState({ whiteToMove: false }) :
-    this.setState({ whiteToMove: true })
-  }
-
-  createRow(rank) {
-    const row = [];
-    const files = 'abcdefgh';
-    for (let i=0; i<8; i++) {
-      let file = files[i];
-      row[i] = <Square 
-        rank={rank} 
-        file={file}
-        togglePlaced={this.togglePlaced.bind(this)}
-        placed={this.state.placed}
-        toggleTurn={this.toggleTurn.bind(this)}
-        whiteToMove={this.state.whiteToMove}
-        key={i} />;
+  
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('prevProps, this.props', prevProps.currentPosition, this.props.currentPosition);
+    const { currentPosition } = this.props;
+    const { position } = prevState;
+    if (JSON.stringify(position) !== JSON.stringify(currentPosition)) {
+      this.setState({ position: currentPosition });
     }
-    return <div className="row">{row}</div>;
   }
 
   render() {
-    console.log('whiteToMove:', this.state.whiteToMove, 'placed:', this.state.placed)
-    return (
-      <div className="board">
-        {this.createRow(8)}
-        {this.createRow(7)}
-        {this.createRow(6)}
-        {this.createRow(5)}
-        {this.createRow(4)}
-        {this.createRow(3)}
-        {this.createRow(2)}
-        {this.createRow(1)}
-      </div>
-    );
+    const { currentPosition, userId, game } = this.props;
+    const positionRotated = rotateBoard(this.state.position);
+
+    return userId === game.white 
+      ? <div>
+          <div className="board">{this.state.position.map((row, i) => 
+            <div className="row" key={i}>{row.map((elem, j) => {
+              let coords = { row: i, col: j };
+              return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
+            </div>)}
+          </div>
+        </div> 
+      : <div>
+          <div className="board">{positionRotated.map((row, i) => 
+            <div className="row" key={i}>{row.map((elem, j) => {
+              let coords = { row: positionRotated.length-1-i, col: row.length-1-j };
+              return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
+            </div>)}
+          </div>
+        </div> 
   }
 }
 
-export default Board;
+const mapStateToProps = (state) => {
+  return {
+    currentPosition: state.currentPosition,
+    userId: state.userId,
+    game: state.game
+  }
+}
+
+export default connect(mapStateToProps)(Board);
+
+
+
+
+

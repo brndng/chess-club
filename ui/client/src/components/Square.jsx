@@ -1,103 +1,88 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Piece from './Piece.jsx';
+import verifyLegalSquare from '../../rules/verify-legal-square.js';
+import { isWhite, isKingInCheck } from '../../rules/helpers';
 import selectPiece from '../actions/action-select-piece.js';
-import selectOrigin from '../actions/action-select-origin.js';
-
+import updatePosition from '../actions/action-update-position.js'; 
+// import castleKing from '../actions/action-castle-king.js';
 class Square extends Component {
   constructor(props) {
     super(props);
-    const { file, rank, pieces } = props;
-    const coordinate = file+rank;
-    this.state = { 
-      currentPiece: pieces[coordinate] || null,
-      coordinate,
-    }
-  }
-
-  // getSnapshotBeforeUpdate?
-
-  componentDidUpdate() {
-    const { selectPiece, selectOrigin, originSquare, placed, togglePlaced, toggleTurn } = this.props;
-    const { coordinate } = this.state;
-    if (coordinate === originSquare && placed) {
-      this.setState({ currentPiece: null });
-      selectPiece(null);
-      selectOrigin(null);
-      togglePlaced();
-      toggleTurn();
-    }  
   }
 
   initSquareColor() {
-    const { file, rank } = this.props;
-    const files = 'abcdefgh';
-    return (
-      ((files.indexOf(file) + 1) % 2 === 0 && rank % 2 === 0) ||
-      ((files.indexOf(file) + 1) % 2 !== 0 && rank % 2 !== 0)
-    ) ? 'black' : 'white';
+    const { coords } = this.props;
+    const { row, col } = coords;
+    return (row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0) ?
+      'white' : 'black';
   }
 
-  isWhite(piece) {
-    if (piece === null) {
-      return null;
+  highlight() {
+    const { coords, selection } = this.props;
+    if (selection !== null ) {
+      const { origin } = selection;
+      return coords.row === origin.row && coords.col === origin.col ?
+        'highlight' : null;
     }
-    return piece === piece.toLowerCase() ? false : true;
+    return null;
   }
 
-  checkValidSquare() {
-    //returns boolean
-  }
-
-  movePiece() {
-    const { pieceToMove, togglePlaced } = this.props;
-    const { currentPiece } = this.state;
-    this.setState({ currentPiece: pieceToMove });
-    togglePlaced();
-  }
-
-  handleMoveConditions() {
-    const { selectPiece, selectOrigin, pieceToMove, whiteToMove } = this.props;
-    const { currentPiece, coordinate } = this.state;
-    const { isWhite } = this;
-
-    if ((isWhite(currentPiece) === whiteToMove)) { 
-      selectPiece(currentPiece);
-      selectOrigin(coordinate);
+  handleSquareClick() {
+    const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition } = this.props;
+    if ((userId === game.white) === whiteToMove) {
+      if ((isWhite(piece) === whiteToMove)) { 
+        selectPiece({...coords}, piece);
+      }
+      if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
+        if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition)) {
+          this.placeSelectedPiece(); 
+        }
+      }
     }
-    if (pieceToMove !== null && (isWhite(currentPiece) !== isWhite(pieceToMove))) {
-      movePiece();
+  }
+
+  placeSelectedPiece() {
+    const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game } = this.props;
+    const { origin } = selection;
+    
+    const preview = currentPosition.map(row => row.slice());
+    preview[coords.row][coords.col] = selection.piece;
+    preview[origin.row][origin.col] = null;
+
+    if (!isKingInCheck(userId, game.white, preview)) {
+      updatePosition(origin, coords, selection.piece);
+      selectPiece(null, null);
+      console.log('placed piece by user: ', this.props.userId)
+    } else {
+      console.log('thats check SON!');
     }
   }
 
   render() {
-    const { currentPiece, coordinate } = this.state;
+    const { piece, candidateSquares } = this.props;
     return (
-      <div 
-        className="square" 
-        id={this.initSquareColor()} 
-        onClick={() => {this.handleMoveConditions()}}
-      >
-        {currentPiece === null ? null : 
-          <button>
-            {currentPiece}
-          </button>
-        }
+      <div id={this.initSquareColor()} className={`square ${this.highlight()}`} onClick={() => this.handleSquareClick()}>
+        {piece === null ? null : <Piece piece={piece} />}
       </div>
     )
   }
 }
-// mapStatetoProps: takes data from store, passes it to component as props
-const mapStatetoProps = (state) => {
-  return {
-    pieces: state.pieces,
-    pieceToMove: state.pieceToMove,
-    originSquare: state.originSquare,
-  }
+
+const mapStateToProps = (state) => { 
+  const { selection, currentPosition, whiteToMove, moves, userId, game } = state;
+  return { selection, currentPosition, whiteToMove, moves, userId, game };
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, selectOrigin }, dispatch);
+  return bindActionCreators({ selectPiece, updatePosition }, dispatch);
 }
 
-export default connect(mapStatetoProps, matchDispatchToProps)(Square);
+export default connect(mapStateToProps, matchDispatchToProps)(Square);
+
+
+
+
+
+    

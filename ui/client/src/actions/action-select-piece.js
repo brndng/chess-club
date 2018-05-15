@@ -1,9 +1,17 @@
-const selectPiece = (piece) => {
-  console.log('piece selected:', piece)
-  return {
-    type: 'PIECE_SELECTED',
-    payload: piece,
-  };
+const selectPiece = (origin, piece) => {
+  console.log('piece and origin selected:', origin, piece)
+
+  if (origin, piece === null) {
+    return {
+      type: 'PIECE_SELECTED',
+      payload: null,
+    };
+  } else {
+    return {
+      type: 'PIECE_SELECTED',
+      payload: { origin: {...origin}, piece },
+    };
+  }
 }
 
 export default selectPiece;
