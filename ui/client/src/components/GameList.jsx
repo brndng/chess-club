@@ -17,11 +17,11 @@ class GameList extends Component {
     loadGames(games.data);
   }
 
-  async setGlobalState(id) {
+  async loadGameState(id) {
     const { initGame } = this.props;
-    const game = await axios.get(`http://localhost:3000/games/${id}`)
-    const { white, black, position, whiteToMove } = game.data;
-    initGame(id, white, black, position, whiteToMove);
+    const game = await axios.get(`http://localhost:3000/games/${id}`);
+    const { white, black, position, whiteToMove, moves } = game.data;
+    initGame(id, white, black, position, whiteToMove, moves);
   }
 
   render() {
@@ -29,7 +29,7 @@ class GameList extends Component {
     return (
       <div>
         {userGames.map((game) => {
-          return <li key={game.id}><a href="#" onClick={()=>this.setGlobalState(game.id)}>{`GAME # ${game.id}`}</a></li>
+          return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
         })}
         <br/>
         {game === null ? null : <Game id={game.id}/>}

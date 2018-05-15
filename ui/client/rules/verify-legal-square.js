@@ -1,18 +1,18 @@
 import baseMoves from './base-moves.js';
 import validatePath from './validate-path.js'; 
 
-module.exports = (selectedPiece, origin, destination, position) => {
+export default (piece, origin, destin, position) => {
   let isLegal = false;
-  selectedPiece = selectedPiece.toUpperCase();
-  if (baseMoves[selectedPiece](origin, destination)) {
-    if (selectedPiece === 'N') {
+  piece = piece.toUpperCase();
+  if (baseMoves[piece](origin, destin)) {
+    if (piece === 'N') {
       isLegal = true;    
     } else {
-      if(validatePath(origin, destination, position)) {
-        if(selectedPiece !== 'P' && selectedPiece !== 'K') {
+      if(validatePath(origin, destin, position)) {
+        if(piece !== 'P' && piece !== 'K') {
           isLegal = true;          
         } else {
-          if (selectedPiece === 'P') {
+          if (piece === 'P') {
             isLegal = true;              
             //if forward
               //sq piece === null?
@@ -27,7 +27,7 @@ module.exports = (selectedPiece, origin, destination, position) => {
             //else
               //place
           }
-          if (selectedPiece === 'K') {
+          if (piece === 'K') {
             isLegal = true;              
             //if inCheck
               //if 1 sq

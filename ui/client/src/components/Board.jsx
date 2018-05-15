@@ -6,13 +6,13 @@ import { rotateBoard } from '../../rules/helpers/';
 class Board extends Component {
   constructor(props) {
     super(props);
-    const initialPosition = this.props.currentPosition;
     this.state = {
-      position: initialPosition,
+      position: this.props.currentPosition,
     }
   }
   
   componentDidUpdate(prevProps, prevState) {
+    // console.log('prevProps, this.props', prevProps.currentPosition, this.props.currentPosition);
     const { currentPosition } = this.props;
     const { position } = prevState;
     if (JSON.stringify(position) !== JSON.stringify(currentPosition)) {

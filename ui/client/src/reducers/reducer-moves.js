@@ -1,10 +1,16 @@
 export default (state=[], action) => {
-  const newState = [...state];
+  const newState = state.map(row => [...row]);
   switch(action.type) {
-    case 'POSITION_CHANGED':
+    case 'POSITION_CHANGED': {
       return [...newState, action.payload];
-      
       break;
+    }
+    case 'GAME_INITIALIZED': {
+      let { moves } = action.payload;
+      console.log('GAME_INITIALIZED', moves)
+      return [...moves]; //test this vs position vs postion.map(row => row.slice())
+      break;
+      }
   }
   return newState;
 }

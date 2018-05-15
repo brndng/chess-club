@@ -46,13 +46,13 @@ module.exports = {
   },
 
   updateGame: async (req, res) => {
-    const { id, currentPosition, moveList, whiteToMove } = req.body;
-    console.log('incoming moveList', moveList);
+    const { id, currentPosition, moves, whiteToMove } = req.body;
+    console.log('incoming moves', moves);
     try {
       
       const update = await db.Game.update({ 
         position: currentPosition,
-        moves: moveList,
+        moves: moves,
         whiteToMove: !whiteToMove,
       }, {
         where: { id },
@@ -64,7 +64,6 @@ module.exports = {
     } catch(err) {
       console.log('err from updateGame', err);
     }
-    
   },
 
   saveGame: async (req, res) => {

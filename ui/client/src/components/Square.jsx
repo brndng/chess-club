@@ -6,7 +6,6 @@ import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { isWhite, isKingInCheck } from '../../rules/helpers';
 import selectPiece from '../actions/action-select-piece.js';
 import updatePosition from '../actions/action-update-position.js'; 
-import toggleTurn from '../actions/action-toggle-turn.js';
 // import castleKing from '../actions/action-castle-king.js';
 class Square extends Component {
   constructor(props) {
@@ -38,7 +37,6 @@ class Square extends Component {
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
         if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition)) {
-          console.log('verifyLegalSquare block')
           this.placeSelectedPiece(); 
         }
       }
@@ -73,12 +71,12 @@ class Square extends Component {
 }
 
 const mapStateToProps = (state) => { 
-  const { selection, currentPosition, whiteToMove, moveList, userId, game } = state;
-  return { selection, currentPosition, whiteToMove, moveList, userId, game };
+  const { selection, currentPosition, whiteToMove, moves, userId, game } = state;
+  return { selection, currentPosition, whiteToMove, moves, userId, game };
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, updatePosition, toggleTurn }, dispatch);
+  return bindActionCreators({ selectPiece, updatePosition }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);

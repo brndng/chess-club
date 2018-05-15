@@ -1,9 +1,8 @@
 export default (state=[], action) => {
-  // const newState = [...state];
-  const newState = state.map(row => row.slice());
+  const newState = state.map(row => [...row]);
   switch (action.type) {
     case 'POSITION_CHANGED': {
-      const { origin, destination, pieceToMove }  = action.payload;
+      const [ origin, destination, pieceToMove ]  = action.payload;
       newState[destination.row][destination.col] = pieceToMove;
       newState[origin.row][origin.col] = null;
       return newState;

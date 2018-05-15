@@ -1,4 +1,4 @@
-module.exports = (origin, destin, position) => {
+export default (origin, destin, position) => {
 
   let isClear = true;
   let path = [];

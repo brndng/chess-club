@@ -1,12 +1,17 @@
 import verifyLegalSquare from '../verify-legal-square.js';
 
-const rotateBoard = (position) => {
-  const copy = position.map(row => row.slice())
+export const isWhite = (piece) => {
+  return piece === null ? null :
+    piece === piece.toUpperCase() ? true : false;
+} 
+
+export const rotateBoard = (position) => {
+  const copy = position.map(row => [...row])
   copy.reverse().forEach(row => row.reverse());
   return copy;
 }
 
-const locateKing = (king, position) => {
+export const locateKing = (king, position) => {
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
       if (position[row][col] === king) {
@@ -15,22 +20,17 @@ const locateKing = (king, position) => {
     }
   }
 }
-
-const isWhite = (piece) => {
-  return piece === null ? null :
-    piece === piece.toUpperCase() ? true : false;
-}
   
-const isKingInCheck = (userId, white, position) => {
+export const isKingInCheck = (userId, white, position) => {
   let inCheck = false;
 
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
-      let square = position[row][col];
-      if (square !== null) {
-        let opponentPiece = userId === white ? square.toLowerCase() : square.toUpperCase();
+      let piece = position[row][col];
+      if (piece !== null) {
+        let opponentPiece = userId === white ? piece.toLowerCase() : piece.toUpperCase();
 				let king = userId === white ? 'K' : 'k';
-        if (square === opponentPiece) {
+        if (piece === opponentPiece) {
           if(verifyLegalSquare(opponentPiece, {row, col}, locateKing(king, position), position)) {
             inCheck = true;
             break;
@@ -42,19 +42,9 @@ const isKingInCheck = (userId, white, position) => {
   return inCheck;
 }
 
-module.exports = { rotateBoard, locateKing, isWhite, isKingInCheck} 
 
 
 
-
-
-///move rotateMatrix(matrix ) in here
-///dont use matrix
-
-
-
-
-///
 
 
 

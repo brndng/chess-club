@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import SelectionReducer from './reducer-selection.js';
 import WhiteToMoveReducer from './reducer-white-tomove.js';
 import CurrentPositionReducer from './reducer-current-position.js';
-import MoveListReducer from './reducer-move-list.js';
+import MovesReducer from './reducer-moves.js';
 import GameReducer from './reducer-game.js';
 import UserGamesReducer from './reducer-user-games.js';
 import UserIdReducer from './reducer-user-id.js';
@@ -13,7 +13,7 @@ export default combineReducers({
   selection: SelectionReducer,
   currentPosition: CurrentPositionReducer,
   whiteToMove: WhiteToMoveReducer,
-  moveList: MoveListReducer,
+  moves: MovesReducer,
   game: GameReducer,
   userGames: UserGamesReducer,
   userId: UserIdReducer,

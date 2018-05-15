@@ -28,24 +28,25 @@ class Game extends Component {
     this.socket.on('chat', (message) => {this.setState({ messages: [...this.state.messages, message], message: '' })})
     this.socket.on('newMove', (newMove) => {
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
-        const { origin, destination, pieceToMove } = newMove;
-        // updatePosition(...newMove);
-        updatePosition(origin, destination, pieceToMove) ;
+        // const { origin, destination, pieceToMove } = newMove;
+        // updatePosition(origin, destination, pieceToMove) ;
+        updatePosition(...newMove);
         this.setState({ currMove: newMove })
       }
     });
   }
 
   componentDidUpdate() {
-    const { id, userId, currentPosition, moveList, whiteToMove, toggleTurn, game, updateCheckStatus } = this.props;
+    const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus } = this.props;
     const { currMove } = this.state;
-    const newMove = moveList.slice(-1)[0];
+    const newMove = moves.slice(-1)[0];
     console.log('whiteToMove:', whiteToMove)
 
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) {
+      //TODO: executes on switch game, unwanted toggle turn 
       this.socket.emit('newMove', { newMove, id });
-      // const saved = await axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moveList, whiteToMove });
+      // const saved = await axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove });
+      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove });
 
       // console.log('saved data back from DB:', saved.data.moves)
       toggleTurn();
@@ -58,23 +59,23 @@ class Game extends Component {
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
-  //   const newMove = [...nextProps.moveList.slice(-1)];
-  //   const currMove = [...this.props.moveList.slice(-1)];
+  //   const newMove = [...nextProps.moves.slice(-1)];
+  //   const currMove = [...this.props.moves.slice(-1)];
 
-  //   console.log('currMove, newMove', this.props.moveList, nextProps.moveList)
+  //   console.log('currMove, newMove', this.props.moves, nextProps.moves)
   
   //   return JSON.stringify(newMove) !== JSON.stringify(currMove);
     
 
-  //   // if (this.props.moveList.length !== nextProps.moveList.length) {
+  //   // if (this.props.moves.length !== nextProps.moves.length) {
   //   //   console.log('DIFFERENT PROPS')
   //   // }
 
-  //   // return nextProps.moveList.length !== this.props.moveList.length || nextProps.whiteToMove !== this.props.whiteToMove;
-  //   // return JSON.stringify(this.props.moveList) !== JSON.stringify(nextProps.moveList);
-  //   // const { moveList } = this.props;
+  //   // return nextProps.moves.length !== this.props.moves.length || nextProps.whiteToMove !== this.props.whiteToMove;
+  //   // return JSON.stringify(this.props.moves) !== JSON.stringify(nextProps.moves);
+  //   // const { moves } = this.props;
   //   // const { currMove } = this.state;    
-  //   // const newMove = moveList.slice(-1)[0];
+  //   // const newMove = moves.slice(-1)[0];
 
   //   // if (!(newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)))  {
   //   //   return false;
@@ -116,7 +117,7 @@ class Game extends Component {
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
-    moveList: state.moveList,
+    moves: state.moves,
     game: state.game,
     currentPosition: state.currentPosition,
     whiteToMove: state.whiteToMove
