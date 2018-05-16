@@ -5,7 +5,7 @@ import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isKingInCheck } from '../../rules/utilities';
+import { isKingInCheck, locateFlightSquares } from '../../rules/utilities';
 import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
 class Game extends Component {
   constructor(props) {
@@ -52,6 +52,8 @@ class Game extends Component {
     }
 
     if (isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck !== userId) {
+
+      console.log('flight sq:', locateFlightSquares(userId, game.white, currentPosition));
       this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);
     }
@@ -75,18 +77,19 @@ class Game extends Component {
     const { message, messages } = this.state;
     const { game } = this.props;
     return (
-      game === null? null :
-        <div>
-          GAME # {game.id}
-          <Board />
-          <div className="chat-container">
-            <div className="output">
-              {messages.map((message, i) => <li key={i}>{message}</li> )}
+      game === null 
+        ? null 
+        : <div>
+            GAME # {game.id}
+            <Board />
+            <div className="chat-container">
+              <div className="output">
+                {messages.map((message, i) => <li key={i}>{message}</li> )}
+              </div>
+              <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
+              <button onClick={() => {this.sendChat()}}>SEND</button>
             </div>
-            <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
-            <button onClick={() => {this.sendChat()}}>SEND</button>
           </div>
-        </div>
     )
   }
 }

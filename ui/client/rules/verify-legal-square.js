@@ -3,6 +3,7 @@ import validatePath from './validate-path.js';
 import { lookupSquare } from './utilities';
 
 export default (piece, origin, destin, position) => {
+  //TODO: refactor to include allyPiece verification
   let isLegal = false;
   piece = piece.toUpperCase();
   if (baseMoves[piece](origin, destin)) {

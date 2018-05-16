@@ -1,4 +1,5 @@
 import verifyLegalSquare from '../verify-legal-square.js';
+import validatePath from '../validate-path.js';
 
 export const locateKing = (king, position) => {
   for (let row = 0; row < position.length; row++) {
@@ -13,13 +14,13 @@ export const locateKing = (king, position) => {
 export const isKingInCheck = (userId, white, position) => {
   let inCheck = false;
   for (let row = 0; row < position.length; row++) {
-    for (let col = 0; col < position[row].length; col++) {
-      let piece = position[row][col];
-      if (piece !== null) {
-        let opponentPiece = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+    for (let col = 0; col < position[row].length; col++) { 
+      if (position[row][col] !== null) { 
+        let piece = position[row][col]; 
+        let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
 				let king = userId === white ? 'K' : 'k';
-        if (piece === opponentPiece) {
-          if(verifyLegalSquare(opponentPiece, {row, col}, locateKing(king, position), position)) {
+        if (piece === enemy) {
+          if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position)) {
             inCheck = true;
             break;
           }
@@ -43,57 +44,71 @@ export const isWhite = (piece) => {
 } 
 
 export const rotateBoard = (position) => {
-  const copy = position.map(row => [...row])
-  copy.reverse().forEach(row => row.reverse());
-  return copy;
+  const copy = position.map(row => [...row]);
+  return copy.reverse().map(row => row.reverse());
 }
 
+export const locateCheckThreats = (userId, white, position) => {
+  //get list of pieces currently threatening king
+  const threats = [];
+  for (let row = 0; row < position.length; row++) {
+    for (let col = 0; col < position[row].length; col++) {
+      let piece = position[row][col];
+      if (piece !== null) {
+        let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+				let king = userId === white ? 'K' : 'k';
+        if (piece === enemy) {
+          if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position)) {
+            threats.push(piece);
+          }
+        }
+      }
+    }
+  }
+  return threats;
+}
 
+export const locateFlightSquares = (userId, white, position) => {
+  //get list of legal flight squares for king
+  const flightSquares = [];
+  for (let row = 0; row < position.length; row++) {
+    for (let col = 0; col < position[row].length; col++) {
+      let piece = position[row][col];
+      let king = userId === white ? 'K' : 'k';
+      if (piece === null) {
+        if (verifyLegalSquare(king, locateKing(king, position), {row, col}, position)) {
+          flightSquares.push({row, col});
+        }
+      } else {
+        let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+        if (piece !== ally) {
+          if (verifyLegalSquare(king, locateKing(king, position), {row, col}, position)) {
+            flightSquares.push({row, col});
+          }
+        }
+      }
+    }
+  }
+  
+  return flightSquares.filter(square => {
+    let isAttacked = false;
+    for (let row = 0; row < position.length; row++) {
+      for (let col = 0; col < position[row].length; col++) {
+        if (position[row][col] !== null) {
+          let piece = position[row][col];
+          let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+          if (piece === enemy) {
+            if (verifyLegalSquare(piece, {row, col}, square, position)) {
+              isAttacked = true;
+            }
+          }
+        }
+      }
+    }
+    if (!isAttacked) {
+      return square;
+    }
+  });
+}
 
-
-
-
-
-
-//function isSquareUnderAttack, //CB = verifyLegalSquares
-//Im playing white
-//iterate through MATRIX, squares that contain black pieces
-//[...pieces].forEach(piece)
-  //to check if king is in check
-  //CB(piece, origin, kingssquare, MATRIX)
-//takes in matrix, origin, destination, piece
-//IF NOW and WOULD BE (preview) for ONE SQUARE
-
-//then perform on all King's Squares
-//findCandidateSquares for KING
-  //CB ==> [...candidates]
-
-//Checkmate
-//overlap between king's candidates and isSquareUnderAttack
-//remove piece
-//block path
-
-//king still in check?
-
-// const getKingsCandidateSquares = (cb, origin, matrix) => {
-//   const candidates = [];
-//   for (let i = 0; i < matrix.length; i++) {
-//     for (let j = 0; j < matrix[i].length; j++) {
-//       if (cb('K', origin, [i,j], matrix)) {
-//         candidates.push([i,j]);
-//       }
-//     }
-//   }
-//   return candidates;
-// }
-
-// const filter = () => {
-//   for (let i = 0; i < matrix.length; i++) {
-//     for (let j = 0; j < matrix[i].length; j++) {
-//       if (matrix[i][j] !== null) {
-//         'candidates'.map(square => !cb('K', [i,j], 'kingssquare', matrix))
-//       }
-//     }
-//   }
-// }
 
