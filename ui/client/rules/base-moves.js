@@ -45,9 +45,9 @@ module.exports = {
   P: (origin, destin) => {
       let isBaseMove = false;
 
-      if (origin.row === 6 && destin.row-origin.row === -2) {
+      if (origin.row === 6 && destin.col === origin.col && destin.row-origin.row === -2) {
         isBaseMove = true;
-      } else if (origin.row === 1 && destin.row-origin.row === 2) {
+      } else if (origin.row === 1 && destin.col === origin.col && destin.row-origin.row === 2) {
         isBaseMove = true;
       } else {
         if (destin.col === origin.col && Math.abs(destin.row-origin.row) === 1) {

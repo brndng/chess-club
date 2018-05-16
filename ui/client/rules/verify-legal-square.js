@@ -4,6 +4,7 @@ import { lookupSquare } from './utilities';
 
 export default (piece, origin, destin, position) => {
   //TODO: refactor to include allyPiece verification
+  //TODO: combine pawn logic
   let isLegal = false;
   piece = piece.toUpperCase();
   if (baseMoves[piece](origin, destin)) {

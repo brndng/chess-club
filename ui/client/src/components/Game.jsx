@@ -5,8 +5,14 @@ import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isKingInCheck, locateFlightSquares } from '../../rules/utilities';
 import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
+import { 
+  isKingInCheck, 
+  locateFlightSquares, 
+  locateCheckThreats, 
+  canCapture,
+  canBlock } from '../../rules/utilities';
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +59,12 @@ class Game extends Component {
 
     if (isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck !== userId) {
 
-      console.log('flight sq:', locateFlightSquares(userId, game.white, currentPosition));
+      console.log('flight sqs:', locateFlightSquares(userId, game.white, currentPosition));
+      console.log('checkThreats:', locateCheckThreats(userId, game.white, currentPosition));
+      let enemyCoords = locateCheckThreats(userId, game.white, currentPosition)[0].coords;
+      console.log('canCapture:', canCapture(userId, game.white, currentPosition, enemyCoords));
+      console.log('canBlock', canBlock(userId, game.white, currentPosition, enemyCoords));
+
       this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);
     }

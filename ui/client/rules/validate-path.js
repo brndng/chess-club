@@ -10,7 +10,7 @@ export default (origin, destin, position) => {
   while (!(y === destin.row && x === destin.col)) {
     y += dy;
     x += dx;
-    path.push([y, x]);
+    path.push({y, x});
   }
 
   if (path.length === 1) { 
@@ -18,8 +18,8 @@ export default (origin, destin, position) => {
   }
    
   path.forEach(square => {
-    let [i,j] = square;
-    if (position[i][j] !== null && !(i === destin.row && j === destin.col)) {
+    let {y, x} = square;
+    if (position[y][x] !== null && !(y === destin.row && x === destin.col)) {
       isClear = false;
     } 
   });

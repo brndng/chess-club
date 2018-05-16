@@ -10,6 +10,23 @@ export const locateKing = (king, position) => {
     }
   }
 }
+
+export const lookupSquare = (square, position) => {
+  return position[square.row][square.col];
+}
+
+export const isWhite = (piece) => {
+  return piece === null 
+    ? null 
+    : piece === piece.toUpperCase() 
+      ? true 
+      : false;
+} 
+
+export const rotateBoard = (position) => {
+  const copy = position.map(row => [...row]);
+  return copy.reverse().map(row => row.reverse());
+}
   
 export const isKingInCheck = (userId, white, position) => {
   let inCheck = false;
@@ -31,35 +48,18 @@ export const isKingInCheck = (userId, white, position) => {
   return inCheck;
 }
 
-export const lookupSquare = (square, position) => {
-  return position[square.row][square.col];
-}
-
-export const isWhite = (piece) => {
-  return piece === null 
-    ? null 
-    : piece === piece.toUpperCase() 
-      ? true 
-      : false;
-} 
-
-export const rotateBoard = (position) => {
-  const copy = position.map(row => [...row]);
-  return copy.reverse().map(row => row.reverse());
-}
-
 export const locateCheckThreats = (userId, white, position) => {
   //get list of pieces currently threatening king
   const threats = [];
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
-      let piece = position[row][col];
-      if (piece !== null) {
+      if (position[row][col] !== null) {
+        let piece = position[row][col];
         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
 				let king = userId === white ? 'K' : 'k';
         if (piece === enemy) {
           if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position)) {
-            threats.push(piece);
+            threats.push({piece, coords: {row, col}});
           }
         }
       }
@@ -98,8 +98,9 @@ export const locateFlightSquares = (userId, white, position) => {
           let piece = position[row][col];
           let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
           if (piece === enemy) {
-            if (verifyLegalSquare(piece, {row, col}, square, position)) {
+            if (verifyLegalSquare(enemy, {row, col}, square, position)) {
               isAttacked = true;
+              break;
             }
           }
         }
@@ -111,4 +112,57 @@ export const locateFlightSquares = (userId, white, position) => {
   });
 }
 
+export const canCapture = (userId, white, position, enemySquare) => {
+  let canCapture = false;
+  for (let row = 0; row < position.length; row++) {
+    for (let col = 0; col < position[row].length; col++) {
+      if (position[row][col] !== null) {
+        let piece = position[row][col];
+        let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+        if (piece === ally) {    
+          if (verifyLegalSquare(ally, {row, col}, enemySquare, position)) {
+            canCapture = true;
+            break;
+          }
+        }
+      }
+    }
+  }
+  return canCapture;
+}
 
+export const canBlock = (userId, white, position, enemySquare) => {
+  let canBlock = false;
+  let path = [];
+  let king = userId === white ? 'K' : 'k';
+  let kingSquare = locateKing(king, position);
+  let { row, col } = enemySquare;
+  let dy = Math.sign(kingSquare.row-enemySquare.row);
+  let dx = Math.sign(kingSquare.col-enemySquare.col); 
+
+  while (!(row === kingSquare.row && col === kingSquare.col)) {
+    row += dy;
+    col += dx;
+    path.push({row, col});
+  }
+
+  path = path.slice(0,-1);
+
+  path.forEach(square => {
+    for (let row = 0; row < position.length; row++) {
+      for (let col = 0; col < position[row].length; col++) {
+        if (position[row][col] !== null) {
+          let piece = position[row][col];
+          let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+          if (piece === ally) {
+            if (verifyLegalSquare(ally, {row, col}, square, position)) {
+              canBlock = true;
+              break;
+            }
+          }
+        }
+      }
+    }
+  })
+  return canBlock;
+}
