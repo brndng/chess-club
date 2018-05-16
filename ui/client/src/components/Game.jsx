@@ -17,21 +17,25 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { id, updatePosition, inCheck, updateCheckStatus } = this.props;
+    const { id, updatePosition, updateCheckStatus } = this.props;
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('game_id', id));
-    this.socket.on('guest_join', (data) => console.log(`someone has joined game room ${data}`))
-    this.socket.on('chat', (message) => {this.setState({ messages: [...this.state.messages, message], message: '' })})
-    this.socket.on('new_move', (newMove) => {
+    this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
+    this.socket.on('chat', (message) => {
+      this.setState({ 
+        messages: [...this.state.messages, message], 
+        message: '' 
+      });
+    })
+    this.socket.on('move', (newMove) => {
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
         updatePosition(...newMove);
       }
     });
-    this.socket.on('in_check', (update) => {
-      if (inCheck !== update) {
-        console.log('inCHeck, update from socket listener\n', inCheck,  update)
-        updateCheckStatus(update);
+    this.socket.on('check', (userId) => {
+      if (this.props.inCheck !== userId) {
+        updateCheckStatus(userId);
       }
     })
   }
@@ -42,19 +46,18 @@ class Game extends Component {
     const newMove = moves.slice(-1)[0];
 
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove) && prevProps.id === id) {
-      this.socket.emit('new_move', { newMove, id });
+      this.socket.emit('move', { newMove, id });
       axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck });
       toggleTurn();
     }
 
     if (isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck !== userId) {
-      console.log('you got CHECKED SON!!!')
-      this.socket.emit('in_check', { userId, id });
+      this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);
     }
     if (!isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck === userId) {
-      this.socket.emit('in_check', { userId: 0, id });
-      updateCheckStatus(0);
+      this.socket.emit('check', { userId: null, id });
+      updateCheckStatus(null);
     }
   }
   

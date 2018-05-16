@@ -49,7 +49,7 @@ export const toggleTurn = () => {
 }
 
 export const updateCheckStatus = (userId) => {
-  console.log('updateCheckStatus ACTION', userId)
+  // console.log('updateCheckStatus ACTION', userId)
   return {
     type: 'CHECK_STATUS_UPDATED',
     payload: userId

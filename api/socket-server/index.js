@@ -25,19 +25,19 @@ io.on('connection', (socket) => {
 
   socket.on('game_id', (data) => {
     socket.join(data);
-    socket.broadcast.to(data).emit('guestJoin', data);
+    socket.broadcast.to(data).emit('guest', data);
   });
 
   socket.on('chat', (data) => {
     io.sockets.in(data.id).emit('chat', data.message);
   })
 
-  socket.on('new_move', (data) => {
-    socket.broadcast.to(data.id).emit('new_move', data.newMove)
+  socket.on('move', (data) => {
+    socket.broadcast.to(data.id).emit('move', data.newMove)
   })
 
-  socket.on('in_check', (data) => {
-    socket.broadcast.to(data.id).emit('in_check', data.userId)
+  socket.on('check', (data) => {
+    socket.broadcast.to(data.id).emit('check', data.userId)
   })
 })
 

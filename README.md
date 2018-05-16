@@ -4,6 +4,22 @@ A chess app from scratch. Challenge friends and play at your convenience.
 https://decembersoft.com/posts/a-simple-naming-convention-for-action-creators-in-redux-js/
 When dealing with asynchronous web applications, your actions should generally describe effects. That is, your action should describe a change that has happened in your system. For example, a user logged on, some data was loaded, an API call was started, an error was encountered, etc.
 
+<!-- componentDidMount() {
+  const { position } = this.props;
+  const position = this.props.position; 
+    //saving a reference to the value at this time
+
+  console.log(position);
+}
+/vs/
+componentDidMount() {
+  this.props.position
+
+  console.log(this.props.position)
+} -->
+
+
+
 <!-- # notes
 reduce reducers?
 babel polyfill in webpack?
