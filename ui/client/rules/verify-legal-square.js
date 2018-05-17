@@ -7,7 +7,7 @@ export default (piece, origin, destin, position) => {
   //TODO: combine pawn logic
   let isLegal = false;
   piece = piece.toUpperCase();
-  if (baseMoves[piece](origin, destin)) {
+  if (baseMoves[piece](origin, destin, position)) {
     if (piece === 'N') {
       isLegal = true;    
     } else {

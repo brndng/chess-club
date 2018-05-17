@@ -58,12 +58,30 @@ class Game extends Component {
     }
 
     if (isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck !== userId) {
-
-      console.log('flight sqs:', locateFlightSquares(userId, game.white, currentPosition));
-      console.log('checkThreats:', locateCheckThreats(userId, game.white, currentPosition));
-      let enemyCoords = locateCheckThreats(userId, game.white, currentPosition)[0].coords;
-      console.log('canCapture:', canCapture(userId, game.white, currentPosition, enemyCoords));
-      console.log('canBlock', canBlock(userId, game.white, currentPosition, enemyCoords));
+      console.log('check!!!')
+      const checkThreats = locateCheckThreats(userId, game.white, currentPosition);
+      const enemyCoords = checkThreats[0].coords;
+      const flightSquares = locateFlightSquares(userId, game.white, currentPosition);
+      
+      if (checkThreats.length === 2) {
+        if (flightSquares.length === 0) {
+          console.log('checkmate!');
+        }
+      } else {
+        console.log('flightSquares', flightSquares.length)
+        console.log('canCapture:', canCapture(userId, game.white, currentPosition, enemyCoords));
+        console.log('canBlock', canBlock(userId, game.white, currentPosition, enemyCoords));
+        if (flightSquares.length === 0 && 
+            !canCapture(userId, game.white, currentPosition, enemyCoords) &&
+            !canBlock(userId, game.white, currentPosition, enemyCoords)) {
+          console.log('CHECKMATE!!!')
+        }
+      }
+      // console.log('flight sqs:', locateFlightSquares(userId, game.white, currentPosition));
+      // console.log('checkThreats:', locateCheckThreats(userId, game.white, currentPosition));
+      // let enemyCoords = locateCheckThreats(userId, game.white, currentPosition)[0].coords;
+      // console.log('canCapture:', canCapture(userId, game.white, currentPosition, enemyCoords));
+      // console.log('canBlock', canBlock(userId, game.white, currentPosition, enemyCoords));
 
       this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);

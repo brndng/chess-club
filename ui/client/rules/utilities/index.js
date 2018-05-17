@@ -154,8 +154,10 @@ export const canBlock = (userId, white, position, enemySquare) => {
         if (position[row][col] !== null) {
           let piece = position[row][col];
           let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-          if (piece === ally) {
+          if (piece === ally && piece !== king) {
             if (verifyLegalSquare(ally, {row, col}, square, position)) {
+
+              console.log('WHO BLOCKS', ally, row, col)
               canBlock = true;
               break;
             }

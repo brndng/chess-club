@@ -13,6 +13,7 @@ export default (origin, destin, position) => {
     path.push({y, x});
   }
 
+
   if (path.length === 1) { 
     return isClear;
   }
