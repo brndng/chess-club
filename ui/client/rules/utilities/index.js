@@ -135,16 +135,17 @@ export const canCapture = (userId, white, position, moves, enemySquare) => {
 
 export const canBlock = (userId, white, position, moves, enemySquare) => {
   let path = [];
-  let { y, x } = enemySquare;
+  let canBlock = false;
+  let { row, col } = enemySquare;
   const king = userId === white ? 'K' : 'k';
   const kingSquare = locateKing(king, position);
   const dy = Math.sign(kingSquare.row - enemySquare.row);
   const dx = Math.sign(kingSquare.col - enemySquare.col);
 
-  while (!(y === kingSquare.row && x === kingSquare.col)) {
-    y += dy;
-    x += dx;
-    path.push({ y, x });
+  while (!(row === kingSquare.row && col === kingSquare.col)) {
+    row += dy;
+    col += dx;
+    path.push({ row, col });
   }
 
   path = path.slice(0, -1);
@@ -157,14 +158,15 @@ export const canBlock = (userId, white, position, moves, enemySquare) => {
           const ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
           if (piece === ally && piece !== king) {
             if (verifyLegalSquare(ally, { row, col }, square, position, moves)) {
-              return true;
+              canBlock = true;
+              break;
             }
           }
         }
       }
     }
   });
-  return false;
+  return canBlock;
 };
 
 export const evaluateCheckmateConditions = (userId, white, position, moves) => {
@@ -298,4 +300,4 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
 // console.log('checkThreats',checkThreats)
 // console.log('flightSquares',flightSquares)
 // console.log('canCapture', canCapture(userId, white, position, moves, enemySquare))
-
+// console.log('canBlock', canBlock(userId, white, position, moves, enemySquare))

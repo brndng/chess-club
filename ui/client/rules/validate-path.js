@@ -17,10 +17,10 @@ export default (origin, destin, position) => {
   }
 
   path.forEach((square) => {
-    const { i, j } = square;
+    const { y, x } = square;
     if (
-      position[i][j] !== null
-      && !(i === destin.row && j === destin.col)
+      position[y][x] !== null
+      && !(y === destin.row && x === destin.col)
     ) {
       isClear = false;
     }
