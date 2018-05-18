@@ -6,7 +6,7 @@ import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
-import { isKingInCheck, confirmCheckmate } from '../../rules/utilities';
+import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
 
 class Game extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class Game extends Component {
     if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
       console.log('check!!!')
 
-      if(confirmCheckmate(userId, game.white, currentPosition, moves)) {
+      if(evaluateCheckmateConditions(userId, game.white, currentPosition, moves)) {
         console.log('CHECKMATE!!!')
       }
 

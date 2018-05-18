@@ -24,90 +24,37 @@ export const rotateBoard = (position) => {
   return copy.reverse().map(row => row.reverse());
 }
 
-export const isKingInCheck = (userId, white, position, moves) => {
-  let inCheck = false;
-  let king = userId === white ? 'K' : 'k';
-  let targetSquare = locateKing(king, position);
+export const locateAttackers = (userId, white, position, moves, targetSquare, camp) => {
+  const attackers = [];
 
-  if (isSquareAttacked(userId, white, position, moves, targetSquare, 'enemy')) {
-    inCheck = true;
-  }
-
-  return inCheck;
-}
-  
-// export const isKingInCheck = (userId, white, position, moves) => {
-//   let inCheck = false;
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) { 
-//       if (position[row][col] !== null) { 
-//         let piece = position[row][col]; 
-//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
-// 				let king = userId === white ? 'K' : 'k';
-//         if (piece === enemy) {
-//           if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position, moves)) {
-//             inCheck = true;
-//             break;
-//           }
-//         }
-//       }
-//     }
-//   }
-//   return inCheck;
-// }
-
-export const locateCheckThreats = (userId, white, position, moves) => {
-  //get list of pieces currently threatening king
-  const threats = [];
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
       if (position[row][col] !== null) {
         let piece = position[row][col];
-        let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
-				let king = userId === white ? 'K' : 'k';
-        if (piece === enemy) {
-          if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position, moves)) {
-            threats.push({piece, coords: {row, col}});
-          }
-        }
-      }
-    }
-  }
-  return threats;
-}
-
-export const locateFlightSquares = (userId, white, position, moves) => {
-  //get list of legal flight squares for king
-  const flightSquares = [];
-  for (let row = 0; row < position.length; row++) {
-    for (let col = 0; col < position[row].length; col++) {
-      let piece = position[row][col];
-      let king = userId === white ? 'K' : 'k';
-      if (piece === null) {
-        if (verifyLegalSquare(king, locateKing(king, position), {row, col}, position, moves)) {
-          flightSquares.push({row, col});
-        }
-      } else {
         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-        if (piece !== ally) {
-          if (verifyLegalSquare(king, locateKing(king, position), {row, col}, position, moves)) {
-            flightSquares.push({row, col});
-          }
+        let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+        let attacker = camp === 'ally' ? ally : enemy;
+        if (piece === attacker
+          && verifyLegalSquare(attacker, {row, col}, targetSquare, position, moves) 
+        ) {
+          attackers.push({piece, coords: {row, col}})
         }
       }
     }
   }
 
-  return flightSquares.filter(square => {
-    if (!isSquareAttacked(userId, white, position, moves, square, 'enemy')) {
-      return square;
-    }
-  });
+  return attackers;
 }
+
+// export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
+//   return locateAttackers(userId, white, position, moves, targetSquare, 'enemy').length > 0
+//     ? true
+//     : false
+// }
 
 export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
   let isAttacked = false;
-  let king = userId === white ? 'K' : 'k';
+  const king = userId === white ? 'K' : 'k';
 
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
@@ -125,28 +72,68 @@ export const isSquareAttacked = (userId, white, position, moves, targetSquare, c
       }
     }
   }
-
   return isAttacked;
 }
 
-export const canCapture = (userId, white, position, moves, enemySquare) => {
-  let canCapture = false;
+export const isKingInCheck = (userId, white, position, moves) => {
+  let king = userId === white ? 'K' : 'k';
+  let targetSquare = locateKing(king, position);
+
+  return isSquareAttacked(userId, white, position, moves, targetSquare, 'enemy');
+}
+
+export const locateCheckThreats = (userId, white, position, moves) => {
+  const king = userId === white ? 'K' : 'k';
+  const targetSquare = locateKing(king, position);
+
+  return locateAttackers(userId, white, position, moves, targetSquare, 'enemy');
+}
+
+export const locateFlightSquares = (userId, white, position, moves) => {
+  const flightSquares = [];
+  const king = userId === white ? 'K' : 'k';
+
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
       if (position[row][col] !== null) {
         let piece = position[row][col];
         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-        let king = userId === white ? 'K' : 'k';
-        if (piece === ally) {    
-          if (verifyLegalSquare(ally, {row, col}, enemySquare, position, moves)) {
-            canCapture = true;
-            break;
+        if (piece !== ally) {
+          if (verifyLegalSquare(king, locateKing(king, position), {row, col}, position, moves)) {
+            flightSquares.push({row, col});
           }
+        } 
+      } else {
+        if (verifyLegalSquare(king, locateKing(king, position), {row, col}, position, moves)) {
+          flightSquares.push({row, col});
         }
       }
     }
   }
-  return canCapture;
+
+  return flightSquares.filter(square => {
+    if (!isSquareAttacked(userId, white, position, moves, square, 'enemy')) {
+      return square;
+    }
+  });
+}
+
+export const canCapture = (userId, white, position, moves, enemySquare) => {
+  const allies = locateAttackers(userId, white, position, moves, enemySquare, 'ally');
+   
+  if (allies.length === 0) {
+    return false;
+  }
+
+  if (
+    allies.length === 1 
+    && allies[0].piece.toUpperCase() === 'K'
+    && isSquareAttacked(userId, white, position, moves, enemySquare, 'enemy')
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export const canBlock = (userId, white, position, moves, enemySquare) => {
@@ -185,12 +172,11 @@ export const canBlock = (userId, white, position, moves, enemySquare) => {
   return canBlock;
 }
 
-export const confirmCheckmate = (userId, white, position, moves) => {
+export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   const flightSquares = locateFlightSquares(userId, white, position, moves);
   const checkThreats = locateCheckThreats(userId, white, position, moves);
-  const enemyCoords = checkThreats[0].coords;
+  const enemySquare = checkThreats[0].coords;
   
-  console.log('flightSquares', flightSquares)
   if (checkThreats.length === 2) {
     if (flightSquares.length === 0) {
       return true;
@@ -198,14 +184,127 @@ export const confirmCheckmate = (userId, white, position, moves) => {
   } else {
     if (
       flightSquares.length === 0 
-      && !canCapture(userId, white, position, moves, enemyCoords) 
-      && !canBlock(userId, white, position, moves, enemyCoords)
+      && !canCapture(userId, white, position, moves, enemySquare) 
+      && !canBlock(userId, white, position, moves, enemySquare)
     ) {
       return true;
     }
   }
+
   return false;
 }
+
+// export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
+//   let isAttacked = false;
+//   const king = userId === white ? 'K' : 'k';
+
+//   for (let row = 0; row < position.length; row++) {
+//     for (let col = 0; col < position[row].length; col++) {
+//       if (position[row][col] !== null) {
+//         let piece = position[row][col];
+//         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+//         let attacker = camp === 'ally' ? ally : enemy;
+//         if (piece === attacker
+//           && verifyLegalSquare(attacker, {row, col}, targetSquare, position, moves) 
+//         ) {
+//           isAttacked = true;
+//           break;
+//         }
+//       }
+//     }
+//   }
+//   return isAttacked;
+// }
+
+// export const isKingInCheck = (userId, white, position, moves) => {
+//   let inCheck = false;
+//   for (let row = 0; row < position.length; row++) {
+//     for (let col = 0; col < position[row].length; col++) { 
+//       if (position[row][col] !== null) { 
+//         let piece = position[row][col]; 
+//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+// 				let king = userId === white ? 'K' : 'k';
+//         if (piece === enemy) {
+//           if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position, moves)) {
+//             inCheck = true;
+//             break;
+//           }
+//         }
+//       }
+//     }
+//   }
+//   return inCheck;
+// }
+
+// export const canCapture = (userId, white, position, moves, enemySquare) => {
+//   let canCapture = false;
+//   for (let row = 0; row < position.length; row++) {
+//     for (let col = 0; col < position[row].length; col++) {
+//       if (position[row][col] !== null) {
+//         let piece = position[row][col];
+//         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+//         let king = userId === white ? 'K' : 'k';
+//         if (piece === ally) {    
+//           if (verifyLegalSquare(ally, {row, col}, enemySquare, position, moves)) {
+//             canCapture = true;
+//             break;
+//           }
+//         }
+//       }
+//     }
+//   }
+//   return canCapture;
+// }
+
+
+// export const locateSquaresOfInterest = (userId, white, position, moves, targetSquare, camp) => {
+//   const squares = [];
+
+//   for (let row = 0; row < position.length; row++) {
+//     for (let col = 0; col < position[row].length; col++) {
+//       if (position[row][col] !== null) {
+//         let piece = position[row][col];
+//         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+//         let attacker = camp === 'ally' ? ally : enemy;
+//         if (piece === attacker
+//           && verifyLegalSquare(attacker, {row, col}, targetSquare, position, moves) 
+//         ) {
+//           squares.push({piece, coords: {row, col}})
+//         }
+//       }
+//     }
+//   }
+//   return squares;
+// }
+
+// export const locateCheckThreats = (userId, white, position, moves) => {
+//   //get list of pieces currently threatening king
+//   const threats = [];
+//   const king = userId === white ? 'K' : 'k';
+  
+//   for (let row = 0; row < position.length; row++) {
+//     for (let col = 0; col < position[row].length; col++) {
+//       if (position[row][col] !== null) {
+//         let piece = position[row][col];
+//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
+//         if (piece === enemy) {
+//           if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position, moves)) {
+//             threats.push({row, col});
+//           }
+//         }
+//       }
+//     }
+//   }
+//   return threats;
+// }
+
+// console.log('checkThreats',checkThreats)
+// console.log('flightSquares',flightSquares)
+// console.log('canCapture', canCapture(userId, white, position, moves, enemySquare))
+
+
 
 
 
