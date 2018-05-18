@@ -1,10 +1,3 @@
-export const castleKing = (rowStart, colStart, rowEnd, colEnd, pieceToMove) => {
-  return {
-    type: 'PLAYER_CASTLING',
-    payload: {rowStart, colStart, rowEnd, colEnd, pieceToMove},
-  };
-}
-
 export const initGame = (id, white, black, position, whiteToMove, moves, inCheck) => {
   return {
     type: 'GAME_INITIALIZED',
@@ -49,33 +42,43 @@ export const toggleTurn = () => {
 }
 
 export const updateCheckStatus = (userId) => {
-  // console.log('updateCheckStatus ACTION', userId)
   return {
     type: 'CHECK_STATUS_UPDATED',
     payload: userId
   }
-  // if (userId === null) {
-  //   console.log('///HERE1')
-  //   return {
-  //     type: 'CHECK_STATUS_UPDATED',
-  //     payload: null,
-  //   }
-  // } else {
-  //   console.log('///HERE2')
-  //   return {
-  //     type: 'CHECK_STATUS_UPDATED',
-  //     payload: userId,
-  //   }
-  // }
-  
 }
 
-export const updatePosition = (origin, destination, pieceToMove) => {
-  return {
-    type: 'POSITION_CHANGED',
-    payload:  [ origin, destination, pieceToMove ]  
-  };
+export const updatePosition = (origin, destin, piece) => {
+  if (piece === 'p' && destin.row === 7 || piece === 'P' && destin.row === 0) {
+    return {
+      type: 'PAWN_PROMOTED',
+      payload:  [ origin, destin, piece ]  
+    }
+  } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col-origin.col) === 2) {
+    return {
+      type: 'KING_CASTLED',
+      payload:  [ origin, destin, piece ]  
+    }
+  } else {
+    return {
+      type: 'POSITION_CHANGED',
+      payload:  [ origin, destin, piece ]  
+    }
+  }
 }
+
+
+
+
+// const type = piece.toUpperCase() === 'K' && Math.abs(destin.col-origin.col) === 2
+//     ? 'KING_CASTLED'
+//     : 'POSITION_CHANGED'
+//     return {
+//       type,
+//       payload:  [ origin, destin, piece ]  
+//     }
+
+
 
 
 

@@ -80,19 +80,6 @@ module.exports = {
           }
         }
       }
-
-      // if (origin.row === 6 && destin.col === origin.col && destin.row-origin.row === -2) {
-      //   isBaseMove = true;
-      // } else if (origin.row === 1 && destin.col === origin.col && destin.row-origin.row === 2) {
-      //   isBaseMove = true;
-      // } else {
-      //   if (destin.col === origin.col && Math.abs(destin.row-origin.row) === 1) {
-      //     isBaseMove = true;
-      //   }
-      //   if (Math.abs(destin.col-origin.col) === 1 && Math.abs(destin.row-origin.row) === 1) {
-      //     isBaseMove = true;
-      //   }
-      // }
       return isBaseMove;
     }, 
 }

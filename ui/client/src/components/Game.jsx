@@ -77,11 +77,6 @@ class Game extends Component {
           console.log('CHECKMATE!!!')
         }
       }
-      // console.log('flight sqs:', locateFlightSquares(userId, game.white, currentPosition));
-      // console.log('checkThreats:', locateCheckThreats(userId, game.white, currentPosition));
-      // let enemyCoords = locateCheckThreats(userId, game.white, currentPosition)[0].coords;
-      // console.log('canCapture:', canCapture(userId, game.white, currentPosition, enemyCoords));
-      // console.log('canBlock', canBlock(userId, game.white, currentPosition, enemyCoords));
 
       this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);

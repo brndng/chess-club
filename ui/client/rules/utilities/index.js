@@ -156,8 +156,6 @@ export const canBlock = (userId, white, position, enemySquare) => {
           let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
           if (piece === ally && piece !== king) {
             if (verifyLegalSquare(ally, {row, col}, square, position)) {
-
-              console.log('WHO BLOCKS', ally, row, col)
               canBlock = true;
               break;
             }
@@ -168,3 +166,9 @@ export const canBlock = (userId, white, position, enemySquare) => {
   })
   return canBlock;
 }
+
+//TODO:
+
+//evaluateCheckmateConditions = () => {
+
+//}

@@ -56,7 +56,7 @@ class Square extends Component {
     } else {
       console.log('thats check SON!');
     }
-  }
+}
 
   render() {
     const { piece, candidateSquares } = this.props;
@@ -77,6 +77,8 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
+
+
 
 
 
