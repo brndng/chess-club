@@ -13,16 +13,18 @@ class Square extends Component {
   initSquareColor() {
     const { coords } = this.props;
     const { row, col } = coords;
-    return (row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0) ?
-      'white' : 'black';
+    return ((row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0))
+      ? 'white' 
+      : 'black';
   }
 
   highlight() {
     const { coords, selection } = this.props;
     if (selection !== null ) {
       const { origin } = selection;
-      return coords.row === origin.row && coords.col === origin.col ?
-        'highlight' : null;
+      return coords.row === origin.row && coords.col === origin.col 
+        ? 'highlight' 
+        : null;
     }
     return null;
   }
@@ -49,7 +51,7 @@ class Square extends Component {
     preview[coords.row][coords.col] = selection.piece;
     preview[origin.row][origin.col] = null;
 
-    if (!isKingInCheck(userId, game.white, preview)) {
+    if (!isKingInCheck(userId, game.white, preview, moves)) {
       updatePosition(origin, coords, selection.piece, moves);
       selectPiece(null, null);
       console.log('placed piece by user: ', this.props.userId)

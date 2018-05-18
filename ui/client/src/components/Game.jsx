@@ -6,12 +6,7 @@ import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
-import { 
-  isKingInCheck, 
-  locateFlightSquares, 
-  locateCheckThreats, 
-  canCapture,
-  canBlock } from '../../rules/utilities';
+import { isKingInCheck, confirmCheckmate } from '../../rules/utilities';
 
 class Game extends Component {
   constructor(props) {
@@ -57,31 +52,17 @@ class Game extends Component {
       toggleTurn();
     }
 
-    if (isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck !== userId) {
+    if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
       console.log('check!!!')
-      const checkThreats = locateCheckThreats(userId, game.white, currentPosition);
-      const enemyCoords = checkThreats[0].coords;
-      const flightSquares = locateFlightSquares(userId, game.white, currentPosition);
-      
-      if (checkThreats.length === 2) {
-        if (flightSquares.length === 0) {
-          console.log('checkmate!');
-        }
-      } else {
-        console.log('flightSquares', flightSquares.length)
-        console.log('canCapture:', canCapture(userId, game.white, currentPosition, enemyCoords));
-        console.log('canBlock', canBlock(userId, game.white, currentPosition, enemyCoords));
-        if (flightSquares.length === 0 && 
-            !canCapture(userId, game.white, currentPosition, enemyCoords) &&
-            !canBlock(userId, game.white, currentPosition, enemyCoords)) {
-          console.log('CHECKMATE!!!')
-        }
+
+      if(confirmCheckmate(userId, game.white, currentPosition, moves)) {
+        console.log('CHECKMATE!!!')
       }
 
       this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);
     }
-    if (!isKingInCheck(userId, game.white, currentPosition) && prevProps.inCheck === userId) {
+    if (!isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck === userId) {
       this.socket.emit('check', { userId: null, id });
       updateCheckStatus(null);
     }
