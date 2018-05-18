@@ -19,6 +19,11 @@ export default (state=[], action) => {
       return [...newState, action.payload];
       break;
     }
+    case 'EN_PASSANT': {
+      let [ origin, destin, piece ] = action.payload;
+      return [...newState, [ origin, destin, piece ]];
+      break;
+    }
   }
   return newState;
 }

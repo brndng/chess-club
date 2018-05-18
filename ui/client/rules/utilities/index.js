@@ -11,9 +11,9 @@ export const locateKing = (king, position) => {
   }
 }
 
-export const lookupSquare = (square, position) => {
-  return position[square.row][square.col];
-}
+// export const lookupSquare = (square, position) => {
+//   return position[square.row][square.col];
+// }
 
 export const isWhite = (piece) => {
   return piece === null 

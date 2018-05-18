@@ -28,13 +28,13 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition } = this.props;
+    const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
     if ((userId === game.white) === whiteToMove) {
       if ((isWhite(piece) === whiteToMove)) { 
         selectPiece({...coords}, piece);
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
-        if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition)) {
+        if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves)) {
           this.placeSelectedPiece(); 
         }
       }
@@ -42,7 +42,7 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game } = this.props;
+    const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
     const { origin } = selection;
     
     const preview = currentPosition.map(row => row.slice());
@@ -50,7 +50,7 @@ class Square extends Component {
     preview[origin.row][origin.col] = null;
 
     if (!isKingInCheck(userId, game.white, preview)) {
-      updatePosition(origin, coords, selection.piece);
+      updatePosition(origin, coords, selection.piece, moves);
       selectPiece(null, null);
       console.log('placed piece by user: ', this.props.userId)
     } else {

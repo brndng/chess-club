@@ -1,12 +1,12 @@
 import baseMoves from './base-moves.js';
 import validatePath from './validate-path.js'; 
-import { lookupSquare } from './utilities';
 
-export default (piece, origin, destin, position) => {
+export default (pieceToMove, origin, destin, position, moves=[]) => {
   //TODO: refactor to include allyPiece verification
   //TODO: combine pawn logic
   let isLegal = false;
-  piece = piece.toUpperCase();
+  let piece = pieceToMove.toUpperCase();
+  let enemy = pieceToMove === piece ? pieceToMove.toLowerCase() : pieceToMove.toUpperCase();
   if (baseMoves[piece](origin, destin, position)) {
     if (piece === 'N') {
       isLegal = true;    
@@ -16,41 +16,40 @@ export default (piece, origin, destin, position) => {
           isLegal = true;          
         } else {
           if (piece === 'P') {
-            if (origin.col === destin.col) { 
-              if (lookupSquare(destin, position) === null) {
+            if (origin.col === destin.col) { //forward
+              if (position[destin.row][destin.col] === null) {
                 isLegal = true;
               }
             } else {
-              if (lookupSquare(destin, position) !== null) { 
-                // || move history shows adjacent pawn advancing twice
-                // destin col === moves[i].destin.col && Math.abs(moves[i].destin.row - moves[i].destin.col === 2)
+              if (position[destin.row][destin.col] !== null) { //diagonal
                 isLegal = true;
+              } else { //en passant
+                let [ prevOrigin, prevDestin, prevPiece ]  = moves.slice(-1)[0];
+                if (
+                  prevPiece === enemy 
+                  && Math.abs(prevDestin.row-prevOrigin.row) === 2 
+                  && Math.abs(prevOrigin.col-origin.col) === 1
+                ) {
+                  isLegal = true
+                }
               }
             }
-                         
-            //if forward
-              //sq piece === null?
-                //if last rank
-                  //place and promote
-                //else
-                  //place
-            //if diagonal
-              //sq piece === null?
-                //en passant conditions?
-                  //place
-            //else
-              //place
           }
           if (piece === 'K') {
-            isLegal = true;              
-            //if inCheck
-              //if 1 sq
-                //place
-            //else
-              //if 1 sq
-                //place
-              //if 2 sq
-                //castle
+            if (Math.abs(destin.col-origin.col) === 2) {
+              let hasMoved = false; // TODO: add rook move history
+              for (let i = 0; i < moves.length; i++) {
+                let [ pastOrigin, pastDestin, pastPiece ] = moves[i];
+                if (pastPiece === pieceToMove) {
+                  hasMoved = true;
+                }
+              }
+              if (!hasMoved) {
+                isLegal = true;
+              }
+            } else {
+              isLegal = true;  
+            }
           }
         }
       } 

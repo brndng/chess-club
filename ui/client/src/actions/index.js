@@ -48,11 +48,21 @@ export const updateCheckStatus = (userId) => {
   }
 }
 
-export const updatePosition = (origin, destin, piece) => {
+export const updatePosition = (origin, destin, piece, moves=[]) => {
   if (piece === 'p' && destin.row === 7 || piece === 'P' && destin.row === 0) {
     return {
       type: 'PAWN_PROMOTED',
       payload:  [ origin, destin, piece ]  
+    }
+  } else if (
+    piece.toUpperCase() === 'P' 
+    && Math.abs(destin.row-origin.row) === 1
+    && Math.abs(destin.col-origin.col) === 1
+    ) {
+    let prevMove = moves.slice(-1)[0];
+    return {
+      type: 'EN_PASSANT',
+      payload:  [ origin, destin, piece, prevMove ]  
     }
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col-origin.col) === 2) {
     return {

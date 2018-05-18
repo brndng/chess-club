@@ -36,7 +36,7 @@ class Game extends Component {
     this.socket.on('move', (newMove) => {
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
-        updatePosition(...newMove);
+        updatePosition(...newMove, this.props.moves);
       }
     });
     this.socket.on('check', (userId) => {
