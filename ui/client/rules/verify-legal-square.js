@@ -24,9 +24,10 @@ export default (pieceToMove, origin, destin, position, moves=[]) => {
               if (position[destin.row][destin.col] !== null) { //diagonal
                 isLegal = true;
               } else { //en passant
-                let [ prevOrigin, prevDestin, prevPiece ]  = moves.slice(-1)[0];
+                let [ prevOrigin, prevDestin, prevPiece ] = moves.slice(-1)[0];
                 if (
                   prevPiece === enemy 
+                  && destin.col === prevDestin.col
                   && Math.abs(prevDestin.row-prevOrigin.row) === 2 
                   && Math.abs(prevOrigin.col-origin.col) === 1
                 ) {
@@ -36,20 +37,55 @@ export default (pieceToMove, origin, destin, position, moves=[]) => {
             }
           }
           if (piece === 'K') {
-            if (Math.abs(destin.col-origin.col) === 2) {
-              let hasMoved = false; // TODO: add rook move history
-              for (let i = 0; i < moves.length; i++) {
-                let [ pastOrigin, pastDestin, pastPiece ] = moves[i];
-                if (pastPiece === pieceToMove) {
-                  hasMoved = true;
-                }
-              }
-              if (!hasMoved) {
-                isLegal = true;
-              }
-            } else {
-              isLegal = true;  
-            }
+            let rook;
+let hasMoved = false;
+if (Math.abs(destin.col-origin.col) === 2) { //castling
+  if (pieceToMove === 'K') { //white
+    if (destin.col-origin.col > 0) { //kingside
+      rook = { row: 7, col: 7 };
+    } else { //queenside
+      rook = { row: 7, col: 0 };
+    }
+  } else { //black
+    if (destin.col-origin.col > 0) { //kingside
+      rook = { row: 0, col: 7 }
+    } else { //queenside
+      rook = { row: 0, col: 0 }
+    }
+  }
+
+  for (let i = 0; i < moves.length; i++) { 
+    let [ pastOrigin, pastDestin, pastPiece ] = moves[i];
+    if (
+      pastPiece === pieceToMove 
+      || (pastOrigin.row === rook.row && pastOrigin.col === rook.col)) {
+      hasMoved = true;
+    }
+  }
+
+  if (!hasMoved) {
+    isLegal = true;
+  }
+
+} else { //not castling
+  isLegal = true; 
+}
+            
+          
+            // if (Math.abs(destin.col-origin.col) === 2) {
+            //   let hasMoved = false; // TODO: add rook move history
+            //   for (let i = 0; i < moves.length; i++) {
+            //     let [ pastOrigin, pastDestin, pastPiece ] = moves[i];
+            //     if (pastPiece === pieceToMove) {
+            //       hasMoved = true;
+            //     }
+            //   }
+            //   if (!hasMoved) {
+            //     isLegal = true;
+            //   }
+            // } else {
+            //   isLegal = true;  
+            // }
           }
         }
       } 
@@ -57,3 +93,8 @@ export default (pieceToMove, origin, destin, position, moves=[]) => {
   }
   return isLegal;
 }
+
+
+
+
+

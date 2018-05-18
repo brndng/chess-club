@@ -19,11 +19,14 @@ export default (origin, destin, position) => {
    
   path.forEach(square => {
     let {y, x} = square;
-    if (position[y][x] !== null && !(y === destin.row && x === destin.col)) {
+    if (
+      position[y][x] !== null 
+      && !(y === destin.row && x === destin.col)
+    ) {
       isClear = false;
     } 
   });
-
+  
   return isClear;
 }
 
