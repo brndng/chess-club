@@ -1,18 +1,18 @@
 import baseMoves from './base-moves.js';
 import validatePath from './validate-path.js'; 
 
-export default (pieceToMove, origin, destin, position, moves=[]) => {
-  //TODO: refactor to include allyPiece verification
-  //TODO: combine pawn logic
+export default (pieceToMove, origin, destin, position, moves = []) => {
+  // TODO: refactor to include allyPiece verification
+  // TODO: combine pawn logic
   let isLegal = false;
-  let piece = pieceToMove.toUpperCase();
+  const piece = pieceToMove.toUpperCase();
   if (baseMoves[piece](origin, destin, position)) {
     if (piece === 'N') {
-      isLegal = true;    
+      isLegal = true;
     } else {
       if(validatePath(origin, destin, position)) {
         if(piece !== 'P' && piece !== 'K') {
-          isLegal = true;          
+          isLegal = true;
         } else {
           if (piece === 'P') {
             if (origin.col === destin.col) { //forward
@@ -23,8 +23,8 @@ export default (pieceToMove, origin, destin, position, moves=[]) => {
               if (position[destin.row][destin.col] !== null) { //diagonal
                 isLegal = true;
               } else { //en passant
-                let [ prevOrigin, prevDestin, prevPiece ] = moves.slice(-1)[0];
-                let enemy = pieceToMove === piece ? pieceToMove.toLowerCase() : pieceToMove.toUpperCase();
+                const [prevOrigin, prevDestin, prevPiece] = moves.slice(-1)[0];
+                const enemy = pieceToMove === piece ? pieceToMove.toLowerCase() : pieceToMove.toUpperCase();
                 if (
                   prevPiece === enemy 
                   && destin.col === prevDestin.col
@@ -71,9 +71,4 @@ export default (pieceToMove, origin, destin, position, moves=[]) => {
     }      
   }
   return isLegal;
-}
-
-
-
-
-
+};

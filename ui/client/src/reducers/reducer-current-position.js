@@ -1,9 +1,9 @@
-export default (state=[], action) => {
+export default (state = [], action) => {
   const newState = state.map(row => [...row]);
   switch (action.type) {
     case 'GAME_INITIALIZED': {
       let { position } = action.payload;
-      return [...position]; 
+      return [...position];
       break;
     }
     case 'POSITION_CHANGED': {
@@ -68,20 +68,3 @@ export default (state=[], action) => {
   }
   return newState;
 };
-
-
-
-
-
-
-
-
-
-
-
-// In your reducer, even though you are assigning the value to a new variable, it just stores a reference to your current state, so when you make a change over that value you are actually mutating your state and redux does not notice that you actually changed it because it needs a new state. Instead do this:
-// let newstate = [...state];
-// This way you are creating a new array containing all the elements of your current state and this IS A NEW OBJECT, so your redux state will detect the change and will trigger the re-render.
-
-
-   

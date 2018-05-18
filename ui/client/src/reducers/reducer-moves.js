@@ -1,4 +1,4 @@
-export default (state=[], action) => {
+export default (state = [], action) => {
   const newState = state.map(row => [...row]);
   switch(action.type) {
     case 'GAME_INITIALIZED': {
@@ -26,7 +26,4 @@ export default (state=[], action) => {
     }
   }
   return newState;
-}
-
-
-// If you want to be safe with arrays, you need to restrict the operations you perform on the state to the safe accessor methods. Instead of `.push()`, use `.concat()`.
+};

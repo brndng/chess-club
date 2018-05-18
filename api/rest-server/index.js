@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3000;
 
 const middleware = [
-  helmet(), 
+  helmet(),
   parser.json(),
   parser.urlencoded({ extended: true }),
   cors({

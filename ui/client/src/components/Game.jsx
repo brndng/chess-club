@@ -53,15 +53,14 @@ class Game extends Component {
     }
 
     if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
-      console.log('check!!!')
-
+      console.log('CHECK!')
       if(evaluateCheckmateConditions(userId, game.white, currentPosition, moves)) {
         console.log('CHECKMATE!!!')
       }
-
       this.socket.emit('check', { userId, id });
       updateCheckStatus(userId);
     }
+
     if (!isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck === userId) {
       this.socket.emit('check', { userId: null, id });
       updateCheckStatus(null);

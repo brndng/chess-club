@@ -1,5 +1,4 @@
-export default (state=null, action) => {
-  // console.log('nCheck reducer: action.paylod', action.payload)
+export default (state = null, action) => {
   switch(action.type) {
     case 'CHECK_STATUS_UPDATED': {
       return action.payload;
@@ -12,4 +11,4 @@ export default (state=null, action) => {
     }
   }
   return state;
-}
+};

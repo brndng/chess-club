@@ -20,7 +20,7 @@ const Game = sequelize.define('game', {
 });
 
 const Friend = sequelize.define('friends', {
-  accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
+  accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
 
 Game.belongsTo(User, { foreignKey: 'white' });
@@ -28,7 +28,7 @@ Game.belongsTo(User, { foreignKey: 'black' });
 Friend.belongsTo(User, { foreignKey: 'user1' });
 Friend.belongsTo(User, { foreignKey: 'user2' });
 
-module.exports = { User, Game, Friend }
+module.exports = { User, Game, Friend };
 
 
 // CREATING/DROPPING PROGRAMATICALLY 

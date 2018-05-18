@@ -7,7 +7,7 @@ module.exports = {
         isBaseMove = true;
       }
     }
-    
+
     if (Math.abs(destin.row - origin.row) === 1) {
       if (destin.col === origin.col || Math.abs(destin.col - origin.col) === 1) {
         isBaseMove = true;
@@ -20,8 +20,8 @@ module.exports = {
     let isBaseMove = false;
 
     if (
-      origin.col === destin.col 
-      || origin.row === destin.row 
+      origin.col === destin.col
+      || origin.row === destin.row
       || Math.abs(destin.col - origin.col) === Math.abs(destin.row - origin.row)
     ) {
       isBaseMove = true;
@@ -53,7 +53,7 @@ module.exports = {
   R: (origin, destin, position) => {
     let isBaseMove = false;
 
-    if (origin.col  === destin.col || origin.row === destin.row) {
+    if (origin.col === destin.col || origin.row === destin.row) {
       isBaseMove = true;
     }
 
@@ -97,7 +97,7 @@ module.exports = {
         }
       }
     }
-    
+
     return isBaseMove;
-  }, 
-}
+  },
+};

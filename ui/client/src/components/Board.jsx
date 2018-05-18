@@ -12,7 +12,6 @@ class Board extends Component {
   }
   
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevProps, this.props', prevProps.currentPosition, this.props.currentPosition);
     const { currentPosition } = this.props;
     const { position } = prevState;
     if (JSON.stringify(position) !== JSON.stringify(currentPosition)) {

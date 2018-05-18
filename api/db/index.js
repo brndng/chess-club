@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const path = require('path');
 
 const sequelize = new Sequelize('chess', 'Brian', '', {
   host: 'localhost',
@@ -7,9 +6,9 @@ const sequelize = new Sequelize('chess', 'Brian', '', {
   pool: {
     max: 5,
     min: 0,
-    idle: 10000
+    idle: 10000,
   },
-  logging: false
+  logging: false,
 });
 
 module.exports = sequelize;
