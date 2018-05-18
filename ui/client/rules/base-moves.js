@@ -75,7 +75,7 @@ module.exports = {
             }
           }
         } else { //diagonal
-          if (destin.row - origin.row === -1 && Math.abs(destin.col-origin.col) === 1) {
+          if (destin.row - origin.row === 1 && Math.abs(destin.col-origin.col) === 1) {
             isBaseMove = true;
           }
         }
