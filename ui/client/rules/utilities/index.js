@@ -191,6 +191,43 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   return false;
 };
 
+export const willMoveExposeKing = (userId, white, selection, destin, position, moves) => {
+  const { origin, piece } = selection;
+  const preview = position.map(row => row.slice());
+
+  if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
+    preview[origin.row][origin.col] = null;
+    preview[destin.row][destin.col] = piece;
+    return isKingInCheck(userId, white, preview, moves);
+  } else {
+    let counter = 0;
+    let x = origin.col;
+     
+    while (origin.col + counter <= destin.col) {
+      let dx = Math.sign(destin.col - origin.col);
+      let preview = position.map(row => row.slice());
+
+      dx = dx * counter;
+      preview[origin.row][origin.col] = null;
+      preview[origin.row][x + dx] = piece;
+      
+      if (isKingInCheck(userId, white, preview, moves)) {
+        return true;
+      }
+      counter++;
+    }
+
+    return false;
+  }
+}
+
+console.log('preview BEFORE', preview);
+console.log('\tdx BEFORE:', dx, 'counter:', counter);
+console.log('\tdx AFTER:', dx, 'counter',  counter);
+console.log('preview AFTER', preview);
+console.log('===isKingInCheck TF',isKingInCheck(userId, white, preview, moves));
+
+
 // export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
 //   let isAttacked = false;
 //   const king = userId === white ? 'K' : 'k';

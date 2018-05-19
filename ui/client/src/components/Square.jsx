@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isWhite, isKingInCheck } from '../../rules/utilities';
+import { isWhite, isKingInCheck, willMoveExposeKing } from '../../rules/utilities';
 import { selectPiece, updatePosition } from '../actions/'; 
 class Square extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Square extends Component {
       : 'black';
   }
 
-  highlight() {
+  highlightSelected() {
     const { coords, selection } = this.props;
     if (selection !== null ) {
       const { origin } = selection;
@@ -31,6 +31,7 @@ class Square extends Component {
 
   handleSquareClick() {
     const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
+
     if ((userId === game.white) === whiteToMove) {
       if ((isWhite(piece) === whiteToMove)) { 
         selectPiece({...coords}, piece);
@@ -45,26 +46,19 @@ class Square extends Component {
 
   placeSelectedPiece() {
     const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
-    const { origin } = selection;
-    
-    const preview = currentPosition.map(row => row.slice());
-    preview[coords.row][coords.col] = selection.piece;
-    preview[origin.row][origin.col] = null;
 
-    if (!isKingInCheck(userId, game.white, preview, moves)) {
-      updatePosition(origin, coords, selection.piece, moves);
+    if (!willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves)) {
+      updatePosition(selection.origin, coords, selection.piece, moves);
       selectPiece(null, null);
-      console.log('placed piece by user: ', this.props.userId)
     } else {
       console.log('thats check SON!');
     }
-}
+  }
 
   render() {
-    const { piece, candidateSquares } = this.props;
     return (
-      <div id={this.initSquareColor()} className={`square ${this.highlight()}`} onClick={() => this.handleSquareClick()}>
-        {piece === null ? null : <Piece piece={piece} />}
+      <div id={this.initSquareColor()} className={`square ${this.highlightSelected()}`} onClick={() => this.handleSquareClick()}>
+        {this.props.piece === null ? null : <Piece piece={this.props.piece} />}
       </div>
     )
   }
