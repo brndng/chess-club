@@ -48,6 +48,12 @@ class Square extends Component {
     const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
 
     if (!willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves)) {
+      if (
+        (selection.piece === 'P' && coords.row === 0)
+        || (selection.piece === 'p' && coords.row === 7)
+      ) {
+        console.log('your pawn is gonna get PROMOTED SON')
+      }
       updatePosition(selection.origin, coords, selection.piece, moves);
       selectPiece(null, null);
     } else {

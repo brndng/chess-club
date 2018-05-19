@@ -19,8 +19,8 @@ export default (pieceToMove, origin, destin, position, moves = []) => {
               if (position[destin.row][destin.col] === null) {
                 isLegal = true;
               }
-            } else {
-              if (position[destin.row][destin.col] !== null) { //diagonal
+            } else { //diagonal
+              if (position[destin.row][destin.col] !== null) { //square occupied
                 isLegal = true;
               } else { //en passant
                 const [prevOrigin, prevDestin, prevPiece] = moves.slice(-1)[0];
@@ -46,8 +46,8 @@ export default (pieceToMove, origin, destin, position, moves = []) => {
                   : rook = { row: 7, col: 0 }
               } else { //black
                 destin.col - origin.col > 0 //kingside?
-                  ? rook = { row: 7, col: 7 }
-                  : rook = { row: 7, col: 0 }
+                  ? rook = { row: 0, col: 7 }
+                  : rook = { row: 0, col: 0 }
               }
 
               for (let i = 0; i < moves.length; i++) { 

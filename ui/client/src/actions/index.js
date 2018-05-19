@@ -48,17 +48,21 @@ export const updateCheckStatus = (userId) => {
 };
 
 export const updatePosition = (origin, destin, piece, moves = []) => {
+  const prevMove = moves.slice(-1)[0];
+  const [prevOrigin, prevDestin, prevPiece] = prevMove ? prevMove: [];
+  
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
       payload: [origin, destin, piece],
     };
   } else if (
-    piece.toUpperCase() === 'P'
-    && Math.abs(destin.row - origin.row) === 1
-    && Math.abs(destin.col - origin.col) === 1
+    prevMove
+    && (piece.toUpperCase() === 'P' && prevPiece.toUpperCase() === 'P')
+    && destin.col === prevDestin.col
+    && Math.abs(prevDestin.row - prevOrigin.row) === 2
+    && Math.abs(destin.row - prevDestin.row) === 1
   ) {
-    const prevMove = moves.slice(-1)[0];
     return {
       type: 'EN_PASSANT',
       payload: [origin, destin, piece, prevMove],
@@ -76,13 +80,6 @@ export const updatePosition = (origin, destin, piece, moves = []) => {
   };
 };
 
-// const type = piece.toUpperCase() === 'K' && Math.abs(destin.col-origin.col) === 2
-//     ? 'KING_CASTLED'
-//     : 'POSITION_CHANGED'
-//     return {
-//       type,
-//       payload:  [ origin, destin, piece ]  
-//     }
 
 
 

@@ -44,12 +44,6 @@ export const locateAttackers = (userId, white, position, moves, targetSquare, ca
   return attackers;
 };
 
-// export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
-//   return locateAttackers(userId, white, position, moves, targetSquare, 'enemy').length > 0
-//     ? true
-//     : false
-// }
-
 export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
   let isAttacked = false;
 
@@ -74,16 +68,16 @@ export const isSquareAttacked = (userId, white, position, moves, targetSquare, c
 
 export const isKingInCheck = (userId, white, position, moves) => {
   const king = userId === white ? 'K' : 'k';
-  const targetSquare = locateKing(king, position);
+  const kingSquare = locateKing(king, position);
 
-  return isSquareAttacked(userId, white, position, moves, targetSquare, 'enemy');
+  return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
 };
 
 export const locateCheckThreats = (userId, white, position, moves) => {
   const king = userId === white ? 'K' : 'k';
-  const targetSquare = locateKing(king, position);
+  const kingSquare = locateKing(king, position);
 
-  return locateAttackers(userId, white, position, moves, targetSquare, 'enemy');
+  return locateAttackers(userId, white, position, moves, kingSquare, 'enemy');
 };
 
 export const locateFlightSquares = (userId, white, position, moves) => {
@@ -117,15 +111,18 @@ export const locateFlightSquares = (userId, white, position, moves) => {
 
 export const canCapture = (userId, white, position, moves, enemySquare) => {
   const allies = locateAttackers(userId, white, position, moves, enemySquare, 'ally');
+  const king = userId === white ? 'K' : 'k';
+  const kingSquare = locateKing(king, position);
+  const selection = { origin: kingSquare, piece: king}
 
   if (allies.length === 0) {
     return false;
   }
-
+  
   if (
     allies.length === 1
-    && allies[0].piece.toUpperCase() === 'K'
-    && isSquareAttacked(userId, white, position, moves, enemySquare, 'enemy')
+    && allies[0].piece === king
+    && willMoveExposeKing(userId, white, selection, enemySquare, position, moves)
   ) {
     return false;
   }
@@ -200,33 +197,30 @@ export const willMoveExposeKing = (userId, white, selection, destin, position, m
     preview[destin.row][destin.col] = piece;
     return isKingInCheck(userId, white, preview, moves);
   } else {
-    let counter = 0;
-    let x = origin.col;
-     
-    while (origin.col + counter <= destin.col) {
+    const x = origin.col;
+
+    for (let i = 0; i < 3; i++) {
       let dx = Math.sign(destin.col - origin.col);
       let preview = position.map(row => row.slice());
+      dx = dx * i;
 
-      dx = dx * counter;
       preview[origin.row][origin.col] = null;
       preview[origin.row][x + dx] = piece;
       
       if (isKingInCheck(userId, white, preview, moves)) {
         return true;
       }
-      counter++;
     }
 
     return false;
   }
 }
 
-// console.log('preview BEFORE', preview);
-// console.log('\tdx BEFORE:', dx, 'counter:', counter);
-// console.log('\tdx AFTER:', dx, 'counter',  counter);
-// console.log('preview AFTER', preview);
-// console.log('===isKingInCheck TF',isKingInCheck(userId, white, preview, moves));
-
+// export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
+//   return locateAttackers(userId, white, position, moves, targetSquare, 'enemy').length > 0
+//     ? true
+//     : false
+// }
 
 // export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
 //   let isAttacked = false;
