@@ -221,11 +221,11 @@ export const willMoveExposeKing = (userId, white, selection, destin, position, m
   }
 }
 
-console.log('preview BEFORE', preview);
-console.log('\tdx BEFORE:', dx, 'counter:', counter);
-console.log('\tdx AFTER:', dx, 'counter',  counter);
-console.log('preview AFTER', preview);
-console.log('===isKingInCheck TF',isKingInCheck(userId, white, preview, moves));
+// console.log('preview BEFORE', preview);
+// console.log('\tdx BEFORE:', dx, 'counter:', counter);
+// console.log('\tdx AFTER:', dx, 'counter',  counter);
+// console.log('preview AFTER', preview);
+// console.log('===isKingInCheck TF',isKingInCheck(userId, white, preview, moves));
 
 
 // export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
