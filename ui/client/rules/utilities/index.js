@@ -10,18 +10,6 @@ export const locateKing = (king, position) => {
   }
 };
 
-export const isWhite = (piece) => {
-  if (piece === null) {
-    return null;
-  }
-  return piece === piece.toUpperCase();
-};
-
-export const rotateBoard = (position) => {
-  const copy = position.map(row => [...row]);
-  return copy.reverse().map(row => row.reverse());
-};
-
 export const locateAttackers = (userId, white, position, moves, targetSquare, camp) => {
   const attackers = [];
 
@@ -32,15 +20,15 @@ export const locateAttackers = (userId, white, position, moves, targetSquare, ca
         const ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
         const enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
         const attacker = camp === 'ally' ? ally : enemy;
-        if (piece === attacker
+        if (
+          piece === attacker
           && verifyLegalSquare(attacker, { row, col }, targetSquare, position, moves)
         ) {
-          attackers.push({ piece, coords: { row, col } });
+          attackers.push({ origin: { row, col }, piece });
         }
       }
     }
   }
-
   return attackers;
 };
 
@@ -54,7 +42,8 @@ export const isSquareAttacked = (userId, white, position, moves, targetSquare, c
         const ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
         const enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
         const attacker = camp === 'ally' ? ally : enemy;
-        if (piece === attacker
+        if (
+          piece === attacker
           && verifyLegalSquare(attacker, { row, col }, targetSquare, position, moves)
         ) {
           isAttacked = true;
@@ -66,18 +55,16 @@ export const isSquareAttacked = (userId, white, position, moves, targetSquare, c
   return isAttacked;
 };
 
-export const isKingInCheck = (userId, white, position, moves) => {
-  const king = userId === white ? 'K' : 'k';
-  const kingSquare = locateKing(king, position);
-
-  return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
-};
-
 export const locateCheckThreats = (userId, white, position, moves) => {
   const king = userId === white ? 'K' : 'k';
   const kingSquare = locateKing(king, position);
-
   return locateAttackers(userId, white, position, moves, kingSquare, 'enemy');
+};
+
+export const isKingInCheck = (userId, white, position, moves) => {
+  const king = userId === white ? 'K' : 'k';
+  const kingSquare = locateKing(king, position);
+  return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
 };
 
 export const locateFlightSquares = (userId, white, position, moves) => {
@@ -109,25 +96,49 @@ export const locateFlightSquares = (userId, white, position, moves) => {
   });
 };
 
+export const willMoveExposeKing = (userId, white, selection, destin, position, moves) => {
+  const { origin, piece } = selection;
+  const preview = position.map(row => row.slice());
+
+  if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
+    preview[origin.row][origin.col] = null;
+    preview[destin.row][destin.col] = piece;
+    return isKingInCheck(userId, white, preview, moves);
+  } else {
+    const x = origin.col;
+
+    for (let i = 0; i < 3; i++) {
+      let dx = Math.sign(destin.col - origin.col);
+      let preview = position.map(row => row.slice());
+      dx = dx * i;
+
+      preview[origin.row][origin.col] = null;
+      preview[origin.row][x + dx] = piece;
+      
+      if (isKingInCheck(userId, white, preview, moves)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+}
+
 export const canCapture = (userId, white, position, moves, enemySquare) => {
+  let canCapture = false;
   const allies = locateAttackers(userId, white, position, moves, enemySquare, 'ally');
-  const king = userId === white ? 'K' : 'k';
-  const kingSquare = locateKing(king, position);
-  const selection = { origin: kingSquare, piece: king}
 
   if (allies.length === 0) {
     return false;
   }
-  
-  if (
-    allies.length === 1
-    && allies[0].piece === king
-    && willMoveExposeKing(userId, white, selection, enemySquare, position, moves)
-  ) {
-    return false;
-  }
 
-  return true;
+  allies.forEach(ally => {
+    if (!willMoveExposeKing(userId, white, ally, enemySquare, position, moves)) {
+      canCapture = true;
+    }
+  })
+
+  return canCapture;
 };
 
 export const canBlock = (userId, white, position, moves, enemySquare) => {
@@ -169,7 +180,7 @@ export const canBlock = (userId, white, position, moves, enemySquare) => {
 export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   const flightSquares = locateFlightSquares(userId, white, position, moves);
   const checkThreats = locateCheckThreats(userId, white, position, moves);
-  const enemySquare = checkThreats[0].coords;
+  const enemySquare = checkThreats[0].origin;
 
   if (checkThreats.length === 2) {
     if (flightSquares.length === 0) {
@@ -188,33 +199,29 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   return false;
 };
 
-export const willMoveExposeKing = (userId, white, selection, destin, position, moves) => {
-  const { origin, piece } = selection;
-  const preview = position.map(row => row.slice());
-
-  if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
-    preview[origin.row][origin.col] = null;
-    preview[destin.row][destin.col] = piece;
-    return isKingInCheck(userId, white, preview, moves);
-  } else {
-    const x = origin.col;
-
-    for (let i = 0; i < 3; i++) {
-      let dx = Math.sign(destin.col - origin.col);
-      let preview = position.map(row => row.slice());
-      dx = dx * i;
-
-      preview[origin.row][origin.col] = null;
-      preview[origin.row][x + dx] = piece;
-      
-      if (isKingInCheck(userId, white, preview, moves)) {
-        return true;
-      }
-    }
-
-    return false;
+export const isPawnPromoting = (selection, destin) => {
+  if (
+    (selection.piece === 'P' && destin.row === 0)
+    || (selection.piece === 'p' && destin.row === 7)
+  ) {
+    return true;
   }
+  return false;
 }
+
+export const isWhite = (piece) => {
+  if (piece === null) {
+    return null;
+  }
+  return piece === piece.toUpperCase();
+};
+
+export const rotateBoard = (position) => {
+  const copy = position.map(row => [...row]);
+  return copy.reverse().map(row => row.reverse());
+};
+
+
 
 // export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
 //   return locateAttackers(userId, white, position, moves, targetSquare, 'enemy').length > 0

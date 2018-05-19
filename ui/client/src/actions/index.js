@@ -62,6 +62,8 @@ export const updatePosition = (origin, destin, piece, moves = []) => {
     && destin.col === prevDestin.col
     && Math.abs(prevDestin.row - prevOrigin.row) === 2
     && Math.abs(destin.row - prevDestin.row) === 1
+    && Math.abs(destin.col - origin.col) === 1
+    && Math.abs(destin.row - origin.row) === 1
   ) {
     return {
       type: 'EN_PASSANT',

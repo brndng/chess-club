@@ -3,8 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isWhite, isKingInCheck, willMoveExposeKing } from '../../rules/utilities';
 import { selectPiece, updatePosition } from '../actions/'; 
+import { 
+  isWhite, 
+  isKingInCheck, 
+  willMoveExposeKing,
+  isPawnPromoting } from '../../rules/utilities';
+
 class Square extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +39,7 @@ class Square extends Component {
 
     if ((userId === game.white) === whiteToMove) {
       if ((isWhite(piece) === whiteToMove)) { 
-        selectPiece({...coords}, piece);
+        selectPiece(coords, piece);
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
         if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves)) {
@@ -48,12 +53,6 @@ class Square extends Component {
     const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
 
     if (!willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves)) {
-      if (
-        (selection.piece === 'P' && coords.row === 0)
-        || (selection.piece === 'p' && coords.row === 7)
-      ) {
-        console.log('your pawn is gonna get PROMOTED SON')
-      }
       updatePosition(selection.origin, coords, selection.piece, moves);
       selectPiece(null, null);
     } else {
