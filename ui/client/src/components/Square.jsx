@@ -45,7 +45,10 @@ class Square extends Component {
         if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves)) {
           this.placeSelectedPiece(); 
         }
+        
       }
+      
+      
     }
   }
 
@@ -61,6 +64,9 @@ class Square extends Component {
   }
 
   render() {
+    // const onClick = this.props.completed 
+    //   ? null
+    //   : () => this.handleSquareClick()
     return (
       <div id={this.initSquareColor()} className={`square ${this.highlightSelected()}`} onClick={() => this.handleSquareClick()}>
         {this.props.piece === null ? null : <Piece piece={this.props.piece} />}

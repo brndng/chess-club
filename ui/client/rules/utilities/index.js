@@ -182,7 +182,12 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   const checkThreats = locateCheckThreats(userId, white, position, moves);
   const enemySquare = checkThreats[0].origin;
 
-  if (checkThreats.length === 2) {
+  // console.log('checkThreats',checkThreats)
+  // console.log('flightSquares',flightSquares)
+  // console.log('canCapture', canCapture(userId, white, position, moves, enemySquare))
+  // console.log('canBlock', canBlock(userId, white, position, moves, enemySquare))
+
+  if (checkThreats.length === 2) { 
     if (flightSquares.length === 0) {
       return true;
     }

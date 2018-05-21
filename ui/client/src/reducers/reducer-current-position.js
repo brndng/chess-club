@@ -47,7 +47,7 @@ export default (state = [], action) => {
       break;
     }
     case 'PAWN_PROMOTED': {
-      const [ origin, destin, piece ]  = action.payload;
+      const [origin, destin, piece]  = action.payload;
       const queen = piece === 'P'
         ? 'Q'
         : 'q'

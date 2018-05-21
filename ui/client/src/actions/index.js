@@ -77,7 +77,7 @@ export const updatePosition = (origin, destin, piece, moves = []) => {
   }
 
   return {
-    type: 'POSITION_CHANGED',
+    type: 'POSITION_CHANGED', 
     payload: [origin, destin, piece],
   };
 };

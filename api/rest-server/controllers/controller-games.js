@@ -61,8 +61,20 @@ module.exports = {
     }
   },
 
-  saveGame: async (req, res) => {
+  documentGame: async (req, res) => {
     // flip completed to true
-    res.send('hello from gamesController');
+    const { id } = req.body
+    try {
+      const record = await db.Game.update({
+        completed: true,
+      }, {
+        where: { id },
+        returning: true,
+        plain: true,
+    });
+    res.send(record);
+    } catch (err) {
+      console.log('err from saveGame', err)
+    }
   },
 };

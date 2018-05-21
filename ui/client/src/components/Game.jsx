@@ -51,7 +51,7 @@ class Game extends Component {
       axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck });
       toggleTurn();
     }
-
+    //var _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves)
     if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
       console.log('CHECK!')
       if(evaluateCheckmateConditions(userId, game.white, currentPosition, moves)) {
