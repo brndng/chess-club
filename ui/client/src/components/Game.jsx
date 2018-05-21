@@ -18,7 +18,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { id, updatePosition, updateCheckStatus } = this.props;
+    const { id, userId, updatePosition, updateCheckStatus } = this.props;
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('game_id', id));
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
@@ -34,9 +34,18 @@ class Game extends Component {
         updatePosition(...newMove, this.props.moves);
       }
     });
-    this.socket.on('check', (userId) => {
-      if (this.props.inCheck !== userId) {
-        updateCheckStatus(userId);
+    this.socket.on('check', (player) => {
+      if (this.props.inCheck !== player) {
+        console.log(`Player ${player} is in CHECK`)
+        updateCheckStatus(player);
+      }
+    });
+    this.socket.on('checkmate', (player) => {
+      console.log(`Player ${player} has been CHECKMATED`);
+      if (player === userId) {
+        console.log(`YOU LOSE`);
+      } else {
+        console.log(`YOU WIN`);
       }
     })
   }
@@ -45,25 +54,24 @@ class Game extends Component {
     const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
+    const _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves);
 
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove) && prevProps.id === id) {
       this.socket.emit('move', { newMove, id });
       axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck });
       toggleTurn();
     }
-    //var _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves)
-    if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
-      console.log('CHECK!')
-      if(evaluateCheckmateConditions(userId, game.white, currentPosition, moves)) {
-        console.log('CHECKMATE!!!')
+
+    if (_isKingInCheck && prevProps.inCheck !== userId) {
+      const _checkMate =  evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
+      if(_checkMate) {
+        this.socket.emit('checkmate', { userId, id });
       }
       this.socket.emit('check', { userId, id });
-      updateCheckStatus(userId);
     }
 
-    if (!isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck === userId) {
+    if (!_isKingInCheck && prevProps.inCheck === userId) {
       this.socket.emit('check', { userId: null, id });
-      updateCheckStatus(null);
     }
   }
   

@@ -37,8 +37,12 @@ io.on('connection', (socket) => {
   });
 
   socket.on('check', (data) => {
-    socket.broadcast.to(data.id).emit('check', data.userId)
+    io.sockets.in(data.id).emit('check', data.userId)
   });
+
+  socket.on('checkmate', (data) => {
+    io.sockets.in(data.id).emit('checkmate', data.userId)
+  })
 });
 
 app.use(...middleware);
