@@ -7,6 +7,6 @@ router.route('/challenge').post(gamesController.createGame);
 router.route('/accept').put(gamesController.confirmGame);
 router.route('/decline').delete(gamesController.deleteGame);
 router.route('/update').put(gamesController.updateGame);
-router.route('/save').put(gamesController.saveGame);
+router.route('/document').put(gamesController.documentGame);
 
 module.exports = router;

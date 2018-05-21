@@ -6,7 +6,7 @@ import allReducers from './reducers';
 import App from './components/App.jsx';
 
 const store = createStore(allReducers);
-window.store = store;//
+window.store = store;
 
 ReactDOM.render(
   <Provider store={store}>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import GameList from  './GameList.jsx';
-import storeUser from '../actions/action-store-user.js';
+import { storeUser } from '../actions/';
 
 class App extends Component {
   constructor(props) {

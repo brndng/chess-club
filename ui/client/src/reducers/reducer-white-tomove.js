@@ -1,4 +1,4 @@
-export default (state=true, action) => {
+export default (state = true, action) => {
   switch(action.type) {
     case 'PLAYER_MOVED':
       return state ? false : true;
@@ -9,5 +9,4 @@ export default (state=true, action) => {
       break;
   }
   return state;
-}
-
+};

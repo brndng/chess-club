@@ -1,9 +1,14 @@
-export default (state={}, action) => {
+export default (state = null, action) => {
   switch(action.type) {
-    case 'CHECK_STATUS_UPDATED':
-      state.userId = action.payload //TODO: test further
-      return state;
+    case 'CHECK_STATUS_UPDATED': {
+      return action.payload;
       break;
+    }
+    case 'GAME_INITIALIZED': {
+      const { inCheck } = action.payload;
+      return inCheck;
+      break;
+    }
   }
   return state;
-}
+};

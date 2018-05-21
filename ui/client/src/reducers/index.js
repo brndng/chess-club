@@ -8,7 +8,6 @@ import UserGamesReducer from './reducer-user-games.js';
 import UserIdReducer from './reducer-user-id.js';
 import InCheckReducer from './reducer-in-check.js';
 
-//import all individual reducers
 export default combineReducers({
   selection: SelectionReducer,
   currentPosition: CurrentPositionReducer,
@@ -19,6 +18,3 @@ export default combineReducers({
   userId: UserIdReducer,
   inCheck: InCheckReducer,
 });
-
-// reducers take in actions and update part of application's state, sends to store
-// reducers determine how actions will change the application..."smart"

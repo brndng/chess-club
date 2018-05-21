@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import axios from 'axios';
-import { rotateBoard } from '../../rules/helpers/';
+import { rotateBoard } from '../../rules/utilities';
 class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: this.props.currentPosition,
+      position: this.props.currentPosition
     }
   }
   
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevProps, this.props', prevProps.currentPosition, this.props.currentPosition);
     const { currentPosition } = this.props;
     const { position } = prevState;
     if (JSON.stringify(position) !== JSON.stringify(currentPosition)) {
@@ -44,12 +43,8 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    currentPosition: state.currentPosition,
-    userId: state.userId,
-    game: state.game
-  }
+const mapStateToProps = ({ userId, game, currentPosition }) => {
+  return { userId, game, currentPosition };
 }
 
 export default connect(mapStateToProps)(Board);

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import Game from './Game.jsx';
-import loadGames from '../actions/action-load-games.js';
-import initGame from '../actions/action-init-game.js';
+import { loadGames, initGame } from '../actions/';
 
 class GameList extends Component {
   constructor(props) {
@@ -20,8 +19,8 @@ class GameList extends Component {
   async loadGameState(id) {
     const { initGame } = this.props;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
-    const { white, black, position, whiteToMove, moves } = game.data;
-    initGame(id, white, black, position, whiteToMove, moves);
+    const { white, black, position, whiteToMove, moves, inCheck } = game.data;
+    initGame(id, white, black, position, whiteToMove, moves, inCheck);
   }
 
   render() {
@@ -38,12 +37,8 @@ class GameList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userGames: state.userGames,
-    game: state.game,
-    userId: state.userId,
-  }
+const mapStateToProps = ({ userId, userGames, game }) => {
+  return { userId, userGames, game };
 }
 
 const matchDispatchToProps = (dispatch) => {

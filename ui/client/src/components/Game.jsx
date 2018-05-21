@@ -5,86 +5,67 @@ import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isKingInCheck } from '../../rules/helpers';
-import updatePosition from '../actions/action-update-position.js'; 
-import toggleTurn from '../actions/action-toggle-turn.js';
-import updateCheckStatus from '../actions/action-update-check-status.js';
+import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
+import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
+
 class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
       message: '',
       messages: [],
-      currMove: {},
     }
   }
 
   async componentDidMount() {
-    const { id, updatePosition } = this.props;
-    const { currMove } = this.state;
+    const { id, updatePosition, updateCheckStatus } = this.props;
     this.socket = io(`http://localhost:1337/`);
-    this.socket.on('connect', () => this.socket.emit('gameId', id));
-    this.socket.on('guestJoin', (data) => console.log(`someone has joined game room ${data}`))
-    this.socket.on('chat', (message) => {this.setState({ messages: [...this.state.messages, message], message: '' })})
-    this.socket.on('newMove', (newMove) => {
+    this.socket.on('connect', () => this.socket.emit('game_id', id));
+    this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
+    this.socket.on('chat', (message) => {
+      this.setState({ 
+        messages: [...this.state.messages, message], 
+        message: '' 
+      });
+    })
+    this.socket.on('move', (newMove) => {
+      let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
-        // const { origin, destination, pieceToMove } = newMove;
-        // updatePosition(origin, destination, pieceToMove) ;
-        updatePosition(...newMove);
-        this.setState({ currMove: newMove })
+        updatePosition(...newMove, this.props.moves);
       }
     });
+    this.socket.on('check', (userId) => {
+      if (this.props.inCheck !== userId) {
+        updateCheckStatus(userId);
+      }
+    })
   }
 
   componentDidUpdate(prevProps) {
-    
-    const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus } = this.props;
-    const { currMove } = this.state;
+    const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
+    const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    console.log('prevProps.id,id',prevProps.id,id)
-    console.log('whiteToMove:', whiteToMove)
 
     if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove) && prevProps.id === id) {
-      //TODO: executes on switch game, unwanted toggle turn 
-      this.socket.emit('newMove', { newMove, id });
-      // const saved = await axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove });
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove });
-
-      // console.log('saved data back from DB:', saved.data.moves)
+      this.socket.emit('move', { newMove, id });
+      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck });
       toggleTurn();
-      this.setState({ currMove: newMove });
     }
-    if (isKingInCheck(userId, game.white, currentPosition)) {
-      console.log('youre in CHECK SON!!!')
-      // updateCheckStatus(userId);
-    };
+    //var _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves)
+    if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
+      console.log('CHECK!')
+      if(evaluateCheckmateConditions(userId, game.white, currentPosition, moves)) {
+        console.log('CHECKMATE!!!')
+      }
+      this.socket.emit('check', { userId, id });
+      updateCheckStatus(userId);
+    }
+
+    if (!isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck === userId) {
+      this.socket.emit('check', { userId: null, id });
+      updateCheckStatus(null);
+    }
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const newMove = [...nextProps.moves.slice(-1)];
-  //   const currMove = [...this.props.moves.slice(-1)];
-
-  //   console.log('currMove, newMove', this.props.moves, nextProps.moves)
-  
-  //   return JSON.stringify(newMove) !== JSON.stringify(currMove);
-    
-
-  //   // if (this.props.moves.length !== nextProps.moves.length) {
-  //   //   console.log('DIFFERENT PROPS')
-  //   // }
-
-  //   // return nextProps.moves.length !== this.props.moves.length || nextProps.whiteToMove !== this.props.whiteToMove;
-  //   // return JSON.stringify(this.props.moves) !== JSON.stringify(nextProps.moves);
-  //   // const { moves } = this.props;
-  //   // const { currMove } = this.state;    
-  //   // const newMove = moves.slice(-1)[0];
-
-  //   // if (!(newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)))  {
-  //   //   return false;
-  //   // }
-
-  //   return true;
-  // }
   
   setText(e) {
     this.setState({ message: e.target.value });
@@ -100,30 +81,25 @@ class Game extends Component {
     const { message, messages } = this.state;
     const { game } = this.props;
     return (
-      game === null? null :
-        <div>
-          GAME # {game.id}
-          <Board />
-          <div className="chat-container">
-            <div className="output">
-              {messages.map((message, i) => <li key={i}>{message}</li> )}
+      game === null 
+        ? null 
+        : <div>
+            GAME # {game.id}
+            <Board />
+            <div className="chat-container">
+              <div className="output">
+                {messages.map((message, i) => <li key={i}>{message}</li> )}
+              </div>
+              <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
+              <button onClick={() => {this.sendChat()}}>SEND</button>
             </div>
-            <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
-            <button onClick={() => {this.sendChat()}}>SEND</button>
           </div>
-        </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    userId: state.userId,
-    moves: state.moves,
-    game: state.game,
-    currentPosition: state.currentPosition,
-    whiteToMove: state.whiteToMove
-  }
+const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, inCheck }) => {
+  return { userId, moves, game, currentPosition, whiteToMove, inCheck }
 }
 
 const matchDispatchToProps = (dispatch) => {
