@@ -63,10 +63,10 @@ module.exports = {
 
   documentGame: async (req, res) => {
     // flip completed to true
-    const { id } = req.body
+    const { id, completed } = req.body
     try {
       const record = await db.Game.update({
-        completed: true,
+        completed,
       }, {
         where: { id },
         returning: true,

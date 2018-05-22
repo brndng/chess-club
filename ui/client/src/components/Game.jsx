@@ -5,8 +5,12 @@ import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
+import { 
+  updatePosition, 
+  toggleTurn, 
+  updateCheckStatus,
+  updateGameCompleted } from '../actions/';
 
 class Game extends Component {
   constructor(props) {
@@ -18,7 +22,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { id, userId, updatePosition, updateCheckStatus } = this.props;
+    const { id, userId, updatePosition, updateCheckStatus, updateGameCompleted } = this.props;
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('game_id', id));
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
@@ -42,6 +46,7 @@ class Game extends Component {
     });
     this.socket.on('checkmate', (player) => {
       console.log(`Player ${player} has been CHECKMATED`);
+      updateGameCompleted();
       if (player === userId) {
         console.log(`YOU LOSE`);
       } else {
@@ -66,6 +71,7 @@ class Game extends Component {
       const _checkMate =  evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId, id });
+        axios.put(`http://localhost:3000/games/document`, { id, completed: true, });
       }
       this.socket.emit('check', { userId, id });
     }
@@ -111,7 +117,7 @@ const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, in
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ updatePosition, toggleTurn, updateCheckStatus }, dispatch);
+  return bindActionCreators({ updatePosition, toggleTurn, updateCheckStatus, updateGameCompleted }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game)
