@@ -1,6 +1,15 @@
+.game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .board {
   display: flex;
   flex-direction: column;
+  margin: 20px;
+  padding: 40px;
+  border: 10px solid #7c5422;
 }
   .row {
     display: flex;
@@ -21,9 +30,22 @@
       border: 1px solid red;
     }
       #black {
-        background-color: #b5722f;
+        /* background-color: #b5722f; */
+        background-color: #7c5422;
       }
       #white {
-        background-color: #FFFFF0;
+        /* background-color: #FFFFF0; */
+        background-color: #dfbe96;
+      }
+
+      .piece-white {
+        color: #F5F5DC;
+        font-size: 32px;
+        text-shadow: 1px 1px black;
+      }
+
+      .piece-black {
+        color: black;  
+        font-size: 32px;
       }
 

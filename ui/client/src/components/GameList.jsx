@@ -17,11 +17,6 @@ class GameList extends Component {
     loadGames(games.data);
   }
 
-  // async loadGameState(id) {
-  //   const { initGame } = this.props;
-  //   const game = await axios.get(`http://localhost:3000/games/${id}`);
-  //   initGame(game.data);
-  // }
 
   // render() {
   //   const { userGames, game } = this.props;
@@ -51,10 +46,14 @@ class GameList extends Component {
     return (
       <div>
         {userGames.map((game) => {
-           return <li key={game.id}><Link to={{ pathname: '/game', state: {id: game.id} }}>{`GAME # ${game.id}`}</Link></li>
+          return (
+            <li key={game.id}>
+              <Link to={{ pathname: '/game', state: {id: game.id} }}>
+                {`# ${game.id}: ${game.white} vs. ${game.black}`}
+              </Link>
+            </li>)
         })}
         <br/>
-        {/* {game === null ? null : <Game id={game.id}/>} */}
       </div>
     )
   }

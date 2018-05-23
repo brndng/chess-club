@@ -29,17 +29,17 @@ class Game extends Component {
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
     this.socket = await io(`http://localhost:1337/`, { 'forceNew':true });
+
     this.socket.on('connect', () => {
-      this.socket.emit('game_id', id)
+      this.socket.emit('game_id', id);
     });
-    
-    this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
+    this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
     this.socket.on('chat', (message) => {
       this.setState({ 
         messages: [...this.state.messages, message], 
         message: '' 
       });
-    })
+    });
     this.socket.on('move', (newMove) => {
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
@@ -48,7 +48,7 @@ class Game extends Component {
     });
     this.socket.on('check', (player) => {
       if (this.props.inCheck !== player) {
-        console.log(`Player ${player} is in CHECK`)
+        console.log(`Player ${player} is in CHECK`);
         updateCheckStatus(player);
       }
     });
@@ -61,11 +61,10 @@ class Game extends Component {
         console.log(`YOU LOSE`);
       }
     });
-    
     this.socket.on('draw', (player) => {
       updateGameOver();
       if (userId !== player) {
-        console.log(`Player ${player} has offered a draw`)
+        console.log(`Player ${player} has offered a draw`);
       }
     });
 
@@ -96,7 +95,6 @@ class Game extends Component {
       if(_checkMate) {
         this.socket.emit('game_over', { userId, id });
       }
-      
       this.socket.emit('check', { userId, id });
       axios.put(`http://localhost:3000/games/check`, { id, inCheck: userId });
     }
@@ -141,7 +139,8 @@ class Game extends Component {
     return (
       game === null 
         ? null 
-        : <div>
+        : <div className="game-container">
+            <div>
             GAME # {game.id}
             <Link to='/gamelist'>Back to gamelist</Link>
             <Board />
@@ -154,6 +153,7 @@ class Game extends Component {
             </div>
             <button onClick={() => {this.resign()}}>RESIGN</button>
             <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+            </div>
           </div>
     )
   }
