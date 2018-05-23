@@ -1,9 +1,11 @@
 return <li key={game.id}><Link to={{ pathname: '/game', state: {id: game.id} }} onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</Link></li>
--pass props via 'state' param, access props.history.state
+-pass props via 'state' param, access this.props.location.state.id
 
 router can only have 1 child, put it all in a div
 exact path, one component at a time
 https://medium.com/@thejasonfile/basic-intro-to-react-router-v4-a08ae1ba5c42
+
+https://tylermcginnis.com/react-router-pass-props-to-components/
 
 
 
