@@ -28,9 +28,8 @@ class Game extends Component {
     const { id } = this.props.location.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
-    this.socket = await io(`http://localhost:1337/`);
+    this.socket = await io(`http://localhost:1337/`, { 'forceNew':true });
     this.socket.on('connect', () => {
-      console.log('\tsocketID', this.socket.id)
       this.socket.emit('game_id', id)
     });
     
@@ -74,17 +73,21 @@ class Game extends Component {
   }
 
   async componentDidUpdate(prevProps) {
+
     const { userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
     const { id } = this.props.location.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
     const _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves);
 
-    if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove)) { 
-      console.log('//////CDU!!!!!')
-
+    if (
+      prevProps.game !== null
+      && id === prevProps.game.id 
+      && newMove 
+      && JSON.stringify(newMove) !== JSON.stringify(currMove)
+     ) { 
       this.socket.emit('move', { newMove, id });
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck });
+      axios.put(`http://localhost:3000/games/move`, { id, currentPosition, moves, whiteToMove });
       toggleTurn();
     }
 
@@ -95,20 +98,16 @@ class Game extends Component {
       }
       
       this.socket.emit('check', { userId, id });
-      
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck: userId });
-
+      axios.put(`http://localhost:3000/games/check`, { id, inCheck: userId });
     }
 
     if (!_isKingInCheck && prevProps.inCheck === userId) {
       this.socket.emit('check', { userId: null, id });
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck: null });
+      axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
     }
   }
 
-  componentWillUnmount() {
-
-  }
+  
   
   setText(e) {
     this.setState({ message: e.target.value });

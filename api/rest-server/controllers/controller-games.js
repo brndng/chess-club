@@ -43,13 +43,29 @@ module.exports = {
     res.send('hello from gamesController');
   },
 
-  updateGame: async (req, res) => {
-    const { id, currentPosition, moves, whiteToMove, inCheck } = req.body;
+  registerMove: async (req, res) => {
+    const { id, currentPosition, moves, whiteToMove } = req.body;
     try {
       const update = await db.Game.update({
         position: currentPosition,
         moves,
         whiteToMove: !whiteToMove,
+      }, {
+        where: { id },
+        returning: true,
+        plain: true,
+      });
+      res.send(update[1].dataValues);
+      console.log('​\tupdate[1].dataValues', update[1].dataValues.whiteToMove);
+    } catch (err) {
+      console.log('err from registerMove', err);
+    }
+  },
+
+  updateCheck: async (req, res) => {
+    const { id, inCheck } = req.body;
+    try {
+      const update = await db.Game.update({
         inCheck,
       }, {
         where: { id },
@@ -57,9 +73,8 @@ module.exports = {
         plain: true,
       });
       res.send(update[1].dataValues);
-      console.log('​\tupdate[1].dataValues', update[1].dataValues);
     } catch (err) {
-      console.log('err from updateGame', err);
+      console.log('err from updateCheck', err);
     }
   },
 
