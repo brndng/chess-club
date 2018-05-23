@@ -10,7 +10,7 @@ import {
   updatePosition, 
   toggleTurn, 
   updateCheckStatus,
-  updateGameCompleted } from '../actions/';
+  updateGameOver } from '../actions/';
 
 class Game extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { id, userId, updatePosition, updateCheckStatus, updateGameCompleted } = this.props;
+    const { id, userId, updatePosition, updateCheckStatus, updateGameOver } = this.props;
     this.socket = io(`http://localhost:1337/`);
     this.socket.on('connect', () => this.socket.emit('game_id', id));
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
@@ -44,15 +44,27 @@ class Game extends Component {
         updateCheckStatus(player);
       }
     });
-    this.socket.on('checkmate', (player) => {
+    this.socket.on('game_over', (player) => {
       console.log(`Player ${player} has been CHECKMATED`);
-      updateGameCompleted();
-      if (player === userId) {
-        console.log(`YOU LOSE`);
-      } else {
+      updateGameOver();
+      if (!userId !== player) {
+        axios.put(`http://localhost:3000/games/document`, { 
+          id, 
+          completed: true,
+          winner: userId,
+        });
         console.log(`YOU WIN`);
+      } else {
+        console.log(`YOU LOSE`);
       }
-    })
+    });
+    
+    this.socket.on('draw', (player) => {
+      updateGameOver();
+      if (userId !== player) {
+        console.log(`Player ${player} has offered a draw`)
+      }
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -70,8 +82,7 @@ class Game extends Component {
     if (_isKingInCheck && prevProps.inCheck !== userId) {
       const _checkMate =  evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
       if(_checkMate) {
-        this.socket.emit('checkmate', { userId, id });
-        axios.put(`http://localhost:3000/games/document`, { id, completed: true, });
+        this.socket.emit('game_over', { userId, id });
       }
       this.socket.emit('check', { userId, id });
     }
@@ -91,6 +102,16 @@ class Game extends Component {
     this.socket.emit('chat', { message, id } );
   }
 
+  resign() {
+    const { id, userId } =  this.props;
+    this.socket.emit('game_over', { userId, id })
+  }
+
+  offerDraw() {
+    const { id, userId } =  this.props;
+    this.socket.emit('draw', { userId, id })
+  }
+
   render() {
     const { message, messages } = this.state;
     const { game } = this.props;
@@ -107,6 +128,8 @@ class Game extends Component {
               <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
               <button onClick={() => {this.sendChat()}}>SEND</button>
             </div>
+            <button onClick={() => {this.resign()}}>RESIGN</button>
+            <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
           </div>
     )
   }
@@ -117,7 +140,7 @@ const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, in
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ updatePosition, toggleTurn, updateCheckStatus, updateGameCompleted }, dispatch);
+  return bindActionCreators({ updatePosition, toggleTurn, updateCheckStatus, updateGameOver }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game)

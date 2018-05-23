@@ -20,16 +20,25 @@ class GameList extends Component {
   async loadGameState(id) {
     const { initGame } = this.props;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
-    const { white, black, position, whiteToMove, moves, inCheck, completed } = game.data;
-    initGame(id, white, black, position, whiteToMove, moves, inCheck, completed);
+    initGame(game.data);
   }
 
   render() {
     const { userGames, game } = this.props;
     return (
       <div>
+        IN PROGRESS
         {userGames.map((game) => {
-          return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
+          if (!game.completed) {
+            return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
+          }
+        })}
+        <br/>
+        COMPLETED
+        {userGames.map((game) => {
+          if (game.completed) {
+            return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
+          }
         })}
         <br/>
         {game === null ? null : <Game id={game.id}/>}

@@ -62,16 +62,17 @@ module.exports = {
   },
 
   documentGame: async (req, res) => {
-    // flip completed to true
-    const { id, completed } = req.body
+    const { id, completed, winner } = req.body
     try {
       const record = await db.Game.update({
         completed,
+        winner,
       }, {
         where: { id },
         returning: true,
         plain: true,
     });
+    console.log('record', record, '///',record[1].dataValues)
     res.send(record);
     } catch (err) {
       console.log('err from saveGame', err)

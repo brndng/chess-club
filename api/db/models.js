@@ -17,6 +17,7 @@ const Game = sequelize.define('game', {
   inCheck: Sequelize.INTEGER,
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+  winner: Sequelize.INTEGER,
 });
 
 const Friend = sequelize.define('friends', {

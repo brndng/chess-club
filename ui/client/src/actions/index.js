@@ -1,4 +1,5 @@
-export const initGame = (id, white, black, position, whiteToMove, moves, inCheck, completed) => {
+export const initGame = (data) => {
+  const { id, white, black, position, whiteToMove, moves, inCheck, completed } = data;
   return {
     type: 'GAME_INITIALIZED',
     payload: { id, white, black, position, whiteToMove, moves, inCheck, completed },
@@ -47,7 +48,7 @@ export const updateCheckStatus = (userId) => {
   };
 };
 
-export const updateGameCompleted = () => {
+export const updateGameOver = () => {
   return {
     type: 'GAME_COMPLETED',
     payload: null,
