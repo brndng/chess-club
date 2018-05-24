@@ -1,9 +1,13 @@
 const { Op } = require('sequelize');
 const models = require('../../db/models.js');
+const bcrypt = require('bcryptjs');
+
+const salt = bcrypt.genSaltSync(10);
 
 module.exports = {
-  createUser: async (req, res) => {
-    const { username, password } = req.body;
+  registerUser: async (req, res) => {
+    const { username } = req.body;
+    const password = bcrypt.hashSync(req.body.password, salt);
     try {
       const user = await models.User.create({
         username,
@@ -18,12 +22,17 @@ module.exports = {
     const { username, password } = req.body;
     try {
       const user = await models.User.findOne({
-        where: {
-          username,
-          password,
-        },
+        where: { username },
       });
-      res.send(user);
+      try {
+        const isVerified = await bcrypt.compare(password, user.dataValues.password);
+        if (isVerified) {
+          req.session.username = username;
+          res.send(user);
+        } 
+      } catch (err) {
+        res.send('');
+      }
     } catch (err) {
       console.log('err from verifyUser', err);
     }
@@ -38,17 +47,3 @@ module.exports = {
     res.send('hello from usersController');
   },
 };
-
-// module.exports = {
-//   fetchUsernameById: async (id) => {
-//     try {
-//       const username = await models.User.findOne({ 
-//         where: { id },
-//       });
-//       return username.username;
-//     } catch (error) {
-//       console.log('Error with fetchUsernameById', error);
-//       return;
-//     }
-//   },
-// }

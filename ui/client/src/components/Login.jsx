@@ -30,6 +30,7 @@ class LogIn extends Component {
     const { storeUser, updateVerified } = this.props;
     const { username, password } = this.state;
     axios.post('http://localhost:3000/users/login', { username, password }).then((data)=>{
+      console.log('data.data', data.data)
       if (data.data !== '') {
         storeUser(data.data.id);
         updateVerified();
