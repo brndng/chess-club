@@ -1,11 +1,11 @@
 const { Op } = require('sequelize');
-const db = require('../../db/models.js');
+const { Game } = require('../../db/models.js');
 
 module.exports = {
   fetchAllGames: async (req, res) => {
     const { user_id } = req.params;
     try {
-      const games = await db.Game.findAll({ 
+      const games = await Game.findAll({ 
         where: {
           [Op.or]: [{ white: user_id }, { black: user_id }],
         },
@@ -18,7 +18,7 @@ module.exports = {
   fetchGame: async (req, res) => {
     const { id } = req.params;
     try {
-      const game = await db.Game.findOne({ where: { id } });
+      const game = await Game.findOne({ where: { id } });
       res.send(game);
     } catch (err) {
       console.log('err from fetchGame', err);
@@ -27,7 +27,7 @@ module.exports = {
   createGame: async (req, res) => {
     const { position, moves, whiteToMove, accepted, completed, white, black } = req.body;
     try {
-      const game = await db.Game.create({
+      const game = await Game.create({
         position, moves, whiteToMove, accepted, completed, white, black,
       });
       res.send(game.dataValues);
@@ -46,7 +46,7 @@ module.exports = {
   registerMove: async (req, res) => {
     const { id, currentPosition, moves, whiteToMove } = req.body;
     try {
-      const update = await db.Game.update({
+      const update = await Game.update({
         position: currentPosition,
         moves,
         whiteToMove: !whiteToMove,
@@ -65,7 +65,7 @@ module.exports = {
   updateCheck: async (req, res) => {
     const { id, inCheck } = req.body;
     try {
-      const update = await db.Game.update({
+      const update = await Game.update({
         inCheck,
       }, {
         where: { id },
@@ -81,7 +81,7 @@ module.exports = {
   documentGame: async (req, res) => {
     const { id, completed, winner } = req.body
     try {
-      const record = await db.Game.update({
+      const record = await Game.update({
         completed,
         winner,
       }, {

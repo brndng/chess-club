@@ -45,6 +45,7 @@ class GameList extends Component {
     const { userGames, game } = this.props;
     return (
       <div>
+        YOUR GAMES
         {userGames.map((game) => {
           return (
             <li key={game.id}>

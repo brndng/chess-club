@@ -29,12 +29,10 @@
     .square.highlight {
       border: 1px solid red;
     }
-      #black {
-        /* background-color: #b5722f; */
+      /* #black {
         background-color: #7c5422;
       }
       #white {
-        /* background-color: #FFFFF0; */
         background-color: #dfbe96;
       }
 
@@ -47,5 +45,62 @@
       .piece-black {
         color: black;  
         font-size: 32px;
+      } */
+
+    /* #black {
+      background-color: #DA8738;
+    }
+    #white {
+      background-color: #FFCD98;
+    } */
+
+      /* .piece-white {
+        color: floralwhite;
+        font-size: 36px;
+        text-shadow: 1px 1px black;
+      } 
+
+      .piece-black {
+        color: black;
+        font-size: 36px;
+      } */
+
+    /* Palisander Maple */
+    /* #black {
+      background-color: #68381F;
+    }
+    #white {
+      background-color: #EDD0A1;
+    }
+
+      .piece-white {
+        color: floralwhite;
+        font-size: 32px;
+        text-shadow: 1px 1px black;
       }
+
+      .piece-black {
+        color: black;  
+        font-size: 32px;
+      } */
+
+      /* Walnut Maple */
+      #black {
+        background-color: #B27645;
+      }
+      #white {
+        background-color: #FED6A5;
+      }
+  
+        .piece-white {
+          color: floralwhite;
+          font-size: 32px;
+          text-shadow: 1px 1px 1px black;
+          /* text-shadow: 0 0 1px black; */
+        }
+  
+        .piece-black {
+          color: black;  
+          font-size: 32px;
+        }
 

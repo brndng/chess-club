@@ -9,8 +9,6 @@ const strategy = new LocalStrategy(
 	},
 
   async (username, password, done) => {
-    const salt = bcrypt.genSaltSync(10);
-
     try {
       const user = await User.findOne({
         where: { username },
