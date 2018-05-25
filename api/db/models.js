@@ -24,6 +24,7 @@ const Friend = sequelize.define('friends', {
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
 
+// Associations
 Game.belongsTo(User, { foreignKey: 'white' });
 Game.belongsTo(User, { foreignKey: 'black' });
 Friend.belongsTo(User, { foreignKey: 'user1' });

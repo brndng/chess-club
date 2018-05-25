@@ -1,18 +1,22 @@
 const { Op } = require('sequelize');
-const models = require('../../db/models.js');
+const { User } = require('../../db/models.js');
 const bcrypt = require('bcryptjs');
 
 const salt = bcrypt.genSaltSync(10);
+// const isValidPassword = (user, password) => {
+//   return bCrypt.compare(password, user.password);
+// };
 
 module.exports = {
   registerUser: async (req, res) => {
     const { username } = req.body;
-    const password = bcrypt.hashSync(req.body.password, salt);
+    const password = await bcrypt.hash(req.body.password, salt);
     try {
-      const user = await models.User.create({
+      const user = await User.create({
         username,
         password,
       });
+      console.log('user', user)
       res.send(user);
     } catch (err) {
       console.log('err from createUser', err);
@@ -21,18 +25,15 @@ module.exports = {
   verifyUser: async (req, res) => {
     const { username, password } = req.body;
     try {
-      const user = await models.User.findOne({
+      const user = await User.findOne({
         where: { username },
       });
-      try {
-        const isVerified = await bcrypt.compare(password, user.dataValues.password);
-        if (isVerified) {
-          req.session.username = username;
-          res.send(user);
-        } 
-      } catch (err) {
-        res.send('');
-      }
+      //handle error: Unhandled promise rejection Error
+      const isVerified = await bcrypt.compare(password, user.dataValues.password);
+      if (isVerified) {
+        req.session.username = username;
+        res.send(user);
+      } 
     } catch (err) {
       console.log('err from verifyUser', err);
     }
