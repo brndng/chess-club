@@ -25,7 +25,22 @@ module.exports = {
     }
   },
   createGame: async (req, res) => {
-    const { position, moves, whiteToMove, accepted, completed, white, black } = req.body;
+    const { white, black } = req.body;
+    const position = [ 
+      ["r","n","b","q","k","b","n","r"],
+      ["p","p","p","p","p","p","p","p"],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      ["P", "P", "P", "P", "P", "P", "P", "P"],
+      ["R", "N", "B", "Q", "K", "B", "N", "R"]
+    ];
+    const whiteToMove = true;
+    const moves = [];
+    const inCheck = null;
+    const accepted = true;
+    const completed= false;
     try {
       const game = await Game.create({
         position, moves, whiteToMove, accepted, completed, white, black,

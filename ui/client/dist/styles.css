@@ -13,9 +13,10 @@ html, body, #app {
   align-items: center;
   justify-content: center;
   background-color: #965b31;;
-  padding: 16px;
+  padding: 12px;
   border: 1px solid #8F4F2C;
-  border-radius: 5px
+  border-radius: 5px;
+  margin: 24px;
 }
 
 .board {

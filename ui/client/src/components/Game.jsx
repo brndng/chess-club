@@ -140,19 +140,20 @@ class Game extends Component {
       game === null 
         ? null 
         : <div className="game-container">
-            <div>
-            GAME # {game.id}
-            <Link to='/gamelist'>Back to gamelist</Link>
-            <Board />
-            <div className="chat-container">
-              <div className="output">
-                {messages.map((message, i) => <li key={i}>{message}</li> )}
-              </div>
-              <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
-              <button onClick={() => {this.sendChat()}}>SEND</button>
+            <div className="board-container">
+              <Board />
             </div>
-            <button onClick={() => {this.resign()}}>RESIGN</button>
-            <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+            <div className="game-info-container">
+              GAME # {game.id}
+              <div className="chat-container">
+                <div className="output">
+                  {messages.map((message, i) => <li key={i}>{message}</li> )}
+                </div>
+                <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
+                <button onClick={() => {this.sendChat()}}>SEND</button>
+              </div>
+              <button onClick={() => {this.resign()}}>RESIGN</button>
+              <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
             </div>
           </div>
     )

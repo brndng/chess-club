@@ -7,6 +7,8 @@ class Players extends Component {
     super(props);
     this.state = {
       players: [],
+      white: null,
+      black: null,
     }
   }
 
@@ -15,26 +17,18 @@ class Players extends Component {
     this.setState({ players: [...players.data] });
   }
 
+  setMatchup(color, opponent) {
+    const { userId } = this.props;
+    if (color === 'white') {
+      this.setState({ white: userId, black: opponent });
+    } else {
+      this.setState({ white: opponent, black: userId });
+    }
+  }
+
   challengePlayer() {
-    axios.post('http://localhost:3000/games/challenge', {
-      "position": [ 
-          ["r","n","b","q","k","b","n","r"],
-          ["p","p","p","p","p","p","p","p"],
-          [null,null,null,null,null,null,null,null],
-          [null,null,null,null,null,null,null,null],
-          [null,null,null,null,null,null,null,null],
-          [null,null,null,null,null,null,null,null],
-          ["P", "P", "P", "P", "P", "P", "P", "P"],
-          ["R", "N", "B", "Q", "K", "B", "N", "R"]
-        ],
-      "whiteToMove": true,
-      "moves": [],
-      "inCheck": null,
-      "accepted": true,
-      "completed": false,
-      "white": 1,
-      "black": 2
-    });
+    const { white, black } = this.state;
+    axios.post('http://localhost:3000/games/challenge', { white, black });
   }
 
   render() {
@@ -49,6 +43,11 @@ class Players extends Component {
               return (
                 <li key={id}>
                   <strong>{username}</strong>
+                  <select onChange={(e) => this.setMatchup(e.target.value, id)}>
+                    <option value={null} defaultValue>Select Color:</option>
+                    <option value="white">White</option>
+                    <option value="black">Black</option>
+                  </select>
                   <button onClick={() => {this.challengePlayer()}}>CHALLENGE</button>
                 </li>
               )
