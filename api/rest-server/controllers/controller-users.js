@@ -19,12 +19,12 @@ module.exports = {
     }
   },
   sendUserInfo: (req, res) => {
-    // console.log('------logged in req.user', req.user);
-    // console.log('------req.session', req.session);
+    console.log('------logged in req.user', req.user);
+    console.log('------req.session', req.session);
     if (req.user) {
-      res.json(req.session.passport);
+      res.json(req.session.passport); 
+      // res.json(req.user.dataValues);
     } else {
-
       res.json(null);
     }
   },

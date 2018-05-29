@@ -11,6 +11,10 @@ import Logout from './Logout.jsx';
 import auth from '../auth.js';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
+  console.log('Private Route, auth.isAuthenticated',auth.isAuthenticated)
+
+  //put ajax call in here to check for token, so page persists on refresh
+
   return <Route {...rest} render={(props) => ( 
     auth.isAuthenticated === true 
       ? <Component {...props} />
@@ -25,14 +29,25 @@ class App extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    console.log('CDM auth.isAuthenticated BEFORE', auth.isAuthenticated);
+    // auth.isAuthenticated = true 
+    // console.log('CDM auth.isAuthenticated AFTER', auth.isAuthenticated);
+
+  }
+
   render() {
     return (
       <div>
-        <div className="navbar">
-          <li><Link to='/profile'> PROFILE </Link></li>
-          <li><Link to='/gamelist'> GAMES </Link></li>
-          <li><Link to='/players'> PLAYERS </Link></li>
-          <li><Logout /></li>
+        <div className="nav">
+          <ul>
+            <li><Link to='/profile'> PROFILE </Link></li>
+            <li><Link to='/gamelist'> GAMES </Link></li>
+            <li><Link to='/players'> PLAYERS </Link></li>
+          </ul>
+          <ul>
+            <Logout />
+          </ul>
         </div>
         <Route exact path='/' component={Dashboard} />
         <Route path='/login' component={Login} />

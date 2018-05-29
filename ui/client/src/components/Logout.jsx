@@ -4,12 +4,14 @@ import auth from '../auth.js';
 
 const Logout = withRouter(({ history }) => {
   return auth.isAuthenticated === true 
-    ? <p>
-        Welcome! <button onClick={() => {
+    ? <li className="logout">
+        <p>Welcome!</p> <a onClick={() => {
           auth.signout(() => history.push('/'))
-        }}>SIGN OUT</button>
-      </p>
-    : <p>You are not logged in</p>
+        }}>LOG OUT</a>
+      </li>
+    : <li className="logout">
+        <p>You are not logged in</p>
+      </li>
 });
 
 export default Logout;

@@ -1,21 +1,6 @@
 import React from 'react';
 
-// const pieces = {
-//   p: '♟',
-//   n: '♞',
-//   b: '♝',
-//   r: '♜',
-//   q: '♛',
-//   k: '♚',
-//   P: '♙',
-//   N: '♘',
-//   B: '♗',
-//   R: '♖',
-//   Q: '♕',
-//   K: '♔',
-// }
-
-const pieces = {
+const chessmen = {
   p: {symbol: '♟', color: 'piece-black'},
   n: {symbol: '♞', color: 'piece-black'},
   b: {symbol: '♝', color: 'piece-black'},
@@ -31,7 +16,7 @@ const pieces = {
 }
 
 const Piece = (props) => {
-  const { symbol, color } = pieces[props.piece];
+  const { symbol, color } = chessmen[props.piece];
   return <div className={color}>{symbol}</div>
 }
 

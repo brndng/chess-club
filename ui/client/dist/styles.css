@@ -1,22 +1,37 @@
+html, body, #app {
+  height: 100%;
+}
+
 .game-container {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Board Style */
+.board-container {
+  align-items: center;
+  justify-content: center;
+  background-color: #965b31;;
+  padding: 16px;
+  border: 1px solid #8F4F2C;
+  border-radius: 5px
+}
+
 .board {
   display: flex;
   flex-direction: column;
+  background-color: #fed6a4;
   margin: 20px;
-  padding: 40px;
-  border: 10px solid #7c5422;
+  padding: 4px;
+  border: 1px solid #8F4F2C;
+
 }
   .row {
     display: flex;
     flex-direction: row;
   }
     .square {
-      border: 1px solid black;
       line-height: 50px;
       height: 50px;
       margin-right: -1px;
@@ -27,80 +42,89 @@
     }
 
     .square.highlight {
-      border: 1px solid red;
+      border: 1px solid darkgreen
     }
-      /* #black {
-        background-color: #7c5422;
-      }
-      #white {
-        background-color: #dfbe96;
-      }
-
-      .piece-white {
-        color: #F5F5DC;
-        font-size: 32px;
-        text-shadow: 1px 1px black;
-      }
-
-      .piece-black {
-        color: black;  
-        font-size: 32px;
-      } */
-
-    /* #black {
-      background-color: #DA8738;
-    }
-    #white {
-      background-color: #FFCD98;
-    } */
-
-      /* .piece-white {
-        color: floralwhite;
-        font-size: 36px;
-        text-shadow: 1px 1px black;
-      } 
-
-      .piece-black {
-        color: black;
-        font-size: 36px;
-      } */
-
-    /* Palisander Maple */
-    /* #black {
-      background-color: #68381F;
-    }
-    #white {
-      background-color: #EDD0A1;
-    }
-
-      .piece-white {
-        color: floralwhite;
-        font-size: 32px;
-        text-shadow: 1px 1px black;
-      }
-
-      .piece-black {
-        color: black;  
-        font-size: 32px;
-      } */
-
-      /* Walnut Maple */
       #black {
         background-color: #B27645;
       }
       #white {
-        background-color: #FED6A5;
+        background-color: #F2CB9B;
       }
-  
         .piece-white {
           color: floralwhite;
+          /* color: whitesmoke; */
           font-size: 32px;
           text-shadow: 1px 1px 1px black;
-          /* text-shadow: 0 0 1px black; */
         }
   
         .piece-black {
           color: black;  
           font-size: 32px;
         }
+
+/* NavBar Style */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  background: #383838;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  padding: 0;
+}
+
+.nav a {
+  text-decoration: none;
+  text-align: center;
+  color: floralwhite;
+  display: block;
+  padding: 8px;
+}
+
+.nav a:hover {
+  background-color: #555;
+}
+
+.logout {
+  display: flex;
+  text-align: center; 
+  color: floralwhite;
+}
+
+.logout a {
+  text-decoration: none;
+  text-align: center;
+  color: floralwhite;
+  display: block;
+  padding: 8px;
+}
+
+.logout a:hover {
+  background-color: #555;
+}
+
+.logout p {
+  padding-top: 8px;
+  padding-right: 8px;
+  margin: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .nav ul {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .nav li {
+    flex: 1 1 0;
+  }
+}
+
+
 
