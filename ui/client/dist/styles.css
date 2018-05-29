@@ -126,5 +126,11 @@ html, body, #app {
   }
 }
 
+/* Login Style */
+.login-form {
+  display: flex;
+  direction: column;
+}
+
 
 

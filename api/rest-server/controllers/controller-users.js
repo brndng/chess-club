@@ -36,4 +36,14 @@ module.exports = {
   fetchProfile: async (req, res) => {
     res.send('hello from usersController');
   },
+
+  fetchPlayers: async (req, res) => {
+    try {
+      const players = await User.findAll();
+      console.log('\tplayers/////////', players)
+      res.send(players);
+    } catch (err) {
+      console.log('err from createUser', err);
+    }
+  }
 };
