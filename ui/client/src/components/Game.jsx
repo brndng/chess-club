@@ -37,7 +37,7 @@ class Game extends Component {
     this.socket.on('chat', (message) => {
       this.setState({ 
         messages: [...this.state.messages, message], 
-        message: '' 
+        message: '',
       });
     });
     this.socket.on('move', (newMove) => {
@@ -105,15 +105,13 @@ class Game extends Component {
     }
   }
 
-  
-  
   setText(e) {
     this.setState({ message: e.target.value });
   }
 
   sendChat() {
     const { message, messages } = this.state;
-    const { id } = this.props;
+    const { id } = this.props.location.state;
     this.socket.emit('chat', { message, id } );
   }
 
@@ -146,8 +144,8 @@ class Game extends Component {
             <div className="game-info-container">
               GAME # {game.id}
               <div className="chat-container">
-                <div className="output">
-                  {messages.map((message, i) => <li key={i}>{message}</li> )}
+                <div className="chat-output">
+                  {messages.map((message, i) => <li key={i}>{message}</li>)}
                 </div>
                 <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
                 <button onClick={() => {this.sendChat()}}>SEND</button>

@@ -8,7 +8,7 @@ html, body, #app {
   justify-content: center;
 }
 
-/* Board Style */
+/* Board */
 .board-container {
   align-items: center;
   justify-content: center;
@@ -63,7 +63,7 @@ html, body, #app {
           font-size: 32px;
         }
 
-/* NavBar Style */
+/* NavBar */
 .nav {
   display: flex;
   justify-content: space-between;
@@ -127,10 +127,40 @@ html, body, #app {
   }
 }
 
-/* Login Style */
+/* Login */
 .login-form {
   display: flex;
-  direction: column;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 128px;
+}
+
+.login-form input {
+  box-sizing: border-box;
+  width: 320px;
+  height: 32px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.login-form button {
+  box-sizing: border-box;
+  width: 320px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+/* Chat */
+.chat-output {
+  height: 200px;
+  overflow: auto;
+  background: #fafafa;
+}
+
+.chat-output li {
+  list-style: none;
 }
 
 

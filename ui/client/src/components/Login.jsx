@@ -64,17 +64,17 @@ class LogIn extends Component {
     return view === 'login'
       ? <div className="login-form">
           <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-          <input type="text" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
+          <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
           <button onClick={() => this.logIn()}>Log In</button>
-          <br/>
-          Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a>
+          
+          <div>Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a></div>
         </div> 
       : <div className="login-form">
           <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-          <input type="text" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
+          <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
           <button onClick={() => this.signUp()}>Sign Up</button>
-          <br/>
-          Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a>
+          
+          <div>Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a></div>
         </div> 
   }
 }
