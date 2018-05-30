@@ -162,16 +162,50 @@ html, body, #app, .route-container {
   margin-bottom: 8px;
 }
 
+/* Game */
+.game-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fafafa;
+  height: 400px;
+  padding: 20px;
+}
+
 /* Chat */
 .chat-output {
-  height: 200px;
+  height: 100px;
   overflow: auto;
-  background: #fafafa;
+  background: white;
 }
 
 .chat-output li {
   list-style: none;
 }
+
+/* MoveHistory */
+.move-history {
+  height: 100px;
+  overflow: auto;
+  background: white;
+}
+.move-row {
+  display: flex;
+  flex-direction: row;
+  width: 140px;
+  justify-content: space-between;
+
+}
+
+
+
+
+
 
 
 

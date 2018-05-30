@@ -117,7 +117,7 @@ class Game extends Component {
   }
 
   resign() {
-    const { id, userId } =  this.props;
+    const { id, userId, game } =  this.props;
     const opponentId = userId === game.white ? game.black : game.white;
     this.socket.emit('game_over', { userId, id });
     axios.put(`http://localhost:3000/games/document`, { 
@@ -142,8 +142,11 @@ class Game extends Component {
             <div className="board-container">
               <Board />
             </div>
-            <div className="game-info-container">
+            <div className="game-info">
               GAME # {game.id}
+              <div className="move-history">
+                <MoveHistory />
+              </div>
               <div className="chat-container">
                 <div className="chat-output">
                   {messages.map((message, i) => <li key={i}>{message}</li>)}
@@ -151,10 +154,11 @@ class Game extends Component {
                 <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
                 <button onClick={() => {this.sendChat()}}>SEND</button>
               </div>
-              <button onClick={() => {this.resign()}}>RESIGN</button>
-              <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+              <div>
+                <button onClick={() => {this.resign()}}>RESIGN</button>
+                <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+              </div>
             </div>
-            <MoveHistory />
           </div>
     )
   }
