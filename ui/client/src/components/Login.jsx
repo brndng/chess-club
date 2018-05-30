@@ -34,12 +34,12 @@ class LogIn extends Component {
     const { username, password } = this.state;
     const response = await axios.post('http://localhost:3000/users/login', { username, password });
     if (response.status === 200) {
-      storeUser(response.data.user);
+      storeUser(response.data);
       auth.authenticate(() => {
         this.setState({ 
           redirectToReferrer: true
         });
-      })
+      });
     }
   }
 

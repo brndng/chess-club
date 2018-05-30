@@ -36,14 +36,16 @@ module.exports = {
       ["P", "P", "P", "P", "P", "P", "P", "P"],
       ["R", "N", "B", "Q", "K", "B", "N", "R"]
     ];
-    const whiteToMove = true;
-    const moves = [];
-    const inCheck = null;
-    const accepted = true;
-    const completed= false;
     try {
       const game = await Game.create({
-        position, moves, whiteToMove, accepted, completed, white, black,
+        position, 
+        moves: [],
+        whiteToMove: true,
+        inCheck: null,
+        accepted: true,
+        completed: false, 
+        white, 
+        black,
       });
       res.send(game.dataValues);
     } catch (err) {

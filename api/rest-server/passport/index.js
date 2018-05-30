@@ -2,19 +2,24 @@ const passport = require('passport');
 const LocalStrategy = require('./local-strategy');
 const { User } = require('../../db/models.js');
 
-// called on login, saves the id to session req.session.passport.user = {id:'..'}
+// saved to session req.session.passport.user = {id:'..'}
 passport.serializeUser((user, done) => {
-	console.log('\t /// -----------serializeUser, user: \n', user.dataValues)
-	done(null, user.dataValues.id);
+  console.log('\t /// -----------serializeUser, user:', user)
+	done(null, user.id);
 });
+
+// done(null, {id: user.dataValues.id});
 
 passport.deserializeUser((id, done) => {
   console.log('\t /// -----------entering deserializing')
   User.findById(id, (err, user) => {
-    console.log('\t /// -----------deserializing user: ', user);
-    done(err, user.dataValues.id);
+    done(err, user);
   });
 });
+
+passport.use(LocalStrategy);
+
+module.exports = passport;
 
 // passport.serializeUser((user, done) => {
 // 	console.log('*** serializeUser called, user: ')
@@ -39,7 +44,3 @@ passport.deserializeUser((id, done) => {
 // 		}
 // 	)
 // })
-
-passport.use(LocalStrategy)
-
-module.exports = passport;

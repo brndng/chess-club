@@ -27,10 +27,11 @@ export const selectPiece = (origin, piece) => {
   };
 };
 
-export const storeUser = (userId) => {
+export const storeUser = (user) => {
+  const { id, username } = user;
   return {
     type: 'LOGGED_IN',
-    payload: userId,
+    payload: { id, username },
   };
 };
 

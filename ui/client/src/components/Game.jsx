@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
+import MoveHistory from './MoveHistory.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
 import { 
@@ -153,6 +154,7 @@ class Game extends Component {
               <button onClick={() => {this.resign()}}>RESIGN</button>
               <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
             </div>
+            <MoveHistory />
           </div>
     )
   }
@@ -166,5 +168,5 @@ const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({ initGame, updatePosition, toggleTurn, updateCheckStatus, updateGameOver }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Game)
+export default connect(mapStateToProps, matchDispatchToProps)(Game);
 

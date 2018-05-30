@@ -19,11 +19,11 @@ module.exports = {
     }
   },
   sendUserInfo: (req, res) => {
-    console.log('------logged in req.user', req.user);
-    console.log('------req.session', req.session);
+    console.log('------logged in req.user:', req.user);
+    console.log('------req.session:', req.session);
     if (req.user) {
-      res.json(req.session.passport); 
-      // res.json(req.user.dataValues);
+      // res.json(req.session.passport); 
+      res.json(req.user);
     } else {
       res.json(null);
     }
@@ -40,7 +40,7 @@ module.exports = {
   fetchPlayers: async (req, res) => {
     try {
       const players = await User.findAll();
-      console.log('\tplayers/////////', players)
+      // console.log('\tplayers/////////', players)
       res.send(players);
     } catch (err) {
       console.log('err from createUser', err);

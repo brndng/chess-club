@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Link, Redirect, withRouter } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import axios from 'axios';
+import PrivateRoute from './PrivateRoute.jsx';
 import Dashboard from './Dashboard.jsx';
 import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
@@ -10,20 +11,6 @@ import Players from './Players.jsx';
 import Logout from './Logout.jsx';
 import auth from '../auth.js';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  console.log('Private Route, auth.isAuthenticated',auth.isAuthenticated)
-
-  //put ajax call in here to check for token, so page persists on refresh
-
-  return <Route {...rest} render={(props) => ( 
-    auth.isAuthenticated === true 
-      ? <Component {...props} />
-      : <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
-        }} />
-  )} />
-}
 class App extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +25,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="route-container">
         <div className="nav">
           <ul>
             <li><Link to='/profile'> PROFILE </Link></li>
@@ -52,9 +39,9 @@ class App extends Component {
         <Route exact path='/' component={Dashboard} />
         <Route path='/login' component={Login} />
         <PrivateRoute path='/gamelist' component={GameList} />
-        <Route path='/game' component={Game} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/players' component={Players} />
+        <PrivateRoute path='/game' component={Game} />
+        <PrivateRoute path='/profile' component={Profile} />
+        <PrivateRoute path='/players' component={Players} />
       </div>
     );
   }

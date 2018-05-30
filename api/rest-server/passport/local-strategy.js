@@ -21,6 +21,7 @@ const strategy = new LocalStrategy(
         if (!isVerified) {
           return done(null, false, { message: 'Incorrect password' })
         }
+        return done(null, user.dataValues);
         return done(null, user);
 			}
     } catch (err) {
