@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
+import MoveHistory from './MoveHistory.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { updatePosition, toggleTurn, updateCheckStatus } from '../actions/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
+import { 
+  initGame,
+  updatePosition, 
+  toggleTurn, 
+  updateCheckStatus,
+  updateGameOver } from '../actions/';
 
 class Game extends Component {
   constructor(props) {
@@ -18,63 +25,111 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { id, updatePosition, updateCheckStatus } = this.props;
-    this.socket = io(`http://localhost:1337/`);
-    this.socket.on('connect', () => this.socket.emit('game_id', id));
-    this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`))
+    const { userId, initGame, updatePosition, updateCheckStatus, updateGameOver } = this.props;
+    const { id } = this.props.location.state;
+    const game = await axios.get(`http://localhost:3000/games/${id}`);
+
+    this.socket = await io(`http://localhost:1337/`, { 'forceNew':true });
+
+    this.socket.on('connect', () => {
+      this.socket.emit('game_id', id);
+    });
+    this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
     this.socket.on('chat', (message) => {
       this.setState({ 
         messages: [...this.state.messages, message], 
-        message: '' 
+        message: '',
       });
-    })
+    });
     this.socket.on('move', (newMove) => {
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
         updatePosition(...newMove, this.props.moves);
       }
     });
-    this.socket.on('check', (userId) => {
-      if (this.props.inCheck !== userId) {
-        updateCheckStatus(userId);
+    this.socket.on('check', (player) => {
+      if (this.props.inCheck !== player) {
+        console.log(`Player ${player} is in CHECK`);
+        updateCheckStatus(player);
       }
-    })
+    });
+    this.socket.on('game_over', (player) => {
+      console.log(`Player ${player} has been CHECKMATED`);
+      updateGameOver();
+      if (userId !== player) {
+        console.log(`YOU WIN`);
+      } else {
+        console.log(`YOU LOSE`);
+      }
+    });
+    this.socket.on('draw', (player) => {
+      updateGameOver();
+      if (userId !== player) {
+        console.log(`Player ${player} has offered a draw`);
+      }
+    });
+
+    initGame(game.data);
   }
 
-  componentDidUpdate(prevProps) {
-    const { id, userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
+  async componentDidUpdate(prevProps) {
+
+    const { userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
+    const { id } = this.props.location.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
+    const _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves);
 
-    if (newMove && JSON.stringify(newMove) !== JSON.stringify(currMove) && prevProps.id === id) {
+    if (
+      prevProps.game !== null
+      && id === prevProps.game.id 
+      && newMove 
+      && JSON.stringify(newMove) !== JSON.stringify(currMove)
+     ) { 
       this.socket.emit('move', { newMove, id });
-      axios.put(`http://localhost:3000/games/update`, { id, currentPosition, moves, whiteToMove, inCheck });
+      axios.put(`http://localhost:3000/games/move`, { id, currentPosition, moves, whiteToMove });
       toggleTurn();
     }
-    //var _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves)
-    if (isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck !== userId) {
-      console.log('CHECK!')
-      if(evaluateCheckmateConditions(userId, game.white, currentPosition, moves)) {
-        console.log('CHECKMATE!!!')
+
+    if (_isKingInCheck && prevProps.inCheck !== userId) {
+      const _checkMate =  evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
+      if(_checkMate) {
+        this.socket.emit('game_over', { userId, id });
       }
       this.socket.emit('check', { userId, id });
-      updateCheckStatus(userId);
+      axios.put(`http://localhost:3000/games/check`, { id, inCheck: userId });
     }
 
-    if (!isKingInCheck(userId, game.white, currentPosition, moves) && prevProps.inCheck === userId) {
+    if (!_isKingInCheck && prevProps.inCheck === userId) {
       this.socket.emit('check', { userId: null, id });
-      updateCheckStatus(null);
+      axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
     }
   }
-  
+
   setText(e) {
     this.setState({ message: e.target.value });
   }
 
   sendChat() {
     const { message, messages } = this.state;
-    const { id } = this.props;
+    const { id } = this.props.location.state;
     this.socket.emit('chat', { message, id } );
+  }
+
+  resign() {
+    const { id, userId, game } =  this.props;
+    const opponentId = userId === game.white ? game.black : game.white;
+    this.socket.emit('game_over', { userId, id });
+    axios.put(`http://localhost:3000/games/document`, { 
+      id, 
+      completed: true,
+      winner: opponentId,
+    });
+  }
+
+  offerDraw() {
+    const { id, userId } =  this.props;
+    this.socket.emit('draw', { userId, id })
   }
 
   render() {
@@ -83,15 +138,26 @@ class Game extends Component {
     return (
       game === null 
         ? null 
-        : <div>
-            GAME # {game.id}
-            <Board />
-            <div className="chat-container">
-              <div className="output">
-                {messages.map((message, i) => <li key={i}>{message}</li> )}
+        : <div className="game-container">
+            <div className="board-container">
+              <Board />
+            </div>
+            <div className="game-info">
+              GAME # {game.id}
+              <div className="move-history">
+                <MoveHistory />
               </div>
-              <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
-              <button onClick={() => {this.sendChat()}}>SEND</button>
+              <div className="chat-container">
+                <div className="chat-output">
+                  {messages.map((message, i) => <li key={i}>{message}</li>)}
+                </div>
+                <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
+                <button onClick={() => {this.sendChat()}}>SEND</button>
+              </div>
+              <div>
+                <button onClick={() => {this.resign()}}>RESIGN</button>
+                <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+              </div>
             </div>
           </div>
     )
@@ -103,8 +169,8 @@ const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, in
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ updatePosition, toggleTurn, updateCheckStatus }, dispatch);
+  return bindActionCreators({ initGame, updatePosition, toggleTurn, updateCheckStatus, updateGameOver }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Game)
+export default connect(mapStateToProps, matchDispatchToProps)(Game);
 

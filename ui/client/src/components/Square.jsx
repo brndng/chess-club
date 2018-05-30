@@ -25,7 +25,8 @@ class Square extends Component {
 
   highlightSelected() {
     const { coords, selection } = this.props;
-    if (selection !== null ) {
+
+    if (selection !== null) {
       const { origin } = selection;
       return coords.row === origin.row && coords.col === origin.col 
         ? 'highlight' 
@@ -42,20 +43,20 @@ class Square extends Component {
         selectPiece(coords, piece);
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
-        if (verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves)) {
+        const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves);
+        
+        if (_isLegalSquare) {
           this.placeSelectedPiece(); 
         }
-        
       }
-      
-      
     }
   }
 
   placeSelectedPiece() {
     const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
+    const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
 
-    if (!willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves)) {
+    if (!_willMoveExposeKing) {
       updatePosition(selection.origin, coords, selection.piece, moves);
       selectPiece(null, null);
     } else {
@@ -64,19 +65,19 @@ class Square extends Component {
   }
 
   render() {
-    // const onClick = this.props.completed 
-    //   ? null
-    //   : () => this.handleSquareClick()
+    const onClick = this.props.completed 
+      ? null
+      : () => this.handleSquareClick();
     return (
-      <div id={this.initSquareColor()} className={`square ${this.highlightSelected()}`} onClick={() => this.handleSquareClick()}>
+      <div id={this.initSquareColor()} className={`square ${this.highlightSelected()}`} onClick={onClick}>
         {this.props.piece === null ? null : <Piece piece={this.props.piece} />}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ selection, currentPosition, whiteToMove, moves, userId, game }) => { 
-  return { selection, currentPosition, whiteToMove, moves, userId, game };
+const mapStateToProps = ({ selection, currentPosition, whiteToMove, moves, userId, game, completed }) => { 
+  return { selection, currentPosition, whiteToMove, moves, userId, game, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {

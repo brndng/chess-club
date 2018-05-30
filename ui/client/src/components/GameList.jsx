@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
@@ -16,22 +17,44 @@ class GameList extends Component {
     loadGames(games.data);
   }
 
-  async loadGameState(id) {
-    const { initGame } = this.props;
-    const game = await axios.get(`http://localhost:3000/games/${id}`);
-    const { white, black, position, whiteToMove, moves, inCheck } = game.data;
-    initGame(id, white, black, position, whiteToMove, moves, inCheck);
-  }
+
+  // render() {
+  //   const { userGames, game } = this.props;
+  //   return (
+  //     <div>
+  //       IN PROGRESS
+  //       {userGames.map((game) => {
+  //         if (!game.completed) {
+  //           return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
+  //         }
+  //       })}
+  //       <br/>
+  //       COMPLETED
+  //       {userGames.map((game) => {
+  //         if (game.completed) {
+  //           return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
+  //         }
+  //       })}
+  //       <br/>
+  //       {game === null ? null : <Game id={game.id}/>}
+  //     </div>
+  //   )
+  // }
 
   render() {
     const { userGames, game } = this.props;
     return (
       <div>
+        YOUR GAMES
         {userGames.map((game) => {
-          return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
+          return (
+            <li key={game.id}>
+              <Link to={{ pathname: '/game', state: {id: game.id} }}>
+                {`# ${game.id}: ${game.white} vs. ${game.black}`}
+              </Link>
+            </li>)
         })}
         <br/>
-        {game === null ? null : <Game id={game.id}/>}
       </div>
     )
   }

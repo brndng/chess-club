@@ -17,12 +17,14 @@ const Game = sequelize.define('game', {
   inCheck: Sequelize.INTEGER,
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+  winner: Sequelize.INTEGER,
 });
 
 const Friend = sequelize.define('friends', {
   accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
 
+// Associations
 Game.belongsTo(User, { foreignKey: 'white' });
 Game.belongsTo(User, { foreignKey: 'black' });
 Friend.belongsTo(User, { foreignKey: 'user1' });

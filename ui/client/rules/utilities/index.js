@@ -228,6 +228,36 @@ export const rotateBoard = (position) => {
 
 
 
+export const printMoves = (moves) => {
+
+  const movePairs = [];
+  const convertMoveToChessNotation = (origin, destin, piece) => {
+    const selection = piece.toUpperCase() === 'P'
+      ? ''
+      : piece.toUpperCase();
+    const file = String.fromCharCode(97 + destin.col);
+    const rank = 8 - destin.row;
+  
+    return `${selection}${file}${rank}`;
+  }
+
+  for (let i = 0; i < moves.length; i += 2) {
+    if (!moves[i + 1]) {
+      movePairs.push([moves[i], '']);
+    } else {
+      movePairs.push([moves[i], moves[i + 1]]);
+    }
+  }
+
+  return movePairs.map(pair => pair.map(move => {
+    return move === ''
+      ? move
+      : convertMoveToChessNotation(...move);
+  }));
+}
+
+
+
 // export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
 //   return locateAttackers(userId, white, position, moves, targetSquare, 'enemy').length > 0
 //     ? true

@@ -33,12 +33,20 @@ io.on('connection', (socket) => {
   });
 
   socket.on('move', (data) => {
-    socket.broadcast.to(data.id).emit('move', data.newMove)
+    socket.broadcast.to(data.id).emit('move', data.newMove);
   });
 
   socket.on('check', (data) => {
-    socket.broadcast.to(data.id).emit('check', data.userId)
+    io.sockets.in(data.id).emit('check', data.userId);
   });
+
+  socket.on('game_over', (data) => {
+    io.sockets.in(data.id).emit('game_over', data.userId);
+  });
+
+  socket.on('draw', (data) => {
+    io.sockets.in(data.id).emit('draw', data.userId);
+  })
 });
 
 app.use(...middleware);

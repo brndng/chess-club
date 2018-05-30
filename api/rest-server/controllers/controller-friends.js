@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const models = require('../../db/models.js');
+const { Friend } = require('../../db/models.js');
 
 module.exports = {
   fetchAllFriends: async (req, res) => {

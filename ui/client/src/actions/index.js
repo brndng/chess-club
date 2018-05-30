@@ -1,7 +1,8 @@
-export const initGame = (id, white, black, position, whiteToMove, moves, inCheck) => {
+export const initGame = (data) => {
+  const { id, white, black, position, whiteToMove, moves, inCheck, completed } = data;
   return {
     type: 'GAME_INITIALIZED',
-    payload: { id, white, black, position, whiteToMove, moves, inCheck },
+    payload: { id, white, black, position, whiteToMove, moves, inCheck, completed },
   };
 };
 
@@ -26,10 +27,11 @@ export const selectPiece = (origin, piece) => {
   };
 };
 
-export const storeUser = (userId) => {
+export const storeUser = (user) => {
+  const { id, username } = user;
   return {
     type: 'LOGGED_IN',
-    payload: userId,
+    payload: { id, username },
   };
 };
 
@@ -44,6 +46,13 @@ export const updateCheckStatus = (userId) => {
   return {
     type: 'CHECK_STATUS_UPDATED',
     payload: userId,
+  };
+};
+
+export const updateGameOver = () => {
+  return {
+    type: 'GAME_COMPLETED',
+    payload: null,
   };
 };
 

@@ -1,11 +1,11 @@
 const { Op } = require('sequelize');
-const db = require('../../db/models.js');
+const { Game } = require('../../db/models.js');
 
 module.exports = {
   fetchAllGames: async (req, res) => {
     const { user_id } = req.params;
     try {
-      const games = await db.Game.findAll({ 
+      const games = await Game.findAll({ 
         where: {
           [Op.or]: [{ white: user_id }, { black: user_id }],
         },
@@ -18,17 +18,34 @@ module.exports = {
   fetchGame: async (req, res) => {
     const { id } = req.params;
     try {
-      const game = await db.Game.findOne({ where: { id } });
+      const game = await Game.findOne({ where: { id } });
       res.send(game);
     } catch (err) {
       console.log('err from fetchGame', err);
     }
   },
   createGame: async (req, res) => {
-    const { position, moves, whiteToMove, accepted, completed, white, black } = req.body;
+    const { white, black } = req.body;
+    const position = [ 
+      ["r","n","b","q","k","b","n","r"],
+      ["p","p","p","p","p","p","p","p"],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      [null,null,null,null,null,null,null,null],
+      ["P", "P", "P", "P", "P", "P", "P", "P"],
+      ["R", "N", "B", "Q", "K", "B", "N", "R"]
+    ];
     try {
-      const game = await db.Game.create({
-        position, moves, whiteToMove, accepted, completed, white, black,
+      const game = await Game.create({
+        position, 
+        moves: [],
+        whiteToMove: true,
+        inCheck: null,
+        accepted: true,
+        completed: false, 
+        white, 
+        black,
       });
       res.send(game.dataValues);
     } catch (err) {
@@ -43,10 +60,10 @@ module.exports = {
     res.send('hello from gamesController');
   },
 
-  updateGame: async (req, res) => {
+  registerMove: async (req, res) => {
     const { id, currentPosition, moves, whiteToMove } = req.body;
     try {
-      const update = await db.Game.update({
+      const update = await Game.update({
         position: currentPosition,
         moves,
         whiteToMove: !whiteToMove,
@@ -56,17 +73,34 @@ module.exports = {
         plain: true,
       });
       res.send(update[1].dataValues);
+      console.log('​\tupdate[1].dataValues', update[1].dataValues.whiteToMove);
     } catch (err) {
-      console.log('err from updateGame', err);
+      console.log('err from registerMove', err);
+    }
+  },
+
+  updateCheck: async (req, res) => {
+    const { id, inCheck } = req.body;
+    try {
+      const update = await Game.update({
+        inCheck,
+      }, {
+        where: { id },
+        returning: true,
+        plain: true,
+      });
+      res.send(update[1].dataValues);
+    } catch (err) {
+      console.log('err from updateCheck', err);
     }
   },
 
   documentGame: async (req, res) => {
-    // flip completed to true
-    const { id } = req.body
+    const { id, completed, winner } = req.body
     try {
-      const record = await db.Game.update({
-        completed: true,
+      const record = await Game.update({
+        completed,
+        winner,
       }, {
         where: { id },
         returning: true,

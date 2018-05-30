@@ -1,67 +1,50 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { Route, Link } from "react-router-dom";
 import axios from 'axios';
+import PrivateRoute from './PrivateRoute.jsx';
+import Dashboard from './Dashboard.jsx';
+import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
-import { storeUser } from '../actions/';
+import Game from './Game.jsx';
+import Profile from './Profile.jsx';
+import Players from './Players.jsx';
+import Logout from './Logout.jsx';
+import auth from '../auth.js';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      verified: false,
-      username: '' ,
-      password: '',
-    }
   }
 
-  setUsername(e) {
-    this.setState({ username: e.target.value });
-  }
+  componentDidMount() {
+    console.log('CDM auth.isAuthenticated BEFORE', auth.isAuthenticated);
+    // auth.isAuthenticated = true 
+    // console.log('CDM auth.isAuthenticated AFTER', auth.isAuthenticated);
 
-  setPassword(e) {
-    this.setState({ password: e.target.value });
-  }
-
-  logIn() {
-    const { storeUser } = this.props;
-    const { username, password } = this.state;
-    axios.post('http://localhost:3000/users/login', { username, password }).then((data)=>{
-      if (data.data !== '') {
-        storeUser(data.data.id);
-        this.setState({ verified: true });
-      }
-    })
-  }
-
-  signUp() {
-    const { username, password } = this.state;
-    axios.post('http://localhost:3000/users/signup', { username, password })
   }
 
   render() {
-    const { verified, username, password } = this.state;
-    return verified ? <div><GameList /></div> : 
-      <div>
-        <div>
-          LOG IN
-          <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-          <input type="text" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
-          <button onClick={() => this.logIn()}>Log In</button>
-        </div> 
-        <br/>
-        <div>
-          SIGN UP
-          <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-          <input type="text" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
-          <button onClick={() => this.signUp()}>Sign Up</button>
-        </div> 
+    return (
+      <div className="route-container">
+        <div className="nav">
+          <ul>
+            <li><Link to='/profile'> PROFILE </Link></li>
+            <li><Link to='/gamelist'> GAMES </Link></li>
+            <li><Link to='/players'> PLAYERS </Link></li>
+          </ul>
+          <ul>
+            <Logout />
+          </ul>
+        </div>
+        <Route exact path='/' component={Dashboard} />
+        <Route path='/login' component={Login} />
+        <PrivateRoute path='/gamelist' component={GameList} />
+        <PrivateRoute path='/game' component={Game} />
+        <PrivateRoute path='/profile' component={Profile} />
+        <PrivateRoute path='/players' component={Players} />
       </div>
+    );
   }
 }
 
-const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ storeUser }, dispatch);
-}
-
-export default connect(null, matchDispatchToProps)(App)
+export default App;

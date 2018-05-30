@@ -1,54 +1,49 @@
 const { Op } = require('sequelize');
-const models = require('../../db/models.js');
+const bcrypt = require('bcryptjs');
+const { User } = require('../../db/models.js');
 
 module.exports = {
-  createUser: async (req, res) => {
-    const { username, password } = req.body;
+  registerUser: async (req, res) => {
+    const { username } = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    const password = await bcrypt.hash(req.body.password, salt);
     try {
-      const user = await models.User.create({
+      const user = await User.create({
         username,
         password,
       });
+      console.log('user', user)
       res.send(user);
     } catch (err) {
       console.log('err from createUser', err);
     }
   },
-  verifyUser: async (req, res) => {
-    const { username, password } = req.body;
-    try {
-      const user = await models.User.findOne({
-        where: {
-          username,
-          password,
-        },
-      });
-      res.send(user);
-    } catch (err) {
-      console.log('err from verifyUser', err);
+  sendUserInfo: (req, res) => {
+    console.log('------logged in req.user:', req.user);
+    console.log('------req.session:', req.session);
+    if (req.user) {
+      // res.json(req.session.passport); 
+      res.json(req.user);
+    } else {
+      res.json(null);
     }
   },
+
   terminateSession: async (req, res) => {
     res.send('hello from usersController');
   },
-  fetchUser: async (req, res) => {
-    res.send('hello from usersController');
-  },
+  
   fetchProfile: async (req, res) => {
     res.send('hello from usersController');
   },
-};
 
-// module.exports = {
-//   fetchUsernameById: async (id) => {
-//     try {
-//       const username = await models.User.findOne({ 
-//         where: { id },
-//       });
-//       return username.username;
-//     } catch (error) {
-//       console.log('Error with fetchUsernameById', error);
-//       return;
-//     }
-//   },
-// }
+  fetchPlayers: async (req, res) => {
+    try {
+      const players = await User.findAll();
+      // console.log('\tplayers/////////', players)
+      res.send(players);
+    } catch (err) {
+      console.log('err from createUser', err);
+    }
+  }
+};

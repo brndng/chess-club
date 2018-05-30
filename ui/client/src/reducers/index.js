@@ -7,6 +7,7 @@ import GameReducer from './reducer-game.js';
 import UserGamesReducer from './reducer-user-games.js';
 import UserIdReducer from './reducer-user-id.js';
 import InCheckReducer from './reducer-in-check.js';
+import CompletedReducer from './reducer-completed.js';
 
 export default combineReducers({
   selection: SelectionReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   userGames: UserGamesReducer,
   userId: UserIdReducer,
   inCheck: InCheckReducer,
+  completed: CompletedReducer,
 });

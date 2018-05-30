@@ -1,0 +1,6 @@
+
+
+# instructions to run locally
+cd api, npm start
+cd ui, cd client, npm run build
+cd ui, cd server, nodemon
