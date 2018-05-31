@@ -52,11 +52,11 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
+    const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece } = this.props;
     const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
 
     if (!_willMoveExposeKing) {
-      updatePosition(selection.origin, coords, selection.piece, moves);
+      updatePosition(selection.origin, coords, selection.piece, piece, moves);
       selectPiece(null, null);
     } 
   }

@@ -56,14 +56,14 @@ export const updateGameOver = () => {
   };
 };
 
-export const updatePosition = (origin, destin, piece, moves = []) => {
+export const updatePosition = (origin, destin, piece, captured, moves = []) => {
   const prevMove = moves.slice(-1)[0];
   const [prevOrigin, prevDestin, prevPiece] = prevMove ? prevMove: [];
   
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
-      payload: [origin, destin, piece],
+      payload: [origin, destin, piece, captured],
     };
   } else if (
     prevMove
@@ -76,18 +76,18 @@ export const updatePosition = (origin, destin, piece, moves = []) => {
   ) {
     return {
       type: 'EN_PASSANT',
-      payload: [origin, destin, piece, prevMove],
+      payload: [origin, destin, piece, 'P', prevMove],
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
     return {
       type: 'KING_CASTLED',
-      payload: [origin, destin, piece],
+      payload: [origin, destin, piece, captured],
     };
   }
 
   return {
     type: 'POSITION_CHANGED', 
-    payload: [origin, destin, piece],
+    payload: [origin, destin, piece, captured],
   };
 };
 

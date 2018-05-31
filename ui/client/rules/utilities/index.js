@@ -242,21 +242,36 @@ export const rotateBoard = (position) => {
   return copy.reverse().map(row => row.reverse());
 };
 
-export const convertMoveToChessNotation = (origin, destin, piece) => {
-  const selection = piece.toUpperCase() === 'P'
-    ? ''
-    : piece.toUpperCase();
+export const convertToAlgebraicNotation = (origin, destin, piece, captured) => {
+  const figurines = {
+    K: '♔',
+    Q: '♕',
+    R: '♖',
+    B: '♗',
+    N: '♘',
+  }
+  const originFile = String.fromCharCode(97 + origin.col);
   const file = String.fromCharCode(97 + destin.col);
   const rank = 8 - destin.row;
+  const selection = piece.toUpperCase() === 'P'
+    ? captured === null
+      ? ''
+      : originFile
+    : figurines[piece.toUpperCase()];
 
-  if (selection === 'K') {
+  if (selection === '♔') {
     if (destin.col - origin.col === 2) {
       return `O-O`;
     } else if (destin.col - origin.col === -2) {
       return `O-O-O`;
     }
   }
-  return `${selection}${file}${rank}`;
+  
+  if (captured !== null) {
+    return `${selection}${'x'}${file}${rank}`
+  } else {
+    return `${selection}${file}${rank}`;
+  }
 };
 
 export const printMoves = (moves) => {
@@ -273,7 +288,11 @@ export const printMoves = (moves) => {
   return movePairs.map(pair => pair.map(move => {
     return move === ''
       ? move
-      : convertMoveToChessNotation(...move);
+      : convertToAlgebraicNotation(...move);
     })
   );
 }
+
+
+
+
