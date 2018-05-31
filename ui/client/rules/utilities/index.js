@@ -182,11 +182,6 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   const checkThreats = locateCheckThreats(userId, white, position, moves);
   const enemySquare = checkThreats[0].origin;
 
-  // console.log('checkThreats',checkThreats)
-  // console.log('flightSquares',flightSquares)
-  // console.log('canCapture', canCapture(userId, white, position, moves, enemySquare))
-  // console.log('canBlock', canBlock(userId, white, position, moves, enemySquare))
-
   if (checkThreats.length === 2) { 
     if (flightSquares.length === 0) {
       return true;
@@ -200,7 +195,6 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
       return true;
     }
   }
-
   return false;
 };
 
@@ -226,20 +220,25 @@ export const rotateBoard = (position) => {
   return copy.reverse().map(row => row.reverse());
 };
 
+export const convertMoveToChessNotation = (origin, destin, piece) => {
+  const selection = piece.toUpperCase() === 'P'
+    ? ''
+    : piece.toUpperCase();
+  const file = String.fromCharCode(97 + destin.col);
+  const rank = 8 - destin.row;
 
+  if (selection === 'K') {
+    if (destin.col - origin.col === 2) {
+      return `O-O`;
+    } else if (destin.col - origin.col === -2) {
+      return `O-O-O`;
+    }
+  }
+  return `${selection}${file}${rank}`;
+};
 
 export const printMoves = (moves) => {
-
   const movePairs = [];
-  const convertMoveToChessNotation = (origin, destin, piece) => {
-    const selection = piece.toUpperCase() === 'P'
-      ? ''
-      : piece.toUpperCase();
-    const file = String.fromCharCode(97 + destin.col);
-    const rank = 8 - destin.row;
-  
-    return `${selection}${file}${rank}`;
-  }
 
   for (let i = 0; i < moves.length; i += 2) {
     if (!moves[i + 1]) {
@@ -253,124 +252,6 @@ export const printMoves = (moves) => {
     return move === ''
       ? move
       : convertMoveToChessNotation(...move);
-  }));
+    })
+  );
 }
-
-
-
-// export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
-//   return locateAttackers(userId, white, position, moves, targetSquare, 'enemy').length > 0
-//     ? true
-//     : false
-// }
-
-// export const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
-//   let isAttacked = false;
-//   const king = userId === white ? 'K' : 'k';
-
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) {
-//       if (position[row][col] !== null) {
-//         let piece = position[row][col];
-//         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
-//         let attacker = camp === 'ally' ? ally : enemy;
-//         if (piece === attacker
-//           && verifyLegalSquare(attacker, {row, col}, targetSquare, position, moves) 
-//         ) {
-//           isAttacked = true;
-//           break;
-//         }
-//       }
-//     }
-//   }
-//   return isAttacked;
-// }
-
-// export const isKingInCheck = (userId, white, position, moves) => {
-//   let inCheck = false;
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) { 
-//       if (position[row][col] !== null) { 
-//         let piece = position[row][col]; 
-//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
-// 				let king = userId === white ? 'K' : 'k';
-//         if (piece === enemy) {
-//           if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position, moves)) {
-//             inCheck = true;
-//             break;
-//           }
-//         }
-//       }
-//     }
-//   }
-//   return inCheck;
-// }
-
-// export const canCapture = (userId, white, position, moves, enemySquare) => {
-//   let canCapture = false;
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) {
-//       if (position[row][col] !== null) {
-//         let piece = position[row][col];
-//         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-//         let king = userId === white ? 'K' : 'k';
-//         if (piece === ally) {    
-//           if (verifyLegalSquare(ally, {row, col}, enemySquare, position, moves)) {
-//             canCapture = true;
-//             break;
-//           }
-//         }
-//       }
-//     }
-//   }
-//   return canCapture;
-// }
-
-
-// export const locateSquaresOfInterest = (userId, white, position, moves, targetSquare, camp) => {
-//   const squares = [];
-
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) {
-//       if (position[row][col] !== null) {
-//         let piece = position[row][col];
-//         let ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
-//         let attacker = camp === 'ally' ? ally : enemy;
-//         if (piece === attacker
-//           && verifyLegalSquare(attacker, {row, col}, targetSquare, position, moves) 
-//         ) {
-//           squares.push({piece, coords: {row, col}})
-//         }
-//       }
-//     }
-//   }
-//   return squares;
-// }
-
-// export const locateCheckThreats = (userId, white, position, moves) => {
-//   //get list of pieces currently threatening king
-//   const threats = [];
-//   const king = userId === white ? 'K' : 'k';
-  
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) {
-//       if (position[row][col] !== null) {
-//         let piece = position[row][col];
-//         let enemy = userId === white ? piece.toLowerCase() : piece.toUpperCase();
-//         if (piece === enemy) {
-//           if(verifyLegalSquare(enemy, {row, col}, locateKing(king, position), position, moves)) {
-//             threats.push({row, col});
-//           }
-//         }
-//       }
-//     }
-//   }
-//   return threats;
-// }
-
-// console.log('checkThreats',checkThreats)
-// console.log('flightSquares',flightSquares)
-// console.log('canCapture', canCapture(userId, white, position, moves, enemySquare))
-// console.log('canBlock', canBlock(userId, white, position, moves, enemySquare))

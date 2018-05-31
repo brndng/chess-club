@@ -44,7 +44,6 @@ class Square extends Component {
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
         const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves);
-        
         if (_isLegalSquare) {
           this.placeSelectedPiece(); 
         }
@@ -59,9 +58,7 @@ class Square extends Component {
     if (!_willMoveExposeKing) {
       updatePosition(selection.origin, coords, selection.piece, moves);
       selectPiece(null, null);
-    } else {
-      console.log('thats check SON!');
-    }
+    } 
   }
 
   render() {
