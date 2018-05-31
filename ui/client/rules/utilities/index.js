@@ -198,6 +198,28 @@ export const evaluateCheckmateConditions = (userId, white, position, moves) => {
   return false;
 };
 
+// export const locatePiecesWithLegalMoves = (userId, white, position) => {
+//   let hasLegalMoves = true;
+  
+//   for (let row = 0; row < position.length; row++) {
+//     for (let col = 0; col < position[row].length; col++) {
+//       const piece = position[row][col];
+//       const ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
+//       for (let m = 0; m < position.length; m++) {
+//         for (let n = 0; n < position[m].length; n++) {
+//           if (verifyLegalSquare(ally, {row, col}, {m, n}, position)) {
+//             console.log('found a legal move');
+//             hasLegalMoves = false;
+//             break;
+//           }
+//         }
+//       }
+//     }
+//   }
+
+//   return hasLegalMoves;
+// }
+
 export const isPawnPromoting = (selection, destin) => {
   if (
     (selection.piece === 'P' && destin.row === 0)

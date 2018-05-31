@@ -104,6 +104,7 @@ class Game extends Component {
       this.socket.emit('check', { userId: null, id });
       axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
     }
+    
   }
 
   setText(e) {
