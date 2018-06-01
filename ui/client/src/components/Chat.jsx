@@ -11,8 +11,8 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    console.log('CDM CHAT SOCKET', this.props.socket)
-    this.props.socket.on('chat', (message) => {
+    const { socket } = this.props;
+    socket.on('chat', (message) => {
       this.setState({ 
         messages: [...this.state.messages, message], 
         message: '',
@@ -26,8 +26,8 @@ class Chat extends Component {
 
   sendChat() {
     const { message } = this.state;
-    const { id } = this.props;
-    this.props.socket.emit('chat', { message, id });
+    const { id, socket } = this.props;
+    socket.emit('chat', { message, id });
   }
 
   render() {

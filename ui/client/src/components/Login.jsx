@@ -66,14 +66,12 @@ class LogIn extends Component {
           <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
           <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
           <button onClick={() => this.logIn()}>Log In</button>
-          
           <div>Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a></div>
         </div> 
       : <div className="login-form">
           <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
           <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
           <button onClick={() => this.signUp()}>Sign Up</button>
-          
           <div>Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a></div>
         </div> 
   }

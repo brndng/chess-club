@@ -24,21 +24,24 @@ class Board extends Component {
     const positionRotated = rotateBoard(this.state.position);
 
     return userId === game.white 
-      ? <div className="board">{this.state.position.map((row, i) => 
-          <div className="row" key={i}>{row.map((elem, j) => {
-            let coords = { row: i, col: j };
-            return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
-          </div>)}
-        </div>   
+      ? <div className="board-container">
+          <div className="board">{this.state.position.map((row, i) => 
+            <div className="row" key={i}>{row.map((elem, j) => {
+              let coords = { row: i, col: j };
+              return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
+            </div>)}
+          </div>   
+        </div>
         
 
-      : <div className="board">{positionRotated.map((row, i) => 
-          <div className="row" key={i}>{row.map((elem, j) => {
-            let coords = { row: positionRotated.length-1-i, col: row.length-1-j };
-             return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
-          </div>)}
+      : <div className="board-container">
+          <div className="board">{positionRotated.map((row, i) => 
+            <div className="row" key={i}>{row.map((elem, j) => {
+              let coords = { row: positionRotated.length-1-i, col: row.length-1-j };
+              return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
+            </div>)}
+          </div>
         </div>
-       
   }
 }
 
