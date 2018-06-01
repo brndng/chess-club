@@ -335,12 +335,40 @@ export const printMoves = (moves) => {
   return movePairs;
 }
 
-export const printCapturedPieces = (moves) => {
+export const isCapturedPiece = (userId, game, piece) => {
+  let isEnemy = false;
+  
+  if (userId === game.white) {
+    if (piece !== null && piece === piece.toLowerCase()) {
+      isEnemy = true;
+    }
+  } else {
+    if (piece !== null && piece === piece.toUpperCase()) {
+      isEnemy = true;
+    }
+  }
+
+  return isEnemy;
+}
+
+export const printCapturedPieces = (userId, game, moves) => {
+  const chessmen = {
+    p: '♟',
+    n: '♞',
+    b: '♝',
+    r: '♜',
+    q: '♛',
+    P: '♙',
+    N: '♘',
+    B: '♗',
+    R: '♖',
+    Q: '♕',
+  }
   const pieces = [];
 
   moves.forEach(move => {
-    if (move.captured !== null) {
-      pieces.push(move.captured);
+    if (isCapturedPiece(userId, game, move[3])) {
+      pieces.push(chessmen[move[3]]);
     }
   });
 

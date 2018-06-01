@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import { printCapturedPieces } from '../../rules/utilities';
 
 class PlayerCard extends Component {
   constructor(props) {
@@ -19,15 +20,22 @@ class PlayerCard extends Component {
   }
 
   render() {
-    const { moves } = this.props;
+    const { id, game, moves } = this.props;
     const { username } = this.state;
+    const capturedPieces = printCapturedPieces(id, game, moves);
+    console.log('​PlayerCard -> render -> capturedPieces', capturedPieces);
+    
     return (
       <div className="player-card-container">
         <div className="player-card-username">
-          {`${username}`}
+          {username}
         </div>
         <div className="player-card-pieces">
-          Some Pieces
+          {capturedPieces.map((piece, i) => (
+            <div className="captured-piece" key={i}>
+              {piece}
+            </div>
+          ))}
         </div>
       </div>
     );
