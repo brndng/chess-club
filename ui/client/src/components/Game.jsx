@@ -23,6 +23,7 @@ class Game extends Component {
     this.state = {
       id,
       socket: null,
+      opponentId: null,
     }
   }
 
@@ -67,6 +68,12 @@ class Game extends Component {
     });
 
     initGame(game.data);
+
+    const opponentId = userId === game.data.white 
+      ? game.data.black
+      : game.data.white;
+
+    this.setState({ opponentId });
   }
 
   componentDidUpdate(prevProps) {
@@ -125,23 +132,24 @@ class Game extends Component {
   }
 
   render() {  
-    const { game, whiteToMove } = this.props;
-    const { id } = this.state;
-    // console.log('\t game id:', id);
+    const { userId, game, whiteToMove, moves } = this.props;
+    const { id, opponentId } = this.state;
+
     return (
       game !== null 
+        && opponentId !== null
         && <div className="game-container">
-            <Board />
-            <div className="game-info">
-              <PlayerCard />
-              <GameDisplay id={id} socket={this.socket}/>
-              <div className="game-options">
-                <button onClick={() => {this.resign()}}>RESIGN</button>
-                <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
-              </div>
-              <PlayerCard />
-            </div>
-          </div>
+             <Board />
+             <div className="game-info">
+               <PlayerCard id={opponentId} />
+               <GameDisplay id={id} socket={this.socket}/>
+               <div className="game-options">
+                 <button onClick={() => {this.resign()}}>RESIGN</button>
+                 <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+               </div>
+               <PlayerCard id={userId} />
+             </div>
+           </div>
     );
   }
 }

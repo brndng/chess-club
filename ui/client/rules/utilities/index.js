@@ -333,13 +333,18 @@ export const printMoves = (moves) => {
   }
 
   return movePairs;
+}
 
-  // return movePairs.map(pair => pair.map(move => {
-  //   return move === ''
-  //     ? move
-  //     : move
-  //   })
-  // );
+export const printCapturedPieces = (moves) => {
+  const pieces = [];
+
+  moves.forEach(move => {
+    if (move.captured !== null) {
+      pieces.push(move.captured);
+    }
+  });
+
+  return pieces;
 }
 
 

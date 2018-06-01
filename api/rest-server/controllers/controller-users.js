@@ -19,8 +19,8 @@ module.exports = {
     }
   },
   sendUserInfo: (req, res) => {
-    console.log('------logged in req.user:', req.user);
-    console.log('------req.session:', req.session);
+    // console.log('------logged in req.user:', req.user);
+    // console.log('------req.session:', req.session);
     if (req.user) {
       // res.json(req.session.passport); 
       res.json(req.user);
@@ -34,7 +34,17 @@ module.exports = {
   },
   
   fetchProfile: async (req, res) => {
-    res.send('hello from usersController');
+    const { id } = req.params;
+    try {
+      const user = await User.findOne({
+        where: { id },
+      });
+      console.log('user', user)
+      res.send(user);
+    } catch (err) {
+      console.log('err from fetchProfile', err);
+    }
+    
   },
 
   fetchPlayers: async (req, res) => {
