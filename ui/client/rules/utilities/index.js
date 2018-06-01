@@ -67,6 +67,12 @@ export const isKingInCheck = (userId, white, position, moves) => {
   return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
 };
 
+export const isOpponentInCheck = (userId, white, position, moves) => {
+  const king = userId === white ? 'k' : 'K';
+  const kingSquare = locateKing(king, position);
+  return isSquareAttacked(userId, white, position, moves, kingSquare, 'ally');
+};
+
 export const locateFlightSquares = (userId, white, position, moves) => {
   const flightSquares = [];
   const king = userId === white ? 'K' : 'k';
@@ -121,6 +127,45 @@ export const willMoveExposeKing = (userId, white, selection, destin, position, m
     }
 
     return false;
+  }
+}
+
+export const willMoveGiveCheck = (userId, white, selection, destin, position, moves) => {
+  const { origin, piece } = selection;
+  const preview = position.map(row => row.slice());
+
+  if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
+    preview[origin.row][origin.col] = null;
+    preview[destin.row][destin.col] = piece;
+    return isOpponentInCheck(userId, white, preview, moves);
+  } else {
+    if (userId === white) { 
+      if (destin.col === 6) {
+        preview[7][6] = piece;
+        preview[7][5] = 'R';
+        preview[7][4] = null;
+        preview[7][7] = null;
+      } else {
+        preview[7][2] = piece;
+        preview[7][3] = 'R';
+        preview[7][4] = null;
+        preview[7][0] = null;
+      }
+    } else { 
+      if (destin.col === 6) {
+        preview[0][6] = piece;
+        preview[0][5] = 'r';
+        preview[0][4] = null;
+        preview[0][7] = null;
+      } else {
+        preview[0][2] = piece;
+        preview[0][3] = 'r';
+        preview[0][4] = null;
+        preview[0][0] = null;
+      }
+    } 
+    
+    return isOpponentInCheck(userId, white, preview, moves) 
   }
 }
 
@@ -242,7 +287,7 @@ export const rotateBoard = (position) => {
   return copy.reverse().map(row => row.reverse());
 };
 
-export const convertToAlgebraicNotation = (origin, destin, piece, captured) => {
+export const convertToChessNotation = (origin, destin, piece, captured, check) => {
   const figurines = {
     K: '♔',
     Q: '♕',
@@ -258,6 +303,12 @@ export const convertToAlgebraicNotation = (origin, destin, piece, captured) => {
       ? ''
       : originFile
     : figurines[piece.toUpperCase()];
+  const captures = captured !== null
+    ? 'x'
+    : '';
+  const warning = check 
+    ? '+'
+    : '';
 
   if (selection === '♔') {
     if (destin.col - origin.col === 2) {
@@ -266,12 +317,8 @@ export const convertToAlgebraicNotation = (origin, destin, piece, captured) => {
       return `O-O-O`;
     }
   }
-  
-  if (captured !== null) {
-    return `${selection}${'x'}${file}${rank}`
-  } else {
-    return `${selection}${file}${rank}`;
-  }
+
+  return `${selection}${captures}${file}${rank}${warning}`
 };
 
 export const printMoves = (moves) => {
@@ -279,18 +326,20 @@ export const printMoves = (moves) => {
 
   for (let i = 0; i < moves.length; i += 2) {
     if (!moves[i + 1]) {
-      movePairs.push([moves[i], '']);
+      movePairs.push([moves[i][4], '']);
     } else {
-      movePairs.push([moves[i], moves[i + 1]]);
+      movePairs.push([moves[i][4], moves[i + 1][4]]);
     }
   }
 
-  return movePairs.map(pair => pair.map(move => {
-    return move === ''
-      ? move
-      : convertToAlgebraicNotation(...move);
-    })
-  );
+  return movePairs;
+
+  // return movePairs.map(pair => pair.map(move => {
+  //   return move === ''
+  //     ? move
+  //     : move
+  //   })
+  // );
 }
 
 

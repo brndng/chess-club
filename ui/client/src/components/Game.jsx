@@ -13,7 +13,7 @@ import {
   updatePosition, 
   toggleTurn, 
   updateCheckStatus,
-  updateGameOver } from '../actions/';
+  declareGameOver } from '../actions/';
 
 class Game extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { userId, initGame, updatePosition, updateCheckStatus, updateGameOver } = this.props;
+    const { userId, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.props.location.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
@@ -49,13 +49,12 @@ class Game extends Component {
     });
     this.socket.on('check', (player) => {
       if (this.props.inCheck !== player) {
-        console.log(`Player ${player} is in CHECK`);
         updateCheckStatus(player);
       }
     });
     this.socket.on('game_over', (player) => {
       console.log(`Player ${player} has been CHECKMATED`);
-      updateGameOver();
+      declareGameOver();
       if (userId !== player) {
         console.log(`YOU WIN`);
       } else {
@@ -63,7 +62,7 @@ class Game extends Component {
       }
     });
     this.socket.on('draw', (player) => {
-      updateGameOver();
+      declareGameOver();
       if (userId !== player) {
         console.log(`Player ${player} has offered a draw`);
       }
@@ -92,7 +91,7 @@ class Game extends Component {
     }
 
     if (_isKingInCheck && prevProps.inCheck !== userId) {
-      const _checkMate =  evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
+      const _checkMate = evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
       if(_checkMate) {
         this.socket.emit('game_over', { userId, id });
       }
@@ -135,7 +134,10 @@ class Game extends Component {
 
   render() {
     const { message, messages } = this.state;
-    const { game } = this.props;
+    const { game, whiteToMove } = this.props;
+    const turnDisplay = whiteToMove
+      ? 'White To Move'
+      : 'Black To Move';
     return (
       game === null 
         ? null 
@@ -144,7 +146,7 @@ class Game extends Component {
               <Board />
             </div>
             <div className="game-info">
-              GAME # {game.id}
+              GAME # {game.id} {turnDisplay}
               <div className="move-history">
                 <MoveHistory />
               </div>
@@ -170,7 +172,7 @@ const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, in
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ initGame, updatePosition, toggleTurn, updateCheckStatus, updateGameOver }, dispatch);
+  return bindActionCreators({ initGame, updatePosition, toggleTurn, updateCheckStatus, declareGameOver }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game);

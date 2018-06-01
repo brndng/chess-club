@@ -7,8 +7,11 @@ import { selectPiece, updatePosition } from '../actions/';
 import { 
   isWhite, 
   isKingInCheck, 
+  isGivingCheck,
   willMoveExposeKing,
-  isPawnPromoting } from '../../rules/utilities';
+  willMoveGiveCheck,
+  isPawnPromoting,
+  convertToChessNotation } from '../../rules/utilities';
 
 class Square extends Component {
   constructor(props) {
@@ -54,9 +57,11 @@ class Square extends Component {
   placeSelectedPiece() {
     const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece } = this.props;
     const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
+    const _check = willMoveGiveCheck(userId, game.white, selection, coords, currentPosition, moves);
+    const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
 
     if (!_willMoveExposeKing) {
-      updatePosition(selection.origin, coords, selection.piece, piece, moves);
+      updatePosition(selection.origin, coords, selection.piece, piece, _notation, moves);
       selectPiece(null, null);
     } 
   }

@@ -20,20 +20,20 @@ const withSession = (WrappedComponent) => class extends Component {
     super(props)
   }
 
-  async componentDidMount() {
-    try {
-      const session = await axios.get('http://localhost:3000/users/session');
-      console.log('session', session)
-      if (session.data === null) {
-        auth.isAuthenticated = false;
-      } else {
-        auth.isAuthenticated = true;
-      }
-      console.log('auth.isAuthenticated from CDM',auth.isAuthenticated)
-    } catch (err) {
-      console.log('err from PrivateRoute', err)
-    }
-  }
+  // async componentDidMount() {
+  //   try {
+  //     const session = await axios.get('http://localhost:3000/users/session');
+  //     console.log('session', session)
+  //     if (session.data === null) {
+  //       auth.isAuthenticated = false;
+  //     } else {
+  //       auth.isAuthenticated = true;
+  //     }
+  //     console.log('auth.isAuthenticated from CDM',auth.isAuthenticated)
+  //   } catch (err) {
+  //     console.log('err from PrivateRoute', err)
+  //   }
+  // }
 
   render() {
     return <WrappedComponent {...this.props} />

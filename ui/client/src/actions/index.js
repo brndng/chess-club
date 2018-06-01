@@ -49,21 +49,21 @@ export const updateCheckStatus = (userId) => {
   };
 };
 
-export const updateGameOver = () => {
+export const declareGameOver = () => {
   return {
     type: 'GAME_COMPLETED',
     payload: null,
   };
 };
 
-export const updatePosition = (origin, destin, piece, captured, moves = []) => {
+export const updatePosition = (origin, destin, piece, captured, notation, moves = []) => {
   const prevMove = moves.slice(-1)[0];
   const [prevOrigin, prevDestin, prevPiece] = prevMove ? prevMove: [];
   
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
-      payload: [origin, destin, piece, captured],
+      payload: [origin, destin, piece, captured, notation],
     };
   } else if (
     prevMove
@@ -76,18 +76,18 @@ export const updatePosition = (origin, destin, piece, captured, moves = []) => {
   ) {
     return {
       type: 'EN_PASSANT',
-      payload: [origin, destin, piece, 'P', prevMove],
+      payload: [origin, destin, piece, 'P', notation, prevMove]
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
     return {
       type: 'KING_CASTLED',
-      payload: [origin, destin, piece, captured],
+      payload: [origin, destin, piece, captured, notation],
     };
   }
 
   return {
     type: 'POSITION_CHANGED', 
-    payload: [origin, destin, piece, captured],
+    payload: [origin, destin, piece, captured, notation],
   };
 };
 
