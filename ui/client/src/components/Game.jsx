@@ -5,9 +5,8 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
-import MoveHistory from './MoveHistory.jsx';
-import Chat from './Chat.jsx';
-import GameDetails from './GameDetails.jsx';
+import GameDisplay from './GameDisplay.jsx';
+import PlayerCard from './PlayerCard.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
 import { 
@@ -20,22 +19,23 @@ import {
 class Game extends Component {
   constructor(props) {
     super(props);
+    const { id } = props.location.state;
     this.state = {
-      socketConnected: false,
+      id,
+      socket: null,
     }
   }
 
   async componentDidMount() {
     const { userId, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
-    const { id } = this.props.location.state;
+    const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
     // this.socket = await io(`http://localhost:1337/`, { 'forceNew': true });
     this.socket = await io(`http://localhost:1337/`);
 
-
     this.socket.on('connect', () => {
-      this.setState({ socketConnected: true });
+      this.setState({ socket: this.socket.id });
       this.socket.emit('game_id', id);
     });
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
@@ -71,7 +71,7 @@ class Game extends Component {
 
   componentDidUpdate(prevProps) {
     const { userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
-    const { id } = this.props.location.state;
+    const { id } = this.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
     const _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves);
@@ -108,7 +108,7 @@ class Game extends Component {
 
   resign() {
     const { userId, game } =  this.props;
-    const { id } = this.props.location.state;
+    const { id } = this.state;
     const opponentId = userId === game.white ? game.black : game.white;
     this.socket.emit('game_over', { userId, id });
     axios.put(`http://localhost:3000/games/document`, { 
@@ -120,29 +120,26 @@ class Game extends Component {
 
   offerDraw() {
     const { userId } =  this.props;
-    const { id } = this.props.location.state;
+    const { id } = this.state;
     this.socket.emit('draw', { userId, id })
   }
 
-  render() {
-    // console.log('GAME render this.socket // game.id', this.socket, '//',this.props.game)
-  
+  render() {  
     const { game, whiteToMove } = this.props;
-    const { id } = this.props.location.state;
+    const { id } = this.state;
+    // console.log('\t game id:', id);
     return (
-      game === null 
-        ? null 
-        : <div className="game-container">
+      game !== null 
+        && <div className="game-container">
             <Board />
             <div className="game-info">
-              GAME # {id} 
-              <MoveHistory />
-              <Chat id={id} socket={this.socket} />
-              <GameDetails />
-              <div className="options">
+              <PlayerCard />
+              <GameDisplay id={id} socket={this.socket}/>
+              <div className="game-options">
                 <button onClick={() => {this.resign()}}>RESIGN</button>
                 <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
               </div>
+              <PlayerCard />
             </div>
           </div>
     );

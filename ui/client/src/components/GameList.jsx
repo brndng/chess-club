@@ -43,7 +43,6 @@ class GameList extends Component {
 
   render() {
     const { userGames, game } = this.props;
-    console.log('this.props.game from gamelist:', game)
     return (
       <div>
         YOUR GAMES
