@@ -6,6 +6,7 @@ import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
 import Board from './Board.jsx';
 import MoveHistory from './MoveHistory.jsx';
+import Chat from './Chat.jsx';
 import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
 import { 
@@ -18,10 +19,6 @@ import {
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      message: '',
-      messages: [],
-    }
   }
 
   async componentDidMount() {
@@ -35,12 +32,7 @@ class Game extends Component {
       this.socket.emit('game_id', id);
     });
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
-    this.socket.on('chat', (message) => {
-      this.setState({ 
-        messages: [...this.state.messages, message], 
-        message: '',
-      });
-    });
+    
     this.socket.on('move', (newMove) => {
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
@@ -103,17 +95,6 @@ class Game extends Component {
       this.socket.emit('check', { userId: null, id });
       axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
     }
-    
-  }
-
-  setText(e) {
-    this.setState({ message: e.target.value });
-  }
-
-  sendChat() {
-    const { message, messages } = this.state;
-    const { id } = this.props.location.state;
-    this.socket.emit('chat', { message, id } );
   }
 
   resign() {
@@ -133,8 +114,8 @@ class Game extends Component {
   }
 
   render() {
-    const { message, messages } = this.state;
     const { game, whiteToMove } = this.props;
+    const { id } = this.props.location.state;
     const turnDisplay = whiteToMove
       ? 'White To Move'
       : 'Black To Move';
@@ -150,17 +131,11 @@ class Game extends Component {
               <div className="move-history">
                 <MoveHistory />
               </div>
-              <div className="chat-container">
-                <div className="chat-output">
-                  {messages.map((message, i) => <li key={i}>{message}</li>)}
-                </div>
-                <input type="text" placeholder="message" value={message} onChange={(e) => {this.setText(e)}} />
-                <button onClick={() => {this.sendChat()}}>SEND</button>
-              </div>
-              <div>
-                <button onClick={() => {this.resign()}}>RESIGN</button>
-                <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
-              </div>
+              <Chat id={id} socket={this.socket}/>
+            </div>
+            <div>
+              <button onClick={() => {this.resign()}}>RESIGN</button>
+              <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
             </div>
           </div>
     )
