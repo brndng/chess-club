@@ -11,13 +11,14 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    const { socket } = this.props;
-    socket.on('chat', (message) => {
-      this.setState({ 
-        messages: [...this.state.messages, message], 
-        message: '',
+    if (this.props.socket) {
+      this.props.socket.on('chat', (message) => {
+        this.setState({ 
+          messages: [...this.state.messages, message], 
+          message: '',
+        });
       });
-    });
+    }
   }
 
   setText(e) {

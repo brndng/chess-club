@@ -20,6 +20,9 @@ import {
 class Game extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      socketConnected: false,
+    }
   }
 
   async componentDidMount() {
@@ -27,13 +30,15 @@ class Game extends Component {
     const { id } = this.props.location.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
-    this.socket = await io(`http://localhost:1337/`, { 'forceNew': true });
+    // this.socket = await io(`http://localhost:1337/`, { 'forceNew': true });
+    this.socket = await io(`http://localhost:1337/`);
+
 
     this.socket.on('connect', () => {
+      this.setState({ socketConnected: true });
       this.socket.emit('game_id', id);
     });
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
-    
     this.socket.on('move', (newMove) => {
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
@@ -97,6 +102,10 @@ class Game extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.socket.disconnect();
+  }
+
   resign() {
     const { userId, game } =  this.props;
     const { id } = this.props.location.state;
@@ -116,6 +125,8 @@ class Game extends Component {
   }
 
   render() {
+    // console.log('GAME render this.socket // game.id', this.socket, '//',this.props.game)
+  
     const { game, whiteToMove } = this.props;
     const { id } = this.props.location.state;
     return (
@@ -124,9 +135,10 @@ class Game extends Component {
         : <div className="game-container">
             <Board />
             <div className="game-info">
-              GAME # {id} <GameDetails />
+              GAME # {id} 
               <MoveHistory />
               <Chat id={id} socket={this.socket} />
+              <GameDetails />
               <div className="options">
                 <button onClick={() => {this.resign()}}>RESIGN</button>
                 <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>

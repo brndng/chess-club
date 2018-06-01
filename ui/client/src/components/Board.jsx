@@ -7,7 +7,7 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      position: this.props.currentPosition
+      position: this.props.currentPosition,
     }
   }
   
@@ -32,8 +32,6 @@ class Board extends Component {
             </div>)}
           </div>   
         </div>
-        
-
       : <div className="board-container">
           <div className="board">{positionRotated.map((row, i) => 
             <div className="row" key={i}>{row.map((elem, j) => {

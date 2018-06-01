@@ -14,10 +14,15 @@ class GameDetails extends Component {
       : 'Black To Move'
   }
 
+  displayWinStatus() {
+    return null;
+  }
+
   render() {
     return (
-      <div>
-        {this.displayTurn()}
+      <div className="game-details">
+        <div>{this.displayTurn()}</div>
+        <div>{this.displayWinStatus()}</div>
       </div>
     );
   }
