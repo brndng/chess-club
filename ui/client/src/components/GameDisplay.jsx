@@ -43,10 +43,12 @@ class GameDisplay extends Component {
   render() {
     const { message, messages, view } = this.state;
     return (
-      <div>
-        <div>
-          <li><a href="#" onClick={() => {this.setView('moves')}}>Moves</a></li>
-          <li><a href="#" onClick={() => {this.setView('chat')}}>Chat</a></li>
+      <div className="game-display">
+        <div className="game-display-toggle">
+          <ul>
+            <li><a href="#" onClick={() => {this.setView('moves')}}>Moves</a></li>
+            <li><a href="#" onClick={() => {this.setView('chat')}}>Chat</a></li>
+          </ul>
         </div>
         <div>
           {view === 'moves'

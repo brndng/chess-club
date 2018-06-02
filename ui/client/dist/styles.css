@@ -2,7 +2,7 @@ html, body, #app, .route-container {
   height: 100%;
 }
 
-.dashboard {
+.landing {
   height: 100%;
   background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');
   background-size: contain;
@@ -42,8 +42,7 @@ html, body, #app, .route-container {
     .square {
       line-height: 50px;
       height: 50px;
-      margin-right: -1px;
-      margin-top: -1px;
+     
       padding: 0;
       text-align: center;
       width: 50px;
@@ -77,11 +76,54 @@ html, body, #app, .route-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #fafafa;
-  height: 400px;
+  background: lightslategray;
+  height: 420px;
   padding: 20px;
   border: 1px inset black;
 }
+
+  .player-card-container {
+    display: flex;
+    flex-direction: column;
+  }
+    .player-card-pieces {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    } 
+      .captured-piece {
+        font-size: 12px;
+      }
+
+  .game-display {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .game-display-toggle {
+    display: flex;
+    flex-direction: row;
+  }
+    .game-display ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 200px;
+    }
+      .game-display li {
+        padding: 0;
+      }
+
+      .game-display a {
+        text-decoration: none;
+        display: block;
+        padding: 8px;
+      }
+      
 
 /* Chat */
 .chat-output {
@@ -99,13 +141,14 @@ html, body, #app, .route-container {
   height: 100px;
   overflow: auto;
   background: white;
+  /* padding-left: -40px; */
+  padding: 12px;
 }
 .move-row {
   display: flex;
   flex-direction: row;
   width: 140px;
   justify-content: space-between;
-
 }
       
 

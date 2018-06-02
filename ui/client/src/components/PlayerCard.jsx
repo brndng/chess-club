@@ -23,7 +23,6 @@ class PlayerCard extends Component {
     const { id, game, moves } = this.props;
     const { username } = this.state;
     const capturedPieces = printCapturedPieces(id, game, moves);
-    console.log('​PlayerCard -> render -> capturedPieces', capturedPieces);
     
     return (
       <div className="player-card-container">

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
 import axios from 'axios';
 import PrivateRoute from './PrivateRoute.jsx';
-import Dashboard from './Dashboard.jsx';
+import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
 import Game from './Game.jsx';
@@ -36,7 +36,7 @@ class App extends Component {
             <Logout />
           </ul>
         </div>
-        <Route exact path='/' component={Dashboard} />
+        <Route exact path='/' component={Landing} />
         <Route path='/login' component={Login} />
         <PrivateRoute path='/gamelist' component={GameList} />
         <PrivateRoute path='/game' component={Game} />

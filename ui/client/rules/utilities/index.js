@@ -353,26 +353,31 @@ export const isCapturedPiece = (userId, game, piece) => {
 
 export const printCapturedPieces = (userId, game, moves) => {
   const chessmen = {
-    p: '♟',
-    n: '♞',
-    b: '♝',
-    r: '♜',
-    q: '♛',
-    P: '♙',
-    N: '♘',
-    B: '♗',
-    R: '♖',
-    Q: '♕',
+    p: { symbol:'♟', value: 0},
+    n: { symbol:'♞', value: 1},
+    b: { symbol:'♝', value: 2},
+    r: { symbol:'♜', value: 3},
+    q: { symbol:'♛', value: 4},
+    P: { symbol:'♙', value: 0},
+    N: { symbol:'♘', value: 1},
+    B: { symbol:'♗', value: 2},
+    R: { symbol:'♖', value: 3},
+    Q: { symbol:'♕', value: 4},
   }
   const pieces = [];
-
+  
   moves.forEach(move => {
-    if (isCapturedPiece(userId, game, move[3])) {
-      pieces.push(chessmen[move[3]]);
+    const piece = move[3];
+    if (isCapturedPiece(userId, game, piece)) {
+      pieces.push(chessmen[piece]);
     }
   });
 
-  return pieces;
+  pieces.sort((a, b) => {
+    return a.value - b.value;
+  });
+
+  return pieces.map(piece => piece.symbol);
 }
 
 

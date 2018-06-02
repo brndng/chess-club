@@ -78,7 +78,6 @@ export const updatePosition = (origin, destin, piece, captured, notation, moves 
     const captured = piece === piece.toUpperCase()
       ? 'p'
       : 'P';
-    console.log('​exportupdatePosition -> prevMove', prevMove);
 
     return {
       type: 'EN_PASSANT',
