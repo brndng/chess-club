@@ -57,9 +57,10 @@ export const declareGameOver = () => {
 };
 
 export const updatePosition = (origin, destin, piece, captured, notation, moves = []) => {
+
   const prevMove = moves.slice(-1)[0];
-  const [prevOrigin, prevDestin, prevPiece] = prevMove ? prevMove: [];
-  
+  const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove: [];
+
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
@@ -74,9 +75,14 @@ export const updatePosition = (origin, destin, piece, captured, notation, moves 
     && Math.abs(destin.col - origin.col) === 1
     && Math.abs(destin.row - origin.row) === 1
   ) {
+    const captured = piece === piece.toUpperCase()
+      ? 'p'
+      : 'P';
+    console.log('​exportupdatePosition -> prevMove', prevMove);
+
     return {
       type: 'EN_PASSANT',
-      payload: [origin, destin, piece, 'P', notation, prevMove]
+      payload: [origin, destin, piece, captured, notation, prevMove]
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
     return {

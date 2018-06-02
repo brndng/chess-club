@@ -57,8 +57,12 @@ export default (state = [], action) => {
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, prevMove]  = action.payload;
-      const [prevOrigin, prevDestin, prevPiece] = prevMove;
+      const [origin, destin, piece, captured, notation, prevMove]  = action.payload;
+      console.log('​action.payload', action.payload);
+      console.log('​prevMove', prevMove);
+
+      const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove;
+      console.log('​prevDestin', prevDestin);
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;
       newState[prevDestin.row][prevDestin.col] = null; //captured pawn
