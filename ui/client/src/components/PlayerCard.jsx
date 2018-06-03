@@ -3,6 +3,18 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { printCapturedPieces } from '../../rules/utilities';
 
+// class User {
+//   constructor(userId, game, whiteTomove) {
+//     this.id = userId;
+//     this.game = game;
+//     this.whiteTomove = whiteTomove;
+//   };
+
+//   isMyTurn() {
+//     return (this.id === this.game.white && this.whiteToMove);
+//   }
+// }
+
 class PlayerCard extends Component {
   constructor(props) {
     super(props);
@@ -19,13 +31,24 @@ class PlayerCard extends Component {
     this.setState({ username })
   }
 
+  indicateTurn() {
+    const { whiteToMove, game, id } = this.props;
+    // TODO: user.isMyTurn()
+    return (
+      (id === game.white && whiteToMove) 
+      || (id !== game.white && !whiteToMove)
+    )
+      ? 'is-my-turn'
+      : null;
+  }
+
   render() {
     const { id, game, moves } = this.props;
     const { username } = this.state;
     const capturedPieces = printCapturedPieces(id, game, moves);
     
     return (
-      <div className="player-card-container">
+      <div className={`player-card-container ${this.indicateTurn()}`}>
         <div className="player-card-username">
           {username}
         </div>
@@ -41,8 +64,8 @@ class PlayerCard extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, game, moves }) => {
-  return { userId, game, moves }
+const mapStateToProps = ({ game, moves, whiteToMove }) => {
+  return { game, moves, whiteToMove }
 }
 
 export default connect(mapStateToProps)(PlayerCard);

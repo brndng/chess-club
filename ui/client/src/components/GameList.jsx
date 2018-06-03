@@ -44,7 +44,7 @@ class GameList extends Component {
   render() {
     const { userGames, game } = this.props;
     return (
-      <div>
+      <div className="game-list">
         YOUR GAMES
         {userGames.map((game) => {
           return (

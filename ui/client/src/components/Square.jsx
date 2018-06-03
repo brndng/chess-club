@@ -26,16 +26,13 @@ class Square extends Component {
       : 'black';
   }
 
-  highlightSelected() {
+  isSelected() {
     const { coords, selection } = this.props;
 
     if (selection !== null) {
       const { origin } = selection;
-      return coords.row === origin.row && coords.col === origin.col 
-        ? 'highlight' 
-        : null;
+      return (coords.row === origin.row && coords.col === origin.col);
     }
-    return null;
   }
 
   handleSquareClick() {
@@ -67,11 +64,16 @@ class Square extends Component {
   }
 
   render() {
+    const classes = [
+      'square',
+      this.isSelected() ? 'is-selected' : null
+    ].filter(cls => !!cls).join(' ');
+
     const onClick = this.props.completed 
       ? null
       : () => this.handleSquareClick();
     return (
-      <div id={this.initSquareColor()} className={`square ${this.highlightSelected()}`} onClick={onClick}>
+      <div id={this.initSquareColor()} className={classes} onClick={onClick}>
         {this.props.piece === null ? null : <Piece piece={this.props.piece} />}
       </div>
     )
@@ -87,13 +89,3 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
-
-
-
-
-
-
-
-
-
-    

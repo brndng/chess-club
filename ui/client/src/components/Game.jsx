@@ -40,7 +40,7 @@ class Game extends Component {
       this.socket.emit('game_id', id);
     });
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
-    this.socket.on('move', (newMove) => {
+    this.socket.on('move', (newMove) => {      
       let currMove = this.props.moves.slice(-1)[0];
       if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
         updatePosition(...newMove, this.props.moves);
@@ -114,15 +114,17 @@ class Game extends Component {
   }
 
   resign() {
-    const { userId, game } =  this.props;
-    const { id } = this.state;
-    const opponentId = userId === game.white ? game.black : game.white;
-    this.socket.emit('game_over', { userId, id });
-    axios.put(`http://localhost:3000/games/document`, { 
-      id, 
-      completed: true,
-      winner: opponentId,
-    });
+    if (window.confirm('Are you sure you want to resign?')) {
+      const { userId, game } =  this.props;
+      const { id } = this.state;
+      const opponentId = userId === game.white ? game.black : game.white;
+      this.socket.emit('game_over', { userId, id });
+      axios.put(`http://localhost:3000/games/document`, { 
+        id, 
+        completed: true,
+        winner: opponentId,
+      });
+    }
   }
 
   offerDraw() {

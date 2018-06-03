@@ -373,10 +373,7 @@ export const printCapturedPieces = (userId, game, moves) => {
     }
   });
 
-  pieces.sort((a, b) => {
-    return a.value - b.value;
-  });
-
+  pieces.sort((a, b) => a.value - b.value);
   return pieces.map(piece => piece.symbol);
 }
 

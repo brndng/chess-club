@@ -27,6 +27,10 @@ html, body, #app, .route-container {
   margin: 24px;
 }
 
+.board-container.is-my-turn:hover {
+  cursor: pointer;
+}
+
 .board {
   display: flex;
   flex-direction: column;
@@ -42,15 +46,22 @@ html, body, #app, .route-container {
     .square {
       line-height: 50px;
       height: 50px;
-     
+      position: relative;
       padding: 0;
       text-align: center;
       width: 50px;
     }
 
-    /* .square.highlight {
-      border: 1px solid darkgreen
-    } */
+    .square.is-selected::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0.4;
+      background-color: pink;
+  }
       #black {
         background-color: #B27645;
       }
@@ -85,14 +96,22 @@ html, body, #app, .route-container {
   .player-card-container {
     display: flex;
     flex-direction: column;
+    background-color: cadetblue;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
+
+  .player-card-container.is-my-turn {
+    border: 2px solid pink;
+  }
+
     .player-card-pieces {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
     } 
       .captured-piece {
-        font-size: 12px;
+        font-size: 16px;
       }
 
   .game-display {
@@ -242,9 +261,11 @@ html, body, #app, .route-container {
   margin-bottom: 8px;
 }
 
-
-
-
+/* gamelist */
+.game-list li {
+  padding: 5px;
+  list-style-type: none;
+}
 
 
 
