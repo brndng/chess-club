@@ -3,17 +3,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { printCapturedPieces } from '../../rules/utilities';
 
-// class User {
-//   constructor(userId, game, whiteTomove) {
-//     this.id = userId;
-//     this.game = game;
-//     this.whiteTomove = whiteTomove;
-//   };
+axios.defaults.withCredentials = true;
 
-//   isMyTurn() {
-//     return (this.id === this.game.white && this.whiteToMove);
-//   }
-// }
 
 class PlayerCard extends Component {
   constructor(props) {
@@ -27,7 +18,6 @@ class PlayerCard extends Component {
     const { id } = this.props;
     const user = await axios.get(`http://localhost:3000/users/profile/${id}`);
     const { username } = user.data;
-    console.log('username', username);
     this.setState({ username })
   }
 
@@ -69,3 +59,15 @@ const mapStateToProps = ({ game, moves, whiteToMove }) => {
 }
 
 export default connect(mapStateToProps)(PlayerCard);
+
+// class User {
+//   constructor(userId, game, whiteTomove) {
+//     this.id = userId;
+//     this.game = game;
+//     this.whiteTomove = whiteTomove;
+//   };
+
+//   isMyTurn() {
+//     return (this.id === this.game.white && this.whiteToMove);
+//   }
+// }

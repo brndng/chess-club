@@ -6,7 +6,7 @@ const Logout = withRouter(({ history }) => {
   return auth.isAuthenticated === true 
     ? <li className="logout">
         <p>Welcome!</p> <a onClick={() => {
-          auth.signout(() => history.push('/'))
+          auth.logout(() => history.push('/'))
         }}>LOG OUT</a>
       </li>
     : <li className="logout">

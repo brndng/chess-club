@@ -3,6 +3,8 @@ import axios from 'axios';
 import MoveHistory from './MoveHistory.jsx';
 import Chat from './Chat.jsx';
 
+axios.defaults.withCredentials = true;
+
 class GameDisplay extends Component {
   constructor(props) {
     super(props);

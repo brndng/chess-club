@@ -6,6 +6,8 @@ import axios from 'axios';
 import { storeUser } from '../actions/';
 import auth from '../auth.js';
 
+axios.defaults.withCredentials = true;
+
 class LogIn extends Component {
   constructor(props) {
     super(props);

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+axios.defaults.withCredentials = true;
+
+
 class Players extends Component {
   constructor(props) {
     super(props);

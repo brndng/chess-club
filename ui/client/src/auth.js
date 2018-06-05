@@ -4,7 +4,7 @@ export default {
     this.isAuthenticated = true
     cb();
   },
-  signout(cb) {
+  logout(cb) {
     this.isAuthenticated = false
     cb();
   }

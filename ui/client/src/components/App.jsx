@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import PrivateRoute from './PrivateRoute.jsx';
 import Landing from './Landing.jsx';
@@ -9,18 +11,15 @@ import Game from './Game.jsx';
 import Profile from './Profile.jsx';
 import Players from './Players.jsx';
 import Logout from './Logout.jsx';
+import Protected from './Protected.jsx';
+import { storeUser } from '../actions/';
 import auth from '../auth.js';
+
+axios.defaults.withCredentials = true;
 
 class App extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    console.log('CDM auth.isAuthenticated BEFORE', auth.isAuthenticated);
-    // auth.isAuthenticated = true 
-    // console.log('CDM auth.isAuthenticated AFTER', auth.isAuthenticated);
-
   }
 
   render() {
@@ -36,15 +35,16 @@ class App extends Component {
             <Logout />
           </ul>
         </div>
-        <Route exact path='/' component={Landing} />
+        <PrivateRoute exact path='/' component={props => <Protected component={Landing} {...props} />} />
+        <PrivateRoute path='/gamelist' component={props => <Protected component={GameList} {...props} />} />
+        <PrivateRoute path='/game' component={props => <Protected component={Game} {...props} />} />
+        <PrivateRoute path='/profile' component={props => <Protected component={Profile} {...props} />} />
+        <PrivateRoute path='/players' component={props => <Protected component={Players} {...props} />} />
         <Route path='/login' component={Login} />
-        <PrivateRoute path='/gamelist' component={GameList} />
-        <PrivateRoute path='/game' component={Game} />
-        <PrivateRoute path='/profile' component={Profile} />
-        <PrivateRoute path='/players' component={Players} />
       </div>
     );
   }
 }
 
 export default App;
+

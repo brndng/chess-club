@@ -16,6 +16,9 @@ import {
   updateCheckStatus,
   declareGameOver } from '../actions/';
 
+axios.defaults.withCredentials = true;
+
+
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +35,6 @@ class Game extends Component {
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
-    // this.socket = await io(`http://localhost:1337/`, { 'forceNew': true });
     this.socket = await io(`http://localhost:1337/`);
 
     this.socket.on('connect', () => {

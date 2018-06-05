@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import axios from 'axios';
 import { rotateBoard } from '../../rules/utilities';
+
+axios.defaults.withCredentials = true;
+
 class Board extends Component {
   constructor(props) {
     super(props);
