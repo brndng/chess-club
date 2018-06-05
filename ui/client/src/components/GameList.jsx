@@ -15,8 +15,6 @@ class GameList extends Component {
 
   async componentDidMount() {
     const { loadGames, userId } = this.props;
-    console.log('CDM gameslist userID', userId)
-
     const games = await axios(`http://localhost:3000/games/all/${userId}`)
     loadGames(games.data);
   }
@@ -46,7 +44,6 @@ class GameList extends Component {
   // }
 
   render() {
-    console.log('---gamelist render, userID', this.props.userId);
     const { userGames, game } = this.props;
     return (
       <div className="game-list">

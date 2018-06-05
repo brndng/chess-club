@@ -103,6 +103,13 @@ export const updateUserFetched = () => {
   };
 };
 
+export const authenticate = (status) => {
+  return {
+    type: 'AUTH_STATUS_UPDATED',
+    payload: status,
+  };
+}
+
 
 
 

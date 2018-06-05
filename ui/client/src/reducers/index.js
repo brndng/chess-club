@@ -8,6 +8,7 @@ import UserGamesReducer from './reducer-user-games.js';
 import UserIdReducer from './reducer-user-id.js';
 import InCheckReducer from './reducer-in-check.js';
 import CompletedReducer from './reducer-completed.js';
+import IsAuthenticatedReducer from './reducer-is-authenticated.js';
 import HasFetchedCurrUserReducer from  './reducer-has-fetched-curr-user.js';
 
 export default combineReducers({
@@ -20,5 +21,6 @@ export default combineReducers({
   userId: UserIdReducer,
   inCheck: InCheckReducer,
   completed: CompletedReducer,
+  isAuthenticated: IsAuthenticatedReducer,
   hasFetchedCurrUser: HasFetchedCurrUserReducer
 });

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { storeUser } from '../actions/';
-import auth from '../auth.js';
 
 axios.defaults.withCredentials = true;
 
@@ -37,10 +36,9 @@ class LogIn extends Component {
     const response = await axios.post('http://localhost:3000/users/login', { username, password });
     if (response.status === 200) {
       storeUser(response.data);
-      auth.authenticate(() => {
-        this.setState({ 
-          redirectToReferrer: true
-        });
+      auth.authenticate();
+      this.setState({ 
+        redirectToReferrer: true
       });
     }
   }

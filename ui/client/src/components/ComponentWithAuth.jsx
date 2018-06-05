@@ -3,13 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Route, Redirect } from "react-router-dom";
 import axios from 'axios';
-import PrivateRoute from './PrivateRoute.jsx';
-import { storeUser, updateUserFetched } from '../actions/';
-import auth from '../auth.js';
+import { storeUser, authenticate, updateUserFetched } from '../actions/';
 
 axios.defaults.withCredentials = true;
 
-class SessionChecker extends Component {
+class ComponentWithAuth extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,23 +16,21 @@ class SessionChecker extends Component {
   }
 
   async componentDidMount() {
-    const { hasFetchedCurrUser, updateUserFetched, storeUser } = this.props;
+    const { hasFetchedCurrUser, updateUserFetched, storeUser, authenticate } = this.props;
 
     if (!hasFetchedCurrUser) { 
       const user = await axios.get('http://localhost:3000/users/current').catch(err => console.log(err));
       if (user) { 
         storeUser(user.data);
-        auth.authenticate(() => {
-          this.setState({ 
-            isLoading: false, 
-          });
-        });
+        authenticate(true);
         updateUserFetched();
+        this.setState({ 
+          isLoading: false, 
+        });
       } else { 
-        auth.logout(() => {
-          this.setState({ 
-            isLoading: false,
-          });
+        authenticate(false);
+        this.setState({ 
+          isLoading: false, 
         });
       }
     } else { 
@@ -45,12 +41,12 @@ class SessionChecker extends Component {
   }
 
   render() {  
-    const { component: Component } = this.props;
+    const { component: Component, isAuthenticated } = this.props;
     const { isLoading } = this.state;
 
     return isLoading 
       ? <div>Loading...</div>
-      : auth.isAuthenticated === true 
+      : isAuthenticated === true 
         ? <Component {...this.props} />
         : <Redirect to={{
             pathname: '/login',
@@ -59,12 +55,12 @@ class SessionChecker extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, hasFetchedCurrUser }) => {
-  return { userId, hasFetchedCurrUser }
+const mapStateToProps = ({ userId, isAuthenticated, hasFetchedCurrUser }) => {
+  return { userId, isAuthenticated, hasFetchedCurrUser }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ storeUser, updateUserFetched }, dispatch);
+  return bindActionCreators({ storeUser, authenticate, updateUserFetched }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(SessionChecker);
+export default connect(mapStateToProps, matchDispatchToProps)(ComponentWithAuth);
