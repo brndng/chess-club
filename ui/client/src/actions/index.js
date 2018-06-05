@@ -96,6 +96,13 @@ export const updatePosition = (origin, destin, piece, captured, notation, moves 
   };
 };
 
+export const updateUserFetched = () => {
+  return {
+    type: 'CURRENT_USER_FETCHED',
+    payload: true,
+  };
+};
+
 
 
 

@@ -11,7 +11,7 @@ import Game from './Game.jsx';
 import Profile from './Profile.jsx';
 import Players from './Players.jsx';
 import Logout from './Logout.jsx';
-import Protected from './Protected.jsx';
+import SessionChecker from './SessionChecker.jsx';
 import { storeUser } from '../actions/';
 import auth from '../auth.js';
 
@@ -35,11 +35,11 @@ class App extends Component {
             <Logout />
           </ul>
         </div>
-        <PrivateRoute exact path='/' component={props => <Protected component={Landing} {...props} />} />
-        <PrivateRoute path='/gamelist' component={props => <Protected component={GameList} {...props} />} />
-        <PrivateRoute path='/game' component={props => <Protected component={Game} {...props} />} />
-        <PrivateRoute path='/profile' component={props => <Protected component={Profile} {...props} />} />
-        <PrivateRoute path='/players' component={props => <Protected component={Players} {...props} />} />
+        <Route exact path='/' component={props => <SessionChecker component={Landing} {...props} />} />
+        <Route path='/gamelist' component={props => <SessionChecker component={GameList} {...props} />} />
+        <Route path='/game' component={props => <SessionChecker component={Game} {...props} />} />
+        <Route path='/profile' component={props => <SessionChecker component={Profile} {...props} />} />
+        <Route path='/players' component={props => <SessionChecker component={Players} {...props} />} />
         <Route path='/login' component={Login} />
       </div>
     );

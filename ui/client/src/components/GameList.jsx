@@ -46,7 +46,7 @@ class GameList extends Component {
   // }
 
   render() {
-    console.log('gamelist render');
+    console.log('---gamelist render, userID', this.props.userId);
     const { userGames, game } = this.props;
     return (
       <div className="game-list">
