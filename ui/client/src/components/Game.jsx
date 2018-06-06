@@ -21,7 +21,6 @@ axios.defaults.withCredentials = true;
 class Game extends Component {
   constructor(props) {
     super(props);
-    console.log('this.props',this.props)
     // const { id } = props.location.state || null;
     const { id } = this.props.match.params;
     this.state = {

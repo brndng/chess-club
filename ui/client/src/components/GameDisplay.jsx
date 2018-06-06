@@ -42,7 +42,6 @@ class GameDisplay extends Component {
 
   render() {
     const { message, messages, view } = this.state;
-    console.log('view',view);
     return (
       <div className="game-display">
         <div className="game-display-toggle">

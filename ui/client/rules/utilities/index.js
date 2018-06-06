@@ -21,6 +21,19 @@ export const convertToChessNotation = (origin, destin, piece, captured, check) =
   const originFile = String.fromCharCode(97 + origin.col);
   const file = String.fromCharCode(97 + destin.col);
   const rank = 8 - destin.row;
+
+  // en passant case
+  if (
+    piece.toUpperCase() === 'P' 
+    && captured === null 
+    && Math.abs(destin.col - origin.col) === 1 
+    && Math.abs(destin.row - origin.row) === 1
+  ) { 
+    captured = piece === piece.toUpperCase() 
+      ? 'p'
+      : 'P'
+  }
+  
   const selection = piece.toUpperCase() === 'P'
     ? captured === null
       ? ''
