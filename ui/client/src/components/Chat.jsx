@@ -15,8 +15,10 @@ class Chat extends Component {
         <div className="chat-output">
           {messages.map((message, i) => <li key={i}>{message}</li>)}
         </div>
-        <input type="text" placeholder="message" value={message} onChange={(e) => {setText(e)}} />
-        <button onClick={() => {sendChat()}}>SEND</button>
+        <div className="chat-message">
+          <input type="text" placeholder="message" value={message} onChange={(e) => {setText(e)}} />
+          <button onClick={() => {sendChat()}}>SEND</button>
+        </div>
       </div>
     );
   }

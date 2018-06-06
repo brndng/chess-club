@@ -12,17 +12,22 @@ class MoveHistory extends Component {
     const { moves } = this.props;
     const chessMoves = printMoves(moves);
     return (
-      <div className="move-history">
-        <ol>
-          {chessMoves.map((pair, i) => (
-            <li key={i}>
-              <div className="move-row">
-                <div>{pair[0]}</div>
-                <div>{pair[1]}</div>
-              </div>
-            </li>
-          ))}
-        </ol>
+      <div className="move-history-container">
+        <div className="move-history-output">
+          <ol>
+            {chessMoves.map((pair, i) => (
+              <li key={i}>
+                <div className="move-history-row">
+                  <div>{pair[0]}</div>
+                  <div>{pair[1]}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="move-history-message">
+          <p>Game in Progress</p>
+        </div>
       </div>
     );
   }

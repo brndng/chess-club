@@ -50,17 +50,15 @@ class GameDisplay extends Component {
             <li><a href="#" onClick={() => {this.setView('chat')}}>Chat</a></li>
           </ul>
         </div>
-        <div>
-          {view === 'moves'
-            ? <MoveHistory />
-            : <Chat 
-                message={message}
-                messages={messages}
-                setText={this.setText} 
-                sendChat={this.sendChat} 
-              />
-          }
-        </div>
+        {view === 'moves'
+          ? <MoveHistory />
+          : <Chat 
+              message={message}
+              messages={messages}
+              setText={this.setText} 
+              sendChat={this.sendChat} 
+            />
+        }
       </div>
     );
   }

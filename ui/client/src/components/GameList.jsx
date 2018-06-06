@@ -48,11 +48,11 @@ class GameList extends Component {
     userGames.sort((a, b) => b.id - a.id);
     return (
       <div className="game-list">
-        YOUR GAMES
+        IN PROGRESS
         {userGames.map((game) => {
           return (
             <li key={game.id}>
-              <Link to={{ pathname: `/game/${game.id}`, state: {id: game.id} }}>
+              <Link to={{ pathname: `/game/${game.id}` }}>
                 {`# ${game.id}: ${game.white} vs. ${game.black}`}
               </Link>
             </li>)

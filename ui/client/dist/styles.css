@@ -151,30 +151,39 @@ html, body, #app, .route-container {
       
 
 /* Chat */
-.chat-output {
-  height: 100px;
-  overflow: auto;
-  background: white;
-}
 
-.chat-output li {
-  list-style: none;
+.chat-container {
+  display: flex;
+  flex-direction: column;
 }
+  .chat-output {
+    height: 160px;
+    overflow: auto;
+    background: white;
+    padding: 12px;
+  }
+
+    .chat-output li {
+      list-style: none;
+    }
 
 /* MoveHistory */
-.move-history {
-  height: 100px;
-  overflow: auto;
-  background: white;
-  /* padding-left: -40px; */
-  padding: 12px;
-}
-.move-row {
+.move-history-container {
   display: flex;
-  flex-direction: row;
-  width: 140px;
-  justify-content: space-between;
+  flex-direction: column;
 }
+  .move-history-output {
+    height: 160px;
+    overflow: auto;
+    background: white;
+    padding: 12px;
+  }
+    .move-history-row {
+      display: flex;
+      flex-direction: row;
+      width: 140px;
+      justify-content: space-between;
+    }
       
 
 /* NavBar */
@@ -272,6 +281,15 @@ html, body, #app, .route-container {
   padding: 5px;
   list-style-type: none;
 }
+
+/* Players */
+.players-container {
+  display: flex;
+  flex-direction: column;
+}
+  .players-list li {
+    list-style: none;
+  }
 
 
 

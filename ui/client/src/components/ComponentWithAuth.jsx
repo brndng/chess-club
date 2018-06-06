@@ -17,7 +17,6 @@ class ComponentWithAuth extends Component {
 
   async componentDidMount() {
     const { hasFetchedCurrUser, updateUserFetched, storeUser, authenticate } = this.props;
-
     if (!hasFetchedCurrUser) { 
       const user = await axios.get('http://localhost:3000/users/current').catch(err => console.log(err));
       if (user) { 
