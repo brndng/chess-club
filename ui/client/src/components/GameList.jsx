@@ -45,6 +45,7 @@ class GameList extends Component {
 
   render() {
     const { userGames, game } = this.props;
+    userGames.sort((a, b) => b.id - a.id);
     return (
       <div className="game-list">
         YOUR GAMES
