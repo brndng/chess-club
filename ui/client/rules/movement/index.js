@@ -1,5 +1,5 @@
-import baseMoves from './base-moves.js';
-import validatePath from './validate-path.js'; 
+import baseMoves from './movement-base-moves.js';
+import validatePath from './movement-validate-path.js'; 
 
 export default (pieceToMove, origin, destin, position, moves = []) => {
   let isLegal = false;

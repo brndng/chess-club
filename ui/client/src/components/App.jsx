@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
 import axios from 'axios';
-import PrivateRoute from './PrivateRoute.jsx';
-import Dashboard from './Dashboard.jsx';
+import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
 import Game from './Game.jsx';
 import Profile from './Profile.jsx';
 import Players from './Players.jsx';
 import Logout from './Logout.jsx';
-import auth from '../auth.js';
+import ComponentWithAuth from './ComponentWithAuth.jsx';
+
+axios.defaults.withCredentials = true;
 
 class App extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    console.log('CDM auth.isAuthenticated BEFORE', auth.isAuthenticated);
-    // auth.isAuthenticated = true 
-    // console.log('CDM auth.isAuthenticated AFTER', auth.isAuthenticated);
-
   }
 
   render() {
@@ -36,15 +30,18 @@ class App extends Component {
             <Logout />
           </ul>
         </div>
-        <Route exact path='/' component={Dashboard} />
+        <Route exact path='/' component={props => <ComponentWithAuth component={Landing} {...props} />} />
+        <Route exact path='/gamelist' component={props => <ComponentWithAuth component={GameList} {...props} />} />
+        {/* <Route path='/game/:id' component={props => <ComponentWithAuth component={Game} {...props} />} /> */}
+        <Route path='/game/:id' component={Game} />
+        {/* <Route path='/game' component={Game} />         */}
+        <Route path='/profile' component={props => <ComponentWithAuth component={Profile} {...props} />} />
+        <Route path='/players' component={props => <ComponentWithAuth component={Players} {...props} />} />
         <Route path='/login' component={Login} />
-        <PrivateRoute path='/gamelist' component={GameList} />
-        <PrivateRoute path='/game' component={Game} />
-        <PrivateRoute path='/profile' component={Profile} />
-        <PrivateRoute path='/players' component={Players} />
       </div>
     );
   }
 }
 
 export default App;
+

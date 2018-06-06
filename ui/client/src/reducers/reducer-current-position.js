@@ -7,14 +7,14 @@ export default (state = [], action) => {
       break;
     }
     case 'POSITION_CHANGED': {
-      const [ origin, destin, piece ]  = action.payload;
+      const [origin, destin, piece]  = action.payload;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;
       return newState;
       break;
     }
     case 'KING_CASTLED': {
-      const [ origin, destin, piece ] = action.payload;
+      const [origin, destin, piece] = action.payload;
       if (piece === 'K') { //white
         if (destin.col === 6) {
           newState[7][6] = piece;
@@ -57,8 +57,8 @@ export default (state = [], action) => {
       break;
     }
     case 'EN_PASSANT': {
-      const [ origin, destin, piece, prevMove ]  = action.payload;
-      const [ prevOrigin, prevDestin, prevPiece ] = prevMove;
+      const [origin, destin, piece, captured, notation, prevMove]  = action.payload;
+      const [prevOrigin, prevDestin, prevPiece] = prevMove;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;
       newState[prevDestin.row][prevDestin.col] = null; //captured pawn

@@ -73,7 +73,6 @@ module.exports = {
         plain: true,
       });
       res.send(update[1].dataValues);
-      console.log('​\tupdate[1].dataValues', update[1].dataValues.whiteToMove);
     } catch (err) {
       console.log('err from registerMove', err);
     }

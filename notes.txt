@@ -4,3 +4,35 @@
 cd api, npm start
 cd ui, cd client, npm run build
 cd ui, cd server, nodemon
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  return <Route {...rest} render={(props) => {    
+    return auth.isAuthenticated === true 
+      ? <Component {...props} />
+      : <Redirect to={{
+          pathname: '/login',
+          state: { from: props.location }
+        }} />
+  }} />
+}
+
+BUGS:
+
+Uncaught SyntaxError: Unexpected token <
+  on refresh:
+    game/:id ...with or without wrapper (fails)
+    game/ (works)
+    *** src=/bundle.js (need the slash in front)
+
+    App -> ComponentWithAuth -> Game (game fetched CDM) -> GameDisplay -> MoveHistory
+
+Uncaught TypeError: Cannot read property 'id' of undefined
+  on Chat toggle
+    GameDisplay -> Chat -> APP -> ComponentWithAuth -> err
+    game/ ...without wrapper (toggle works, no userdata though)
+
+
+
+
+
+

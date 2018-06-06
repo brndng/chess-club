@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { selectPiece, updatePosition } from '../actions/'; 
+import verifyLegalSquare from '../../rules/movement/';
+import { isWhite, convertToChessNotation } from '../../rules/utilities/'
 import { 
-  isWhite, 
   isKingInCheck, 
+  isGivingCheck,
   willMoveExposeKing,
-  isPawnPromoting } from '../../rules/utilities';
+  willMoveGiveCheck,
+  isPawnPromoting, } from '../../rules/interactions/';
 
 class Square extends Component {
   constructor(props) {
@@ -23,16 +25,13 @@ class Square extends Component {
       : 'black';
   }
 
-  highlightSelected() {
+  isSelected() {
     const { coords, selection } = this.props;
 
     if (selection !== null) {
       const { origin } = selection;
-      return coords.row === origin.row && coords.col === origin.col 
-        ? 'highlight' 
-        : null;
+      return (coords.row === origin.row && coords.col === origin.col);
     }
-    return null;
   }
 
   handleSquareClick() {
@@ -44,7 +43,6 @@ class Square extends Component {
       }
       if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
         const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves);
-        
         if (_isLegalSquare) {
           this.placeSelectedPiece(); 
         }
@@ -53,23 +51,28 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, coords, currentPosition, game, moves } = this.props;
+    const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece } = this.props;
     const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
+    const _check = willMoveGiveCheck(userId, game.white, selection, coords, currentPosition, moves);
+    const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
 
     if (!_willMoveExposeKing) {
-      updatePosition(selection.origin, coords, selection.piece, moves);
+      updatePosition(selection.origin, coords, selection.piece, piece, _notation, moves);
       selectPiece(null, null);
-    } else {
-      console.log('thats check SON!');
-    }
+    } 
   }
 
   render() {
+    const classes = [
+      'square',
+      this.isSelected() ? 'is-selected' : null
+    ].filter(cls => !!cls).join(' ');
+
     const onClick = this.props.completed 
       ? null
       : () => this.handleSquareClick();
     return (
-      <div id={this.initSquareColor()} className={`square ${this.highlightSelected()}`} onClick={onClick}>
+      <div id={this.initSquareColor()} className={classes} onClick={onClick}>
         {this.props.piece === null ? null : <Piece piece={this.props.piece} />}
       </div>
     )
@@ -85,13 +88,3 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);
-
-
-
-
-
-
-
-
-
-    

@@ -2,14 +2,16 @@ html, body, #app, .route-container {
   height: 100%;
 }
 
-.dashboard {
+.landing {
   height: 100%;
-  background-image: url('https://media.istockphoto.com/photos/chess-game-picture-id468988860?k=6&m=468988860&s=612x612&w=0&h=lZQ_M6qwvepsYcyB3ms05B1KB0utOyB0t0k2Jifgae0=');
-  background-size: cover;
+  background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .game-container {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
 }
@@ -25,6 +27,10 @@ html, body, #app, .route-container {
   margin: 24px;
 }
 
+.board-container.is-my-turn:hover {
+  cursor: pointer;
+}
+
 .board {
   display: flex;
   flex-direction: column;
@@ -32,7 +38,6 @@ html, body, #app, .route-container {
   margin: 12px;
   padding: 4px;
   border: 1px solid #8F4F2C;
-
 }
   .row {
     display: flex;
@@ -41,16 +46,22 @@ html, body, #app, .route-container {
     .square {
       line-height: 50px;
       height: 50px;
-      margin-right: -1px;
-      margin-top: -1px;
+      position: relative;
       padding: 0;
       text-align: center;
       width: 50px;
     }
 
-    /* .square.highlight {
-      border: 1px solid darkgreen
-    } */
+    .square.is-selected::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0.5;
+      background-color: pink;
+  }
       #black {
         background-color: #B27645;
       }
@@ -60,6 +71,9 @@ html, body, #app, .route-container {
       }
         .piece-white {
           color: floralwhite;
+          position: absolute;
+          width: 100%;
+          height: 100%;
           /* color: whitesmoke; */
           font-size: 32px;
           text-shadow: 1px 1px 1px black;
@@ -67,9 +81,100 @@ html, body, #app, .route-container {
   
         .piece-black {
           color: black;  
+          position: absolute;
+          width: 100%;
+          height: 100%;
           font-size: 32px;
         }
 
+/* Game Info */
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: lightslategray;
+  height: 420px;
+  padding: 20px;
+  border: 1px inset black;
+}
+
+  .player-card-container {
+    display: flex;
+    flex-direction: column;
+    background-color: cadetblue;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .player-card-container.is-my-turn {
+    border: 2px solid pink;
+  }
+
+    .player-card-pieces {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    } 
+      .captured-piece {
+        font-size: 16px;
+      }
+
+  .game-display {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .game-display-toggle {
+    display: flex;
+    flex-direction: row;
+  }
+    .game-display ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 200px;
+    }
+      .game-display li {
+        padding: 0;
+      }
+
+      .game-display a {
+        text-decoration: none;
+        display: block;
+        padding: 8px;
+      }
+      
+
+/* Chat */
+.chat-output {
+  height: 100px;
+  overflow: auto;
+  background: white;
+}
+
+.chat-output li {
+  list-style: none;
+}
+
+/* MoveHistory */
+.move-history {
+  height: 100px;
+  overflow: auto;
+  background: white;
+  /* padding-left: -40px; */
+  padding: 12px;
+}
+.move-row {
+  display: flex;
+  flex-direction: row;
+  width: 140px;
+  justify-content: space-between;
+}
       
 
 /* NavBar */
@@ -162,47 +267,11 @@ html, body, #app, .route-container {
   margin-bottom: 8px;
 }
 
-/* Game */
-.game-container {
-  display: flex;
-  flex-direction: row;
+/* gamelist */
+.game-list li {
+  padding: 5px;
+  list-style-type: none;
 }
-
-.game-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #fafafa;
-  height: 400px;
-  padding: 20px;
-}
-
-/* Chat */
-.chat-output {
-  height: 100px;
-  overflow: auto;
-  background: white;
-}
-
-.chat-output li {
-  list-style: none;
-}
-
-/* MoveHistory */
-.move-history {
-  height: 100px;
-  overflow: auto;
-  background: white;
-}
-.move-row {
-  display: flex;
-  flex-direction: row;
-  width: 140px;
-  justify-content: space-between;
-
-}
-
-
 
 
 

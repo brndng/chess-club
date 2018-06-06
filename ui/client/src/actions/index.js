@@ -49,21 +49,22 @@ export const updateCheckStatus = (userId) => {
   };
 };
 
-export const updateGameOver = () => {
+export const declareGameOver = () => {
   return {
     type: 'GAME_COMPLETED',
     payload: null,
   };
 };
 
-export const updatePosition = (origin, destin, piece, moves = []) => {
+export const updatePosition = (origin, destin, piece, captured, notation, moves = []) => {
+
   const prevMove = moves.slice(-1)[0];
-  const [prevOrigin, prevDestin, prevPiece] = prevMove ? prevMove: [];
-  
+  const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove: [];
+
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
-      payload: [origin, destin, piece],
+      payload: [origin, destin, piece, captured, notation],
     };
   } else if (
     prevMove
@@ -74,22 +75,39 @@ export const updatePosition = (origin, destin, piece, moves = []) => {
     && Math.abs(destin.col - origin.col) === 1
     && Math.abs(destin.row - origin.row) === 1
   ) {
+    const captured = piece === piece.toUpperCase()
+      ? 'p'
+      : 'P';
     return {
       type: 'EN_PASSANT',
-      payload: [origin, destin, piece, prevMove],
+      payload: [origin, destin, piece, captured, notation, prevMove]
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
     return {
       type: 'KING_CASTLED',
-      payload: [origin, destin, piece],
+      payload: [origin, destin, piece, captured, notation],
     };
   }
 
   return {
     type: 'POSITION_CHANGED', 
-    payload: [origin, destin, piece],
+    payload: [origin, destin, piece, captured, notation],
   };
 };
+
+export const updateUserFetched = () => {
+  return {
+    type: 'CURRENT_USER_FETCHED',
+    payload: true,
+  };
+};
+
+export const authenticate = (status) => {
+  return {
+    type: 'AUTH_STATUS_UPDATED',
+    payload: status,
+  };
+}
 
 
 

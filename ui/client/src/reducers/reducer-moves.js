@@ -2,7 +2,7 @@ export default (state = [], action) => {
   const newState = state.map(row => [...row]);
   switch(action.type) {
     case 'GAME_INITIALIZED': {
-      let { moves } = action.payload;
+      const { moves } = action.payload;
       return [...moves]; 
       break;
     }
@@ -20,8 +20,15 @@ export default (state = [], action) => {
       break;
     }
     case 'EN_PASSANT': {
-      let [ origin, destin, piece ] = action.payload;
-      return [...newState, [ origin, destin, piece ]];
+      const [origin, destin, piece, captured, notation] = action.payload;
+      return [...newState, [origin, destin, piece, captured, notation]];
+      break;
+    }
+    case 'GAME_COMPLETED': {
+      const finalNotation = newState.slice(-1)[0][4]; 
+      const withMate = `${finalNotation.slice(0, finalNotation.length - 1)}#`;
+      newState[newState.length - 1][4] = withMate;
+      return newState;
       break;
     }
   }

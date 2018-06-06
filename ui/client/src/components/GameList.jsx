@@ -6,6 +6,8 @@ import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
 
+axios.defaults.withCredentials = true;
+
 class GameList extends Component {
   constructor(props) {
     super(props)
@@ -43,13 +45,14 @@ class GameList extends Component {
 
   render() {
     const { userGames, game } = this.props;
+    userGames.sort((a, b) => b.id - a.id);
     return (
-      <div>
+      <div className="game-list">
         YOUR GAMES
         {userGames.map((game) => {
           return (
             <li key={game.id}>
-              <Link to={{ pathname: '/game', state: {id: game.id} }}>
+              <Link to={{ pathname: `/game/${game.id}`, state: {id: game.id} }}>
                 {`# ${game.id}: ${game.white} vs. ${game.black}`}
               </Link>
             </li>)

@@ -12,38 +12,85 @@ module.exports = {
         username,
         password,
       });
-      console.log('user', user)
       res.send(user);
     } catch (err) {
       console.log('err from createUser', err);
     }
   },
-  sendUserInfo: (req, res) => {
-    console.log('------logged in req.user:', req.user);
-    console.log('------req.session:', req.session);
-    if (req.user) {
-      // res.json(req.session.passport); 
-      res.json(req.user);
-    } else {
-      res.json(null);
+  authenticateUser: async (req, res) => {
+    const { username, password } = req.body;
+    try {
+      const user = await User.findOne({
+        where: { username },
+      });
+			if (!user) {
+				res.status(401).send('Incorrect username');
+			}
+			if (user) {
+        const isVerified = await bcrypt.compare(password, user.dataValues.password);
+        if (!isVerified) {
+          res.status(401).send('Incorrect password');
+        }
+        req.session.user = user.id;
+        res.send(user);
+			}
+    } catch (err) {
+      console.log(err);
     }
   },
-
+  fetchCurrentUser: async (req, res) => {
+    if (req.session.user) { 
+      const id  = req.session.user;
+      try {
+        const user = await User.findOne({
+          where: { id },
+        });
+        res.send(user);
+      } catch (err) {
+        console.log('err from fetchCurrentUser')
+      }
+    } else {
+      res.status(401).end();
+    }
+  },
   terminateSession: async (req, res) => {
-    res.send('hello from usersController');
+    req.session.destroy();
+    res.end();
   },
-  
   fetchProfile: async (req, res) => {
-    res.send('hello from usersController');
+    const { id } = req.params;
+    try {
+      const user = await User.findOne({
+        where: { id },
+      });
+      res.send(user);
+    } catch (err) {
+      console.log('err from fetchProfile', err);
+    }
   },
-
   fetchPlayers: async (req, res) => {
     try {
       const players = await User.findAll();
-      // console.log('\tplayers/////////', players)
       res.send(players);
     } catch (err) {
       console.log('err from createUser', err);
     }
   }
 };
+
+// test: (req, res) => {
+//   if (req.session.views) {
+//     // console.log('-----req.session if', req.session, '---id--', req.sessionID)
+
+//     req.session.views++
+//     res.setHeader('Content-Type', 'text/html')
+//     res.write('<p>views: ' + req.session.views + '</p>')
+//     res.status(200).end()
+//   } else {
+//     // console.log('-----req.session else', req.session)
+//     req.session.views = 1
+//     // console.log('-----req.session elseAFTER', req.session, '---id--', req.sessionID)
+
+//     res.end('welcome to the session demo. refresh!')
+//   }
+// },

@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { storeUser } from '../actions/';
-import auth from '../auth.js';
+import { storeUser, authenticate } from '../actions/';
+
+axios.defaults.withCredentials = true;
 
 class LogIn extends Component {
   constructor(props) {
@@ -30,15 +31,14 @@ class LogIn extends Component {
   }
 
   async logIn() {
-    const { storeUser, updateVerified } = this.props;
+    const { storeUser, updateVerified, authenticate } = this.props;
     const { username, password } = this.state;
     const response = await axios.post('http://localhost:3000/users/login', { username, password });
     if (response.status === 200) {
       storeUser(response.data);
-      auth.authenticate(() => {
-        this.setState({ 
-          redirectToReferrer: true
-        });
+      authenticate(true);
+      this.setState({ 
+        redirectToReferrer: true
       });
     }
   }
@@ -66,21 +66,19 @@ class LogIn extends Component {
           <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
           <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
           <button onClick={() => this.logIn()}>Log In</button>
-          
           <div>Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a></div>
         </div> 
       : <div className="login-form">
           <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
           <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
           <button onClick={() => this.signUp()}>Sign Up</button>
-          
           <div>Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a></div>
         </div> 
   }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ storeUser }, dispatch);
+  return bindActionCreators({ storeUser, authenticate }, dispatch);
 }
 
 export default connect(null, matchDispatchToProps)(LogIn)
