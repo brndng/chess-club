@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { storeUser } from '../actions/';
+import { storeUser, authenticate } from '../actions/';
 
 axios.defaults.withCredentials = true;
 
@@ -31,12 +31,12 @@ class LogIn extends Component {
   }
 
   async logIn() {
-    const { storeUser, updateVerified } = this.props;
+    const { storeUser, updateVerified, authenticate } = this.props;
     const { username, password } = this.state;
     const response = await axios.post('http://localhost:3000/users/login', { username, password });
     if (response.status === 200) {
       storeUser(response.data);
-      auth.authenticate();
+      authenticate(true);
       this.setState({ 
         redirectToReferrer: true
       });
@@ -78,7 +78,7 @@ class LogIn extends Component {
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ storeUser }, dispatch);
+  return bindActionCreators({ storeUser, authenticate }, dispatch);
 }
 
 export default connect(null, matchDispatchToProps)(LogIn)

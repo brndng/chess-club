@@ -19,7 +19,7 @@ const middleware = [
     saveUninitialized: false,
     resave: false,
     cookie: {
-      maxAge: 10000,
+      // maxAge: 10000,
       httpOnly: false,
       secure: false,
     },

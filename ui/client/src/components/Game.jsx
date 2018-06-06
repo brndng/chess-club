@@ -7,8 +7,8 @@ import axios from 'axios';
 import Board from './Board.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import PlayerCard from './PlayerCard.jsx';
-import verifyLegalSquare from '../../rules/verify-legal-square.js';
-import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/utilities';
+import verifyLegalSquare from '../../rules/movement/';
+import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
 import { 
   initGame,
   updatePosition, 
@@ -18,13 +18,14 @@ import {
 
 axios.defaults.withCredentials = true;
 
-
 class Game extends Component {
   constructor(props) {
     super(props);
-    const { id } = props.location.state;
+    console.log('this.props',this.props)
+    // const { id } = props.location.state || null;
+    const { id } = this.props.match.params;
     this.state = {
-      id,
+      id: +id,
       socket: null,
       opponentId: null,
     }
@@ -34,7 +35,6 @@ class Game extends Component {
     const { userId, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
-
     this.socket = await io(`http://localhost:1337/`);
 
     this.socket.on('connect', () => {
@@ -84,7 +84,7 @@ class Game extends Component {
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
     const _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves);
-
+    
     if (
       prevProps.game !== null
       && id === prevProps.game.id 
@@ -135,7 +135,8 @@ class Game extends Component {
     this.socket.emit('draw', { userId, id })
   }
 
-  render() {  
+  render() {
+    console.log('\tGAME render')
     const { userId, game, whiteToMove, moves } = this.props;
     const { id, opponentId } = this.state;
 

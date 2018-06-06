@@ -3,8 +3,6 @@ import axios from 'axios';
 import MoveHistory from './MoveHistory.jsx';
 import Chat from './Chat.jsx';
 
-axios.defaults.withCredentials = true;
-
 class GameDisplay extends Component {
   constructor(props) {
     super(props);
@@ -44,6 +42,7 @@ class GameDisplay extends Component {
 
   render() {
     const { message, messages, view } = this.state;
+    console.log('view',view);
     return (
       <div className="game-display">
         <div className="game-display-toggle">

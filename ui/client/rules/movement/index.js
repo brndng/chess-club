@@ -1,10 +1,10 @@
-import baseMoves from './base-moves.js';
+import movesBasic from './moves-basic.js';
 import validatePath from './validate-path.js'; 
 
 export default (pieceToMove, origin, destin, position, moves = []) => {
   let isLegal = false;
   const piece = pieceToMove.toUpperCase();
-  if (baseMoves[piece](origin, destin, position)) {
+  if (movesBasic[piece](origin, destin, position)) {
     if (piece === 'N') {
       isLegal = true;
     } else {

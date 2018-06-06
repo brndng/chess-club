@@ -31,8 +31,10 @@ class App extends Component {
           </ul>
         </div>
         <Route exact path='/' component={props => <ComponentWithAuth component={Landing} {...props} />} />
-        <Route path='/gamelist' component={props => <ComponentWithAuth component={GameList} {...props} />} />
-        <Route path='/game' component={props => <ComponentWithAuth component={Game} {...props} />} />
+        <Route exact path='/gamelist' component={props => <ComponentWithAuth component={GameList} {...props} />} />
+        {/* <Route path='/game/:id' component={props => <ComponentWithAuth component={Game} {...props} />} /> */}
+        <Route path='/game/:id' component={Game} />
+        {/* <Route path='/game' component={Game} />         */}
         <Route path='/profile' component={props => <ComponentWithAuth component={Profile} {...props} />} />
         <Route path='/players' component={props => <ComponentWithAuth component={Players} {...props} />} />
         <Route path='/login' component={Login} />

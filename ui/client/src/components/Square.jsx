@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import verifyLegalSquare from '../../rules/verify-legal-square.js';
 import { selectPiece, updatePosition } from '../actions/'; 
+import verifyLegalSquare from '../../rules/movement/';
+import { isWhite, convertToChessNotation } from '../../rules/utilities/'
 import { 
-  isWhite, 
   isKingInCheck, 
   isGivingCheck,
   willMoveExposeKing,
   willMoveGiveCheck,
-  isPawnPromoting,
-  convertToChessNotation } from '../../rules/utilities';
+  isPawnPromoting, } from '../../rules/interactions/';
 
 class Square extends Component {
   constructor(props) {

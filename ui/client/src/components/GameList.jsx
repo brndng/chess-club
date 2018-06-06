@@ -51,7 +51,7 @@ class GameList extends Component {
         {userGames.map((game) => {
           return (
             <li key={game.id}>
-              <Link to={{ pathname: '/game', state: {id: game.id} }}>
+              <Link to={{ pathname: `/game/${game.id}`, state: {id: game.id} }}>
                 {`# ${game.id}: ${game.white} vs. ${game.black}`}
               </Link>
             </li>)
