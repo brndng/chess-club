@@ -44,8 +44,12 @@ io.on('connection', (socket) => {
     io.sockets.in(data.id).emit('game_over', data.userId);
   });
 
-  socket.on('draw', (data) => {
-    io.sockets.in(data.id).emit('draw', data.userId);
+  socket.on('draw_offer', (data) => {
+    socket.broadcast.to(data.id).emit('draw_offer', data.userId);
+  })
+
+  socket.on('draw_accepted', (data) => {
+    io.sockets.in(data.id).emit('draw_accepted', data.userId);
   })
 });
 

@@ -7,6 +7,7 @@ import axios from 'axios';
 import Board from './Board.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import PlayerCard from './PlayerCard.jsx';
+import Draw from './Draw.jsx';
 import verifyLegalSquare from '../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
 import { 
@@ -58,12 +59,6 @@ class Game extends Component {
         console.log(`YOU WIN`);
       } else {
         console.log(`YOU LOSE`);
-      }
-    });
-    this.socket.on('draw', (player) => {
-      declareGameOver();
-      if (userId !== player) {
-        console.log(`Player ${player} has offered a draw`);
       }
     });
 
@@ -128,9 +123,10 @@ class Game extends Component {
   }
 
   offerDraw() {
+    console.log('offer draw clicked')
     const { userId } =  this.props;
     const { id } = this.state;
-    this.socket.emit('draw', { userId, id })
+    this.socket.emit('draw_offer', { userId, id })
   }
 
   render() {
@@ -144,13 +140,14 @@ class Game extends Component {
              <Board />
              <div className="game-info">
                <PlayerCard id={opponentId} />
-               <GameDisplay id={id} socket={this.socket}/>
+               <GameDisplay id={id} socket={this.socket} />
                <div className="game-options">
                  <button onClick={() => {this.resign()}}>RESIGN</button>
                  <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
                </div>
                <PlayerCard id={userId} />
              </div>
+             <Draw id={id} socket={this.socket} />
            </div>
     );
   }

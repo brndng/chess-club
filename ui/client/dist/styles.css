@@ -1,4 +1,4 @@
-html, body, #app, .route-container {
+html, body, #app-root, #modal-root, .route-container {
   height: 100%;
 }
 
@@ -290,6 +290,31 @@ html, body, #app, .route-container {
   .players-list li {
     list-style: none;
   }
+
+/* Modal */
+#modal-root {
+  position: relative;
+  z-index: 999;
+}
+
+.app {
+  height: 10em;
+  width: 10em;
+  background: lightblue;
+  overflow: hidden;
+}
+
+.modal {
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 

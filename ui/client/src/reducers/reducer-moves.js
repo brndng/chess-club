@@ -24,7 +24,7 @@ export default (state = [], action) => {
       return [...newState, [origin, destin, piece, captured, notation]];
       break;
     }
-    case 'GAME_COMPLETED': {
+    case 'GAME_COMPLETED': { //checkmate
       const finalNotation = newState.slice(-1)[0][4]; 
       const withMate = `${finalNotation.slice(0, finalNotation.length - 1)}#`;
       newState[newState.length - 1][4] = withMate;

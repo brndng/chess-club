@@ -42,7 +42,6 @@ module.exports = {
         moves: [],
         whiteToMove: true,
         inCheck: null,
-        accepted: true,
         completed: false, 
         white, 
         black,
