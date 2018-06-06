@@ -136,7 +136,6 @@ class Game extends Component {
   }
 
   render() {
-    console.log('\tGAME render')
     const { userId, game, whiteToMove, moves } = this.props;
     const { id, opponentId } = this.state;
 

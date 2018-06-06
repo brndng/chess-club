@@ -54,7 +54,8 @@ module.exports = {
     }
   },
   terminateSession: async (req, res) => {
-    res.send('hello from usersController');
+    req.session.destroy();
+    res.end();
   },
   fetchProfile: async (req, res) => {
     const { id } = req.params;

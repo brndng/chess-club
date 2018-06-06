@@ -2,21 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import { authenticate } from '../actions/';
+
+axios.defaults.withCredentials = true;
 
 class Logout extends Component {
   constructor(props) {
     super(props);
   }
 
+  async logout() {
+    const { authenticate, history } = this.props;
+    const response = await axios.get(`http://localhost:3000/users/logout`);
+    authenticate(false);
+    history.push('/');
+  }
+
   render() {
-    const { isAuthenticated, authenticate, history } = this.props;
+    const { isAuthenticated } = this.props;
     return isAuthenticated === true 
       ? <li className="logout">
           <p>Welcome!</p> 
           <a onClick={() => {
-            authenticate(false);
-            history.push('/');
+            this.logout()
           }}>LOG OUT</a>
         </li>
       : <li className="logout">
