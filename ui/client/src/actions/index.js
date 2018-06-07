@@ -56,7 +56,7 @@ export const declareGameOver = () => {
   };
 };
 
-export const updatePosition = (origin, destin, piece, captured, notation, moves = []) => {
+export const updatePosition = (origin, destin, piece, captured, notation, moves = [], promotedTo = null) => {
 
   const prevMove = moves.slice(-1)[0];
   const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove: [];
@@ -64,7 +64,7 @@ export const updatePosition = (origin, destin, piece, captured, notation, moves 
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
-      payload: [origin, destin, piece, captured, notation],
+      payload: [origin, destin, piece, captured, notation, promotedTo],
     };
   } else if (
     prevMove
@@ -108,6 +108,14 @@ export const authenticate = (status) => {
     payload: status,
   };
 }
+
+export const updatePromotionStatus = (move = []) => {
+  return {
+    type: 'PROMOTION_STATUS_UPDATED',
+    payload: move,
+  };
+}
+
 
 
 

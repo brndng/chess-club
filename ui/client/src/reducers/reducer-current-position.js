@@ -47,11 +47,9 @@ export default (state = [], action) => {
       break;
     }
     case 'PAWN_PROMOTED': {
-      const [origin, destin, piece]  = action.payload;
-      const queen = piece === 'P'
-        ? 'Q'
-        : 'q'
-      newState[destin.row][destin.col] = queen;
+      const [origin, destin, piece, captured, notation, promotedTo]  = action.payload;
+    
+      newState[destin.row][destin.col] = promotedTo;
       newState[origin.row][origin.col] = null;
       return newState;
       break;

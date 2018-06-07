@@ -8,6 +8,7 @@ import Board from './Board.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import PlayerCard from './PlayerCard.jsx';
 import Draw from './Draw.jsx';
+import Promotion from './Promotion.jsx';
 import verifyLegalSquare from '../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
 import { 
@@ -148,6 +149,7 @@ class Game extends Component {
                <PlayerCard id={userId} />
              </div>
              <Draw id={id} socket={this.socket} />
+             <Promotion />
            </div>
     );
   }

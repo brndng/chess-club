@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import { selectPiece, updatePosition } from '../actions/'; 
+import { selectPiece, updatePosition, updatePromotionStatus } from '../actions/'; 
 import verifyLegalSquare from '../../rules/movement/';
-import { isWhite, convertToChessNotation } from '../../rules/utilities/'
+import { isWhite, convertToChessNotation, setSquareColor } from '../../rules/utilities/'
 import { 
   isKingInCheck, 
   isGivingCheck,
@@ -19,15 +19,11 @@ class Square extends Component {
 
   initSquareColor() {
     const { coords } = this.props;
-    const { row, col } = coords;
-    return ((row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0))
-      ? 'white' 
-      : 'black';
+    return setSquareColor(coords);
   }
 
   isSelected() {
     const { coords, selection } = this.props;
-
     if (selection !== null) {
       const { origin } = selection;
       return (coords.row === origin.row && coords.col === origin.col);
@@ -51,14 +47,20 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece } = this.props;
+    const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece, updatePromotionStatus } = this.props;
     const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
     const _check = willMoveGiveCheck(userId, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
+    const _isPawnPromoting = isPawnPromoting(selection, coords);
 
     if (!_willMoveExposeKing) {
-      updatePosition(selection.origin, coords, selection.piece, piece, _notation, moves);
-      selectPiece(null, null);
+      if (_isPawnPromoting) {
+        updatePromotionStatus([selection.origin, coords, selection.piece, piece, _notation, moves]);  
+      } else {
+        updatePosition(selection.origin, coords, selection.piece, piece, _notation, moves);
+        selectPiece(null, null);
+      }
+      
     } 
   }
 
@@ -84,7 +86,7 @@ const mapStateToProps = ({ selection, currentPosition, whiteToMove, moves, userI
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, updatePosition }, dispatch);
+  return bindActionCreators({ selectPiece, updatePosition, updatePromotionStatus }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);

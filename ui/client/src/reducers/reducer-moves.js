@@ -16,7 +16,8 @@ export default (state = [], action) => {
       break;
     }
     case 'PAWN_PROMOTED': {
-      return [...newState, action.payload];
+      const [origin, destin, piece, captured, notation] = action.payload;
+      return [...newState, [origin, destin, piece, captured, notation]];
       break;
     }
     case 'EN_PASSANT': {

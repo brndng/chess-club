@@ -117,6 +117,13 @@ export const areEqual = (obj1, obj2) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
+export const setSquareColor = (coords) => {
+  const { row, col } = coords;
+    return ((row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0))
+      ? 'white' 
+      : 'black';
+}
+
 
 
 
