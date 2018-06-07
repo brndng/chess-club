@@ -48,14 +48,13 @@ export default (state = [], action) => {
     }
     case 'PAWN_PROMOTED': {
       const [origin, destin, piece, captured, notation, promotedTo]  = action.payload;
-    
       newState[destin.row][destin.col] = promotedTo;
       newState[origin.row][origin.col] = null;
       return newState;
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, captured, notation, prevMove]  = action.payload;
+      const [origin, destin, piece, captured, notation, promotedTo, prevMove]  = action.payload;
       const [prevOrigin, prevDestin, prevPiece] = prevMove;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;

@@ -55,12 +55,11 @@ class Square extends Component {
 
     if (!_willMoveExposeKing) {
       if (_isPawnPromoting) {
-        updatePromotionStatus([selection.origin, coords, selection.piece, piece, _notation, moves]);  
+        updatePromotionStatus([selection.origin, coords, selection.piece, piece, _notation]);  
       } else {
-        updatePosition(selection.origin, coords, selection.piece, piece, _notation, moves);
+        updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, moves);
         selectPiece(null, null);
       }
-      
     } 
   }
 

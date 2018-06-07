@@ -56,8 +56,7 @@ export const declareGameOver = () => {
   };
 };
 
-export const updatePosition = (origin, destin, piece, captured, notation, moves = [], promotedTo = null) => {
-
+export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, moves = []) => {
   const prevMove = moves.slice(-1)[0];
   const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove: [];
 
@@ -80,18 +79,18 @@ export const updatePosition = (origin, destin, piece, captured, notation, moves 
       : 'P';
     return {
       type: 'EN_PASSANT',
-      payload: [origin, destin, piece, captured, notation, prevMove]
+      payload: [origin, destin, piece, captured, notation, promotedTo, prevMove]
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
     return {
       type: 'KING_CASTLED',
-      payload: [origin, destin, piece, captured, notation],
+      payload: [origin, destin, piece, captured, notation, promotedTo],
     };
   }
 
   return {
     type: 'POSITION_CHANGED', 
-    payload: [origin, destin, piece, captured, notation],
+    payload: [origin, destin, piece, captured, notation, promotedTo],
   };
 };
 
@@ -115,6 +114,9 @@ export const updatePromotionStatus = (move = []) => {
     payload: move,
   };
 }
+
+
+
 
 
 

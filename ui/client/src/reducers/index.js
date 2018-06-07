@@ -10,7 +10,7 @@ import InCheckReducer from './reducer-in-check.js';
 import CompletedReducer from './reducer-completed.js';
 import IsAuthenticatedReducer from './reducer-is-authenticated.js';
 import HasFetchedCurrUserReducer from  './reducer-has-fetched-curr-user.js';
-import PromotionMoveReducer from './reducer-promotion-move.js';
+import PromotingMoveReducer from './reducer-promoting-move.js';
 
 export default combineReducers({
   selection: SelectionReducer,
@@ -24,5 +24,5 @@ export default combineReducers({
   completed: CompletedReducer,
   isAuthenticated: IsAuthenticatedReducer,
   hasFetchedCurrUser: HasFetchedCurrUserReducer,
-  promotionMove: PromotionMoveReducer,
+  promotingMove: PromotingMoveReducer,
 });

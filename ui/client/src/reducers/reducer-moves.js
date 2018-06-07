@@ -16,16 +16,15 @@ export default (state = [], action) => {
       break;
     }
     case 'PAWN_PROMOTED': {
-      const [origin, destin, piece, captured, notation] = action.payload;
-      return [...newState, [origin, destin, piece, captured, notation]];
+      return [...newState, action.payload];
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, captured, notation] = action.payload;
-      return [...newState, [origin, destin, piece, captured, notation]];
+      const [origin, destin, piece, captured, notation, promotedTo] = action.payload;
+      return [...newState, [origin, destin, piece, captured, notation, promotedTo]];
       break;
     }
-    case 'GAME_COMPLETED': { //checkmate
+    case 'GAME_COMPLETED': { //checkmate make dedicated reducer ...
       const finalNotation = newState.slice(-1)[0][4]; 
       const withMate = `${finalNotation.slice(0, finalNotation.length - 1)}#`;
       newState[newState.length - 1][4] = withMate;

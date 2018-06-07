@@ -18,27 +18,23 @@ const pieces = {
 class Promotion extends Component {
   constructor(props) {
     super(props);
-    
-    // this.handleHide = this.handleHide.bind(this);
     this.selectPiece = this.selectPiece.bind(this);
   }
-  
-  // handleHide() {
-  //   const { updatePromotionStatus } = this.props;
-  //   updatePromotionStatus();
-  // }
 
-  selectPiece(promotedTo) {
-    const { updatePosition, updatePromotionStatus, promotionMove } = this.props;
-    const selection = pieces[promotedTo];
-    updatePosition(...promotionMove, promotedTo)
+  selectPiece(selection) {
+    const { updatePosition, updatePromotionStatus, userId, game, promotingMove } = this.props;    
+    const promotedTo = userId === game.white
+      ? selection
+      : selection.toLowerCase();
+    
+    updatePosition(...promotingMove, promotedTo);
     updatePromotionStatus();
-    console.log('you have selected :', selection)
+    console.log('you have selected :', promotedTo)
   }
 
   render() {
-    const { promotionMove } = this.props;
-    const modal = promotionMove.length === 0
+    const { promotingMove } = this.props;
+    const modal = promotingMove.length === 0
       ? null
       : <div >
           <Modal>
@@ -55,8 +51,8 @@ class Promotion extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, promotionMove }) => {
-  return { userId, promotionMove }
+const mapStateToProps = ({ userId, game, promotingMove }) => {
+  return { userId, game, promotingMove }
 }
 
 const matchDispatchToProps = (dispatch) => {

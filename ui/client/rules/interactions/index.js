@@ -131,6 +131,7 @@ export const willMoveExposeKing = (userId, white, selection, destin, position, m
 }
 
 export const willMoveGiveCheck = (userId, white, selection, destin, position, moves) => {
+  console.log('​exportwillMoveGiveCheck -> userId, white, selection, destin, position, moves', userId, white, selection, destin, position, moves);
   const { origin, piece } = selection;
   const preview = position.map(row => row.slice());
 

@@ -155,8 +155,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, inCheck }) => {
-  return { userId, moves, game, currentPosition, whiteToMove, inCheck }
+const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }) => {
+  return { userId, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }
 }
 
 const matchDispatchToProps = (dispatch) => {
