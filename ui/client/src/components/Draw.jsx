@@ -15,6 +15,7 @@ class Draw extends Component {
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.offerDraw = this.offerDraw.bind(this);
     this.sendResponse = this.sendResponse.bind(this);
   }
 
@@ -34,7 +35,9 @@ class Draw extends Component {
           isAccepted,
         });
         this.showModal('response');
-        declareGameOver();
+        if (isAccepted) {
+          declareGameOver();
+        }
       });
     }
   }
@@ -52,6 +55,11 @@ class Draw extends Component {
       view: 'offer'
     });
   }
+
+  offerDraw() {
+    const { id, userId, socket } =  this.props;
+    socket.emit('draw_offer', { userId, id })
+  }
   
   sendResponse(isAccepted) {
     const { userId, id, socket, declareGameOver } = this.props;
@@ -63,19 +71,23 @@ class Draw extends Component {
   }
 
   render() {
+    const { completed } = this.props;
     const { showModal, opponent, view, isAccepted } = this.state;
+    const onClick = completed 
+      ? null
+      : () => this.offerDraw();
     const response = isAccepted
       ? 'accepted'
       : 'declined'
     const modal = showModal
       && <div >
-          <Modal>
+           <Modal>
             <div className="modal"> {
               view === 'offer'
                 ? <div className="modal-dialogue">
                     <p> {opponent} has offered a draw </p>
-                    <button onClick={() => {this.sendResponse(true)}}>ACCEPT</button>
-                    <button onClick={() => {this.sendResponse(false)}}>DECLINE</button>
+                    <button onClick={() => this.sendResponse(true)}>ACCEPT</button>
+                    <button onClick={() => this.sendResponse(false)}>DECLINE</button>
                   </div>
                 : <div className="modal-dialogue">
                     <p> {opponent} has {response} your draw offer </p>
@@ -86,12 +98,17 @@ class Draw extends Component {
           </Modal>
         </div>
 
-    return modal;
+    return (
+      <div>         
+        <button onClick={onClick}>OFFER DRAW</button>
+        {modal}
+      </div>
+    );
   }
 }
 
-const mapStateToProps = ({ userId }) => {
-  return { userId }
+const mapStateToProps = ({ userId, completed }) => {
+  return { userId, completed }
 }
 
 const matchDispatchToProps = (dispatch) => {

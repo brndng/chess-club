@@ -65,17 +65,18 @@ class Square extends Component {
   }
 
   render() {
+    const { piece, completed } = this.props;
     const classes = [
       'square',
-      this.isSelected() ? 'is-selected' : null
+      this.isSelected() && 'is-selected' 
     ].filter(cls => !!cls).join(' ');
 
-    const onClick = this.props.completed 
+    const onClick = completed 
       ? null
       : () => this.handleSquareClick();
     return (
       <div id={this.initSquareColor()} className={classes} onClick={onClick}>
-        {this.props.piece === null ? null : <Piece piece={this.props.piece} />}
+        {piece === null ? null : <Piece piece={piece} />}
       </div>
     )
   }

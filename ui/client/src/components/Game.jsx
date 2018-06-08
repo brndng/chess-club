@@ -124,13 +124,6 @@ class Game extends Component {
     }
   }
 
-  offerDraw() {
-    console.log('offer draw clicked')
-    const { userId } =  this.props;
-    const { id } = this.state;
-    this.socket.emit('draw_offer', { userId, id })
-  }
-
   render() {
     const { userId, game, whiteToMove, moves } = this.props;
     const { id, opponentId } = this.state;
@@ -145,11 +138,10 @@ class Game extends Component {
                <GameDisplay id={id} socket={this.socket} />
                <div className="game-options">
                  <button onClick={() => {this.resign()}}>RESIGN</button>
-                 <button onClick={() => {this.offerDraw()}}>OFFER DRAW</button>
+                 <Draw id={id} socket={this.socket} />
                </div>
                <PlayerCard id={userId} />
              </div>
-             <Draw id={id} socket={this.socket} />
              <Promotion />
            </div>
     );
