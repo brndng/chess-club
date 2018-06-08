@@ -130,10 +130,15 @@ export const willMoveExposeKing = (userId, white, selection, destin, position, m
   }
 }
 
-export const willMoveGiveCheck = (userId, white, selection, destin, position, moves) => {
-  console.log('​exportwillMoveGiveCheck -> userId, white, selection, destin, position, moves', userId, white, selection, destin, position, moves);
+export const willMoveGiveCheck = (userId, white, selection, destin, position, moves, promotedTo = null) => {
   const { origin, piece } = selection;
   const preview = position.map(row => row.slice());
+
+  if (promotedTo !== null) {
+    preview[destin.row][destin.col] = promotedTo;
+    preview[origin.row][origin.col] = null;
+    return isOpponentInCheck(userId, white, preview, moves);
+  }
 
   if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
     preview[origin.row][origin.col] = null;

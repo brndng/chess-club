@@ -40,6 +40,7 @@ module.exports = {
   },
   fetchCurrentUser: async (req, res) => {
     if (req.session.user) { 
+      console.log('\t---SESSION ID:',req.sessionID);
       const id  = req.session.user;
       try {
         const user = await User.findOne({

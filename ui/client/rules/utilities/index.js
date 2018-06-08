@@ -10,7 +10,8 @@ export const rotateBoard = (position) => {
   return copy.reverse().map(row => row.reverse());
 };
 
-export const convertToChessNotation = (origin, destin, piece, captured, check) => {
+export const convertToChessNotation = (origin, destin, piece, captured, check, promotedTo = null) => {
+
   const figurines = {
     K: '♔',
     Q: '♕',
@@ -21,9 +22,8 @@ export const convertToChessNotation = (origin, destin, piece, captured, check) =
   const originFile = String.fromCharCode(97 + origin.col);
   const file = String.fromCharCode(97 + destin.col);
   const rank = 8 - destin.row;
-
-  // en passant case
-  if (
+  
+  if ( // en passant case
     piece.toUpperCase() === 'P' 
     && captured === null 
     && Math.abs(destin.col - origin.col) === 1 
@@ -33,7 +33,6 @@ export const convertToChessNotation = (origin, destin, piece, captured, check) =
       ? 'p'
       : 'P'
   }
-  
   const selection = piece.toUpperCase() === 'P'
     ? captured === null
       ? ''
@@ -41,6 +40,9 @@ export const convertToChessNotation = (origin, destin, piece, captured, check) =
     : figurines[piece.toUpperCase()];
   const captures = captured !== null
     ? 'x'
+    : '';
+  const promotion = promotedTo !== null
+    ? `=${promotedTo}`
     : '';
   const warning = check 
     ? '+'
@@ -54,7 +56,7 @@ export const convertToChessNotation = (origin, destin, piece, captured, check) =
     }
   }
 
-  return `${selection}${captures}${file}${rank}${warning}`
+  return `${selection}${captures}${file}${rank}${promotion}${warning}`
 };
 
 export const printMoves = (moves) => {

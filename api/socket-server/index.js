@@ -48,8 +48,8 @@ io.on('connection', (socket) => {
     socket.broadcast.to(data.id).emit('draw_offer', data.userId);
   })
 
-  socket.on('draw_accepted', (data) => {
-    io.sockets.in(data.id).emit('draw_accepted', data.userId);
+  socket.on('draw_response', (data) => {
+    socket.broadcast.to(data.id).emit('draw_response', data);
   })
 });
 

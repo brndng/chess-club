@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from './Modal.jsx';
-import { declareGameOver, authenticate } from '../actions/';
+import { declareGameOver } from '../actions/';
 
 class Draw extends Component {
   constructor(props) {
@@ -10,67 +10,81 @@ class Draw extends Component {
     this.state = {
       showModal: false,
       opponent: '',
+      view: 'offer',
+      isAccepted: false,
     };
-
-    this.handleShow = this.handleShow.bind(this);
-    this.handleHide = this.handleHide.bind(this);
-    this.acceptDraw = this.acceptDraw.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+    this.sendResponse = this.sendResponse.bind(this);
   }
 
   componentDidMount() {
     if (this.props.socket) {
-      const { socket } = this.props;
+      const { socket, id, declareGameOver } = this.props;
       
-      socket.on('draw_offer', (player) => {
+      socket.on('draw_offer', (opponent) => {
         this.setState({
-          opponent: player,
+          opponent,
         });
-        this.handleShow();
+        this.showModal('offer');
       });
-
-      socket.on('draw_accepted', (player) => {
-        console.log(`${player} has agreed to a draw.`)
+      socket.on('draw_response', (response) => {
+        const { isAccepted } = response;
+        this.setState({
+          isAccepted,
+        });
+        this.showModal('response');
         declareGameOver();
-      })
+      });
     }
-
-    
-
-    // this.socket.on('draw_offer', (player) => {
-    //   declareGameOver();
-    //   if (userId !== player) {
-    //     console.log(`Player ${player} has offered a draw`);
-    //   }
-    // });
   }
 
-  handleShow() {
-    this.setState({showModal: true});
+  showModal(view) {
+    this.setState({
+      showModal: true,
+      view,
+    });
   }
   
-  handleHide() {
-    this.setState({showModal: false});
+  hideModal() {
+    this.setState({
+      showModal: false,
+      view: 'offer'
+    });
   }
   
-  acceptDraw() {
-    const { userId, id, declareGameOver } = this.props;
-    this.props.socket.emit('draw_accepted', { userId, id });
-    this.handleHide();
+  sendResponse(isAccepted) {
+    const { userId, id, socket, declareGameOver } = this.props;
+    socket.emit('draw_response', { userId, id, isAccepted });
+    if (isAccepted) {
+      declareGameOver();
+    }
+    this.hideModal();
   }
 
   render() {
-    const { showModal, opponent } = this.state;
+    const { showModal, opponent, view, isAccepted } = this.state;
+    const response = isAccepted
+      ? 'accepted'
+      : 'declined'
     const modal = showModal
-      ? <div >
+      && <div >
           <Modal>
-            <div className="modal">
-              <p> {opponent} has offered a draw </p>
-              <button onClick={this.acceptDraw}>ACCEPT</button>
-              <button onClick={this.handleHide}>DECLINE</button>
+            <div className="modal"> {
+              view === 'offer'
+                ? <div className="modal-dialogue">
+                    <p> {opponent} has offered a draw </p>
+                    <button onClick={() => {this.sendResponse(true)}}>ACCEPT</button>
+                    <button onClick={() => {this.sendResponse(false)}}>DECLINE</button>
+                  </div>
+                : <div className="modal-dialogue">
+                    <p> {opponent} has {response} your draw offer </p>
+                    <button onClick={this.hideModal}>X</button>
+                  </div>
+            }
             </div>
           </Modal>
         </div>
-      : null;
 
     return modal;
   }

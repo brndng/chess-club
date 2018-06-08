@@ -16,7 +16,7 @@ import {
   updatePosition, 
   toggleTurn, 
   updateCheckStatus,
-  declareGameOver } from '../actions/';
+  declareGameOver, } from '../actions/';
 
 axios.defaults.withCredentials = true;
 
@@ -51,6 +51,7 @@ class Game extends Component {
     this.socket.on('check', (player) => {
       if (this.props.inCheck !== player) {
         updateCheckStatus(player);
+ 
       }
     });
     this.socket.on('game_over', (player) => {

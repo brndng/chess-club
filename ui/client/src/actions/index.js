@@ -108,10 +108,20 @@ export const authenticate = (status) => {
   };
 }
 
-export const updatePromotionStatus = (move = []) => {
+export const loadPromotingMove = (move = []) => {
   return {
     type: 'PROMOTION_STATUS_UPDATED',
     payload: move,
+  };
+}
+
+export const appendToNotation = (situation) => {
+  const warning = situation === 'check'
+    ? '+'
+    : '#'
+  return {
+    type: 'KING_ATTACKED',
+    payload: warning,
   };
 }
 

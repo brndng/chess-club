@@ -24,10 +24,10 @@ export default (state = [], action) => {
       return [...newState, [origin, destin, piece, captured, notation, promotedTo]];
       break;
     }
-    case 'GAME_COMPLETED': { //checkmate make dedicated reducer ...
+    case 'KING_ATTACKED': {
       const finalNotation = newState.slice(-1)[0][4]; 
-      const withMate = `${finalNotation.slice(0, finalNotation.length - 1)}#`;
-      newState[newState.length - 1][4] = withMate;
+      const notationWithWarning = `${finalNotation}${action.payload}`;
+      newState[newState.length - 1][4] = notationWithWarning;
       return newState;
       break;
     }

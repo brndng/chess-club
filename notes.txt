@@ -30,6 +30,341 @@ Uncaught TypeError: Cannot read property 'id' of undefined
   on Chat toggle
     GameDisplay -> Chat -> APP -> ComponentWithAuth -> err
     game/ ...without wrapper (toggle works, no userdata though)
+html, body, #app-root, #modal-root, .route-container {
+
+  height: 100%;
+  background-color: #1d1e22;
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  user-select: none;                  
+}
+
+.landing {
+  height: 100%;
+  background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Board */
+.board-container {
+  align-items: center;
+  justify-content: center;
+  background-color: #965b31;;
+  padding: 12px;
+  border: 1px solid #8F4F2C;
+  border-radius: 5px;
+  margin: 24px;
+}
+
+.board-container.is-my-turn:hover {
+  cursor: pointer;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  background-color: #fed6a4;
+  margin: 12px;
+  padding: 4px;
+  border: 1px solid #8F4F2C;
+}
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+    .square {
+      line-height: 50px;
+      height: 50px;
+      position: relative;
+      padding: 0;
+      text-align: center;
+      width: 50px;
+    }
+
+    .square:focus {
+      outline: none; 
+    }  
+
+    .square.is-selected::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0.5;
+      background-color: pink;
+  }
+      #black {
+        background-color: #B27645;
+      }
+      
+      #white {
+        background-color: #F2CB9B;
+      }
+        .piece-white {       /* 'piece white' */
+          color: floralwhite;
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          font-size: 32px;
+          box-shadow:none;
+          text-shadow: 1px 1px 1px black;
+        }
+
+  
+  
+        .piece-black {
+          color: black;  
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          font-size: 32px;
+          box-shadow:none;
+        }
+
+        
+
+
+
+/* Game Info */
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #393f4d;
+  height: 420px;
+  padding: 20px;
+  border: 1px inset black;
+}
+
+  .player-card-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #d4d4dc;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .player-card-container.is-my-turn {
+    border: 2px solid pink;
+  }
+
+    .player-card-pieces {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    } 
+      .captured-piece {
+        font-size: 16px;
+      }
+
+  .game-display {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .game-display-toggle {
+    display: flex;
+    flex-direction: row;
+  }
+    .game-display ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 200px;
+    }
+      .game-display li {
+        padding: 0;
+      }
+
+      .game-display a {
+        text-decoration: none;
+        display: block;
+        padding: 8px;
+      }
+      
+
+/* Chat */
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+  .chat-output {
+    height: 160px;
+    overflow: auto;
+    background: white;
+    padding: 12px;
+  }
+
+    .chat-output li {
+      list-style: none;
+    }
+
+/* MoveHistory */
+.move-history-container {
+  display: flex;
+  flex-direction: column;
+}
+  .move-history-output {
+    height: 160px;
+    overflow: auto;
+    background: white;
+    padding: 12px;
+    background-color: #d4d4dc;
+  }
+    .move-history-row {
+      display: flex;
+      flex-direction: row;
+      width: 140px;
+      justify-content: space-between;
+    }
+      
+
+/* NavBar */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  background: #383838;
+  margin-bottom: 24px;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav li {
+  padding: 0;
+}
+
+.nav a {
+  text-decoration: none;
+  text-align: center;
+  color: floralwhite;
+  display: block;
+  padding: 8px;
+}
+
+.nav a:hover {
+  background-color: #555;
+}
+
+.logout {
+  display: flex;
+  text-align: center; 
+  color: floralwhite;
+}
+
+.logout a {
+  text-decoration: none;
+  text-align: center;
+  color: floralwhite;
+  display: block;
+  padding: 8px;
+}
+
+.logout a:hover {
+  background-color: #555;
+}
+
+.logout p {
+  padding-top: 8px;
+  padding-right: 8px;
+  margin: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .nav ul {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .nav li {
+    flex: 1 1 0;
+  }
+}
+
+/* Login */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 128px;
+}
+
+.login-form input {
+  box-sizing: border-box;
+  width: 320px;
+  height: 32px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.login-form button {
+  box-sizing: border-box;
+  width: 320px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+/* gamelist */
+.game-list li {
+  padding: 5px;
+  list-style-type: none;
+}
+
+/* Players */
+.players-container {
+  display: flex;
+  flex-direction: column;
+}
+  .players-list li {
+    list-style: none;
+  }
+
+/* Modal */
+#modal-root {
+  position: relative;
+  z-index: 999;
+}
+
+.app {
+  height: 10em;
+  width: 10em;
+  background: lightblue;
+  overflow: hidden;
+}
+
+.modal {
+  background-color: rgba(0,0,0,0.5);
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 
