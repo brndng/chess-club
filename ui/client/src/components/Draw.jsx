@@ -82,21 +82,21 @@ class Draw extends Component {
     const modal = showModal
       && <div >
            <Modal>
-            <div className="modal"> {
-              view === 'offer'
-                ? <div className="modal-dialogue">
-                    <p> {opponent} has offered a draw </p>
-                    <button onClick={() => this.sendResponse(true)}>ACCEPT</button>
-                    <button onClick={() => this.sendResponse(false)}>DECLINE</button>
-                  </div>
-                : <div className="modal-dialogue">
-                    <p> {opponent} has {response} your draw offer </p>
-                    <button onClick={this.hideModal}>X</button>
-                  </div>
-            }
-            </div>
-          </Modal>
-        </div>
+             <div className="modal"> {
+               view === 'offer'
+                 ? <div className="modal-dialogue">
+                     <p> {opponent} has offered a draw </p>
+                     <button onClick={() => this.sendResponse(true)}>ACCEPT</button>
+                     <button onClick={() => this.sendResponse(false)}>DECLINE</button>
+                   </div>
+                 : <div className="modal-dialogue">
+                     <p> {opponent} has {response} your draw offer </p>
+                     <button onClick={this.hideModal}>X</button>
+                   </div>
+             }
+             </div>
+           </Modal>
+         </div>
 
     return (
       <div>         

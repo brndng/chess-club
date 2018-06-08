@@ -19,19 +19,35 @@ class Logout extends Component {
     history.push('/');
   }
 
+  // redirectToLogin() {
+  //   const { history } = this.props;
+  //   history.push('/login');
+  // }
+
   render() {
     const { isAuthenticated } = this.props;
-    return isAuthenticated === true 
+   
+    return isAuthenticated
       ? <li className="logout">
-          <p>Welcome!</p> 
-          <a onClick={() => {
-            this.logout()
-          }}>LOG OUT</a>
+          <a onClick={() => this.logout()}>LOG OUT</a>
         </li>
-      : <li className="logout">
-          <p>You are not logged in</p>
-        </li>
+      : <li></li>
   }
+
+  // render() {
+  //   const { isAuthenticated } = this.props;
+  //   const onClick = isAuthenticated
+  //     ? () => this.logout()
+  //     : () => this.redirectToLogin();
+  //   const text = isAuthenticated
+  //     ? 'LOG OUT'
+  //     : 'LOG IN';
+  //   return (
+  //     <li className="logout">
+  //       <a onClick={onClick}>{text}</a>
+  //     </li>
+  //   )
+  // }
 }
 
 const mapStateToProps = ({ isAuthenticated }) => {
@@ -44,16 +60,3 @@ const matchDispatchToProps = (dispatch) => {
 
 export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Logout));
 
-// const Logout = withRouter(({ history }) => {
-//   return auth.isAuthenticated === true 
-//     ? <li className="logout">
-//         <p>Welcome!</p> <a onClick={() => {
-//           auth.logout(() => history.push('/'))
-//         }}>LOG OUT</a>
-//       </li>
-//     : <li className="logout">
-//         <p>You are not logged in</p>
-//       </li>
-// });
-
-// export default Logout;

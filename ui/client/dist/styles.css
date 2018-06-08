@@ -217,8 +217,8 @@ html, body, #app-root, .route-container {
 
 .nav {
   display: flex;
-  justify-content: space-between;
-  background: #383838;
+  justify-content: flex-end;
+  background: #1d1e22;
   margin-bottom: 24px;
 }
   .nav ul {
@@ -232,6 +232,7 @@ html, body, #app-root, .route-container {
       .nav a {
         text-decoration: none;
         text-align: center;
+        font-size: 12px;
         color: floralwhite;
         display: block;
         padding: 8px;
@@ -239,7 +240,7 @@ html, body, #app-root, .route-container {
       .nav a:hover {
         background-color: #555;
       }
-
+  
 /* Logout */
 .logout {
   display: flex;
@@ -256,11 +257,7 @@ html, body, #app-root, .route-container {
   .logout a:hover {
     background-color: #555;
   }
-  .logout p {
-    padding-top: 8px;
-    padding-right: 8px;
-    margin: 0;
-  }
+
 
 /* Login */
 .login-form {

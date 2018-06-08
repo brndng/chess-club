@@ -7,8 +7,8 @@ import GameList from  './GameList.jsx';
 import Game from './Game.jsx';
 import Profile from './Profile.jsx';
 import Players from './Players.jsx';
-import Logout from './Logout.jsx';
 import ComponentWithAuth from './ComponentWithAuth.jsx';
+import NavBar from './NavBar.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -20,20 +20,11 @@ class App extends Component {
   render() {
     return (
       <div className="route-container">
-        <div className="nav">
-          <ul>
-            <li><Link to='/profile'> PROFILE </Link></li>
-            <li><Link to='/gamelist'> GAMES </Link></li>
-            <li><Link to='/players'> PLAYERS </Link></li>
-          </ul>
-          <ul>
-            <Logout />
-          </ul>
-        </div>
+        <NavBar />
         <Route exact path='/' component={props => <ComponentWithAuth component={Landing} {...props} />} />
+        <Route path='/profile' component={props => <ComponentWithAuth component={Profile} {...props} />} />
         <Route path='/gamelist' component={props => <ComponentWithAuth component={GameList} {...props} />} />
         <Route path='/game/:id' component={props => <ComponentWithAuth component={Game} {...props} />} />
-        <Route path='/profile' component={props => <ComponentWithAuth component={Profile} {...props} />} />
         <Route path='/players' component={props => <ComponentWithAuth component={Players} {...props} />} />
         <Route path='/login' component={Login} />
       </div>
