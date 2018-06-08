@@ -8,6 +8,7 @@ import Board from './Board.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import PlayerCard from './PlayerCard.jsx';
 import Draw from './Draw.jsx';
+import Resignation from './Resignation.jsx';
 import Promotion from './Promotion.jsx';
 import verifyLegalSquare from '../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
@@ -110,19 +111,19 @@ class Game extends Component {
     this.socket.disconnect();
   }
 
-  resign() {
-    if (window.confirm('Are you sure you want to resign?')) {
-      const { userId, game } =  this.props;
-      const { id } = this.state;
-      const opponentId = userId === game.white ? game.black : game.white;
-      this.socket.emit('game_over', { userId, id });
-      axios.put(`http://localhost:3000/games/document`, { 
-        id, 
-        completed: true,
-        winner: opponentId,
-      });
-    }
-  }
+  // resign() {
+  //   if (window.confirm('Are you sure you want to resign?')) {
+  //     const { userId, game } =  this.props;
+  //     const { id } = this.state;
+  //     const opponentId = userId === game.white ? game.black : game.white;
+  //     this.socket.emit('game_over', { userId, id });
+  //     axios.put(`http://localhost:3000/games/document`, { 
+  //       id, 
+  //       completed: true,
+  //       winner: opponentId,
+  //     });
+  //   }
+  // }
 
   render() {
     const { userId, game, whiteToMove, moves } = this.props;
@@ -137,8 +138,8 @@ class Game extends Component {
                <PlayerCard id={opponentId} />
                <GameDisplay id={id} socket={this.socket} />
                <div className="game-options">
-                 <button onClick={() => {this.resign()}}>RESIGN</button>
                  <Draw id={id} socket={this.socket} />
+                 <Resignation id={id} socket={this.socket} />
                </div>
                <PlayerCard id={userId} />
              </div>
