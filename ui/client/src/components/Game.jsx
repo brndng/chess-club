@@ -10,6 +10,7 @@ import PlayerCard from './PlayerCard.jsx';
 import Draw from './Draw.jsx';
 import Resignation from './Resignation.jsx';
 import Promotion from './Promotion.jsx';
+import Checkmate from './Checkmate.jsx';
 import verifyLegalSquare from '../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
 import { 
@@ -52,16 +53,6 @@ class Game extends Component {
     this.socket.on('check', (player) => {
       if (this.props.inCheck !== player) {
         updateCheckStatus(player);
- 
-      }
-    });
-    this.socket.on('game_over', (player) => {
-      console.log(`Player ${player} has been CHECKMATED`);
-      declareGameOver();
-      if (userId !== player) {
-        console.log(`YOU WIN`);
-      } else {
-        console.log(`YOU LOSE`);
       }
     });
 
@@ -95,7 +86,7 @@ class Game extends Component {
     if (_isKingInCheck && prevProps.inCheck !== userId) {
       const _checkMate = evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
       if(_checkMate) {
-        this.socket.emit('game_over', { userId, id });
+        this.socket.emit('checkmate', { userId, id });
       }
       this.socket.emit('check', { userId, id });
       axios.put(`http://localhost:3000/games/check`, { id, inCheck: userId });
@@ -110,20 +101,6 @@ class Game extends Component {
   componentWillUnmount() {
     this.socket.disconnect();
   }
-
-  // resign() {
-  //   if (window.confirm('Are you sure you want to resign?')) {
-  //     const { userId, game } =  this.props;
-  //     const { id } = this.state;
-  //     const opponentId = userId === game.white ? game.black : game.white;
-  //     this.socket.emit('game_over', { userId, id });
-  //     axios.put(`http://localhost:3000/games/document`, { 
-  //       id, 
-  //       completed: true,
-  //       winner: opponentId,
-  //     });
-  //   }
-  // }
 
   render() {
     const { userId, game, whiteToMove, moves } = this.props;
@@ -143,6 +120,7 @@ class Game extends Component {
                </div>
                <PlayerCard id={userId} />
              </div>
+             <Checkmate id={id} socket={this.socket} />
              <Promotion />
            </div>
     );

@@ -25,10 +25,10 @@ class Resignation extends Component {
       const { socket, id, declareGameOver } = this.props;
       socket.on('game_over', (player) => {
         this.setState({
-          showModal: true,
           player,
           view: 'final',
         });
+        this.showModal();
         declareGameOver();
       })
     }
