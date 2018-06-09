@@ -31,9 +31,9 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
+    const { user, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
 
-    if ((userId === game.white) === whiteToMove) {
+    if ((user.id === game.white) === whiteToMove) {
       if ((isWhite(piece) === whiteToMove)) { 
         selectPiece(coords, piece);
       }
@@ -47,11 +47,10 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
-    const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
-    const _check = willMoveGiveCheck(userId, game.white, selection, coords, currentPosition, moves);
+    const { user, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
+    const _willMoveExposeKing = willMoveExposeKing(user.id, game.white, selection, coords, currentPosition, moves);
+    const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
-
     const _isPawnPromoting = isPawnPromoting(selection, coords);
 
     if (!_willMoveExposeKing) {
@@ -82,8 +81,8 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = ({ selection, currentPosition, whiteToMove, moves, userId, game, completed }) => { 
-  return { selection, currentPosition, whiteToMove, moves, userId, game, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, moves, game, completed }) => { 
+  return { user, selection, currentPosition, whiteToMove, moves, game, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {

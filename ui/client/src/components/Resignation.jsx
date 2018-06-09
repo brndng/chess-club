@@ -48,9 +48,9 @@ class Resignation extends Component {
   }
 
   resign() {
-    const { id, userId, game, socket } = this.props;
-    const opponentId = userId === game.white ? game.black : game.white;
-    socket.emit('game_over', { userId, id });
+    const { id, user, game, socket } = this.props;
+    const opponentId = user.id === game.white ? game.black : game.white;
+    socket.emit('game_over', { userId: user.id, id });
     axios.put(`http://localhost:3000/games/document`, { 
       id, 
       completed: true,
@@ -92,8 +92,8 @@ class Resignation extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, completed, game }) => {
-  return { userId, completed, game }
+const mapStateToProps = ({ user, completed, game }) => {
+  return { user, completed, game }
 }
 
 const matchDispatchToProps = (dispatch) => {

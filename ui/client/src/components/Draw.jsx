@@ -57,13 +57,13 @@ class Draw extends Component {
   }
 
   offerDraw() {
-    const { id, userId, socket } =  this.props;
-    socket.emit('draw_offer', { userId, id })
+    const { id, user, socket } =  this.props;
+    socket.emit('draw_offer', { userId: user.id, id })
   }
   
   sendResponse(isAccepted) {
-    const { userId, id, socket, declareGameOver } = this.props;
-    socket.emit('draw_response', { userId, id, isAccepted });
+    const { user, id, socket, declareGameOver } = this.props;
+    socket.emit('draw_response', { userId: user.id, id, isAccepted });
     if (isAccepted) {
       declareGameOver('draw');
     }
@@ -107,8 +107,8 @@ class Draw extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, completed }) => {
-  return { userId, completed }
+const mapStateToProps = ({ user, completed }) => {
+  return { user, completed }
 }
 
 const matchDispatchToProps = (dispatch) => {

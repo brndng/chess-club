@@ -59,15 +59,3 @@ const mapStateToProps = ({ game, moves, whiteToMove }) => {
 }
 
 export default connect(mapStateToProps)(PlayerCard);
-
-// class User {
-//   constructor(userId, game, whiteTomove) {
-//     this.id = userId;
-//     this.game = game;
-//     this.whiteTomove = whiteTomove;
-//   };
-
-//   isMyTurn() {
-//     return (this.id === this.game.white && this.whiteToMove);
-//   }
-// }

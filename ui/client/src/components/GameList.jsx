@@ -14,8 +14,11 @@ class GameList extends Component {
   }
 
   async componentDidMount() {
-    const { loadGames, userId } = this.props;
-    const games = await axios(`http://localhost:3000/games/all/${userId}`)
+    const { loadGames, user } = this.props;
+    console.log('user', user)
+
+    const { id } = user;
+    const games = await axios(`http://localhost:3000/games/all/${id}`)
     loadGames(games.data);
   }
 
@@ -63,8 +66,8 @@ class GameList extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, userGames, game }) => {
-  return { userId, userGames, game };
+const mapStateToProps = ({ user, userGames, game }) => {
+  return { user, userGames, game };
 }
 
 const matchDispatchToProps = (dispatch) => {

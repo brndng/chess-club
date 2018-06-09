@@ -31,7 +31,6 @@ class App extends Component {
     );
   }
 }
-// Router 'component={}' props causes unnecessary remounting, use render method instead
 
 var LandingWithAuth = withAuthentication(Landing);
 var ProfileWithAuth = withAuthentication(Profile);

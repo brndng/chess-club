@@ -32,8 +32,8 @@ class MoveHistory extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, game, moves }) => {
-  return { userId, game, moves };
+const mapStateToProps = ({ moves }) => {
+  return { moves };
 }
 
 export default connect(mapStateToProps)(MoveHistory);

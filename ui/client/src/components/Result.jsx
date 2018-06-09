@@ -16,8 +16,8 @@ class Result extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, completed, result }) => {
-  return { userId, completed, result }
+const mapStateToProps = ({ completed, result }) => {
+  return { completed, result }
 }
 
-export default connect(mapStateToProps, null)(Result);
+export default connect(mapStateToProps)(Result);

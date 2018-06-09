@@ -29,6 +29,8 @@ export const selectPiece = (origin, piece) => {
 
 export const storeUser = (user) => {
   const { id, username } = user;
+  console.log('​exportstoreUser -> id, username', id, username);
+  
   return {
     type: 'LOGGED_IN',
     payload: { id, username },

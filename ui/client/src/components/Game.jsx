@@ -34,7 +34,7 @@ class Game extends Component {
   }
 
   async componentDidMount() {
-    const { userId, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
+    const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
     this.socket = await io(`http://localhost:1337/`);
@@ -58,7 +58,7 @@ class Game extends Component {
 
     initGame(game.data); // opponent: { id, username} player: { id, username } // AJAX fetch in player card, load state
 
-    const opponentId = userId === game.data.white 
+    const opponentId = user.id === game.data.white 
       ? game.data.black
       : game.data.white;
 
@@ -66,11 +66,11 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { userId, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
+    const { user, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
     const { id } = this.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    const _isKingInCheck = isKingInCheck(userId, game.white, currentPosition, moves);
+    const _isKingInCheck = isKingInCheck(user.id, game.white, currentPosition, moves);
     
     if (
       prevProps.game !== null
@@ -83,28 +83,27 @@ class Game extends Component {
       toggleTurn();
     }
 
-    if (_isKingInCheck && prevProps.inCheck !== userId) {
-      const _checkMate = evaluateCheckmateConditions(userId, game.white, currentPosition, moves);
+    if (_isKingInCheck && prevProps.inCheck !== user.id) {
+      const _checkMate = evaluateCheckmateConditions(user.id, game.white, currentPosition, moves);
       if(_checkMate) {
-        this.socket.emit('checkmate', { userId, id });
+        this.socket.emit('checkmate', { userId: user.id, id });
       }
-      this.socket.emit('check', { userId, id });
-      axios.put(`http://localhost:3000/games/check`, { id, inCheck: userId });
+      this.socket.emit('check', { userId: user.id, id });
+      axios.put(`http://localhost:3000/games/check`, { id, inCheck: user.id });
     }
 
-    if (!_isKingInCheck && prevProps.inCheck === userId) {
+    if (!_isKingInCheck && prevProps.inCheck === user.id) {
       this.socket.emit('check', { userId: null, id });
       axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
     }
   }
 
   componentWillUnmount() {
-    console.log('Game unmounting')
     this.socket.disconnect();
   }
 
   render() {
-    const { userId, game, whiteToMove, moves } = this.props;
+    const { user, game, whiteToMove, moves } = this.props;
     const { id, opponentId } = this.state;
 
     return (
@@ -119,7 +118,7 @@ class Game extends Component {
                  <Draw id={id} socket={this.socket} />
                  <Resignation id={id} socket={this.socket} />
                </div>
-               <PlayerCard id={userId} />
+               <PlayerCard id={user.id} />
              </div>
              <Checkmate id={id} socket={this.socket} />
              <Promotion />
@@ -128,8 +127,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }) => {
-  return { userId, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }
+const mapStateToProps = ({ user, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }) => {
+  return { user, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }
 }
 
 const matchDispatchToProps = (dispatch) => {

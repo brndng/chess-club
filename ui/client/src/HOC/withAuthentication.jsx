@@ -55,8 +55,8 @@ function withAuthentication(BaseComponent) {
             }} />
     }
   }
-  const mapStateToProps = ({ userId, isAuthenticated, hasFetchedCurrUser }) => {
-    return { userId, isAuthenticated, hasFetchedCurrUser }
+  const mapStateToProps = ({ isAuthenticated, hasFetchedCurrUser }) => {
+    return { isAuthenticated, hasFetchedCurrUser }
   }
 
   const matchDispatchToProps = (dispatch) => {

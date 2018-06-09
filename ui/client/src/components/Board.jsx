@@ -23,16 +23,16 @@ class Board extends Component {
   }
 
   indicateTurn() {
-    const { userId, whiteToMove, game } = this.props;
+    const { user, whiteToMove, game } = this.props;
 
     return (
-      (userId === game.white && whiteToMove)
-      || (userId !== game.white && !whiteToMove)
+      (user.id === game.white && whiteToMove)
+      || (user.id !== game.white && !whiteToMove)
     );
   }
 
   render() {
-    const { currentPosition, userId, game, completed } = this.props;
+    const { currentPosition, user, game, completed } = this.props;
     const positionRotated = rotateBoard(this.state.position);
 
     const classes = [
@@ -40,7 +40,7 @@ class Board extends Component {
       this.indicateTurn() && !completed && 'is-my-turn'
     ].filter(cls => !!cls).join(' ');
 
-    return userId === game.white 
+    return user.id === game.white 
       ? <div className={classes}>
           <div className="board">{this.state.position.map((row, i) => 
             <div className="row" key={i}>{row.map((elem, j) => {
@@ -60,8 +60,8 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, game, currentPosition, whiteToMove, completed }) => {
-  return { userId, game, currentPosition, whiteToMove, completed };
+const mapStateToProps = ({ user, game, currentPosition, whiteToMove, completed }) => {
+  return { user, game, currentPosition, whiteToMove, completed };
 }
 
 export default connect(mapStateToProps)(Board);

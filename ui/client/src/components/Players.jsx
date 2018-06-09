@@ -30,11 +30,11 @@ class Players extends Component {
   }
 
   setMatchup(color, opponent) {
-    const { userId } = this.props;
+    const { user } = this.props;
     if (color === 'white') {
-      this.setState({ white: userId, black: opponent });
+      this.setState({ white: user.id, black: opponent });
     } else {
-      this.setState({ white: opponent, black: userId });
+      this.setState({ white: opponent, black: user.id });
     }
   }
 
@@ -64,7 +64,7 @@ class Players extends Component {
 
   render() {
     const { players, targetPlayer } = this.state;
-    const { userId } = this.props;
+    const { user } = this.props;
     return (
       <div className="players-container">
         {players.length === 0
@@ -81,7 +81,7 @@ class Players extends Component {
                 <ul>
                   {players.map(player => {
                     let { id, username } = player;
-                    if (userId !== id) {
+                    if (user.id !== id) {
                       return (
                         <li key={id}>
                           <strong>{username}</strong>
@@ -103,8 +103,8 @@ class Players extends Component {
   }
 }
 
-const mapStateToProps = ({ userId }) => {
-  return { userId };
+const mapStateToProps = ({ user }) => {
+  return { user };
 }
 
 export default connect(mapStateToProps)(Players);
