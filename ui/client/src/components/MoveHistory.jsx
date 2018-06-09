@@ -27,9 +27,6 @@ class MoveHistory extends Component {
             <Result />
           </ol>
         </div>
-        <div className="move-history-message">
-          <p>Game in Progress</p>
-        </div>
       </div>
     );
   }
