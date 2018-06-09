@@ -24,12 +24,14 @@ export default (state = [], action) => {
       return [...newState, [origin, destin, piece, captured, notation, promotedTo]];
       break;
     }
-    case 'KING_ATTACKED': {
-      const finalNotation = newState.slice(-1)[0][4]; 
-      const notationWithWarning = `${finalNotation}${action.payload}`;
-      newState[newState.length - 1][4] = notationWithWarning;
-      return newState;
-      break;
+    case 'GAME_COMPLETED': {
+      if (action.payload !== '1/2 - 1/2') {
+        const lastNotation = newState.slice(-1)[0][4]; 
+        const notationWithMate = `${lastNotation.slice(0, lastNotation.length - 1)}#`;
+        newState[newState.length - 1][4] = notationWithMate;
+        return newState;
+        break;
+      }
     }
   }
   return newState;

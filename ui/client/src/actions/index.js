@@ -64,9 +64,6 @@ export const declareGameOver = (status, game = null, defeated = null) => {
       payload: '1/2 - 1/2',
     };
   }
-
-  
- 
 };
 
 export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, moves = []) => {
@@ -128,15 +125,7 @@ export const loadPromotingMove = (move = []) => {
   };
 }
 
-export const appendToNotation = (situation) => {
-  const warning = situation === 'check'
-    ? '+'
-    : '#'
-  return {
-    type: 'KING_ATTACKED',
-    payload: warning,
-  };
-}
+
 
 
 
