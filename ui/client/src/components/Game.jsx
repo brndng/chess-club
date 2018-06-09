@@ -15,6 +15,7 @@ import verifyLegalSquare from '../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
 import { 
   initGame,
+  storeOpponent,
   updatePosition, 
   toggleTurn, 
   updateCheckStatus,
@@ -29,7 +30,6 @@ class Game extends Component {
     this.state = {
       id: +id,
       socket: null,
-      opponentId: null,
     }
   }
 
@@ -37,6 +37,7 @@ class Game extends Component {
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
+
     this.socket = await io(`http://localhost:1337/`);
 
     this.socket.on('connect', () => {
@@ -56,13 +57,8 @@ class Game extends Component {
       }
     });
 
-    initGame(game.data); // opponent: { id, username} player: { id, username } // AJAX fetch in player card, load state
-
-    const opponentId = user.id === game.data.white 
-      ? game.data.black
-      : game.data.white;
-
-    this.setState({ opponentId });
+    initGame(game.data); 
+    this.initOpponent(game.data);
   }
 
   componentDidUpdate(prevProps) {
@@ -102,23 +98,33 @@ class Game extends Component {
     this.socket.disconnect();
   }
 
+  async initOpponent(game) {
+    const { user, storeOpponent } = this.props;
+    const opponentId = user.id === game.white 
+      ? game.black
+      : game.white;
+    
+    const opponent = await axios.get(`http://localhost:3000/users/profile/${opponentId}`);
+    storeOpponent(opponent.data);
+  }
+
   render() {
-    const { user, game, whiteToMove, moves } = this.props;
-    const { id, opponentId } = this.state;
+    const { user, opponent, game, whiteToMove, moves } = this.props;
+    const { id } = this.state;
 
     return (
       game !== null 
-        && opponentId !== null
+        && opponent !== null
         && <div className="game-container">
              <Board />
              <div className="game-info">
-               <PlayerCard id={opponentId} />
+               <PlayerCard player={opponent} />
                <GameDisplay id={id} socket={this.socket} />
                <div className="game-options">
                  <Draw id={id} socket={this.socket} />
                  <Resignation id={id} socket={this.socket} />
                </div>
-               <PlayerCard id={user.id} />
+               <PlayerCard player={user} />
              </div>
              <Checkmate id={id} socket={this.socket} />
              <Promotion />
@@ -127,12 +133,12 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ user, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }) => {
-  return { user, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }
+const mapStateToProps = ({ user, opponent, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }) => {
+  return { user, opponent, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ initGame, updatePosition, toggleTurn, updateCheckStatus, declareGameOver }, dispatch);
+  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, updateCheckStatus, declareGameOver }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game);

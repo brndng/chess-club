@@ -28,11 +28,17 @@ export const selectPiece = (origin, piece) => {
 };
 
 export const storeUser = (user) => {
-  const { id, username } = user;
-  console.log('​exportstoreUser -> id, username', id, username);
-  
+  const { id, username } = user;  
   return {
     type: 'LOGGED_IN',
+    payload: { id, username },
+  };
+};
+
+export const storeOpponent = (opponent) => {
+  const { id, username } = opponent;  
+  return {
+    type: 'OPPONENT_FETCHED',
     payload: { id, username },
   };
 };

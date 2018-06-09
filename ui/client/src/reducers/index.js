@@ -6,6 +6,7 @@ import MovesReducer from './reducer-moves.js';
 import GameReducer from './reducer-game.js';
 import UserGamesReducer from './reducer-user-games.js';
 import UserReducer from './reducer-user.js';
+import OpponentReducer from './reducer-opponent.js';
 import InCheckReducer from './reducer-in-check.js';
 import CompletedReducer from './reducer-completed.js';
 import IsAuthenticatedReducer from './reducer-is-authenticated.js';
@@ -21,6 +22,7 @@ export default combineReducers({
   game: GameReducer,
   userGames: UserGamesReducer,
   user: UserReducer,
+  opponent: OpponentReducer,
   inCheck: InCheckReducer,
   completed: CompletedReducer,
   isAuthenticated: IsAuthenticatedReducer,
