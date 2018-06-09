@@ -36,7 +36,7 @@ class Draw extends Component {
         });
         this.showModal('response');
         if (isAccepted) {
-          declareGameOver();
+          declareGameOver('draw');
         }
       });
     }
@@ -65,7 +65,7 @@ class Draw extends Component {
     const { userId, id, socket, declareGameOver } = this.props;
     socket.emit('draw_response', { userId, id, isAccepted });
     if (isAccepted) {
-      declareGameOver();
+      declareGameOver('draw');
     }
     this.hideModal();
   }

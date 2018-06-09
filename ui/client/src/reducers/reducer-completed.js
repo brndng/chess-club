@@ -1,4 +1,4 @@
-export default (state = null, action) => {
+export default (state = false, action) => {
   switch(action.type) {
     case 'GAME_COMPLETED': {
       return true;

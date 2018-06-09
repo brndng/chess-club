@@ -20,16 +20,15 @@ class Checkmate extends Component {
 
   componentDidMount() {
     if (this.props.socket) {
-      const { socket, id, userId, declareGameOver } = this.props;
+      const { socket, id, userId, game, declareGameOver } = this.props;
       socket.on('checkmate', (defeated) => {
-        console.log('handler CDM', defeated)
         if (userId === defeated) {
           this.setState({ message: 'You Lose!'});
         } else {
           this.setState({ message: 'You Win!'});
         }
         this.showModal();
-        declareGameOver();
+        declareGameOver('checkmate', game, defeated);
       });
     }
   }
@@ -48,7 +47,8 @@ class Checkmate extends Component {
 
   render() {
     const { showModal, message } = this.state;
-    const modal = showModal &&
+    const { completed } = this.props;
+    const modal = showModal && 
       <div >
         <Modal>
           <div className="modal"> 
@@ -64,8 +64,8 @@ class Checkmate extends Component {
   }
 }
 
-const mapStateToProps = ({ userId }) => {
-  return { userId }
+const mapStateToProps = ({ userId, game, completed }) => {
+  return { userId, game, completed }
 }
 
 const matchDispatchToProps = (dispatch) => {

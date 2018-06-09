@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Result from './Result.jsx';
 import { printMoves } from '../../rules/utilities/';
 
 class MoveHistory extends Component {
@@ -23,6 +24,7 @@ class MoveHistory extends Component {
                 </div>
               </li>
             ))}
+            <Result />
           </ol>
         </div>
         <div className="move-history-message">

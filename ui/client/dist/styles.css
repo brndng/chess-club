@@ -278,12 +278,14 @@ html, body, #app-root, .route-container {
     height: 32px;
     padding: 8px;
     margin-bottom: 12px;
+    background-color: #f6f5f3;
   }
   .login-form button {
     box-sizing: border-box;
     width: 320px;
     height: 32px;
     padding: 8px;
+    background-color: #d4d4dc;
   }
   .login-form div {
     padding: 8px;

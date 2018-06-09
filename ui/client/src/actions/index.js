@@ -49,11 +49,24 @@ export const updateCheckStatus = (userId) => {
   };
 };
 
-export const declareGameOver = () => {
-  return {
-    type: 'GAME_COMPLETED',
-    payload: null,
-  };
+export const declareGameOver = (status, game = null, defeated = null) => {
+  if (status === 'checkmate') {
+    const result = defeated === game.white
+      ? '0 - 1'
+      : '1 - 0'
+    return {
+      type: 'GAME_COMPLETED',
+      payload: result,
+    };
+  } else if (status === 'draw') {
+    return {
+      type: 'GAME_COMPLETED',
+      payload: '1/2 - 1/2',
+    };
+  }
+
+  
+ 
 };
 
 export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, moves = []) => {

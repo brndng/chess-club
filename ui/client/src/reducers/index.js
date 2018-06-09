@@ -11,6 +11,7 @@ import CompletedReducer from './reducer-completed.js';
 import IsAuthenticatedReducer from './reducer-is-authenticated.js';
 import HasFetchedCurrUserReducer from  './reducer-has-fetched-curr-user.js';
 import PromotingMoveReducer from './reducer-promoting-move.js';
+import ResultReducer from './reducer-result.js';
 
 export default combineReducers({
   selection: SelectionReducer,
@@ -25,4 +26,5 @@ export default combineReducers({
   isAuthenticated: IsAuthenticatedReducer,
   hasFetchedCurrUser: HasFetchedCurrUserReducer,
   promotingMove: PromotingMoveReducer,
+  result: ResultReducer,
 });
