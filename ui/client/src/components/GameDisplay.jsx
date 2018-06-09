@@ -9,10 +9,11 @@ class GameDisplay extends Component {
     this.state = {
       message: '',
       messages: [],
-      view: 'moves',
+      view: 'moves', 
     }
     this.setText = this.setText.bind(this);
     this.sendChat = this.sendChat.bind(this);
+    this.setView = this.setView.bind(this);
   }
 
   componentDidMount() {
@@ -40,14 +41,22 @@ class GameDisplay extends Component {
     this.setState({ view });
   }
 
+  displayMoves() {
+    this.setState({ view: 'moves' });
+  }
+
+  displayChat() {
+    this.setState({ view: 'chat' });
+  }
+
   render() {
     const { message, messages, view } = this.state;
     return (
       <div className="game-display">
         <div className="game-display-toggle">
           <ul>
-            <li><a href="#" onClick={() => {this.setView('moves')}}>Moves</a></li>
-            <li><a href="#" onClick={() => {this.setView('chat')}}>Chat</a></li>
+            <li><a href="#" onClick={this.displayMoves}>Moves</a></li>
+            <li><a href="#" onClick={this.displayChat}>Chat</a></li>
           </ul>
         </div>
         {view === 'moves'
@@ -65,3 +74,5 @@ class GameDisplay extends Component {
 }
 
 export default GameDisplay;
+
+

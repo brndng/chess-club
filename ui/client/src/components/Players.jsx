@@ -25,6 +25,10 @@ class Players extends Component {
     });
   }
 
+  componentWillUnmount() {
+    console.log('CWU PLAYERS')
+  }
+
   setMatchup(color, opponent) {
     const { userId } = this.props;
     if (color === 'white') {

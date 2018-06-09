@@ -8,6 +8,10 @@ class Chat extends Component {
     super(props);
   }
 
+  componentWillUnmount() {
+    console.log('Chat unmounting')
+  }
+
   render() {
     const { message, messages, setText, sendChat } = this.props;
     return (

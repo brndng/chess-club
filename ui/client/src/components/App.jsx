@@ -7,8 +7,8 @@ import GameList from  './GameList.jsx';
 import Game from './Game.jsx';
 import Profile from './Profile.jsx';
 import Players from './Players.jsx';
-import ComponentWithAuth from './ComponentWithAuth.jsx';
 import NavBar from './NavBar.jsx';
+import withAuthentication from '../HOC/withAuthentication.jsx';
 
 axios.defaults.withCredentials = true;
 
@@ -21,16 +21,24 @@ class App extends Component {
     return (
       <div className="route-container">
         <NavBar />
-        <Route exact path='/' component={props => <ComponentWithAuth component={Landing} {...props} />} />
-        <Route path='/profile' component={props => <ComponentWithAuth component={Profile} {...props} />} />
-        <Route path='/gamelist' component={props => <ComponentWithAuth component={GameList} {...props} />} />
-        <Route path='/game/:id' component={props => <ComponentWithAuth component={Game} {...props} />} />
-        <Route path='/players' component={props => <ComponentWithAuth component={Players} {...props} />} />
+        <Route exact path='/' render={props => <LandingWithAuth {...props} />} />
+        <Route path='/profile' render={props => <ProfileWithAuth {...props} />} />
+        <Route path='/gamelist' render={props => <GameListWithAuth {...props} />} />
+        <Route path='/game/:id' render={props => <GameWithAuth {...props} />} />
+        <Route path='/players' render={props => <PlayersWithAuth {...props} />} />
         <Route path='/login' component={Login} />
       </div>
     );
   }
 }
+// Router 'component={}' props causes unnecessary remounting, use render method instead
+
+var LandingWithAuth = withAuthentication(Landing);
+var ProfileWithAuth = withAuthentication(Profile);
+var GameListWithAuth = withAuthentication(GameList);
+var GameWithAuth = withAuthentication(Game);
+var PlayersWithAuth = withAuthentication(Players);
 
 export default App;
+
 

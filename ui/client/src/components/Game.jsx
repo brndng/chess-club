@@ -56,7 +56,7 @@ class Game extends Component {
       }
     });
 
-    initGame(game.data);
+    initGame(game.data); // opponent: { id, username} player: { id, username } // AJAX fetch in player card, load state
 
     const opponentId = userId === game.data.white 
       ? game.data.black
@@ -99,6 +99,7 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
+    console.log('Game unmounting')
     this.socket.disconnect();
   }
 
