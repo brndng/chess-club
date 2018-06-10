@@ -5,6 +5,18 @@ cd api, npm start
 cd ui, cd client, npm run build
 cd ui, cd server, nodemon
 
+// checker in back to prevent user from making illegal moves for self
+// if (isLegalMove(...req.body)) {
+
+      // }
+//specific checkers on:
+move 
+  (userId === game.white && whiteToMove )||
+  (userId === game.black && !whiteToMove )
+resign ...either player in record
+accept draw only other player in record 
+
+
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return <Route {...rest} render={(props) => {    
     return auth.isAuthenticated === true 

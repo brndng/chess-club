@@ -7,7 +7,7 @@ const NavBar = () => {
     <div className="nav">
       <ul className="nav-menu">
         <li><Link to='/profile'> PROFILE </Link></li>
-        <li><Link to='/gamelist'> GAMES </Link></li>
+        <li><Link to='/gamelist'> MY GAMES </Link></li>
         <li><Link to='/players'> PLAYERS </Link></li>
       </ul>
       <ul className="nav-logout">

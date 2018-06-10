@@ -22,6 +22,7 @@ import {
   declareGameOver, } from '../actions/';
 
 axios.defaults.withCredentials = true;
+window.axios = axios;
 
 class Game extends Component {
   constructor(props) {

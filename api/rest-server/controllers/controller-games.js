@@ -62,6 +62,9 @@ module.exports = {
   registerMove: async (req, res) => {
     const { id, currentPosition, moves, whiteToMove } = req.body;
     try {
+      // if (!rules.isLegalMove(....) ) {
+      //   res.status(400).send('no hacks allowed.')
+      // }
       const update = await Game.update({
         position: currentPosition,
         moves,

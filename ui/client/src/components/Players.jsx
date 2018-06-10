@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import ChallengeCreator from './ChallengeCreator.jsx';
 
 axios.defaults.withCredentials = true;
-
 
 class Players extends Component {
   constructor(props) {
@@ -12,8 +12,6 @@ class Players extends Component {
       dbPlayers: [],
       players: [],
       targetPlayer: '',
-      white: null,
-      black: null,
     }
   }
 
@@ -23,24 +21,6 @@ class Players extends Component {
       dbPlayers: [...dbPlayers.data],
       players: [...dbPlayers.data]
     });
-  }
-
-  componentWillUnmount() {
-    console.log('CWU PLAYERS')
-  }
-
-  setMatchup(color, opponent) {
-    const { user } = this.props;
-    if (color === 'white') {
-      this.setState({ white: user.id, black: opponent });
-    } else {
-      this.setState({ white: opponent, black: user.id });
-    }
-  }
-
-  challengePlayer() {
-    const { white, black } = this.state;
-    axios.post('http://localhost:3000/games/challenge', { white, black });
   }
 
   setSearchText(e) {
@@ -63,7 +43,7 @@ class Players extends Component {
   }
 
   render() {
-    const { players, targetPlayer } = this.state;
+    const { players, targetPlayer, showModal } = this.state;
     const { user } = this.props;
     return (
       <div className="players-container">
@@ -84,19 +64,7 @@ class Players extends Component {
                     if (user.id !== id) {
                       return (
                         <li key={id}>
-                          <div>{username}</div>
-                          <div>
-                            <div>
-                              <select className="slct" onChange={(e) => this.setMatchup(e.target.value, id)}>
-                                <option value={null} defaultValue>Select Color:</option>
-                                <option value="white">White</option>
-                                <option value="black">Black</option>
-                              </select>
-                            </div>
-                            <div>
-                              <button className="btn btn-challenge" onClick={() => {this.challengePlayer()}}>CHALLENGE</button>
-                            </div>
-                          </div>
+                          <ChallengeCreator opponent={{ id, username }} />
                         </li>
                       )
                     }})}

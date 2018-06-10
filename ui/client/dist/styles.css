@@ -2,11 +2,8 @@ html, body, #app-root, .route-container {
   height: 100%;
   /* background-color: #f6f5f3; */
   background-color: #1d1e22;
-  -webkit-user-select: none; /* Chrome/Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
-  user-select: none;  
-  font-family: Arial, Helvetica, sans-serif;         
+  font-family: Arial, Helvetica, sans-serif;    
+  color: floralwhite;     
 }
 
 .btn {
@@ -46,8 +43,9 @@ html, body, #app-root, .route-container {
     justify-content: space-between;
     list-style: none;
   }
-    .players-list li div {
+    .challenge-creator {
       display: flex;
+      flex-direction: row;
       color: floralwhite;
       margin-bottom: 8px;
     }
@@ -95,6 +93,10 @@ html, body, #app-root, .route-container {
   border: 1px solid #965b31b6;
   border-radius: 4px;
   margin: 24px;
+  -webkit-user-select: none; /* Chrome/Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  user-select: none;  
 }
 .board-container.is-my-turn:hover {
   cursor: pointer;
@@ -174,16 +176,19 @@ html, body, #app-root, .route-container {
     display: flex;
     flex-direction: column;
     background-color: #d4d4dc;
+    /*2px solid #d4d4dc;*/
     padding: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.5);
   }
   .player-card-container.is-my-turn {
-    border: 2px solid pink;
+    /* border: 2px solid pink; */
+    border: 2px solid  #479761;
   }
     .player-card-pieces {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      height: 21px;
     } 
       .captured-piece {
         font-size: 16px;
