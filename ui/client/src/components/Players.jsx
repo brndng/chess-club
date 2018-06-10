@@ -70,10 +70,10 @@ class Players extends Component {
         {players.length === 0
           ? <div className="players-invalid">
               Sorry, that player doesn't exist
-              <button onClick={() => {this.displayAllPlayers()}}>Display All</button>
+              <button className="btn" onClick={() => {this.displayAllPlayers()}}>Display All</button>
             </div>
           : <div className="players-default">
-              <div>
+              <div className="players-default-search">
                 <input type="search" placeholder="Find a player..." value={targetPlayer} onChange={(e) => {this.setSearchText(e)}} />
                 <button onClick={() => {this.filterPlayers()}}>Search</button>
               </div>
@@ -84,13 +84,19 @@ class Players extends Component {
                     if (user.id !== id) {
                       return (
                         <li key={id}>
-                          <strong>{username}</strong>
-                          <select onChange={(e) => this.setMatchup(e.target.value, id)}>
-                            <option value={null} defaultValue>Select Color:</option>
-                            <option value="white">White</option>
-                            <option value="black">Black</option>
-                          </select>
-                          <button onClick={() => {this.challengePlayer()}}>CHALLENGE</button>
+                          <div>{username}</div>
+                          <div>
+                            <div>
+                              <select className="slct" onChange={(e) => this.setMatchup(e.target.value, id)}>
+                                <option value={null} defaultValue>Select Color:</option>
+                                <option value="white">White</option>
+                                <option value="black">Black</option>
+                              </select>
+                            </div>
+                            <div>
+                              <button className="btn btn-challenge" onClick={() => {this.challengePlayer()}}>CHALLENGE</button>
+                            </div>
+                          </div>
                         </li>
                       )
                     }})}

@@ -35,7 +35,6 @@ class LogIn extends Component {
     const { username, password } = this.state;
     const response = await axios.post('http://localhost:3000/users/login', { username, password });
     if (response.status === 200) {
-      console.log('login', response);
       storeUser(response.data);
       authenticate(true);
       this.setState({ 

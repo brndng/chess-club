@@ -9,6 +9,18 @@ html, body, #app-root, .route-container {
   font-family: Arial, Helvetica, sans-serif;         
 }
 
+.btn {
+  background-color: #d4d4dc;
+  border: none;
+  border-radius: 2px;
+  color: black;
+  padding: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+}
+
 /* Landing */
 .landing {
   height: 100%;
@@ -29,8 +41,42 @@ html, body, #app-root, .route-container {
   flex-direction: column;
 }
   .players-list li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     list-style: none;
   }
+    .players-list li div {
+      display: flex;
+      color: floralwhite;
+      margin-bottom: 8px;
+    }
+      .slct {
+        display: flex;
+      }
+      .btn.btn-challenge {
+        margin-left: 32px;
+      }
+  
+  .players-default-search {
+    display: flex;
+    justify-content: start;
+  }
+
+  .players-default-search input {
+    margin-left: 32px;
+    margin-right: 16px;
+    width: 200px;
+    padding: 8px;
+  }
+    
+  
+
+  /* .push {
+    margin-left: auto;
+  } */
+  
+
 
 /* Game */
 .game-container {
@@ -307,8 +353,8 @@ html, body, #app-root, .route-container {
   overflow: hidden;
 }
 .modal {
-  /* background-color: rgba(0,0,0,0.6); */
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0,0,0,0.8);
+  /* background-color: rgba(255, 255, 255, 0.8); */
   /* background-color: rgba(128, 128, 128, 0.8); */
   position: fixed;
   height: 100%;
@@ -320,7 +366,12 @@ html, body, #app-root, .route-container {
   justify-content: center;
 }
   .modal-dialogue {
-    border: 1px solid black;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.6);
+    width: 320px;
+    height: 160px;
+    border-radius: 2px;
+    padding: 12px;
   }
 
 

@@ -15,8 +15,6 @@ class GameList extends Component {
 
   async componentDidMount() {
     const { loadGames, user } = this.props;
-    console.log('user', user)
-
     const { id } = user;
     const games = await axios(`http://localhost:3000/games/all/${id}`)
     loadGames(games.data);

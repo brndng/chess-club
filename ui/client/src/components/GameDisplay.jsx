@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import MoveHistory from './MoveHistory.jsx';
 import Chat from './Chat.jsx';
 
@@ -13,7 +13,6 @@ class GameDisplay extends Component {
     }
     this.setText = this.setText.bind(this);
     this.sendChat = this.sendChat.bind(this);
-    this.setView = this.setView.bind(this);
   }
 
   componentDidMount() {
@@ -33,12 +32,8 @@ class GameDisplay extends Component {
 
   sendChat() {
     const { message } = this.state;
-    const { id, socket } = this.props;
-    socket.emit('chat', { message, id });
-  }
-
-  setView(view) {
-    this.setState({ view });
+    const { id, user, socket } = this.props;
+    socket.emit('chat', { message: { username: user.username, text: message }, id });
   }
 
   displayMoves() {
@@ -55,8 +50,8 @@ class GameDisplay extends Component {
       <div className="game-display">
         <div className="game-display-toggle">
           <ul>
-            <li><a href="#" onClick={this.displayMoves}>Moves</a></li>
-            <li><a href="#" onClick={this.displayChat}>Chat</a></li>
+            <li><a href="#" onClick={() => this.displayMoves()}>Moves</a></li>
+            <li><a href="#" onClick={() => this.displayChat()}>Chat</a></li>
           </ul>
         </div>
         {view === 'moves'
@@ -73,6 +68,10 @@ class GameDisplay extends Component {
   }
 }
 
-export default GameDisplay;
+const mapStateToProps = ({ user }) => {
+  return { user };
+}
+
+export default connect(mapStateToProps)(GameDisplay);
 
 

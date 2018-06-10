@@ -8,9 +8,8 @@ class Draw extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModal: false,
-      opponent: '',
       view: 'offer',
+      showModal: false,
       isAccepted: false,
     };
     this.showModal = this.showModal.bind(this);
@@ -24,9 +23,6 @@ class Draw extends Component {
       const { socket, id, declareGameOver } = this.props;
       
       socket.on('draw_offer', (opponent) => {
-        this.setState({
-          opponent,
-        });
         this.showModal('offer');
       });
       socket.on('draw_response', (response) => {
@@ -71,8 +67,8 @@ class Draw extends Component {
   }
 
   render() {
-    const { completed } = this.props;
-    const { showModal, opponent, view, isAccepted } = this.state;
+    const { completed, opponent } = this.props;
+    const { showModal, view, isAccepted } = this.state;
     const onClick = completed 
       ? null
       : () => this.offerDraw();
@@ -82,16 +78,18 @@ class Draw extends Component {
     const modal = showModal
       && <div >
            <Modal>
-             <div className="modal"> {
+             <div className="modal"> 
+             <button className="btn-x" onClick={this.hideModal}>X</button>
+
+             {
                view === 'offer'
                  ? <div className="modal-dialogue">
-                     <p> {opponent} has offered a draw </p>
-                     <button onClick={() => this.sendResponse(true)}>ACCEPT</button>
-                     <button onClick={() => this.sendResponse(false)}>DECLINE</button>
+                     <p> {opponent.username} has offered a draw </p>
+                     <button className="btn" onClick={() => this.sendResponse(true)}>ACCEPT</button>
+                     <button className="btn" onClick={() => this.sendResponse(false)}>DECLINE</button>
                    </div>
                  : <div className="modal-dialogue">
-                     <p> {opponent} has {response} your draw offer </p>
-                     <button onClick={this.hideModal}>X</button>
+                     <p> {opponent.username} has {response} your draw offer </p>
                    </div>
              }
              </div>
@@ -107,8 +105,8 @@ class Draw extends Component {
   }
 }
 
-const mapStateToProps = ({ user, completed }) => {
-  return { user, completed }
+const mapStateToProps = ({ user, opponent, completed }) => {
+  return { user, opponent, completed }
 }
 
 const matchDispatchToProps = (dispatch) => {
