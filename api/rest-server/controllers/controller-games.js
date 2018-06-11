@@ -51,22 +51,24 @@ module.exports = {
       console.log('err from createGame', err);
     }
   },
-  confirmGame: async (req, res) => {
-    res.send('hello from gamesController');
-  },
-
-  deleteGame: async (req, res) => {
-    res.send('hello from gamesController');
-  },
-
   registerMove: async (req, res) => {
-    const { user, game, currentPosition, moves, whiteToMove } = req.body;
-    const { id, white, black} = game;
+    const { id, user, currentPosition, moves, whiteToMove } = req.body;
+    let isCorrectTurn = true;
 
-    if (
-        (user.id === white && whiteToMove )
-        ||(user.id === black && !whiteToMove )
-    ) {
+    try {
+      const game = await Game.findOne({ where: { id } });
+      console.log('game.white, game.black',game.white, game.black)
+      if (
+        !((user.id === game.white && whiteToMove )
+        ||(user.id === game.black && !whiteToMove ))
+      ) {
+        isCorrectTurn = false;
+      }
+    } catch (err) {
+      console.log('err from registerMove findOne', err);
+    }
+
+    if (isCorrectTurn) {
       try {
         // if (!rules.isLegalMove(....) ) {
         //   res.status(400).send('no hacks allowed.')
@@ -82,12 +84,11 @@ module.exports = {
         });
         res.send(update[1].dataValues);
       } catch (err) {
-        console.log('err from registerMove', err);
+        console.log('err from registerMove update', err);
       }
     } else {
       res.status(401).send('No hacks allowed. You may only move on your turn.');
     }
-
   },
 
   updateCheck: async (req, res) => {

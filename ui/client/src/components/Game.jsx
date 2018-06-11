@@ -77,7 +77,7 @@ class Game extends Component {
       && !areEqual(currMove, newMove)
      ) { 
       this.socket.emit('move', { newMove, id });
-      axios.put(`http://localhost:3000/games/move`, { user, game, currentPosition, moves, whiteToMove });
+      axios.put(`http://localhost:3000/games/move`, { id, user, currentPosition, moves, whiteToMove });
       toggleTurn();
     }
 
