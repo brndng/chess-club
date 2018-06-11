@@ -60,7 +60,7 @@ class Players extends Component {
               <div className="players-list">
                 <ul>
                   {players.map(player => {
-                    let { id, username } = player;
+                    const { id, username } = player;
                     if (user.id !== id) {
                       return (
                         <li key={id}>

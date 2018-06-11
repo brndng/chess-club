@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import { selectPiece, updatePosition, loadPromotingMove } from '../actions/'; 
-import verifyLegalSquare from '../../rules/movement/';
-import { isWhite, convertToChessNotation, setSquareColor } from '../../rules/utilities/'
+import verifyLegalSquare from '../../../../rules/movement/';
+import { isWhite, convertToChessNotation, setSquareColor } from '../../../../rules/utilities/'
 import { 
   isKingInCheck, 
   isGivingCheck,
   willMoveExposeKing,
   willMoveGiveCheck,
-  isPawnPromoting, } from '../../rules/interactions/';
+  isPawnPromoting, } from '../../../../rules/interactions/';
 
 class Square extends Component {
   constructor(props) {

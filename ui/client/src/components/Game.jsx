@@ -11,8 +11,9 @@ import Draw from './Draw.jsx';
 import Resignation from './Resignation.jsx';
 import Promotion from './Promotion.jsx';
 import Checkmate from './Checkmate.jsx';
-import verifyLegalSquare from '../../rules/movement/';
-import { isKingInCheck, evaluateCheckmateConditions } from '../../rules/interactions/';
+import verifyLegalSquare from '../../../../rules/movement/';
+import { isKingInCheck, evaluateCheckmateConditions } from '../../../../rules/interactions/';
+import { areEqual } from '../../../../rules/utilities/';
 import { 
   initGame,
   storeOpponent,
@@ -47,8 +48,8 @@ class Game extends Component {
     });
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
     this.socket.on('move', (newMove) => {      
-      let currMove = this.props.moves.slice(-1)[0];
-      if (JSON.stringify(currMove) !== JSON.stringify(newMove)) {
+      const currMove = this.props.moves.slice(-1)[0];
+      if (!areEqual(currMove, newMove)) {
         updatePosition(...newMove, this.props.moves);
       }
     });
@@ -73,7 +74,7 @@ class Game extends Component {
       prevProps.game !== null
       && id === prevProps.game.id 
       && newMove 
-      && JSON.stringify(newMove) !== JSON.stringify(currMove)
+      && !areEqual(currMove, newMove)
      ) { 
       this.socket.emit('move', { newMove, id });
       axios.put(`http://localhost:3000/games/move`, { id, currentPosition, moves, whiteToMove });

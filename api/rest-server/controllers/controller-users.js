@@ -39,10 +39,10 @@ module.exports = {
     }
   },
   fetchCurrentUser: async (req, res) => {
-    console.log('\t ---- -req.originalUrl', req.originalUrl)
-    console.log('\t---SESSION ID:',req.sessionID);
+    // console.log('\t ---- -req.originalUrl', req.originalUrl)
+    // console.log('\t---SESSION ID:',req.sessionID);
 
-    console.log('​\t-----req.session', req.session);
+    // console.log('​\t-----req.session', req.session);
 
     if (req.session.user) { 
       const id  = req.session.user;

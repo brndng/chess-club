@@ -3,7 +3,7 @@ html, body, #app-root, .route-container {
   /* background-color: #f6f5f3; */
   background-color: #1d1e22;
   font-family: Arial, Helvetica, sans-serif;    
-  color: floralwhite;     
+  /* color: floralwhite;      */
 }
 
 .btn {
@@ -31,6 +31,10 @@ html, body, #app-root, .route-container {
   padding: 5px;
   list-style-type: none;
 }
+
+  .game-list li a {
+    text-decoration: none;
+  }
 
 /* Players */
 .players-container {
@@ -68,13 +72,9 @@ html, body, #app-root, .route-container {
     padding: 8px;
   }
     
-  
-
   /* .push {
     margin-left: auto;
   } */
-  
-
 
 /* Game */
 .game-container {
@@ -178,11 +178,11 @@ html, body, #app-root, .route-container {
     background-color: #d4d4dc;
     /*2px solid #d4d4dc;*/
     padding: 5px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 4px solid rgba(255, 255, 255, 0.5);
   }
   .player-card-container.is-my-turn {
     /* border: 2px solid pink; */
-    border: 2px solid  #479761;
+    border: 4px solid  #479761;
   }
     .player-card-pieces {
       display: flex;

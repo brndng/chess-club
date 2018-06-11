@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
 
   socket.on('game_id', (data) => {
     socket.join(data);
-    socket.broadcast.to(data).emit('guest', data);
+    io.sockets.in(data).emit('guest', data);
   });
 
   socket.on('chat', (data) => {

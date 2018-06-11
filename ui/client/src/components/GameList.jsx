@@ -54,7 +54,7 @@ class GameList extends Component {
           return (
             <li key={game.id}>
               <Link to={{ pathname: `/game/${game.id}` }}>
-                {`# ${game.id}: ${game.white} vs. ${game.black}`}
+                {`${game.white} vs. ${game.black}`}
               </Link>
             </li>)
         })}
@@ -73,3 +73,8 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(GameList)
+
+// filter by
+  //date
+  //white/black
+  //username

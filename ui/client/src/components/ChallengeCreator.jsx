@@ -17,6 +17,7 @@ class ChallengeCreator extends Component {
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.createGame = this.createGame.bind(this);
   }
 
   showModal() {
@@ -57,8 +58,11 @@ class ChallengeCreator extends Component {
   }
 
   render() {
-    const { showModal, gameId } = this.state;
+    const { showModal, gameId, white } = this.state;
     const { opponent } = this.props;
+    const createGame = white !== null
+      ? () => this.createGame()
+      : null;
     const modal = showModal
       && <div >
            <Modal>
@@ -69,7 +73,7 @@ class ChallengeCreator extends Component {
                </div>
              </div>
            </Modal>
-         </div>
+         </div>;
 
     return (
       <div className="challenge-creator">  
@@ -83,7 +87,7 @@ class ChallengeCreator extends Component {
             </select>
           </div>
           <div>
-            <button className="btn btn-challenge" onClick={() => {this.createGame()}}>CHALLENGE</button>
+            <button className="btn btn-challenge" onClick={createGame}>CHALLENGE</button>
           </div>
         </div>
         {modal}

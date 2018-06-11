@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from './Modal.jsx';
 import { updatePosition, loadPromotingMove } from '../actions/';
-import { convertToChessNotation } from '../../rules/utilities/'
-import { willMoveGiveCheck } from '../../rules/interactions/';
+import { convertToChessNotation } from '../../../../rules/utilities/'
+import { willMoveGiveCheck } from '../../../../rules/interactions/';
 
 class Promotion extends Component {
   constructor(props) {
