@@ -15,6 +15,7 @@ const Game = sequelize.define('game', {
   moves: Sequelize.JSON,
   whiteToMove: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
   inCheck: Sequelize.INTEGER,
+  drawOfferedBy: Sequelize.INTEGER,
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   winner: Sequelize.INTEGER,
 });

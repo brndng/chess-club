@@ -23,7 +23,7 @@ class Resignation extends Component {
   componentDidMount() {
     if (this.props.socket) {
       const { socket, id, declareGameOver } = this.props;
-      socket.on('game_over', (player) => {
+      socket.on('resign', (player) => {
         this.setState({
           player,
           view: 'final',
@@ -50,9 +50,10 @@ class Resignation extends Component {
   resign() {
     const { id, user, game, socket } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
-    socket.emit('game_over', { userId: user.id, id });
+    socket.emit('resign', { userId: user.id, id });
     axios.put(`http://localhost:3000/games/document`, { 
       id, 
+      user,
       completed: true,
       winner: opponentId,
     });

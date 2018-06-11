@@ -40,8 +40,8 @@ io.on('connection', (socket) => {
     io.sockets.in(data.id).emit('check', data.userId);
   });
 
-  socket.on('game_over', (data) => {
-    io.sockets.in(data.id).emit('game_over', data.userId);
+  socket.on('resign', (data) => {
+    io.sockets.in(data.id).emit('resign', data.userId);
   });
 
   socket.on('checkmate', (data) => {

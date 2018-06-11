@@ -7,14 +7,34 @@ module.exports = {
     const { username } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const password = await bcrypt.hash(req.body.password, salt);
+    let isUsernameTaken = false;
+
     try {
-      const user = await User.create({
-        username,
-        password,
+      const user = await User.findOne({
+        where: { username },
       });
-      res.send(user);
+      console.log('----user', user)
+      if (user) {
+        isUsernameTaken = true;
+      }
     } catch (err) {
-      console.log('err from createUser', err);
+      console.log('​err from registerUser', err);
+    }
+    console.log('isUsernameTaken', isUsernameTaken)
+
+    
+    if (isUsernameTaken) {
+      res.status(401).send('Username taken');
+    } else {
+      try {
+        const user = await User.create({
+          username,
+          password,
+        });
+        res.send(user);
+      } catch (err) {
+        console.log('err from createUser', err);
+      }
     }
   },
   authenticateUser: async (req, res) => {
@@ -32,7 +52,8 @@ module.exports = {
           res.status(401).send('Incorrect password');
         }
         req.session.user = user.id;
-        res.send(user);
+        const userData = { id: user.id, username: user.username }
+        res.send(userData);
 			}
     } catch (err) {
       console.log(err);
@@ -45,7 +66,8 @@ module.exports = {
         const user = await User.findOne({
           where: { id },
         });
-        res.send(user);
+        const userData = { id: user.id, username: user.username }
+        res.send(userData);
       } catch (err) {
         console.log('err from fetchCurrentUser')
       }

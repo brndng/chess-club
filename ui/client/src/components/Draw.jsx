@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import axios from 'axios';
 import Modal from './Modal.jsx';
 import { declareGameOver } from '../actions/';
+
+axios.defaults.withCredentials = true;
 
 class Draw extends Component {
   constructor(props) {
@@ -55,6 +58,10 @@ class Draw extends Component {
   offerDraw() {
     const { id, user, socket } =  this.props;
     socket.emit('draw_offer', { userId: user.id, id })
+    axios.put(`http://localhost:3000/games/draw/offer`, { 
+      id, 
+      user,
+    });
   }
   
   sendResponse(isAccepted) {
@@ -62,6 +69,12 @@ class Draw extends Component {
     socket.emit('draw_response', { userId: user.id, id, isAccepted });
     if (isAccepted) {
       declareGameOver('draw');
+      axios.put(`http://localhost:3000/games/draw/accept`, { 
+        id, 
+        user,
+        completed: true,
+        winner: null,
+      });
     }
     this.hideModal();
   }

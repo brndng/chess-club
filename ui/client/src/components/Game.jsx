@@ -64,7 +64,7 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
+    const { user, opponent, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
     const { id } = this.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
@@ -86,6 +86,12 @@ class Game extends Component {
       console.log('​Game -> componentDidUpdate -> _checkMate', _checkMate);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
+        axios.put(`http://localhost:3000/games/document`, { 
+          id, 
+          user,
+          completed: true,
+          winner: opponent.id,
+        });
       }
       this.socket.emit('check', { userId: user.id, id });
       axios.put(`http://localhost:3000/games/check`, { id, inCheck: user.id });

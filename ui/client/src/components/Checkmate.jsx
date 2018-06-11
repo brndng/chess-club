@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import axios from 'axios';
 import Modal from './Modal.jsx';
 import { declareGameOver } from '../actions/';
-
-axios.defaults.withCredentials = true;
 
 class Checkmate extends Component {
   constructor(props) {
@@ -27,9 +24,11 @@ class Checkmate extends Component {
           this.setState({ message: 'You Lose!'});
         } else {
           this.setState({ message: 'You Win!'});
+          
         }
         this.showModal();
         declareGameOver('checkmate', game, defeated);
+        
       });
     }
   }
