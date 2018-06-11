@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('draw_offer', (data) => {
+    console.log('​draw_offer data', data);
     socket.broadcast.to(data.id).emit('draw_offer', data.userId);
   })
 

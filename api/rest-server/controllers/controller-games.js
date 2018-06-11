@@ -63,8 +63,6 @@ module.exports = {
       ) {
         isCorrectTurn = false;
       }
-      console.log('---game.white, game.black', game.white, game.black);
-      console.log('----isCorrectTurn', isCorrectTurn);
     } catch (err) {
       console.log('err from registerMove findOne', err);
     }
@@ -126,15 +124,14 @@ module.exports = {
   },
 
   registerDrawOffer: async (req, res) => {
-    const { id, user } = req.body;
-
+    const { id, userId } = req.body;
     try {
       const record = await Game.update({
-        drawOfferedBy: user.id,
+        drawOfferedBy: userId,
       }, { 
         where: { id },
       });
-      res.status(200).send(`draw offered by ${user.username}`);
+      res.status(200).send('draw offered');
     } catch (err) {
       console.log('err from registerDrawOffer', err);
     }

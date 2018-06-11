@@ -13,7 +13,7 @@ import Promotion from './Promotion.jsx';
 import Checkmate from './Checkmate.jsx';
 import verifyLegalSquare from '../../../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../../../rules/interactions/';
-import { isWhite, areEqual } from '../../../../rules/utilities/';
+import { areEqual } from '../../../../rules/utilities/';
 import { 
   initGame,
   storeOpponent,
@@ -76,9 +76,7 @@ class Game extends Component {
       && newMove 
       && !areEqual(currMove, newMove)
      ) { 
-      const pieceToMove = newMove[2];
-      console.log('pieceToMove, user.id === game.white', pieceToMove, user.id === game.white)
-      if (isWhite(pieceToMove) === (user.id === game.white)) {
+      if ((user.id === game.white) === whiteToMove) {
         axios.put(`http://localhost:3000/games/move`, { id, user, currentPosition, moves, whiteToMove });
       }
       this.socket.emit('move', { newMove, id });

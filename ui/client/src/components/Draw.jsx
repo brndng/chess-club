@@ -26,6 +26,7 @@ class Draw extends Component {
       const { socket, id, declareGameOver } = this.props;
       
       socket.on('draw_offer', (opponent) => {
+        console.log('handler received draw offer', opponent)
         this.showModal('offer');
       });
       socket.on('draw_response', (response) => {
@@ -60,7 +61,7 @@ class Draw extends Component {
     socket.emit('draw_offer', { userId: user.id, id });
     axios.put(`http://localhost:3000/games/draw/offer`, { 
       id, 
-      user,
+      userId: user.id,
     });
   }
   
@@ -74,6 +75,11 @@ class Draw extends Component {
         user,
         completed: true,
         winner: null,
+      });
+    } else {
+      axios.put(`http://localhost:3000/games/draw/offer`, { 
+        id, 
+        userId: null,
       });
     }
     this.hideModal();
