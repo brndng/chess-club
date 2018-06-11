@@ -77,12 +77,13 @@ class Game extends Component {
       && !areEqual(currMove, newMove)
      ) { 
       this.socket.emit('move', { newMove, id });
-      axios.put(`http://localhost:3000/games/move`, { id, currentPosition, moves, whiteToMove });
+      axios.put(`http://localhost:3000/games/move`, { user, game, currentPosition, moves, whiteToMove });
       toggleTurn();
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
       const _checkMate = evaluateCheckmateConditions(user.id, game.white, currentPosition, moves);
+      console.log('​Game -> componentDidUpdate -> _checkMate', _checkMate);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
       }

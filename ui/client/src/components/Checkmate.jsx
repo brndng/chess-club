@@ -22,6 +22,7 @@ class Checkmate extends Component {
     if (this.props.socket) {
       const { socket, id, user, game, declareGameOver } = this.props;
       socket.on('checkmate', (defeated) => {
+        console.log('checkmate, defeated:', defeated);
         if (user.id === defeated) {
           this.setState({ message: 'You Lose!'});
         } else {

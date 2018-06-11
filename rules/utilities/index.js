@@ -1,3 +1,5 @@
+// import willMoveGiveCheck from '../interactions/';
+
 export const isWhite = (piece) => {
   if (piece === null) {
     return null;
@@ -10,15 +12,15 @@ export const rotateBoard = (position) => {
   return copy.reverse().map(row => row.reverse());
 };
 
-export const convertToChessNotation = (origin, destin, piece, captured, check, promotedTo = null) => {
+export const figurines = {
+  K: '♔',
+  Q: '♕',
+  R: '♖',
+  B: '♗',
+  N: '♘',
+}
 
-  const figurines = {
-    K: '♔',
-    Q: '♕',
-    R: '♖',
-    B: '♗',
-    N: '♘',
-  }
+export const convertToChessNotation = (origin, destin, piece, captured, check, promotedTo = null) => {
   const originFile = String.fromCharCode(97 + origin.col);
   const file = String.fromCharCode(97 + destin.col);
   const rank = 8 - destin.row;
@@ -125,6 +127,49 @@ export const setSquareColor = (coords) => {
       ? 'white' 
       : 'black';
 }
+
+// export const convertToChessNotation = (user, game, currentPosition, moves, selection, destin, captured, promotedTo = null) => {
+//   const { origin, piece } = selection;
+//   const originFile = String.fromCharCode(97 + origin.col);
+//   const file = String.fromCharCode(97 + destin.col);
+//   const rank = 8 - destin.row;
+//   const _check = willMoveGiveCheck(user.id, game.white, selection, destin, currentPosition, moves, promotedTo);
+  
+//   if ( 
+//     piece.toUpperCase() === 'P' 
+//     && captured === null 
+//     && Math.abs(destin.col - origin.col) === 1 
+//     && Math.abs(destin.row - origin.row) === 1
+//   ) { 
+//     captured = piece === piece.toUpperCase() 
+//       ? 'p'
+//       : 'P'
+//   }
+//   const pieceToMove = piece.toUpperCase() === 'P'
+//     ? captured === null
+//       ? ''
+//       : originFile
+//     : figurines[piece.toUpperCase()];
+//   const captures = captured !== null
+//     ? 'x'
+//     : '';
+//   const promotion = promotedTo !== null
+//     ? `=${promotedTo}`
+//     : '';
+//   const warning = _check 
+//     ? '+'
+//     : '';
+
+//   if (pieceToMove === '♔') {
+//     if (destin.col - origin.col === 2) {
+//       return `O-O`;
+//     } else if (destin.col - origin.col === -2) {
+//       return `O-O-O`;
+//     }
+//   }
+
+//   return `${pieceToMove}${captures}${file}${rank}${promotion}${warning}`
+// };
 
 
 

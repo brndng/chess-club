@@ -5,8 +5,8 @@ import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
 import Game from './Game.jsx';
-import Profile from './Profile.jsx';
 import Players from './Players.jsx';
+import Archive from './Archive.jsx';
 import NavBar from './NavBar.jsx';
 import withAuthentication from '../HOC/withAuthentication.jsx';
 
@@ -22,10 +22,10 @@ class App extends Component {
       <div className="route-container">
         <NavBar />
         <Route exact path='/' render={props => <LandingWithAuth {...props} />} />
-        <Route path='/profile' render={props => <ProfileWithAuth {...props} />} />
         <Route path='/gamelist' render={props => <GameListWithAuth {...props} />} />
         <Route path='/game/:id' render={props => <GameWithAuth {...props} />} />
         <Route path='/players' render={props => <PlayersWithAuth {...props} />} />
+        <Route path='/archive' render={props => <ArchiveWithAuth {...props} />} />
         <Route path='/login' component={Login} />
       </div>
     );
@@ -33,10 +33,10 @@ class App extends Component {
 }
 
 var LandingWithAuth = withAuthentication(Landing);
-var ProfileWithAuth = withAuthentication(Profile);
 var GameListWithAuth = withAuthentication(GameList);
 var GameWithAuth = withAuthentication(Game);
 var PlayersWithAuth = withAuthentication(Players);
+var ArchiveWithAuth = withAuthentication(Archive);
 
 export default App;
 

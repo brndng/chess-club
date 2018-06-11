@@ -60,24 +60,34 @@ module.exports = {
   },
 
   registerMove: async (req, res) => {
-    const { id, currentPosition, moves, whiteToMove } = req.body;
-    try {
-      // if (!rules.isLegalMove(....) ) {
-      //   res.status(400).send('no hacks allowed.')
-      // }
-      const update = await Game.update({
-        position: currentPosition,
-        moves,
-        whiteToMove: !whiteToMove,
-      }, {
-        where: { id },
-        returning: true,
-        plain: true,
-      });
-      res.send(update[1].dataValues);
-    } catch (err) {
-      console.log('err from registerMove', err);
+    const { user, game, currentPosition, moves, whiteToMove } = req.body;
+    const { id, white, black} = game;
+
+    if (
+        (user.id === white && whiteToMove )
+        ||(user.id === black && !whiteToMove )
+    ) {
+      try {
+        // if (!rules.isLegalMove(....) ) {
+        //   res.status(400).send('no hacks allowed.')
+        // }
+        const update = await Game.update({
+          position: currentPosition,
+          moves,
+          whiteToMove: !whiteToMove,
+        }, {
+          where: { id },
+          returning: true,
+          plain: true,
+        });
+        res.send(update[1].dataValues);
+      } catch (err) {
+        console.log('err from registerMove', err);
+      }
+    } else {
+      res.status(401).send('No hacks allowed. You may only move on your turn.');
     }
+
   },
 
   updateCheck: async (req, res) => {

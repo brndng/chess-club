@@ -32,11 +32,13 @@ class Promotion extends Component {
       : <div >
           <Modal>
             <div className="modal">
-              <p> Pawn has promoted !!! Select: </p>  
-              <button onClick={() => {this.selectPiece('R')}}>{pieces['R']}</button> 
-              <button onClick={() => {this.selectPiece('N')}}>{pieces['N']}</button> 
-              <button onClick={() => {this.selectPiece('B')}}>{pieces['B']}</button> 
-              <button onClick={() => {this.selectPiece('Q')}}>{pieces['Q']}</button> 
+              <div className="modal-dialogue">
+                <p> Pawn has promoted !!! Select: </p>  
+                <button onClick={() => {this.selectPiece('R')}}>{pieces['R']}</button> 
+                <button onClick={() => {this.selectPiece('N')}}>{pieces['N']}</button> 
+                <button onClick={() => {this.selectPiece('B')}}>{pieces['B']}</button> 
+                <button onClick={() => {this.selectPiece('Q')}}>{pieces['Q']}</button> 
+              </div>
             </div>
           </Modal>
         </div>
