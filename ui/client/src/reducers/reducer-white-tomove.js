@@ -1,4 +1,4 @@
-export default (state = true, action) => {
+export default (state = null, action) => {
   switch(action.type) {
     case 'PLAYER_MOVED':
       return state ? false : true;

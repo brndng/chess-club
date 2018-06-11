@@ -57,7 +57,7 @@ class Draw extends Component {
 
   offerDraw() {
     const { id, user, socket } =  this.props;
-    socket.emit('draw_offer', { userId: user.id, id })
+    socket.emit('draw_offer', { userId: user.id, id });
     axios.put(`http://localhost:3000/games/draw/offer`, { 
       id, 
       user,

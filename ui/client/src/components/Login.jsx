@@ -34,8 +34,6 @@ class LogIn extends Component {
     const { storeUser, updateVerified, authenticate } = this.props;
     const { username, password } = this.state;
     const response = await axios.post('http://localhost:3000/users/login', { username, password });
-    console.log('response', response);
-
     if (response.status === 200) {
       storeUser(response.data);
       authenticate(true);

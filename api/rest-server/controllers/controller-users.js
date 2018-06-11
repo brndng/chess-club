@@ -13,16 +13,13 @@ module.exports = {
       const user = await User.findOne({
         where: { username },
       });
-      console.log('----user', user)
       if (user) {
         isUsernameTaken = true;
       }
     } catch (err) {
       console.log('​err from registerUser', err);
     }
-    console.log('isUsernameTaken', isUsernameTaken)
 
-    
     if (isUsernameTaken) {
       res.status(401).send('Username taken');
     } else {
