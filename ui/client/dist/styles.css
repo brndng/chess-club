@@ -5,7 +5,7 @@ html, body, #app-root, .route-container, .wrapper {
   background-color: #1d1e22;
   /* background: linear-gradient(to right, #393f4d 32%, #1d1e22 34%); */
   font-family: Arial, Helvetica, sans-serif; 
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   /* color: floralwhite;      */
 }
 
@@ -40,7 +40,9 @@ html, body, #app-root, .route-container, .wrapper {
     flex-grow: 2;
     align-items: center;
     background-color: #1d1e22;
-    background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg'); 
+    background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
+
+    /* background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');  */
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
@@ -315,35 +317,70 @@ html, body, #app-root, .route-container, .wrapper {
   } 
   .nav-left {
     display: flex;
+
+
   }
     .nav-left li {
       display: flex;
       align-items: center;
-
+      padding: 0px
     }
       .nav-left li a {
+        text-decoration: none;
+        text-align: center;
         font-size: 32px;
-        margin: 0px;
+        color: floralwhite;
+        display: block;
+        padding: 16px;
       }
   .nav-right {
     display: flex;
     justify-content: space-between;
     width: 360px;
+    
   }
-    .nav li {
+
+  
+    .nav-right li {
       display: flex;
-      /* align-items: center; */
+      align-items: center;
       padding: 0;
     }
-      .nav a {
+      .nav-right a {
         text-decoration: none;
         text-align: center;
         font-size: 11px;
         color: floralwhite;
         display: block;
         padding: 16px;
+        position: relative;
+        transition: color 0.1s, background-color 0.1s, padding 0.2s ease-in;
       }
-      
+      .nav-right a:hover, .nav-right a:focus, .nav-right a:active {
+        color: #479761;
+        /* text-decoration: none; */
+      }
+
+      .nav-right a::before {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 0;
+        height: 3px;
+        width: 100%;
+        background-color: floralwhite;
+        transform-origin: right top;
+        transform: scale(0, 1);
+        transition: color 0.1s, transform 0.2s ease-out;
+      }
+
+      .nav-right a:active::before {
+        background-color: floralwhite;
+      }
+      .nav-right a:hover::before, .nav-right a:focus::before {
+        transform-origin: left top;
+        transform: scale(1, 1);
+      }
 
 .sidebar {
   display: flex;
@@ -356,15 +393,61 @@ html, body, #app-root, .route-container, .wrapper {
   width: 160px;
 } 
 
-  .sidebar div {
+
+  .welcome {
     color: floralwhite;
     padding: 16px;
     margin: 48px 0px 48px 0px;
+    position: relative;
+  }
+
+    .welcome-greeting {
+      left: -100px;
+      height: 100px;
+      position: absolute;
+      -webkit-animation: slide 0.4s forwards;
+      -webkit-animation-delay: 1s;
+      animation: slide 0.6s forwards;
+      animation-delay: 0.4s;
+      top: 32px;
+      
+
+    }
+
+    .welcome-username {
+      left: -100px;
+      height: 100px;
+      position: absolute;
+      -webkit-animation: slide 0.4s forwards;
+      -webkit-animation-delay: 1s;
+      animation: slide 0.6s forwards;
+      animation-delay: 0.4s;
+      top: 60px;
+    }
+
+    
+    @-webkit-keyframes slide {
+      100% { left: 16px; }
+    }
+
+    @keyframes slide {
+      100% { left: 16px; }
+    }
+
+  .sidebar-bottom {
+    color: floralwhite;
+    padding: 16px;
+    margin: 48px 0px 48px 0px;
+    border-bottom: 1px solid floralwhite;
+    
   }
     .sidebar div p {
       margin: 0px;
       padding: 4px 0px 4px 0px;
+      
     }
+
+    
 
 
 /* Logout */
@@ -380,13 +463,41 @@ html, body, #app-root, .route-container, .wrapper {
     display: block;
     font-size: 11px;
     /* padding: 8px; */
+    cursor: pointer;
   }
-  .logout a:hover {
-    background-color: #555;
+  .logout a:hover, .logout a:focus {
+    color: #999;
   }
 
 
 /* Login */
+
+.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+}
+
+  .login-left {
+    width: 160px;
+    /* height: 642.4px; */
+  }
+
+  .login-right {
+    width: 980px;
+    /* height: 642.4px; */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #1d1e22;
+    background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: lighten;
+    opacity: 0.4;
+  }
 .login-form {
   display: flex;
   flex-direction: column;
@@ -395,31 +506,55 @@ html, body, #app-root, .route-container, .wrapper {
   align-items: center;
   height: 360px;
   width: 360px;
+  margin-top: 64px;
+  margin-left: 175px;
   padding: 24px;
+  background-color: black;
+  opacity: .9;
   border: 1px solid black;
-  margin: auto;
-}
-  .login-form input {
-    box-sizing: border-box;
-    width: 320px;
-    height: 32px;
-    padding: 8px;
-    margin-bottom: 12px;
-    background-color: #f6f5f3;
+  border-radius: 2px;
+  /* margin: auto; */
+} 
+
+  .login-form-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 28px;
   }
-  .login-form button {
-    box-sizing: border-box;
-    width: 320px;
-    height: 32px;
-    padding: 8px;
-    background-color: #d4d4dc;
-  }
-  .login-form div {
-    padding: 8px;
-  }
-  .login-form div a {
-    text-decoration: none;
-  }
+    .login-form-input input {
+      box-sizing: border-box;
+      width: 320px;
+      height: 32px;
+      padding: 12px;
+      margin-bottom: 14px;
+      background-color: #f6f5f3;
+    }
+
+    /* .login-form-submit {
+      margin-bottom: 24px;
+    } */
+    .login-form-submit button {
+      box-sizing: border-box;
+      width: 320px;
+      height: 32px;
+      padding: 12px;
+      color: black;
+      background-color: rgba(255, 255, 255, 1);
+      align-items: center;
+    }
+
+    .login-form-toggle {
+      opacity: 1;
+      color: white;
+      margin-top: 24px;
+    }
+  
+    .login-form-toggle a {
+      text-decoration: none;
+      color: #479761;
+    }
 
 /* Modal */
 #modal-root {
@@ -457,7 +592,9 @@ html, body, #app-root, .route-container, .wrapper {
   }
 
 
-
+::placeholder {
+  color: black;
+}
 
 
 

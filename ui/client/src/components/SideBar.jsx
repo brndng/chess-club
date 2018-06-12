@@ -12,11 +12,13 @@ class SideBar extends Component {
     const { user } = this.props;
     return (
       <div className="sidebar">
-        <div>
-          <p>Welcome,</p>
-          <p>{user.username}</p>
+        <div className="welcome">
+          <p className="welcome-greeting">Welcome,</p>
+          <p className="welcome-username">{user.username}</p>
         </div>
-        <Logout />
+        <div className="sidebar-bottom">
+          <Logout />
+        </div>
       </div>
     )
   }
