@@ -27,9 +27,38 @@ html, body, #app-root, .route-container, .wrapper {
   display: flex;
   flex-direction: row;
   /* background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg'); */
-  background-size: cover;
-  background-repeat: no-repeat;
+  /* background-size: cover;
+  background-repeat: no-repeat; */
+  
 }
+
+
+
+  .landing-content {
+    display: flex;
+    justify-content: center;
+    flex-grow: 2;
+    align-items: center;
+    background-color: #1d1e22;
+    background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg'); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: lighten;
+    opacity: 0.6;
+  }
+
+  /* .landing-content::after {
+    background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');
+    /* background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;  
+  } */
 
 /* Gamelist */
 .game-list li {
@@ -303,7 +332,7 @@ html, body, #app-root, .route-container, .wrapper {
   }
     .nav li {
       display: flex;
-      align-items: center;
+      /* align-items: center; */
       padding: 0;
     }
       .nav a {

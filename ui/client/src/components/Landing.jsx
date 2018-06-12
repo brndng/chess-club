@@ -6,7 +6,7 @@ const Landing = (props) => {
   return (
     <div className="landing">
       <SideBar />
-      <div>Some Content</div>
+      <div className="landing-content"></div>
     </div>
   )
 }
