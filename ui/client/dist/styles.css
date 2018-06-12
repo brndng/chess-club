@@ -1,9 +1,11 @@
-html, body, #app-root, .route-container {
-  height: 100%;
+html, body, #app-root, .route-container, .wrapper {
+  height: 100vh;
+  width: 100%;
   /* background-color: #f6f5f3; */
   background-color: #1d1e22;
+  /* background: linear-gradient(to right, #393f4d 32%, #1d1e22 34%); */
   font-family: Arial, Helvetica, sans-serif; 
-  letter-spacing: -0.5px;
+  letter-spacing: 0.8px;
   /* color: floralwhite;      */
 }
 
@@ -22,8 +24,10 @@ html, body, #app-root, .route-container {
 /* Landing */
 .landing {
   height: 100%;
-  background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');
-  background-size: contain;
+  display: flex;
+  flex-direction: row;
+  /* background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg'); */
+  background-size: cover;
   background-repeat: no-repeat;
 }
 
@@ -269,30 +273,71 @@ html, body, #app-root, .route-container {
 
 .nav {
   display: flex;
-  justify-content: flex-end;
-  background: #1d1e22;
-  margin-bottom: 24px;
+  justify-content: space-between;
+  /* background: #1d1e22; */
+  background: transparent;
+  /* margin-bottom: 24px; */
+  /* border: 1px solid white; */
 }
   .nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
+  } 
+  .nav-left {
+    display: flex;
+  }
+    .nav-left li {
+      display: flex;
+      align-items: center;
+
+    }
+      .nav-left li a {
+        font-size: 32px;
+        margin: 0px;
+      }
+  .nav-right {
+    display: flex;
+    justify-content: space-between;
+    width: 360px;
   }
     .nav li {
+      display: flex;
+      align-items: center;
       padding: 0;
     }
       .nav a {
         text-decoration: none;
         text-align: center;
-        font-size: 12px;
+        font-size: 11px;
         color: floralwhite;
         display: block;
-        padding: 8px;
+        padding: 16px;
       }
-      .nav a:hover {
-        background-color: #555;
-      }
-  
+      
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* background: #1d1e22; */
+  background: transparent;
+  margin-bottom: 36px;
+  /* border: 1px solid white; */
+  width: 160px;
+} 
+
+  .sidebar div {
+    color: floralwhite;
+    padding: 16px;
+    margin: 48px 0px 48px 0px;
+  }
+    .sidebar div p {
+      margin: 0px;
+      padding: 4px 0px 4px 0px;
+    }
+
+
 /* Logout */
 .logout {
   display: flex;
@@ -304,7 +349,8 @@ html, body, #app-root, .route-container {
     text-align: center;
     color: floralwhite;
     display: block;
-    padding: 8px;
+    font-size: 11px;
+    /* padding: 8px; */
   }
   .logout a:hover {
     background-color: #555;

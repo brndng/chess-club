@@ -24,7 +24,7 @@ export default (state = [], action) => {
       return [...newState, [origin, destin, piece, captured, notation, promotedTo]];
       break;
     }
-    case 'GAME_COMPLETED': {
+    case 'CHECKMATE': {
       if (action.payload !== '1/2 - 1/2') {
         const lastNotation = newState.slice(-1)[0][4]; 
         const notationWithMate = `${lastNotation.slice(0, lastNotation.length - 1)}#`;

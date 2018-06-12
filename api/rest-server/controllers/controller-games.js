@@ -123,6 +123,28 @@ module.exports = {
     }
   },
 
+  resign: async (req, res) => {
+    const { id, user, completed, winner } = req.body;
+
+    if (user.id !== req.session.user) {
+      res.status(401).send('No hacks allowed. Only authenticated users may resign from games.')
+    } else {
+      try {
+        const record = await Game.update({
+          completed,
+          winner,
+        }, {
+          where: { id },
+          returning: true,
+          plain: true,
+        });
+        res.status(200).send(`${user.username} has resigned.`);
+      } catch (err) {
+        console.log('err from saveGame', err)
+      }
+    }
+  },
+
   registerDrawOffer: async (req, res) => {
     const { id, userId } = req.body;
     try {
@@ -143,6 +165,7 @@ module.exports = {
 
     try {
       const game = await Game.findOne({ where: { id } });
+      console.log('///user.id, game.white, game.black, game.drawOfferedBy',user.id, game.white, game.black, game.drawOfferedBy)
       if (
          !((user.id === game.white && game.drawOfferedBy === game.black)
          && (user.id === game.black && game.drawOfferedBy === game.white))

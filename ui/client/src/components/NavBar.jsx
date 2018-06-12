@@ -5,15 +5,18 @@ import Logout from './Logout.jsx';
 const NavBar = () => {
   return (
     <div className="nav">
-      <ul className="nav-menu">
-        <li><Link to='/'> HOME </Link></li>
-        <li><Link to='/gamelist'> MY GAMES </Link></li>
-        <li><Link to='/players'> CHALLENGE PLAYERS </Link></li>
-        <li><Link to='/archive'> ARCHIVE </Link></li>
+      <ul className="nav-left">
+        <li><Link to='/'>▣</Link></li>
       </ul>
-      <ul className="nav-logout">
+      <ul className="nav-right">
+        
+        <li><Link to='/gamelist'>MY GAMES</Link></li>
+        <li><Link to='/players'>PLAYERS</Link></li>
+        <li><Link to='/archive'>ARCHIVE</Link></li>
+      </ul>
+      {/* <ul className="nav-logout">
         <Logout />
-      </ul>
+      </ul> */}
     </div>
   )
 }

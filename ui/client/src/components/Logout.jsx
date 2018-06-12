@@ -19,35 +19,15 @@ class Logout extends Component {
     history.push('/');
   }
 
-  // redirectToLogin() {
-  //   const { history } = this.props;
-  //   history.push('/login');
-  // }
-
   render() {
-    const { isAuthenticated } = this.props;
-   
-    return isAuthenticated
-      ? <li className="logout">
-          <a onClick={() => this.logout()}>LOG OUT</a>
-        </li>
-      : <li></li>
-  }
 
-  // render() {
-  //   const { isAuthenticated } = this.props;
-  //   const onClick = isAuthenticated
-  //     ? () => this.logout()
-  //     : () => this.redirectToLogin();
-  //   const text = isAuthenticated
-  //     ? 'LOG OUT'
-  //     : 'LOG IN';
-  //   return (
-  //     <li className="logout">
-  //       <a onClick={onClick}>{text}</a>
-  //     </li>
-  //   )
-  // }
+    return (
+      <div className="logout">
+        <a onClick={() => this.logout()}>LOG OUT</a>
+      </div>
+    );
+   
+  }
 }
 
 const mapStateToProps = ({ isAuthenticated }) => {

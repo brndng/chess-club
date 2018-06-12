@@ -22,14 +22,15 @@ class Resignation extends Component {
 
   componentDidMount() {
     if (this.props.socket) {
-      const { socket, id, declareGameOver } = this.props;
+      const { socket, id, declareGameOver, game } = this.props;
       socket.on('resign', (player) => {
+        console.log('socket lisenter-resign')
         this.setState({
           player,
           view: 'final',
         });
         this.showModal();
-        declareGameOver();
+        declareGameOver('resign', game, player.id);
       })
     }
   }
@@ -47,11 +48,12 @@ class Resignation extends Component {
     });
   }
 
-  resign() {
+  async resign() {
+    console.log('resign()')
     const { id, user, game, socket } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
-    socket.emit('resign', { userId: user.id, id });
-    axios.put(`http://localhost:3000/games/document`, { 
+    socket.emit('resign', { id, user });
+    const resignation = await axios.put(`http://localhost:3000/games/resign`, { 
       id, 
       user,
       completed: true,
@@ -76,7 +78,7 @@ class Resignation extends Component {
                      <button onClick={() => this.hideModal()}>NO</button>
                    </div>
                  : <div className="modal-dialogue">
-                     <p> {player} has resigned! </p>
+                     <p> {player.username} has resigned! </p>
                      <button onClick={() => this.hideModal()}>X</button>
                    </div>
              }

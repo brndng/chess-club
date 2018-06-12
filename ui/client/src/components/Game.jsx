@@ -36,13 +36,18 @@ class Game extends Component {
   }
 
   async componentDidMount() {
+    console.log('GAME MOUNTING');
+    
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
     this.socket = await io(`http://localhost:1337/`);
 
+    
+
     this.socket.on('connect', () => {
+      console.log('this.socket.id',this.socket.id)
       this.setState({ socket: this.socket.id });
       this.socket.emit('game_id', id);
     });

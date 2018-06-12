@@ -58,20 +58,33 @@ export const updateCheckStatus = (userId) => {
 };
 
 export const declareGameOver = (status, game = null, defeated = null) => {
-  if (status === 'checkmate') {
-    const result = defeated === game.white
+  const result = status === 'draw'
+    ? '1/2 - 1/2'
+    : defeated === game.white
       ? '0 - 1'
       : '1 - 0'
-    return {
-      type: 'GAME_COMPLETED',
-      payload: result,
-    };
-  } else if (status === 'draw') {
-    return {
-      type: 'GAME_COMPLETED',
-      payload: '1/2 - 1/2',
-    };
-  }
+  
+  return {
+    type: status.toUpperCase(),
+    payload: result,
+  };
+
+  // if (status === 'checkmate') {      
+  //   return {
+  //     type: 'CHECKMATE',
+  //     payload: result,
+  //   };
+  // } else if (status === 'draw') {
+  //   return {
+  //     type: 'DRAW',
+  //     payload: result,
+  //   };
+  // } else if (status === 'resign') {
+  //   return {
+  //     type: 'RESIGN',
+  //     payload: result,
+  //   };
+  // }
 };
 
 export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, moves = []) => {

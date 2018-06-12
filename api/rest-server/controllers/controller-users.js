@@ -57,6 +57,8 @@ module.exports = {
     }
   },
   fetchCurrentUser: async (req, res) => {
+    console.log('fetchCurrentUser req.session', req.session)
+
     if (req.session.user) { 
       const id = req.session.user;
       try {
@@ -96,20 +98,3 @@ module.exports = {
     }
   }
 };
-
-// test: (req, res) => {
-//   if (req.session.views) {
-//     // console.log('-----req.session if', req.session, '---id--', req.sessionID)
-
-//     req.session.views++
-//     res.setHeader('Content-Type', 'text/html')
-//     res.write('<p>views: ' + req.session.views + '</p>')
-//     res.status(200).end()
-//   } else {
-//     // console.log('-----req.session else', req.session)
-//     req.session.views = 1
-//     // console.log('-----req.session elseAFTER', req.session, '---id--', req.sessionID)
-
-//     res.end('welcome to the session demo. refresh!')
-//   }
-// },
