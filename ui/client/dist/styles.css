@@ -83,6 +83,7 @@ button:focus {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 100%;
   height: 80px;
   /* align-items: center; */
 }
@@ -91,7 +92,7 @@ button:focus {
     border: 2px solid floralwhite;
     background-color: #1d1e22;
     color: floralwhite;
-    width: 180px;
+    width: 312px;
     
     padding: 8px 16px 8px 16px;
     /*margin: 8px 0px 8px 0px; */
@@ -352,24 +353,29 @@ button:focus {
   .game-options {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    
+    justify-content: center;
+  }
+
+  .game-options div {
+    margin: 0px 4px 0px 4px;
   }
 
   .game-options button {
-    padding: 4px;
+    padding: 2px;
     letter-spacing: 1px;
     border-radius: 2px;
     background-color: #1d1e22;
     color: floralwhite;
+    width: 60px;
   }
   .player-card-container {
     display: flex;
     flex-direction: column;
     background-color: #d4d4dc;
-    /*2px solid #d4d4dc;*/
+
     padding: 5px;
     border: 4px solid rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
   }
   .player-card-container.is-my-turn {
     /* border: 2px solid pink;  */
@@ -377,6 +383,10 @@ button:focus {
     border: 4px solid #34925E;    
 
   }
+    .player-card-username {
+      font-size: 12px;
+      padding: 1px;
+    }
     .player-card-pieces {
       display: flex;
       flex-direction: row;
@@ -384,7 +394,7 @@ button:focus {
       height: 21px;
     } 
       .captured-piece {
-        font-size: 16px;
+        font-size: 13px;
       }
 
   .game-display {
@@ -397,11 +407,13 @@ button:focus {
     }
 
     .game-display-toggle ul {
+      margin: 0px;
+      padding: 0px;
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: space-between;
       width: 100%;
-      margin-bottom: 4px;
+      /* margin-bottom: 4px; */
     }
 
     .game-display-toggle li {
@@ -414,12 +426,18 @@ button:focus {
 
     .game-display-toggle a {
       color: floralwhite;
-      border-top: 1px solid floralwhite;
-      border-right: 1px solid floralwhite;
-      font-size: 12px;
-      padding: 4px;
+      font-size: 14px;
+      padding: 0px;
       width: 58px;
       text-decoration: none;
+      /* text-align: center; */
+    }
+
+    .toggle-moves {
+      text-align: left;
+    }
+    .toggle-chat {
+      text-align: right;
     }
     /* .game-display ul {
       display: flex;
@@ -445,11 +463,12 @@ button:focus {
   flex-direction: column;
 }
   .move-history-output {
-    height: 160px;
+    height: 180px;
     overflow: auto;
     background: white;
-    padding: 12px;
+    padding: 0px 0px 12px 12px;
     background-color: #d4d4dc;
+    font-size: 15px;
   }
 
   .move-history-output ol {
@@ -466,17 +485,31 @@ button:focus {
 .chat-container {
   display: flex;
   flex-direction: column;
+  width: 200px;
+  height: 192px;
 }
   .chat-output {
     height: 160px;
     overflow: auto;
-    background: white;
+    background-color: #d4d4dc;
     padding: 12px;
+    font-size: 12px;
   }
 
     .chat-output li {
       list-style: none;
     }
+  .chat-message {
+    display: flex;
+  }
+  .chat-message input {
+    padding: 4px;
+    width: 160px;
+  }
+  .chat-message button {
+    padding: 4px;
+    width: 40px;
+  }
 
 /* NavBar */
 @media screen and (min-width: 768px) {
@@ -843,19 +876,20 @@ button:focus {
 }
 
 .image-knight {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 
 .image-knight.white {
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
-  margin-right: 80px;
+  margin-right: 60px;
 
 }
 
 .image-knight.black {
-  margin-left: 80px;
+  margin-left: 60px;
+
 }
 
 

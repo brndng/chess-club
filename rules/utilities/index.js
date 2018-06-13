@@ -41,7 +41,7 @@ export const convertToChessNotation = (origin, destin, piece, captured, check, p
       : originFile
     : figurines[piece.toUpperCase()];
   const captures = captured !== null
-    ? 'x'
+    ? 'ˣ'
     : '';
   const promotion = promotedTo !== null
     ? `=${promotedTo}`

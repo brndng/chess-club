@@ -27,7 +27,7 @@ class PlayerCard extends Component {
     return (
       <div className={`player-card-container ${this.indicateTurn()}`}>
         <div className="player-card-username">
-          {player.username}
+          <strong>{player.username}</strong>
         </div>
         <div className="player-card-pieces">
           {capturedPieces.map((piece, i) => (

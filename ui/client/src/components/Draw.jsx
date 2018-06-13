@@ -143,7 +143,7 @@ class Draw extends Component {
 
     return (
       <div>         
-        <button onClick={onClick}>OFFER DRAW</button>
+        <button onClick={onClick}>DRAW</button>
         {modal}
       </div>
     );

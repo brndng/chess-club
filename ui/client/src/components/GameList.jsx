@@ -51,10 +51,10 @@ class GameList extends Component {
     userGames.sort((a, b) => b.id - a.id);
     return (
       <div className="game-list">
-        
         <div className="game-list-header">
           <div><img src={whiteKnight} className="image-knight white"/></div>
           <p>CURRENT GAMES</p>
+
           <div><img src={blackKnight} className="image-knight black"/></div>
         </div>
         <br/>
