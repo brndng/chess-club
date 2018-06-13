@@ -49,16 +49,26 @@ class GameList extends Component {
     userGames.sort((a, b) => b.id - a.id);
     return (
       <div className="game-list">
-        IN PROGRESS
-        {userGames.map((game) => {
-          return (
-            <li key={game.id}>
-              <Link to={{ pathname: `/game/${game.id}` }}>
-                {`${game.white} vs. ${game.black}`}
-              </Link>
-            </li>)
-        })}
-        <br/>
+        <table className="game-list-table">
+          <tr>
+            <th><p>MATCH</p></th>
+            <th><p>CREATED</p></th>
+          </tr>
+          {userGames.map((game) => {
+            return (
+              <tr className="game-list-row" key={game.id}>
+                <td>
+                  <Link to={{ pathname: `/game/${game.id}` }}>
+                    {game.white} <small>{'vs'}</small> {game.black}
+                  </Link>
+                </td>
+                <td className="created-at">
+                  {game.createdAt.slice(0, 10)}
+                </td>
+              </tr>
+            )
+          })}
+        </table>
       </div>
     )
   }

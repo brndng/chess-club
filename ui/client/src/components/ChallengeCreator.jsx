@@ -46,6 +46,7 @@ class ChallengeCreator extends Component {
     }
   }
 
+
   async createGame() {
     const { white, black } = this.state;
     const newGame = await axios.post('http://localhost:3000/games/challenge', { white, black });
@@ -58,9 +59,10 @@ class ChallengeCreator extends Component {
   }
 
   render() {
-    const { showModal, gameId, white } = this.state;
-    const { opponent } = this.props;
-    const createGame = white !== null
+    const { showModal, gameId, white, black } = this.state;
+    const { opponent, selectedPlayer } = this.props;
+    console.log('white, black', white, black)
+    const createGame = white !== null && black !== null
       ? () => this.createGame()
       : null;
     const modal = showModal
@@ -74,16 +76,15 @@ class ChallengeCreator extends Component {
              </div>
            </Modal>
          </div>;
-
+    
     return (
       <div className="challenge-creator">  
-        <div>{opponent.username}</div>
-        <div>
-          <div>
+        <div className="challenge-creator-content">
+          <div className="slct-container">
             <select className="slct" onChange={(e) => this.setMatchup(e.target.value)}>
-              <option value={null} defaultValue>Select Color:</option>
-              <option value="white">White</option>
-              <option value="black">Black</option>
+              <option value={null} defaultValue>SELECT COLOR :</option>
+              <option value="white">WHITE</option>
+              <option value="black">BLACK</option>
             </select>
           </div>
           <div>

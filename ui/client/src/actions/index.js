@@ -1,8 +1,8 @@
 export const initGame = (data) => {
-  const { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, completed } = data;
+  const { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, createdAt, completed } = data;
   return {
     type: 'GAME_INITIALIZED',
-    payload: { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, completed },
+    payload: { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, createdAt, completed },
   };
 };
 

@@ -63,13 +63,59 @@ html, body, #app-root, .route-container, .wrapper {
   } */
 
 /* Gamelist */
-.game-list li {
-  padding: 5px;
-  list-style-type: none;
+
+.game-list {
+  
+  margin: 16px;
+  height: 100vh;
 }
 
-  .game-list li a {
+.game-list p {
+  border: 2px solid floralwhite;
+  background-color: #1d1e22;
+  color: floralwhite;
+  width: 280px;
+  padding: 8px 16px 8px 16px;
+  margin: 8px 0px 8px 0px;
+  /* display: flex;
+  justify-content: center; */
+  font-size: 16px;
+}
+
+
+.game-list-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+
+.game-list-table tr, th, td {
+  width: 100%;
+  display: flex;
+  /* flex-direction: row;
+  justify-content: space-around; */
+}
+
+.game-list-table th, td {
+  padding: 12px;
+  justify-content: center;
+}
+
+.game-list-table th p {
+  color: floralwhite;
+  letter-spacing: 1px;
+  padding: 8px;
+}
+
+  .game-list-table a {
     text-decoration: none;
+    color: floralwhite;
+  }
+
+  .created-at {
+    color: lightslategray;
   }
 
 /* Players */
@@ -77,36 +123,120 @@ html, body, #app-root, .route-container, .wrapper {
   display: flex;
   flex-direction: column;
 }
-  .players-list li {
+
+  .players-search {
+    display: flex;
+    margin-left: 16px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+
+    
+  }
+    .players-search input {
+      margin-right: 16px; 
+      width: 200px;
+      padding: 8px;
+    }
+    .players-search-button {
+      font-size: 24px;
+      padding-bottom: 8px;
+      width: 41px;
+      border-radius: 2px;
+    }
+
+  .players-default {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    list-style: none;
+    justify-content: flex-start;
+    /* border: 1px solid floralwhite; */
+    height: 100vh;
+    margin-left: 16px;
   }
-    .challenge-creator {
+    .players-list {
+      display: flex;
+      width: 50%;
+      flex-direction: column;
+      /* border: 1px solid floralwhite; */
+      overflow: auto;
+    }
+    
+
+    .players-list div p {
+      border: 2px solid floralwhite;
+      background-color: black;
+      color: floralwhite;
+      width: 280px;
+      padding: 8px 16px 8px 16px;
+      margin: 0px 0px 0px 0px;
+      display: flex;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .players-list ul {
+      padding-left: 16px;
+      margin-right: 64px;
+    }
+      .players-list li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        list-style: none;
+      } 
+        
+        .players-list li div {
+          padding: 4px;
+        }
+        /* .players-list li div input {
+          padding: 12px;
+        } */
+        .players-list li div label {
+          color: floralwhite;
+          padding: 8px;
+        }
+    .players-challenge {
       display: flex;
       flex-direction: row;
-      color: floralwhite;
-      margin-bottom: 8px;
+      width: 50%;
+      border-top: 1px solid floralwhite;
+    }
+
+    .challenge-creator-content {
+      display: flex;
+      flex-direction: row;
+      margin-top: 52px;
+    }
+      .challenge-creator {
+        flex-grow: 1;
+      }
+
+    /**/
+   .slct-container {
+      display: flex;
     }
       .slct {
         display: flex;
+        background-color: floralwhite;
+        width: 150px;
+        height: 32px;
+        margin: 24px 32px 0px 0px;
+        font-size: 16px;
       }
       .btn.btn-challenge {
-        margin-left: 32px;
+        margin: 24px 0px 0px 32px;
+        height: 32px;
+        width: 160px;
+        letter-spacing: 1px;
+        font-size: 16px;
+        padding: 6px 8px 8px 8px;
+        border: 1px solid floralwhite;
+      }
+
+      .btn.btn-challenge:hover {
+        box-shadow: 4px 4px floralwhite;
       }
   
-  .players-default-search {
-    display: flex;
-    justify-content: start;
-  }
-
-  .players-default-search input {
-    margin-left: 32px;
-    margin-right: 16px;
-    width: 200px;
-    padding: 8px;
-  }
+  
     
   /* .push {
     margin-left: auto;
@@ -203,11 +333,27 @@ html, body, #app-root, .route-container, .wrapper {
   flex-direction: column;
   justify-content: space-between;
   background: #393f4d;
-  height: 420px;
+  width: 200px;
+  height: 413px;
   padding: 20px;
   border: 1px inset black;
   border-radius: 4px;
 }
+
+  .game-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    
+  }
+
+  .game-options button {
+    padding: 4px;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    background-color: #1d1e22;
+    color: floralwhite;
+  }
   .player-card-container {
     display: flex;
     flex-direction: column;
@@ -238,7 +384,33 @@ html, body, #app-root, .route-container, .wrapper {
       display: flex;
       flex-direction: row;
     }
-    .game-display ul {
+
+    .game-display-toggle ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    .game-display-toggle li {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      list-style: none;
+
+    }
+
+    .game-display-toggle a {
+      color: floralwhite;
+      border-top: 1px solid floralwhite;
+      border-right: 1px solid floralwhite;
+      font-size: 12px;
+      padding: 4px;
+      width: 58px;
+      text-decoration: none;
+    }
+    /* .game-display ul {
       display: flex;
       flex-direction: row;
       justify-content: space-around;
@@ -254,7 +426,7 @@ html, body, #app-root, .route-container, .wrapper {
           text-decoration: none;
           display: block;
           padding: 8px;
-        }
+        } */
 
 /* MoveHistory */
 .move-history-container {
@@ -267,6 +439,10 @@ html, body, #app-root, .route-container, .wrapper {
     background: white;
     padding: 12px;
     background-color: #d4d4dc;
+  }
+
+  .move-history-output ol {
+    padding-left: 24px;
   }
     .move-history-row {
       display: flex;

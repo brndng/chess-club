@@ -63,7 +63,6 @@ class Game extends Component {
         updateCheckStatus(player);
       }
     });
-
     initGame(game.data); 
     this.initOpponent(game.data);
   }
