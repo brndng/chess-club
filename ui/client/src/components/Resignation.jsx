@@ -53,6 +53,7 @@ class Resignation extends Component {
     const { id, user, game, socket } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
     socket.emit('resign', { id, user });
+
     const resignation = await axios.put(`http://localhost:3000/games/resign`, { 
       id, 
       user,
@@ -70,16 +71,22 @@ class Resignation extends Component {
     const modal = showModal
       && <div >
            <Modal>
-             <div className="modal"> {
+             <div className="modal"> 
+               <div className="modal-btn-container">
+                {view !== 'confirm' && <button onClick={() => this.hideModal()}>╳</button>}
+               </div> 
+             {
                view === 'confirm'
                  ? <div className="modal-dialogue">
                      <p> Are you sure you want to resign? </p>
-                     <button onClick={() => this.resign()}>YES</button>
-                     <button onClick={() => this.hideModal()}>NO</button>
+                     <div className="modal-dialogue-btn-container">
+                       <button onClick={() => this.resign()}>YES</button>
+                       <button onClick={() => this.hideModal()}>NO</button>
+                     </div>
                    </div>
                  : <div className="modal-dialogue">
                      <p> {player.username} has resigned! </p>
-                     <button onClick={() => this.hideModal()}>X</button>
+                     <div className="modal-dialogue-btn-container"></div>
                    </div>
              }
              </div>

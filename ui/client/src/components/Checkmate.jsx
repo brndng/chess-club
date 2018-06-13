@@ -52,9 +52,13 @@ class Checkmate extends Component {
       <div >
         <Modal>
           <div className="modal"> 
+            <div className="modal-btn-container">
+              <button onClick={() => this.hideModal()}>╳</button> 
+            </div>
             <div className="modal-dialogue">
               <p> Checkmate! {message} </p>
-              <button onClick={() => this.hideModal()}>X</button>
+              <div className="modal-dialogue-btn-container">
+              </div>
             </div>
           </div>
         </Modal>

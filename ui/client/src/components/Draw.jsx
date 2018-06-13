@@ -67,33 +67,36 @@ class Draw extends Component {
 
   async offerDraw() {
     const { id, user, socket } =  this.props;
-    socket.emit('draw_offer', { userId: user.id, id });
     const offer = await axios.put(`http://localhost:3000/games/draw/offer`, { 
       id, 
       userId: user.id,
     });
+    socket.emit('draw_offer', { userId: user.id, id });
   }
 
-  acceptDraw() {
+  async acceptDraw() {
     const { user, id, socket, declareGameOver } = this.props;
+    
     socket.emit('draw_accept', { userId: user.id, id });
 
-    declareGameOver('draw');
-    axios.put(`http://localhost:3000/games/draw/accept`, { 
+    const response = await axios.put(`http://localhost:3000/games/draw/accept`, { 
       id, 
       user,
       completed: true,
       winner: null,
     });
 
+    declareGameOver('draw');
+    
     this.hideModal();
   }
 
-  declineDraw() {
+  async declineDraw() {
     const { user, id, socket } = this.props;
+    
     socket.emit('draw_decline', { userId: user.id, id });
 
-    axios.put(`http://localhost:3000/games/draw/offer`, { 
+    const response = await axios.put(`http://localhost:3000/games/draw/offer`, { 
       id, 
       userId: null,
     });
@@ -116,17 +119,22 @@ class Draw extends Component {
       && <div >
            <Modal>
              <div className="modal"> 
-             <button className="btn-x" onClick={this.hideModal}>X</button>
+               <div className="modal-btn-container">
+                {view !== 'offer' && <button onClick={() => this.hideModal()}>╳</button>}
+              </div>
 
              {
                view === 'offer'
                  ? <div className="modal-dialogue">
                      <p> {opponent.username} has offered a draw </p>
-                     <button className="btn" onClick={() => this.acceptDraw()}>ACCEPT</button>
-                     <button className="btn" onClick={() => this.declineDraw()}>DECLINE</button>
+                     <div className="modal-dialogue-btn-container">
+                       <button className="btn" onClick={() => this.acceptDraw()}>ACCEPT</button>
+                       <button className="btn" onClick={() => this.declineDraw()}>DECLINE</button>
+                     </div>
                    </div>
                  : <div className="modal-dialogue">
                      <p> {opponent.username} has {response} your draw offer </p>
+                     <div className="modal-dialogue-btn-container"></div>
                    </div>
              }
              </div>

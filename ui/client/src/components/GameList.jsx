@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
+import { whiteKnight, blackKnight } from '../../images/';
+
 
 axios.defaults.withCredentials = true;
 
@@ -49,26 +51,26 @@ class GameList extends Component {
     userGames.sort((a, b) => b.id - a.id);
     return (
       <div className="game-list">
-        <table className="game-list-table">
-          <tr>
-            <th><p>MATCH</p></th>
-            <th><p>CREATED</p></th>
-          </tr>
-          {userGames.map((game) => {
-            return (
-              <tr className="game-list-row" key={game.id}>
-                <td>
+        
+        <div className="game-list-header">
+          <div><img src={whiteKnight} className="image-knight white"/></div>
+          <p>CURRENT GAMES</p>
+          <div><img src={blackKnight} className="image-knight black"/></div>
+        </div>
+        <br/>
+        <div className="game-list-content">
+          <ul>
+            {userGames.map((game) => {
+              return (
+                <li key={game.id}>
                   <Link to={{ pathname: `/game/${game.id}` }}>
                     {game.white} <small>{'vs'}</small> {game.black}
                   </Link>
-                </td>
-                <td className="created-at">
-                  {game.createdAt.slice(0, 10)}
-                </td>
-              </tr>
-            )
-          })}
-        </table>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
     )
   }
