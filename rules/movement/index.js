@@ -1,7 +1,8 @@
-import baseMoves from './movement-base-moves.js';
-import validatePath from './movement-validate-path.js'; 
+const baseMoves = require('./movement-base-moves.js');
+const validatePath = require('./movement-validate-path.js'); 
 
-export default (pieceToMove, origin, destin, position, moves = []) => {
+module.exports = (pieceToMove, origin, destin, position, moves = []) => {
+  // console.log('​module.exports -> pieceToMove, origin, destin, position, moves = []', pieceToMove, origin, destin, position, moves);
   let isLegal = false;
   const piece = pieceToMove.toUpperCase();
   if (baseMoves[piece](origin, destin, position)) {
@@ -21,13 +22,14 @@ export default (pieceToMove, origin, destin, position, moves = []) => {
               if (position[destin.row][destin.col] !== null) { //square occupied
                 isLegal = true;
               } else { //en passant
-                const [prevOrigin, prevDestin, prevPiece] = moves.slice(-1)[0];
-                const enemy = pieceToMove === piece ? pieceToMove.toLowerCase() : pieceToMove.toUpperCase();
+                const prevMove = moves.slice(-1)[0];
+                const [prevOrigin, prevDestin, prevPiece] = prevMove;
                 if (
-                  prevPiece === enemy 
-                  && destin.col === prevDestin.col
-                  && Math.abs(prevDestin.row - prevOrigin.row) === 2 
-                  && Math.abs(prevOrigin.col - origin.col) === 1
+                  prevMove
+                  && (piece.toUpperCase() === 'P' && prevPiece.toUpperCase() === 'P')
+                  && (prevDestin.row === origin.row && prevDestin.col === destin.col)
+                  && Math.abs(prevDestin.row - prevOrigin.row) === 2
+                  && Math.abs(destin.col - origin.col) === 1
                 ) {
                   isLegal = true
                 }
@@ -72,10 +74,3 @@ export default (pieceToMove, origin, destin, position, moves = []) => {
 };
 
 
-// prevMove
-//     && (piece.toUpperCase() === 'P' && prevPiece.toUpperCase() === 'P')
-//     && destin.col === prevDestin.col
-//     && Math.abs(prevDestin.row - prevOrigin.row) === 2
-//     && Math.abs(destin.row - prevDestin.row) === 1
-//     && Math.abs(destin.col - origin.col) === 1
-//     && Math.abs(destin.row - origin.row) === 1

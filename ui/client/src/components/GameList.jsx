@@ -64,7 +64,7 @@ class GameList extends Component {
               return (
                 <li key={game.id}>
                   <Link to={{ pathname: `/game/${game.id}` }}>
-                    {game.white} <small>{'vs'}</small> {game.black}
+                    {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
                   </Link>
                 </li>
               )

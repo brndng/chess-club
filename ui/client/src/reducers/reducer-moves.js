@@ -20,8 +20,8 @@ export default (state = [], action) => {
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, captured, notation, promotedTo] = action.payload;
-      return [...newState, [origin, destin, piece, captured, notation, promotedTo]];
+      const [origin, destin, piece, captured, notation, promotedTo, currentPosition] = action.payload;
+      return [...newState, [origin, destin, piece, captured, notation, promotedTo, currentPosition]];
       break;
     }
     case 'CHECKMATE': {

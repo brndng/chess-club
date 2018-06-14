@@ -5,7 +5,7 @@ import ChallengeCreator from './ChallengeCreator.jsx';
 
 axios.defaults.withCredentials = true;
 
-class Players extends Component {
+class Challenge extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -97,5 +97,5 @@ const mapStateToProps = ({ user }) => {
   return { user };
 }
 
-export default connect(mapStateToProps)(Players);
+export default connect(mapStateToProps)(Challenge);
 

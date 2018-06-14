@@ -5,7 +5,7 @@ import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
 import Game from './Game.jsx';
-import Players from './Players.jsx';
+import Challenge from './Challenge.jsx';
 import Archive from './Archive.jsx';
 import NavBar from './NavBar.jsx';
 import withAuthentication from '../HOC/withAuthentication.jsx';
@@ -24,7 +24,7 @@ class App extends Component {
         <Route exact path='/' render={props => <LandingWithAuth {...props} />} />
         <Route path='/gamelist' render={props => <GameListWithAuth {...props} />} />
         <Route path='/game/:id' render={props => <GameWithAuth {...props} />} />
-        <Route path='/players' render={props => <PlayersWithAuth {...props} />} />
+        <Route path='/challenge' render={props => <ChallengeWithAuth {...props} />} />
         <Route path='/archive' render={props => <ArchiveWithAuth {...props} />} />
         <Route path='/login' component={Login} />
       </div>
@@ -35,7 +35,7 @@ class App extends Component {
 var LandingWithAuth = withAuthentication(Landing);
 var GameListWithAuth = withAuthentication(GameList);
 var GameWithAuth = withAuthentication(Game);
-var PlayersWithAuth = withAuthentication(Players);
+var ChallengeWithAuth = withAuthentication(Challenge);
 var ArchiveWithAuth = withAuthentication(Archive);
 
 export default App;

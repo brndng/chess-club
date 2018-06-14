@@ -25,6 +25,7 @@ class Draw extends Component {
   componentDidMount() {
     console.log('DRAW MOUNTING');
     if (this.props.socket) {
+      console.log('​Draw -> componentDidMount -> this.props.socket', this.props.socket);
       const { socket, id, declareGameOver } = this.props;
       
       socket.on('draw_offer', (opponent) => {
@@ -65,46 +66,28 @@ class Draw extends Component {
     });
   }
 
-  async offerDraw() {
+  offerDraw() {
     const { id, user, socket } =  this.props;
-    const offer = await axios.put(`http://localhost:3000/games/draw/offer`, { 
-      id, 
-      userId: user.id,
-    });
     socket.emit('draw_offer', { userId: user.id, id });
   }
 
-  async acceptDraw() {
+  acceptDraw() {
     const { user, id, socket, declareGameOver } = this.props;
-    
     socket.emit('draw_accept', { userId: user.id, id });
-
-    const response = await axios.put(`http://localhost:3000/games/draw/accept`, { 
+    declareGameOver('draw');
+    this.hideModal();
+    axios.put(`http://localhost:3000/games/document`, { 
       id, 
-      user,
       completed: true,
       winner: null,
     });
-
-    declareGameOver('draw');
-    
-    this.hideModal();
   }
 
-  async declineDraw() {
+  declineDraw() {
     const { user, id, socket } = this.props;
-    
     socket.emit('draw_decline', { userId: user.id, id });
-
-    const response = await axios.put(`http://localhost:3000/games/draw/offer`, { 
-      id, 
-      userId: null,
-    });
-
     this.hideModal();
-
   }
-
 
   render() {
     const { completed, opponent } = this.props;
@@ -143,7 +126,7 @@ class Draw extends Component {
 
     return (
       <div>         
-        <button onClick={onClick}>DRAW</button>
+        <button onClick={() => this.offerDraw()}>DRAW</button>
         {modal}
       </div>
     );

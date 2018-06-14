@@ -1,18 +1,18 @@
 // import willMoveGiveCheck from '../interactions/';
 
-export const isWhite = (piece) => {
+const isWhite = (piece) => {
   if (piece === null) {
     return null;
   }
   return piece === piece.toUpperCase();
 };
 
-export const rotateBoard = (position) => {
+const rotateBoard = (position) => {
   const copy = position.map(row => [...row]);
   return copy.reverse().map(row => row.reverse());
 };
 
-export const figurines = {
+const figurines = {
   K: '♔',
   Q: '♕',
   R: '♖',
@@ -20,7 +20,7 @@ export const figurines = {
   N: '♘',
 }
 
-export const convertToChessNotation = (origin, destin, piece, captured, check, promotedTo = null) => {
+const convertToChessNotation = (origin, destin, piece, captured, check, promotedTo = null) => {
   const originFile = String.fromCharCode(97 + origin.col);
   const file = String.fromCharCode(97 + destin.col);
   const rank = 8 - destin.row;
@@ -41,7 +41,7 @@ export const convertToChessNotation = (origin, destin, piece, captured, check, p
       : originFile
     : figurines[piece.toUpperCase()];
   const captures = captured !== null
-    ? 'ˣ'
+    ? '⨉'
     : '';
   const promotion = promotedTo !== null
     ? `=${promotedTo}`
@@ -61,7 +61,7 @@ export const convertToChessNotation = (origin, destin, piece, captured, check, p
   return `${selection}${captures}${file}${rank}${promotion}${warning}`
 };
 
-export const printMoves = (moves) => {
+const printMoves = (moves) => {
   const movePairs = [];
 
   for (let i = 0; i < moves.length; i += 2) {
@@ -71,11 +71,10 @@ export const printMoves = (moves) => {
       movePairs.push([moves[i][4], moves[i + 1][4]]);
     }
   }
-
   return movePairs;
 }
 
-export const isCapturedPiece = (userId, game, piece) => {
+const isCapturedPiece = (userId, game, piece) => {
   let isEnemy = false;
   
   if (userId === game.white) {
@@ -91,7 +90,7 @@ export const isCapturedPiece = (userId, game, piece) => {
   return isEnemy;
 }
 
-export const printCapturedPieces = (userId, game, moves) => {
+const printCapturedPieces = (userId, game, moves) => {
   const chessmen = {
     p: { symbol:'♟', value: 0},
     n: { symbol:'♞', value: 1},
@@ -117,16 +116,39 @@ export const printCapturedPieces = (userId, game, moves) => {
   return pieces.map(piece => piece.symbol);
 }
 
-export const areEqual = (obj1, obj2) => {
+const areEqual = (obj1, obj2) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
-export const setSquareColor = (coords) => {
+const setSquareColor = (coords) => {
   const { row, col } = coords;
     return ((row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0))
       ? 'white' 
       : 'black';
 }
+
+const initialPosition = [ 
+  ["r","n","b","q","k","b","n","r"],
+  ["p","p","p","p","p","p","p","p"],
+  [null,null,null,null,null,null,null,null],
+  [null,null,null,null,null,null,null,null],
+  [null,null,null,null,null,null,null,null],
+  [null,null,null,null,null,null,null,null],
+  ["P", "P", "P", "P", "P", "P", "P", "P"],
+  ["R", "N", "B", "Q", "K", "B", "N", "R"]
+]
+
+module.exports = { 
+  isWhite, 
+  rotateBoard, 
+  figurines, 
+  convertToChessNotation, 
+  printMoves, 
+  isCapturedPiece, 
+  printCapturedPieces, 
+  areEqual, 
+  setSquareColor, 
+  initialPosition }
 
 // export const convertToChessNotation = (user, game, currentPosition, moves, selection, destin, captured, promotedTo = null) => {
 //   const { origin, piece } = selection;

@@ -19,6 +19,7 @@ import {
   storeOpponent,
   updatePosition, 
   toggleTurn, 
+  selectPiece,
   updateCheckStatus,
   declareGameOver, } from '../actions/';
 
@@ -42,9 +43,7 @@ class Game extends Component {
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
-    this.socket = await io(`http://localhost:1337/`);
-
-    
+    this.socket = await io(`http://localhost:1337/`, { forceNew: true });
 
     this.socket.on('connect', () => {
       console.log('this.socket.id',this.socket.id)
@@ -68,7 +67,7 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user, opponent, currentPosition, moves, whiteToMove, toggleTurn, game, updateCheckStatus, inCheck } = this.props;
+    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck } = this.props;
     const { id } = this.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
@@ -80,11 +79,25 @@ class Game extends Component {
       && newMove 
       && !areEqual(currMove, newMove)
      ) { 
+      const destin = newMove[1];
+      const prevPosition = positionHistory.slice(-1)[0];
+      console.log('​Game -> componentDidUpdate -> prevPosition', prevPosition);
       if ((user.id === game.white) === whiteToMove) {
-        axios.put(`http://localhost:3000/games/move`, { id, user, currentPosition, moves, whiteToMove });
+        axios.put(`http://localhost:3000/games/move`, { 
+          id,
+          user, 
+          game,
+          selection, 
+          destin,
+          prevPosition,
+          currentPosition, 
+          moves, 
+          whiteToMove,
+        });
       }
       this.socket.emit('move', { newMove, id });
       toggleTurn();
+      selectPiece(null, null);
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
@@ -148,12 +161,12 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }) => {
-  return { user, opponent, moves, game, currentPosition, whiteToMove, inCheck, lastPromoted }
+const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }) => {
+  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, updateCheckStatus, declareGameOver }, dispatch);
+  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, selectPiece, updateCheckStatus, declareGameOver }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game);

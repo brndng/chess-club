@@ -13,6 +13,7 @@ import IsAuthenticatedReducer from './reducer-is-authenticated.js';
 import HasFetchedCurrUserReducer from  './reducer-has-fetched-curr-user.js';
 import PromotingMoveReducer from './reducer-promoting-move.js';
 import ResultReducer from './reducer-result.js';
+import PositionHistoryReducer from './reducer-position-history';
 
 export default combineReducers({
   selection: SelectionReducer,
@@ -29,4 +30,5 @@ export default combineReducers({
   hasFetchedCurrUser: HasFetchedCurrUserReducer,
   promotingMove: PromotingMoveReducer,
   result: ResultReducer,
+  positionHistory: PositionHistoryReducer,
 });

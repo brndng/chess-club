@@ -11,9 +11,11 @@ class ChallengeCreator extends Component {
     super(props);
     this.state = {
       showModal: false,
+      gameId: null,
       black: null,
       white: null,
-      gameId: null,
+      whiteUsername: '',
+      blackUsername: '',
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -38,18 +40,33 @@ class ChallengeCreator extends Component {
   }
 
   setMatchup(color) {
-    const { user, opponent } = this.props;
+    const { user, opponent, whiteUsername, blackUsername } = this.props;
     if (color === 'white') {
-      this.setState({ white: user.id, black: opponent.id });
+      this.setState({ 
+        white: user.id, 
+        black: opponent.id,
+        whiteUsername: user.username,
+        blackUsername: opponent.username,
+      });
     } else {
-      this.setState({ white: opponent.id, black: user.id });
+      this.setState({ 
+        white: opponent.id, 
+        black: user.id, 
+        whiteUsername: opponent.username,
+        blackUsername: user.username,
+      });
     }
   }
 
 
   async createGame() {
-    const { white, black } = this.state;
-    const newGame = await axios.post('http://localhost:3000/games/challenge', { white, black });
+    const { white, black, whiteUsername, blackUsername } = this.state;
+    const newGame = await axios.post('http://localhost:3000/games/challenge', { 
+      white, 
+      black,
+      whiteUsername,
+      blackUsername,
+    });
     if (newGame) {
       this.setState({
         gameId: newGame.data.id,
@@ -73,9 +90,9 @@ class ChallengeCreator extends Component {
                  <button onClick={() => this.hideModal()}>╳</button> 
                </div>
                <div className="modal-dialogue">
-                 <p> New game created! Go to game {gameId} :</p>
+                 <p> New game created! Go to game {gameId}:</p>
                  <div className="modal-dialogue-btn-container">
-                   <button onClick={() => this.redirectToGame(gameId)}>GO</button>
+                   <button onClick={() => this.redirectToGame(gameId)}>➤</button>
                  </div>
                </div>
              </div>
@@ -87,9 +104,9 @@ class ChallengeCreator extends Component {
         <div className="challenge-creator-content">
           <div className="slct-container">
             <select className="slct" onChange={(e) => this.setMatchup(e.target.value)}>
-              <option value={null} defaultValue>SELECT COLOR :</option>
-              <option value="white">WHITE</option>
-              <option value="black">BLACK</option>
+              <option value={null} defaultValue>SELECT COLOR</option>
+              <option value="white">♔ WHITE</option>
+              <option value="black">♚ BLACK</option>
             </select>
           </div>
           <div>

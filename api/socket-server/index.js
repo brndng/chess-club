@@ -63,12 +63,12 @@ io.on('connection', (socket) => {
   })
 
   socket.on('draw_accept', (data) => {
-    console.log('​draw_accept');
+    console.log('​draw_accept', data);
     socket.broadcast.to(data.id).emit('draw_accept', data.userId);
   })
 
   socket.on('draw_decline', (data) => {
-    console.log('​draw_decline');
+    console.log('​draw_decline', data);
     socket.broadcast.to(data.id).emit('draw_decline', data.userId);
   })
 });

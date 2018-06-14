@@ -54,7 +54,7 @@ export default (state = [], action) => {
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, captured, notation, promotedTo, prevMove]  = action.payload;
+      const [origin, destin, piece, captured, notation, promotedTo, currentPosition, prevMove]  = action.payload;
       const [prevOrigin, prevDestin, prevPiece] = prevMove;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;

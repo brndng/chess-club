@@ -47,7 +47,7 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { user, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
+    const { user, selectPiece, updatePosition, selection, currentPosition, game, whiteToMove, moves, coords, piece, loadPromotingMove } = this.props;
     const _willMoveExposeKing = willMoveExposeKing(user.id, game.white, selection, coords, currentPosition, moves);
     const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
@@ -57,8 +57,7 @@ class Square extends Component {
       if (_isPawnPromoting) {
         loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
       } else {
-        updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, moves);
-        selectPiece(null, null);
+        updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);        
       }
     } 
   }

@@ -81,6 +81,7 @@ button:focus {
 
 .game-list-header {
   display: flex;
+  flex-shrink: 0;
   flex-direction: row;
   justify-content: center;
   width: 100%;
@@ -91,7 +92,7 @@ button:focus {
   .game-list-header p {
     border: 2px solid floralwhite;
     background-color: #1d1e22;
-    color: floralwhite;
+    color: #d4d4dc;
     width: 312px;
     
     padding: 8px 16px 8px 16px;
@@ -115,7 +116,7 @@ button:focus {
   .game-list-content li {
     display: flex;
     flex-direction: row;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     padding: 8px;
   }
 
@@ -222,11 +223,11 @@ button:focus {
     }
       .slct {
         display: flex;
-        background-color: floralwhite;
-        width: 150px;
+        background-color: #d4d4dc;
+        width: 130px;
         height: 32px;
         margin: 24px 32px 0px 0px;
-        font-size: 16px;
+        font-size: 14px;
       }
       .btn.btn-challenge {
         margin: 24px 0px 0px 32px;
@@ -236,11 +237,10 @@ button:focus {
         font-size: 16px;
         padding: 6px 8px 8px 8px;
         border: 1px solid floralwhite;
+        background-color: white;
       }
 
-      .btn.btn-challenge:hover {
-        box-shadow: 4px 4px floralwhite;
-      }
+      
   
   
     
@@ -344,7 +344,7 @@ button:focus {
   justify-content: space-between;
   background: #393f4d;
   width: 200px;
-  height: 413px;
+  height: 412px;
   padding: 20px;
   border: 1px inset black;
   border-radius: 4px;
@@ -372,7 +372,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     background-color: #d4d4dc;
-
+    font-family: Arial, Helvetica, sans-serif; 
     padding: 5px;
     border: 4px solid rgba(255, 255, 255, 0.5);
     border-radius: 2px;
@@ -466,7 +466,7 @@ button:focus {
     height: 180px;
     overflow: auto;
     background: white;
-    padding: 0px 0px 12px 12px;
+    padding: 8px 0px 12px 12px;
     background-color: #d4d4dc;
     font-size: 15px;
   }
@@ -486,10 +486,10 @@ button:focus {
   display: flex;
   flex-direction: column;
   width: 200px;
-  height: 192px;
+  height: 200px;
 }
   .chat-output {
-    height: 160px;
+    height: 180px;
     overflow: auto;
     background-color: #d4d4dc;
     padding: 12px;
@@ -809,15 +809,16 @@ button:focus {
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-top: 32px; 
+    margin-top: 26px; 
     margin-bottom: auto; 
   }
 
   .modal-btn-container button {
     background-color: rgba(0,0,0,0.8);
     color: white;
-    font-size: 16px;
+    font-size: 24px;
     border: none;
+    cursor: pointer;
   }
 
 

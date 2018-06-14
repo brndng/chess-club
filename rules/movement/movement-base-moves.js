@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   K: (origin, destin, position) => {
     let isBaseMove = false;
 
