@@ -116,6 +116,20 @@ module.exports = {
       console.log('err from saveGame', err)
     }
   },
+
+  registerDrawOffer: async (req, res) => {
+    const { id, userId } = req.body;
+    try {
+      const record = await Game.update({
+        drawOfferedBy: userId,
+      }, { 
+        where: { id },
+      });
+      res.status(200).send('draw offered');
+    } catch (err) {
+      console.log('err from registerDrawOffer', err);
+    }
+  },
   
   resign: async (req, res) => {
     const { id, user, completed, winner } = req.body;
@@ -138,95 +152,43 @@ module.exports = {
       }
     }
   },
-  
-  // acceptDraw: async (req, res) => {
-  //   const { id, completed, winner } = req.body;
-  
-  //   try {
-  //     const record = await Game.update({
-  //       completed,
-  //       winner,
-  //     }, {
-  //       where: { id },
-  //       returning: true,
-  //       plain: true,
-  //     });
-  //     res.send(record);
-  //   } catch (err) {
-  //     console.log('err from acceptDraw', err)
-  //   }
-  // }
 
+  acceptDraw: async (req, res) => {
+    const { id, user, completed, winner } = req.body;
+    let drawOfferedByOpponent = true;
   
+    try {
+      const game = await Game.findOne({ where: { id } });
+      if (
+         !((user.id === game.white && game.drawOfferedBy === game.black)
+         && (user.id === game.black && game.drawOfferedBy === game.white))
+      ) {
+        drawOfferedByOpponent = false;
+      }
+    } catch (err) {
+      console.log('err from acceptDraw findOne', err)
+    }
+  
+    if (!drawOfferedByOpponent) {
+      res.status(401).send('No hacks allowed. You may only accept draws if offered by the opponent.');
+    } else {
+      try {
+        const record = await Game.update({
+          completed,
+          winner,
+        }, {
+          where: { id },
+          returning: true,
+          plain: true,
+        });
+        res.send(record);
+      } catch (err) {
+        console.log('err from acceptDraw update', err)
+      }
+    }
+  }
 };
 
 
 
-// documentGame: async (req, res) => {
-//   const { id, user, completed, winner } = req.body;
-//   try {
-//     const record = await Game.update({
-//       completed,
-//       winner,
-//     }, {
-//       where: { id },
-//       returning: true,
-//       plain: true,
-//     });
-//     res.send(record);
-//   } catch (err) {
-//     console.log('err from saveGame', err)
-//   }
-// },
 
-
-
-// registerDrawOffer: async (req, res) => {
-//   const { id, userId } = req.body;
-//   try {
-//     const record = await Game.update({
-//       drawOfferedBy: userId,
-//     }, { 
-//       where: { id },
-//     });
-//     res.status(200).send('draw offered');
-//   } catch (err) {
-//     console.log('err from registerDrawOffer', err);
-//   }
-// },
-
-// acceptDraw: async (req, res) => {
-//   const { id, user, completed, winner } = req.body;
-//   let drawOfferedByOpponent = true;
-
-//   try {
-//     const game = await Game.findOne({ where: { id } });
-//     console.log('///user.id, game.white, game.black, game.drawOfferedBy',user.id, game.white, game.black, game.drawOfferedBy)
-//     if (
-//        !((user.id === game.white && game.drawOfferedBy === game.black)
-//        && (user.id === game.black && game.drawOfferedBy === game.white))
-//     ) {
-//       drawOfferedByOpponent = false;
-//     }
-//   } catch (err) {
-//     console.log('err from acceptDraw findOne', err)
-//   }
-
-//   if (!drawOfferedByOpponent) {
-//     res.status(401).send('No hacks allowed. You may only accept draws if offered by the opponent.');
-//   } else {
-//     try {
-//       const record = await Game.update({
-//         completed,
-//         winner,
-//       }, {
-//         where: { id },
-//         returning: true,
-//         plain: true,
-//       });
-//       res.send(record);
-//     } catch (err) {
-//       console.log('err from acceptDraw update', err)
-//     }
-//   }
-// }

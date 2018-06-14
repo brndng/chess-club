@@ -23,7 +23,7 @@ class Draw extends Component {
   }
 
   componentDidMount() {
-    console.log('DRAW MOUNTING');
+    console.log('DRAW CDM')
     if (this.props.socket) {
       console.log('​Draw -> componentDidMount -> this.props.socket', this.props.socket);
       const { socket, id, declareGameOver } = this.props;
@@ -66,35 +66,42 @@ class Draw extends Component {
     });
   }
 
-  offerDraw() {
+  async offerDraw() {
     const { id, user, socket } =  this.props;
-    socket.emit('draw_offer', { userId: user.id, id });
+    const offer = await axios.put('http://localhost:3000/games/draw/offer', { id, userId: user.id });
+    if (offer.status === 200) {
+      socket.emit('draw_offer', { id, userId: user.id });
+    }
   }
 
-  acceptDraw() {
+  async acceptDraw() {
     const { user, id, socket, declareGameOver } = this.props;
-    socket.emit('draw_accept', { userId: user.id, id });
-    declareGameOver('draw');
-    this.hideModal();
-    axios.put(`http://localhost:3000/games/document`, { 
+    const response = await axios.put(`http://localhost:3000/games/draw/accept`, { 
       id, 
       completed: true,
       winner: null,
     });
+
+    if (response.status === 200) {
+      socket.emit('draw_accept', { id, userId: user.id });
+      declareGameOver('draw');
+    }
+    this.hideModal();
   }
 
-  declineDraw() {
+  async declineDraw() {
     const { user, id, socket } = this.props;
-    socket.emit('draw_decline', { userId: user.id, id });
+    const response = await axios.put('http://localhost:3000/games/draw/offer', { id, userId: user.id });
+    
+    if (response.status === 200) {
+      socket.emit('draw_decline', { id, userId: null });
+    }
     this.hideModal();
   }
 
   render() {
     const { completed, opponent } = this.props;
     const { showModal, view, isAccepted } = this.state;
-    const onClick = completed 
-      ? null
-      : () => this.offerDraw();
     const response = isAccepted
       ? 'accepted'
       : 'declined'
