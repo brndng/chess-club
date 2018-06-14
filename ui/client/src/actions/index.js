@@ -68,23 +68,6 @@ export const declareGameOver = (status, game = null, defeated = null) => {
     type: status.toUpperCase(),
     payload: result,
   };
-
-  // if (status === 'checkmate') {      
-  //   return {
-  //     type: 'CHECKMATE',
-  //     payload: result,
-  //   };
-  // } else if (status === 'draw') {
-  //   return {
-  //     type: 'DRAW',
-  //     payload: result,
-  //   };
-  // } else if (status === 'resign') {
-  //   return {
-  //     type: 'RESIGN',
-  //     payload: result,
-  //   };
-  // }
 };
 
 export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, currentPosition, moves = []) => {

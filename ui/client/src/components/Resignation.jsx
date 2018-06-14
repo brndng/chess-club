@@ -48,18 +48,19 @@ class Resignation extends Component {
     });
   }
 
-  resign() {
+  async resign() {
     console.log('resign()')
     const { id, user, game, socket } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
-    socket.emit('resign', { id, user });
-
-    axios.put(`http://localhost:3000/games/resign`, { 
+    const response = await axios.put(`http://localhost:3000/games/resign`, { 
       id, 
       user,
       completed: true,
       winner: opponentId,
     });
+    if (response.status === 200) {
+      socket.emit('resign', { id, user });
+    }
   }
 
   render() {
