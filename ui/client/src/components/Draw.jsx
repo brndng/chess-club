@@ -23,33 +23,24 @@ class Draw extends Component {
   }
 
   componentDidMount() {
-    console.log('DRAW CDM')
-    if (this.props.socket) {
-      console.log('​Draw -> componentDidMount -> this.props.socket', this.props.socket);
-      const { socket, id, declareGameOver } = this.props;
-      
-      socket.on('draw_offer', (opponent) => {
-        console.log('handler received draw_offer', opponent)
-        this.showModal('offer');
+    const { socket, id, declareGameOver } = this.props;
+    
+    socket.on('draw_offer', (opponent) => {
+      this.showModal('offer');
+    });
+    socket.on('draw_accept', (response) => {
+      this.setState({
+        isAccepted: true,
       });
-      socket.on('draw_accept', (response) => {
-        console.log('handler received draw_accept', response)
-
-        this.setState({
-          isAccepted: true,
-        });
-        this.showModal('response');
-        declareGameOver('draw');
+      this.showModal('response');
+      declareGameOver('draw');
+    });
+    socket.on('draw_decline', (response) => {
+      this.setState({
+        isAccepted: false,
       });
-      socket.on('draw_decline', (response) => {
-        console.log('handler received draw_decline', response)
-
-        this.setState({
-          isAccepted: false,
-        });
-        this.showModal('response');
-      })
-    }
+      this.showModal('response');
+    });
   }
 
   showModal(view) {

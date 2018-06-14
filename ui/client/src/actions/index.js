@@ -127,6 +127,15 @@ export const loadPromotingMove = (move = []) => {
   };
 }
 
+export const loadSnapshot = (position) => {
+console.log('​exportloadSnapshot -> position', position);
+  
+  return {
+    type: 'SNAPSHOT_LOADED',
+    payload: position,
+  };
+}
+
 
 
 

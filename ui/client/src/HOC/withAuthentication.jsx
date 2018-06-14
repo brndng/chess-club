@@ -21,7 +21,6 @@ function withAuthentication(BaseComponent) {
       const { hasFetchedCurrUser, updateUserFetched, storeUser, authenticate } = this.props;
       if (!hasFetchedCurrUser) { 
         const user = await axios.get('http://localhost:3000/users/current').catch(err => console.log(err));
-        console.log('​ComponentWithAuth -> asynccomponentDidMount -> user', user);
         if (user) { 
           storeUser(user.data);
           authenticate(true);

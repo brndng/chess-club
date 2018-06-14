@@ -36,17 +36,14 @@ class Game extends Component {
     }
   }
 
-  async componentDidMount() {
-    console.log('GAME MOUNTING');
-    
+  async componentDidMount() {    
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
-    this.socket = await io(`http://localhost:1337/`, { forceNew: true });
+    this.socket = await io(`http://localhost:1337/`);
 
     this.socket.on('connect', () => {
-      console.log('this.socket.id',this.socket.id)
       this.setState({ socket: this.socket.id });
       this.socket.emit('game_id', id);
     });
@@ -81,7 +78,6 @@ class Game extends Component {
      ) { 
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
-      console.log('​Game -> componentDidUpdate -> prevPosition', prevPosition);
       if ((user.id === game.white) === whiteToMove) {
         axios.put(`http://localhost:3000/games/move`, { 
           id,
@@ -91,11 +87,12 @@ class Game extends Component {
           destin,
           prevPosition,
           currentPosition, 
+          positionHistory,
           moves, 
           whiteToMove,
         });
       }
-      this.socket.emit('move', { newMove, id });
+      this.socket.emit('move', { id, newMove });
       toggleTurn();
       selectPiece(null, null);
     }
@@ -139,25 +136,24 @@ class Game extends Component {
   render() {
     const { user, opponent, game, whiteToMove, moves } = this.props;
     const { id } = this.state;
+    const loadedComponent = (game !== null && opponent !== null && this.socket)
+      ? <div className="game-container">
+          <Board />
+          <div className="game-info">
+            <PlayerCard player={opponent} />
+            <GameDisplay id={id} socket={this.socket} />
+          <div className="game-options">
+            <Draw id={id} socket={this.socket} />
+            <Resignation id={id} socket={this.socket} />
+          </div>
+            <PlayerCard player={user} />
+          </div>
+            <Checkmate id={id} socket={this.socket} />
+            <Promotion />
+        </div>
+      : <div>Loading...</div>;
 
-    return (
-      game !== null 
-        && opponent !== null
-        && <div className="game-container">
-             <Board />
-             <div className="game-info">
-               <PlayerCard player={opponent} />
-               <GameDisplay id={id} socket={this.socket} />
-               <div className="game-options">
-                 <Draw id={id} socket={this.socket} />
-                 <Resignation id={id} socket={this.socket} />
-               </div>
-               <PlayerCard player={user} />
-             </div>
-             <Checkmate id={id} socket={this.socket} />
-             <Promotion />
-           </div>
-    );
+   return loadedComponent;
   }
 }
 
@@ -170,4 +166,6 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game);
+
+
 

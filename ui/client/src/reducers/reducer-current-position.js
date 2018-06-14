@@ -2,7 +2,7 @@ export default (state = [], action) => {
   const newState = state.map(row => [...row]);
   switch (action.type) {
     case 'GAME_INITIALIZED': {
-      let { position } = action.payload;
+      const { position } = action.payload;
       return [...position];
       break;
     }
@@ -60,6 +60,10 @@ export default (state = [], action) => {
       newState[origin.row][origin.col] = null;
       newState[prevDestin.row][prevDestin.col] = null; //captured pawn
       return newState;
+      break;
+    }
+    case 'SNAPSHOT_LOADED': {
+      return action.payload;
       break;
     }
   }

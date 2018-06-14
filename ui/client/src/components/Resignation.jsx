@@ -21,18 +21,17 @@ class Resignation extends Component {
   }
 
   componentDidMount() {
-    if (this.props.socket) {
-      const { socket, id, declareGameOver, game } = this.props;
-      socket.on('resign', (player) => {
-        console.log('socket lisenter-resign')
-        this.setState({
-          player,
-          view: 'final',
-        });
-        this.showModal();
-        declareGameOver('resign', game, player.id);
-      })
-    }
+    const { socket, id, declareGameOver, game } = this.props;
+
+    socket.on('resign', (player) => {
+      this.setState({
+        player,
+        view: 'final',
+      });
+      this.showModal();
+      declareGameOver('resign', game, player.id);
+    })
+    
   }
 
   showModal() {
@@ -49,11 +48,14 @@ class Resignation extends Component {
   }
 
   async resign() {
-    const { id, user, game, socket } = this.props;
+    const { id, user, game, socket, currentPosition, moves, positionHistory } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
     const resignation = await axios.put(`http://localhost:3000/games/resign`, { 
       id, 
       user,
+      currentPosition, 
+      moves, 
+      positionHistory,
       completed: true,
       winner: opponentId,
     });
@@ -102,8 +104,8 @@ class Resignation extends Component {
   }
 }
 
-const mapStateToProps = ({ user, completed, game }) => {
-  return { user, completed, game }
+const mapStateToProps = ({ user, completed, game, currentPosition, moves, positionHistory }) => {
+  return { user, completed, game, currentPosition, moves, positionHistory }
 }
 
 const matchDispatchToProps = (dispatch) => {

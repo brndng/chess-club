@@ -16,14 +16,12 @@ class GameDisplay extends Component {
   }
 
   componentDidMount() {
-    if (this.props.socket) {
-      this.props.socket.on('chat', (message) => {
-        this.setState({ 
-          messages: [...this.state.messages, message], 
-          message: '',
-        });
+    this.props.socket.on('chat', (message) => {
+      this.setState({ 
+        messages: [...this.state.messages, message], 
+        message: '',
       });
-    }
+    });
   }
 
   setText(e) {

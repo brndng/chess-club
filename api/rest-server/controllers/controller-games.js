@@ -45,7 +45,7 @@ module.exports = {
     }
   },
   registerMove: async (req, res) => {
-    const { id, user, currentPosition, moves, whiteToMove } = req.body;
+    const { id, user, currentPosition, moves, whiteToMove, positionHistory } = req.body;
     let isCorrectTurn = true;
     
     try {
@@ -73,6 +73,7 @@ module.exports = {
           position: currentPosition,
           moves,
           whiteToMove: !whiteToMove,
+          positionHistory
         }, {
           where: { id },
           returning: true,

@@ -23,29 +23,6 @@ class GameList extends Component {
   }
 
 
-  // render() {
-  //   const { userGames, game } = this.props;
-  //   return (
-  //     <div>
-  //       IN PROGRESS
-  //       {userGames.map((game) => {
-  //         if (!game.completed) {
-  //           return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
-  //         }
-  //       })}
-  //       <br/>
-  //       COMPLETED
-  //       {userGames.map((game) => {
-  //         if (game.completed) {
-  //           return <li key={game.id}><a href="#" onClick={()=>this.loadGameState(game.id)}>{`GAME # ${game.id}`}</a></li>
-  //         }
-  //       })}
-  //       <br/>
-  //       {game === null ? null : <Game id={game.id}/>}
-  //     </div>
-  //   )
-  // }
-
   render() {
     const { userGames, game } = this.props;
     userGames.sort((a, b) => b.id - a.id);
@@ -61,7 +38,7 @@ class GameList extends Component {
         <div className="game-list-content">
           <ul>
             {userGames.map((game) => {
-              return (
+              return !game.completed && (
                 <li key={game.id}>
                   <Link to={{ pathname: `/game/${game.id}` }}>
                     {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
@@ -84,9 +61,4 @@ const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({ loadGames, initGame }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(GameList)
-
-// filter by
-  //date
-  //white/black
-  //username
+export default connect(mapStateToProps, matchDispatchToProps)(GameList);

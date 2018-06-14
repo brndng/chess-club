@@ -41,11 +41,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('resign', (data) => {  
-
-    const clients = io.sockets.adapter.rooms[`${data.id}`].sockets;  
-    console.log('-----socket-----resign data', data)
-    console.log('-----socket-----resign clients', clients)
-
     io.sockets.in(data.id).emit('resign', data.user);
   });
 
@@ -54,23 +49,16 @@ io.on('connection', (socket) => {
   });
 
   socket.on('draw_offer', (data) => {
-
-    const clients = io.sockets.adapter.rooms[`${data.id}`].sockets;  
-    console.log('-----socket-----draw_offer data', data)
-    console.log('-----socket-----draw clients', clients)
-
     socket.broadcast.to(data.id).emit('draw_offer', data.userId);
-  })
+  });
 
   socket.on('draw_accept', (data) => {
-    console.log('​draw_accept', data);
     socket.broadcast.to(data.id).emit('draw_accept', data.userId);
-  })
+  });
 
   socket.on('draw_decline', (data) => {
-    console.log('​draw_decline', data);
     socket.broadcast.to(data.id).emit('draw_decline', data.userId);
-  })
+  });
 });
 
 app.use(...middleware);
