@@ -73,7 +73,7 @@ module.exports = {
           position: currentPosition,
           moves,
           whiteToMove: !whiteToMove,
-          positionHistory
+          positionHistory: [...positionHistory, currentPosition]
         }, {
           where: { id },
           returning: true,

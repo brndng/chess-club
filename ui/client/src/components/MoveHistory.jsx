@@ -10,8 +10,8 @@ class MoveHistory extends Component {
   }
 
   render() {
-    const { moves } = this.props;
-    const chessMoves = printMoves(moves);
+    const { moves, index } = this.props;    
+    const chessMoves = printMoves(moves, index);
     return (
       <div className="move-history-container">
         <div className="move-history-output">
@@ -24,8 +24,10 @@ class MoveHistory extends Component {
                 </div>
               </li>
             ))}
-            <Result />
           </ol>
+          <div className="result-container">
+            <Result />
+          </div>
         </div>
       </div>
     );

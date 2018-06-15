@@ -59,7 +59,7 @@ class Game extends Component {
         updateCheckStatus(player);
       }
     });
-    initGame(game.data); 
+    initGame(user.id, game.data); 
     this.initOpponent(game.data);
   }
 
@@ -78,22 +78,22 @@ class Game extends Component {
      ) { 
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
-      if ((user.id === game.white) === whiteToMove) {
-        axios.put(`http://localhost:3000/games/move`, { 
-          id,
-          user, 
-          game,
-          selection, 
-          destin,
-          prevPosition,
-          currentPosition, 
-          positionHistory,
-          moves, 
-          whiteToMove,
-        });
-      }
+        if ((user.id === game.white) === whiteToMove) {
+          axios.put(`http://localhost:3000/games/move`, { 
+            id,
+            user, 
+            game,
+            selection, 
+            destin,
+            prevPosition,
+            currentPosition, 
+            positionHistory,
+            moves, 
+            whiteToMove,
+          });
+        }
       this.socket.emit('move', { id, newMove });
-      toggleTurn();
+      toggleTurn(user.id, game.white, whiteToMove);
       selectPiece(null, null);
     }
 
@@ -136,17 +136,18 @@ class Game extends Component {
   render() {
     const { user, opponent, game, whiteToMove, moves } = this.props;
     const { id } = this.state;
+    const index = moves.length;
     const loadedComponent = (game !== null && opponent !== null && this.socket)
       ? <div className="game-container">
           <Board />
           <div className="game-info">
-            <PlayerCard player={opponent} />
+            <PlayerCard player={opponent} index={index} />
             <GameDisplay id={id} socket={this.socket} />
-          <div className="game-options">
-            <Draw id={id} socket={this.socket} />
-            <Resignation id={id} socket={this.socket} />
-          </div>
-            <PlayerCard player={user} />
+            <div className="game-options">
+              <Draw id={id} socket={this.socket} />
+              <Resignation id={id} socket={this.socket} />
+            </div>
+            <PlayerCard player={user} index={index}/>
           </div>
             <Checkmate id={id} socket={this.socket} />
             <Promotion />

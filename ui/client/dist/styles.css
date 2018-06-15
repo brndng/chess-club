@@ -269,7 +269,7 @@ button:focus {
   justify-content: center;
   background-color: #965b31b6;
   padding: 8px;
-  border: 1px solid #965b31b6;
+  border: 1px solid black;
   border-radius: 4px;
   margin: 24px;
   -webkit-user-select: none; /* Chrome/Safari */        
@@ -323,7 +323,15 @@ button:focus {
         #white {
           background-color: #F2CB9B;
         }
-          .piece-white {      
+
+        .piece.is-my-turn {
+          transition: transform 150ms;
+        }
+
+        .piece.is-my-turn:active {
+          transform: scale(1.25);
+        }
+          .piece.white {      
             /* color: floralwhite; */
             color: #f6f5f3;
             position: absolute;
@@ -334,7 +342,7 @@ button:focus {
             text-shadow: 1px 1px 1px black;
             z-index: 3;
           }
-          .piece-black {
+          .piece.black {
             color: black;  
             position: absolute;
             width: 100%;
@@ -351,8 +359,8 @@ button:focus {
   justify-content: space-between;
   background: #393f4d;
   width: 200px;
-  height: 412px;
-  padding: 20px;
+  height: 422px;
+  padding: 14px;
   border: 1px inset black;
   border-radius: 4px;
 }
@@ -373,7 +381,8 @@ button:focus {
     border-radius: 2px;
     background-color: #1d1e22;
     color: floralwhite;
-    width: 60px;
+    width: 54px;
+    font-size: 10px;
   }
   .player-card-container {
     display: flex;
@@ -385,10 +394,7 @@ button:focus {
     border-radius: 2px;
   }
   .player-card-container.is-my-turn {
-    /* border: 2px solid pink;  */
-    /* border: 4px solid  #479761;    */
-    border: 4px solid #34925E;    
-
+    border: 4px solid rgba(46,131,87,0.8);
   }
     .player-card-username {
       font-size: 12px;
@@ -470,15 +476,20 @@ button:focus {
   flex-direction: column;
 }
   .move-history-output {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     height: 180px;
     overflow: auto;
     background: white;
     padding: 8px 0px 12px 12px;
     background-color: #d4d4dc;
-    font-size: 15px;
+    font-size: 14px;
+    margin-top: 21.6px;
   }
 
   .move-history-output ol {
+    flex-shrink: 0;
     padding-left: 24px;
   }
     .move-history-row {
@@ -487,6 +498,17 @@ button:focus {
       width: 140px;
       justify-content: space-between;
     }
+  .result-container {
+    margin-top: auto;
+  }
+  .result-container ul {
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    display: flex;
+    justify-content: center;
+
+  }
       
 /* Chat */
 .chat-container {

@@ -22,7 +22,6 @@ class Archive extends Component {
     loadGames(games.data);
   }
 
-
   render() {
     const { userGames, game } = this.props;
     userGames.sort((a, b) => b.id - a.id);

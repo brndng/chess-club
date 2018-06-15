@@ -31,9 +31,9 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { user, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
+    const { user, game, selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves } = this.props;
 
-    if ((user.id === game.white) === whiteToMove) {
+    if (isMyTurn) {
       if ((isWhite(piece) === whiteToMove)) { 
         selectPiece(coords, piece);
       }
@@ -63,7 +63,7 @@ class Square extends Component {
   }
 
   render() {
-    const { piece, completed } = this.props;
+    const { piece, completed, whiteToMove, isMyTurn } = this.props;
     const classes = [
       'square',
       this.isSelected() && 'is-selected' 
@@ -74,14 +74,14 @@ class Square extends Component {
       : () => this.handleSquareClick();
     return (
       <div id={this.initSquareColor()} className={classes} onClick={onClick}>
-        {piece === null ? null : <Piece piece={piece} />}
+        {piece === null ? null : <Piece piece={piece} isMyTurn={isMyTurn} whiteToMove={whiteToMove} />}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, moves, game, completed }) => { 
-  return { user, selection, currentPosition, whiteToMove, moves, game, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed }) => { 
+  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {

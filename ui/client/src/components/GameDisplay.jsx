@@ -44,6 +44,9 @@ class GameDisplay extends Component {
 
   render() {
     const { message, messages, view } = this.state;
+    const index = this.props.moves.length - 1;
+    console.log('​GameDisplay -> render -> index', index);
+    
     return (
       <div className="game-display">
         <div className="game-display-toggle">
@@ -53,7 +56,7 @@ class GameDisplay extends Component {
           </ul>
         </div>
         {view === 'moves'
-          ? <MoveHistory />
+          ? <MoveHistory index={index} />
           : <Chat 
               message={message}
               messages={messages}
@@ -66,8 +69,8 @@ class GameDisplay extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => {
-  return { user };
+const mapStateToProps = ({ user, moves }) => {
+  return { user, moves };
 }
 
 export default connect(mapStateToProps)(GameDisplay);

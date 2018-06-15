@@ -1,5 +1,3 @@
-// import willMoveGiveCheck from '../interactions/';
-
 const isWhite = (piece) => {
   if (piece === null) {
     return null;
@@ -13,11 +11,33 @@ const rotateBoard = (position) => {
 };
 
 const figurines = {
-  K: '♔',
-  Q: '♕',
-  R: '♖',
-  B: '♗',
-  N: '♘',
+  p: { symbol:'♟', value: 0},
+  n: { symbol:'♞', value: 1},
+  b: { symbol:'♝', value: 2},
+  r: { symbol:'♜', value: 3},
+  q: { symbol:'♛', value: 4},
+  k: { symbol:'♚', value: 5},
+  P: { symbol:'♙', value: 0},
+  N: { symbol:'♘', value: 1},
+  B: { symbol:'♗', value: 2},
+  R: { symbol:'♖', value: 3},
+  Q: { symbol:'♕', value: 4},
+  K: { symbol:'♔', value: 5}
+}
+
+const chessmen = {
+  p: {symbol: '♟', color: 'piece black'},
+  n: {symbol: '♞', color: 'piece black'},
+  b: {symbol: '♝', color: 'piece black'},
+  r: {symbol: '♜', color: 'piece black'},
+  q: {symbol: '♛', color: 'piece black'},
+  k: {symbol: '♚', color: 'piece black'},
+  P: {symbol: '♟', color: 'piece white'},
+  N: {symbol: '♞', color: 'piece white'},
+  B: {symbol: '♝', color: 'piece white'},
+  R: {symbol: '♜', color: 'piece white'},
+  Q: {symbol: '♛', color: 'piece white'},
+  K: {symbol: '♚', color: 'piece white'},
 }
 
 const convertToChessNotation = (origin, destin, piece, captured, check, promotedTo = null) => {
@@ -39,7 +59,7 @@ const convertToChessNotation = (origin, destin, piece, captured, check, promoted
     ? captured === null
       ? ''
       : originFile
-    : figurines[piece.toUpperCase()];
+    : figurines[piece.toUpperCase()].symbol;
   const captures = captured !== null
     ? '⨉'
     : '';
@@ -61,16 +81,29 @@ const convertToChessNotation = (origin, destin, piece, captured, check, promoted
   return `${selection}${captures}${file}${rank}${promotion}${warning}`
 };
 
-const printMoves = (moves) => {
+const printMoves = (moves, index) => {
   const movePairs = [];
-
-  for (let i = 0; i < moves.length; i += 2) {
-    if (!moves[i + 1]) {
-      movePairs.push([moves[i][4], '']);
-    } else {
-      movePairs.push([moves[i][4], moves[i + 1][4]]);
-    }
+  const newMoves = moves.map(move => [...move]).slice(0, index + 1);
+  console.log('newMoves',newMoves)
+  if (index === 0) {
+    movePairs.push([newMoves[0][4], '']);
+    return movePairs;
   }
+
+  for (let i = 1; i < index; i += 2) {
+    console.log('newMoves, i, index', newMoves, i, index)
+    
+    if (!newMoves[i + 1]) {
+      movePairs.push([newMoves[i][4], '']);
+    } else {
+      movePairs.push([newMoves[i][4], newMoves[i + 1][4]]);
+    }
+    console.log('​printMoves -> movePairs', movePairs);
+
+    
+  }
+
+  
   return movePairs;
 }
 
@@ -90,25 +123,14 @@ const isCapturedPiece = (userId, game, piece) => {
   return isEnemy;
 }
 
-const printCapturedPieces = (userId, game, moves) => {
-  const chessmen = {
-    p: { symbol:'♟', value: 0},
-    n: { symbol:'♞', value: 1},
-    b: { symbol:'♝', value: 2},
-    r: { symbol:'♜', value: 3},
-    q: { symbol:'♛', value: 4},
-    P: { symbol:'♙', value: 0},
-    N: { symbol:'♘', value: 1},
-    B: { symbol:'♗', value: 2},
-    R: { symbol:'♖', value: 3},
-    Q: { symbol:'♕', value: 4},
-  }
+const printCapturedPieces = (userId, game, moves, index) => {
   const pieces = [];
+  newMoves = moves.map(move => [...move]).slice(0, index);
   
-  moves.forEach(move => {
+  newMoves.forEach(move => {
     const piece = move[3];
     if (isCapturedPiece(userId, game, piece)) {
-      pieces.push(chessmen[piece]);
+      pieces.push(figurines[piece]);
     }
   });
 
@@ -142,6 +164,7 @@ module.exports = {
   isWhite, 
   rotateBoard, 
   figurines, 
+  chessmen,
   convertToChessNotation, 
   printMoves, 
   isCapturedPiece, 
@@ -149,49 +172,6 @@ module.exports = {
   areEqual, 
   setSquareColor, 
   initialPosition }
-
-// export const convertToChessNotation = (user, game, currentPosition, moves, selection, destin, captured, promotedTo = null) => {
-//   const { origin, piece } = selection;
-//   const originFile = String.fromCharCode(97 + origin.col);
-//   const file = String.fromCharCode(97 + destin.col);
-//   const rank = 8 - destin.row;
-//   const _check = willMoveGiveCheck(user.id, game.white, selection, destin, currentPosition, moves, promotedTo);
-  
-//   if ( 
-//     piece.toUpperCase() === 'P' 
-//     && captured === null 
-//     && Math.abs(destin.col - origin.col) === 1 
-//     && Math.abs(destin.row - origin.row) === 1
-//   ) { 
-//     captured = piece === piece.toUpperCase() 
-//       ? 'p'
-//       : 'P'
-//   }
-//   const pieceToMove = piece.toUpperCase() === 'P'
-//     ? captured === null
-//       ? ''
-//       : originFile
-//     : figurines[piece.toUpperCase()];
-//   const captures = captured !== null
-//     ? 'x'
-//     : '';
-//   const promotion = promotedTo !== null
-//     ? `=${promotedTo}`
-//     : '';
-//   const warning = _check 
-//     ? '+'
-//     : '';
-
-//   if (pieceToMove === '♔') {
-//     if (destin.col - origin.col === 2) {
-//       return `O-O`;
-//     } else if (destin.col - origin.col === -2) {
-//       return `O-O-O`;
-//     }
-//   }
-
-//   return `${pieceToMove}${captures}${file}${rank}${promotion}${warning}`
-// };
 
 
 

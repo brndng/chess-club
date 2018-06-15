@@ -87,10 +87,7 @@ class ChallengeCreator extends Component {
     // const createGame = white !== null && black !== null
     //   ? () => this.createGame()
     //   : null;
-    console.log('white !== null && black !== null && "btn-disabled"',white !== null && black !== null && "btn-disabled")
     const isDisabled = !(white !== null && black !== null);
-    
-
 
     const modal = showModal
       && <div >

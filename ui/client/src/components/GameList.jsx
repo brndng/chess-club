@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
-import { loadGames, initGame } from '../actions/';
+import { loadGames } from '../actions/';
 import { whiteKnight, blackKnight } from '../../images/';
 
 
@@ -58,7 +58,7 @@ const mapStateToProps = ({ user, userGames, game }) => {
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ loadGames, initGame }, dispatch);
+  return bindActionCreators({ loadGames }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(GameList);

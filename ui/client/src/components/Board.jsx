@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import axios from 'axios';
-import { rotateBoard } from '../../../../rules/utilities/';
+import { rotateBoard, areEqual } from '../../../../rules/utilities/';
 
 axios.defaults.withCredentials = true;
 
@@ -17,7 +17,7 @@ class Board extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { currentPosition } = this.props;
     const { position } = prevState;
-    if (JSON.stringify(position) !== JSON.stringify(currentPosition)) {
+    if (!areEqual(position, currentPosition)) {
       this.setState({ position: currentPosition });
     }
   }

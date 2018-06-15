@@ -1,8 +1,7 @@
-export const initGame = (data) => {
-  const { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, positionHistory, completed } = data;
+export const initGame = (userId, data) => {
   return {
     type: 'GAME_INITIALIZED',
-    payload: { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, positionHistory, completed },
+    payload: { userId, ...data },
   };
 };
 
@@ -43,10 +42,10 @@ export const storeOpponent = (opponent) => {
   };
 };
 
-export const toggleTurn = () => {
+export const toggleTurn = (userId, white, prevWhiteToMove) => {
   return {
     type: 'PLAYER_MOVED',
-    payload: null,
+    payload: { userId, white, prevWhiteToMove },
   };
 };
 
@@ -128,13 +127,21 @@ export const loadPromotingMove = (move = []) => {
 }
 
 export const loadSnapshot = (position) => {
-console.log('​exportloadSnapshot -> position', position);
-  
   return {
     type: 'SNAPSHOT_LOADED',
     payload: position,
   };
 }
+
+export const loadTurn = (userId, white, index) => {
+  return {
+    type: 'SNAPSHOT_CHANGED',
+    payload: { userId, white, index },
+  };
+}
+
+
+
 
 
 

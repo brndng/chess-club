@@ -10,22 +10,21 @@ class PlayerCard extends Component {
     super(props);
   }
 
-  indicateTurn() {
-    const { player, game, whiteToMove } = this.props;
-    return (
-      (player.id === game.white && whiteToMove) 
-      || (player.id !== game.white && !whiteToMove)
-    )
-      ? 'is-my-turn'
-      : null;
+  generateClasses() {
+    const { user, opponent, player, isMyTurn } = this.props;
+    return [
+      "player-card-container",
+      ((isMyTurn && player.id === user.id) || (!isMyTurn && player.id === opponent.id)) 
+        && "is-my-turn",
+    ].filter(cls => !!cls).join(' ');
   }
 
   render() {
-    const { player, game, moves } = this.props;
-    const capturedPieces = printCapturedPieces(player.id, game, moves);
-    
+    const { player, game, moves, index } = this.props;
+    const capturedPieces = printCapturedPieces(player.id, game, moves, index);
+    const classes = this.generateClasses();
     return (
-      <div className={`player-card-container ${this.indicateTurn()}`}>
+      <div className={classes}>
         <div className="player-card-username">
           <strong>{player.username}</strong>
         </div>
@@ -41,8 +40,8 @@ class PlayerCard extends Component {
   }
 }
 
-const mapStateToProps = ({ game, moves, whiteToMove }) => {
-  return { game, moves, whiteToMove }
+const mapStateToProps = ({ user, opponent, game, moves, whiteToMove, isMyTurn }) => {
+  return { user, opponent, game, moves, whiteToMove, isMyTurn }
 }
 
 export default connect(mapStateToProps)(PlayerCard);
