@@ -48,14 +48,11 @@ class Resignation extends Component {
   }
 
   async resign() {
-    const { id, user, game, socket, currentPosition, moves, positionHistory } = this.props;
+    const { id, user, game, socket } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
     const resignation = await axios.put(`http://localhost:3000/games/resign`, { 
       id, 
       user,
-      currentPosition, 
-      moves, 
-      positionHistory,
       completed: true,
       winner: opponentId,
     });
@@ -104,8 +101,8 @@ class Resignation extends Component {
   }
 }
 
-const mapStateToProps = ({ user, completed, game, currentPosition, moves, positionHistory }) => {
-  return { user, completed, game, currentPosition, moves, positionHistory }
+const mapStateToProps = ({ user, completed, game }) => {
+  return { user, completed, game }
 }
 
 const matchDispatchToProps = (dispatch) => {

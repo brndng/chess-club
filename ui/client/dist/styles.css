@@ -29,6 +29,13 @@ button:focus {
   outline: 0;
 }
 
+.btn-challenge:disabled {
+  background: lightgray;
+  color: gray;
+  opacity: 0.6;
+  cursor: default;
+}
+
 /* Landing */
 .landing {
   height: 100%;

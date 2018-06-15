@@ -78,10 +78,20 @@ class ChallengeCreator extends Component {
   render() {
     const { showModal, gameId, white, black } = this.state;
     const { opponent, selectedPlayer } = this.props;
+    
     console.log('white, black', white, black)
-    const createGame = white !== null && black !== null
-      ? () => this.createGame()
-      : null;
+    console.log('​ChallengeCreator -> render -> white !== null', white !== null);
+    console.log('​ChallengeCreator -> render -> black !== null', black !== null);
+
+
+    // const createGame = white !== null && black !== null
+    //   ? () => this.createGame()
+    //   : null;
+    console.log('white !== null && black !== null && "btn-disabled"',white !== null && black !== null && "btn-disabled")
+    const isDisabled = !(white !== null && black !== null);
+    
+
+
     const modal = showModal
       && <div >
            <Modal>
@@ -110,7 +120,7 @@ class ChallengeCreator extends Component {
             </select>
           </div>
           <div>
-            <button className="btn btn-challenge" onClick={createGame}>CHALLENGE</button>
+            <button className="btn btn-challenge" onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>
           </div>
         </div>
         {modal}
