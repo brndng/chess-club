@@ -85,12 +85,11 @@ const printMoves = (moves, index) => {
   const movePairs = [];
   const newMoves = moves.map(move => [...move]).slice(0, index + 1);
   console.log('newMoves',newMoves)
-  if (index === 0) {
-    movePairs.push([newMoves[0][4], '']);
+  if (newMoves.length === 0) {
     return movePairs;
   }
 
-  for (let i = 1; i < index; i += 2) {
+  for (let i = 0; i <= index; i += 2) {
     console.log('newMoves, i, index', newMoves, i, index)
     
     if (!newMoves[i + 1]) {
@@ -99,7 +98,9 @@ const printMoves = (moves, index) => {
       movePairs.push([newMoves[i][4], newMoves[i + 1][4]]);
     }
     console.log('​printMoves -> movePairs', movePairs);
-
+    if (!newMoves[i + 2]) {
+      break;
+    }
     
   }
 
