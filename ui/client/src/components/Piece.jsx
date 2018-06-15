@@ -1,6 +1,11 @@
 import React from 'react';
 
-const chessmen = {
+const Piece = (props) => {
+  const { symbol, color } = chessmen[props.piece];
+  return <div className={color}>{symbol}</div>
+}
+
+var chessmen = {
   p: {symbol: '♟', color: 'piece-black'},
   n: {symbol: '♞', color: 'piece-black'},
   b: {symbol: '♝', color: 'piece-black'},
@@ -13,11 +18,6 @@ const chessmen = {
   R: {symbol: '♜', color: 'piece-white'},
   Q: {symbol: '♛', color: 'piece-white'},
   K: {symbol: '♚', color: 'piece-white'},
-}
-
-const Piece = (props) => {
-  const { symbol, color } = chessmen[props.piece];
-  return <div className={color}>{symbol}</div>
 }
 
 export default Piece;

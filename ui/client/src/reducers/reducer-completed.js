@@ -1,6 +1,14 @@
-export default (state = null, action) => {
+export default (state = false, action) => {
   switch(action.type) {
-    case 'GAME_COMPLETED': {
+    case 'CHECKMATE': {
+      return true;
+      break;
+    }
+    case 'DRAW': {
+      return true;
+      break;
+    }
+    case 'RESIGN': {
       return true;
       break;
     }

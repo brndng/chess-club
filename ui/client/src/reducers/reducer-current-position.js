@@ -2,7 +2,7 @@ export default (state = [], action) => {
   const newState = state.map(row => [...row]);
   switch (action.type) {
     case 'GAME_INITIALIZED': {
-      let { position } = action.payload;
+      const { position } = action.payload;
       return [...position];
       break;
     }
@@ -47,22 +47,23 @@ export default (state = [], action) => {
       break;
     }
     case 'PAWN_PROMOTED': {
-      const [origin, destin, piece]  = action.payload;
-      const queen = piece === 'P'
-        ? 'Q'
-        : 'q'
-      newState[destin.row][destin.col] = queen;
+      const [origin, destin, piece, captured, notation, promotedTo]  = action.payload;
+      newState[destin.row][destin.col] = promotedTo;
       newState[origin.row][origin.col] = null;
       return newState;
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, captured, notation, prevMove]  = action.payload;
+      const [origin, destin, piece, captured, notation, promotedTo, currentPosition, prevMove]  = action.payload;
       const [prevOrigin, prevDestin, prevPiece] = prevMove;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;
       newState[prevDestin.row][prevDestin.col] = null; //captured pawn
       return newState;
+      break;
+    }
+    case 'SNAPSHOT_LOADED': {
+      return action.payload;
       break;
     }
   }

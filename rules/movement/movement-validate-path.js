@@ -1,4 +1,4 @@
-export default (origin, destin, position) => {
+module.exports = (origin, destin, position) => {
   let isClear = true;
   let y = origin.row;
   let x = origin.col;

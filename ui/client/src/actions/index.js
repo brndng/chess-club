@@ -1,8 +1,8 @@
 export const initGame = (data) => {
-  const { id, white, black, position, whiteToMove, moves, inCheck, completed } = data;
+  const { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, positionHistory, completed } = data;
   return {
     type: 'GAME_INITIALIZED',
-    payload: { id, white, black, position, whiteToMove, moves, inCheck, completed },
+    payload: { id, white, black, position, whiteToMove, moves, inCheck, drawOfferedBy, positionHistory, completed },
   };
 };
 
@@ -28,9 +28,17 @@ export const selectPiece = (origin, piece) => {
 };
 
 export const storeUser = (user) => {
-  const { id, username } = user;
+  const { id, username } = user;  
   return {
     type: 'LOGGED_IN',
+    payload: { id, username },
+  };
+};
+
+export const storeOpponent = (opponent) => {
+  const { id, username } = opponent;  
+  return {
+    type: 'OPPONENT_FETCHED',
     payload: { id, username },
   };
 };
@@ -49,49 +57,52 @@ export const updateCheckStatus = (userId) => {
   };
 };
 
-export const declareGameOver = () => {
+export const declareGameOver = (status, game = null, defeated = null) => {
+  const result = status === 'draw'
+    ? '1/2 - 1/2'
+    : defeated === game.white
+      ? '0 - 1'
+      : '1 - 0'
+  
   return {
-    type: 'GAME_COMPLETED',
-    payload: null,
+    type: status.toUpperCase(),
+    payload: result,
   };
 };
 
-export const updatePosition = (origin, destin, piece, captured, notation, moves = []) => {
-
+export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, currentPosition, moves = []) => {
   const prevMove = moves.slice(-1)[0];
   const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove: [];
 
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
       type: 'PAWN_PROMOTED',
-      payload: [origin, destin, piece, captured, notation],
+      payload: [origin, destin, piece, captured, notation, promotedTo, currentPosition],
     };
   } else if (
     prevMove
     && (piece.toUpperCase() === 'P' && prevPiece.toUpperCase() === 'P')
-    && destin.col === prevDestin.col
+    && (prevDestin.row === origin.row && prevDestin.col === destin.col)
     && Math.abs(prevDestin.row - prevOrigin.row) === 2
-    && Math.abs(destin.row - prevDestin.row) === 1
     && Math.abs(destin.col - origin.col) === 1
-    && Math.abs(destin.row - origin.row) === 1
   ) {
     const captured = piece === piece.toUpperCase()
       ? 'p'
       : 'P';
     return {
       type: 'EN_PASSANT',
-      payload: [origin, destin, piece, captured, notation, prevMove]
+      payload: [origin, destin, piece, captured, notation, promotedTo, currentPosition, prevMove]
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
     return {
       type: 'KING_CASTLED',
-      payload: [origin, destin, piece, captured, notation],
+      payload: [origin, destin, piece, captured, notation, promotedTo, currentPosition],
     };
   }
 
   return {
     type: 'POSITION_CHANGED', 
-    payload: [origin, destin, piece, captured, notation],
+    payload: [origin, destin, piece, captured, notation, promotedTo, currentPosition],
   };
 };
 
@@ -108,6 +119,29 @@ export const authenticate = (status) => {
     payload: status,
   };
 }
+
+export const loadPromotingMove = (move = []) => {
+  return {
+    type: 'PROMOTION_STATUS_UPDATED',
+    payload: move,
+  };
+}
+
+export const loadSnapshot = (position) => {
+console.log('​exportloadSnapshot -> position', position);
+  
+  return {
+    type: 'SNAPSHOT_LOADED',
+    payload: position,
+  };
+}
+
+
+
+
+
+
+
 
 
 

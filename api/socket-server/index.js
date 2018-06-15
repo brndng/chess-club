@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
 
   socket.on('game_id', (data) => {
     socket.join(data);
-    socket.broadcast.to(data).emit('guest', data);
+    io.sockets.in(data).emit('guest', data);
   });
 
   socket.on('chat', (data) => {
@@ -40,13 +40,25 @@ io.on('connection', (socket) => {
     io.sockets.in(data.id).emit('check', data.userId);
   });
 
-  socket.on('game_over', (data) => {
-    io.sockets.in(data.id).emit('game_over', data.userId);
+  socket.on('resign', (data) => {  
+    io.sockets.in(data.id).emit('resign', data.user);
   });
 
-  socket.on('draw', (data) => {
-    io.sockets.in(data.id).emit('draw', data.userId);
-  })
+  socket.on('checkmate', (data) => {
+    io.sockets.in(data.id).emit('checkmate', data.userId);
+  });
+
+  socket.on('draw_offer', (data) => {
+    socket.broadcast.to(data.id).emit('draw_offer', data.userId);
+  });
+
+  socket.on('draw_accept', (data) => {
+    socket.broadcast.to(data.id).emit('draw_accept', data.userId);
+  });
+
+  socket.on('draw_decline', (data) => {
+    socket.broadcast.to(data.id).emit('draw_decline', data.userId);
+  });
 });
 
 app.use(...middleware);

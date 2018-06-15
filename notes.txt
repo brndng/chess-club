@@ -1,38 +1,23 @@
-
+#Bugs
+resign first game, try resigning next game, accept doesn't work - backend socket emit does not hit handler
+resign first game, next game offer draw (drawOfferedBy !== opponent), response doesn't come back
+  -declined: nothing
+  -accepted: 401 "Cannot GET /games/draw/accept" ...its a PUT?!
 
 # instructions to run locally
 cd api, npm start
 cd ui, cd client, npm run build
 cd ui, cd server, nodemon
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  return <Route {...rest} render={(props) => {    
-    return auth.isAuthenticated === true 
-      ? <Component {...props} />
-      : <Redirect to={{
-          pathname: '/login',
-          state: { from: props.location }
-        }} />
-  }} />
-}
+// checker in back to prevent user from making illegal moves for self
+// if (isLegalMove(...req.body)) {
 
-BUGS:
-
-Uncaught SyntaxError: Unexpected token <
-  on refresh:
-    game/:id ...with or without wrapper (fails)
-    game/ (works)
-    *** src=/bundle.js (need the slash in front)
-
-    App -> ComponentWithAuth -> Game (game fetched CDM) -> GameDisplay -> MoveHistory
-
-Uncaught TypeError: Cannot read property 'id' of undefined
-  on Chat toggle
-    GameDisplay -> Chat -> APP -> ComponentWithAuth -> err
-    game/ ...without wrapper (toggle works, no userdata though)
-
-
-
-
+      // }
+//specific checkers on:
+move x
+  (userId === game.white && whiteToMove )||
+  (userId === game.black && !whiteToMove )
+resign ...either player in record 
+accept draw only other player in record x
 
 

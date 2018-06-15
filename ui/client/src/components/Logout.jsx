@@ -20,17 +20,13 @@ class Logout extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
-    return isAuthenticated === true 
-      ? <li className="logout">
-          <p>Welcome!</p> 
-          <a onClick={() => {
-            this.logout()
-          }}>LOG OUT</a>
-        </li>
-      : <li className="logout">
-          <p>You are not logged in</p>
-        </li>
+
+    return (
+      <div className="logout">
+        <a onClick={() => this.logout()}>LOG OUT</a>
+      </div>
+    );
+   
   }
 }
 
@@ -44,16 +40,3 @@ const matchDispatchToProps = (dispatch) => {
 
 export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Logout));
 
-// const Logout = withRouter(({ history }) => {
-//   return auth.isAuthenticated === true 
-//     ? <li className="logout">
-//         <p>Welcome!</p> <a onClick={() => {
-//           auth.logout(() => history.push('/'))
-//         }}>LOG OUT</a>
-//       </li>
-//     : <li className="logout">
-//         <p>You are not logged in</p>
-//       </li>
-// });
-
-// export default Logout;

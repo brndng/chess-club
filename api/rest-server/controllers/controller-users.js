@@ -7,14 +7,31 @@ module.exports = {
     const { username } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const password = await bcrypt.hash(req.body.password, salt);
+    let isUsernameTaken = false;
+
     try {
-      const user = await User.create({
-        username,
-        password,
+      const user = await User.findOne({
+        where: { username },
       });
-      res.send(user);
+      if (user) {
+        isUsernameTaken = true;
+      }
     } catch (err) {
-      console.log('err from createUser', err);
+      console.log('​err from registerUser', err);
+    }
+
+    if (isUsernameTaken) {
+      res.status(401).send('Username taken');
+    } else {
+      try {
+        const user = await User.create({
+          username,
+          password,
+        });
+        res.send(user);
+      } catch (err) {
+        console.log('err from createUser', err);
+      }
     }
   },
   authenticateUser: async (req, res) => {
@@ -32,20 +49,24 @@ module.exports = {
           res.status(401).send('Incorrect password');
         }
         req.session.user = user.id;
-        res.send(user);
+        const userData = { id: user.id, username: user.username }
+        res.send(userData);
 			}
     } catch (err) {
       console.log(err);
     }
   },
   fetchCurrentUser: async (req, res) => {
+    console.log('fetchCurrentUser req.session', req.session)
+
     if (req.session.user) { 
-      const id  = req.session.user;
+      const id = req.session.user;
       try {
         const user = await User.findOne({
           where: { id },
         });
-        res.send(user);
+        const userData = { id: user.id, username: user.username }
+        res.send(userData);
       } catch (err) {
         console.log('err from fetchCurrentUser')
       }
@@ -77,20 +98,3 @@ module.exports = {
     }
   }
 };
-
-// test: (req, res) => {
-//   if (req.session.views) {
-//     // console.log('-----req.session if', req.session, '---id--', req.sessionID)
-
-//     req.session.views++
-//     res.setHeader('Content-Type', 'text/html')
-//     res.write('<p>views: ' + req.session.views + '</p>')
-//     res.status(200).end()
-//   } else {
-//     // console.log('-----req.session else', req.session)
-//     req.session.views = 1
-//     // console.log('-----req.session elseAFTER', req.session, '---id--', req.sessionID)
-
-//     res.end('welcome to the session demo. refresh!')
-//   }
-// },

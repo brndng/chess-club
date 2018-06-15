@@ -20,16 +20,18 @@ export default (state = [], action) => {
       break;
     }
     case 'EN_PASSANT': {
-      const [origin, destin, piece, captured, notation] = action.payload;
-      return [...newState, [origin, destin, piece, captured, notation]];
+      const [origin, destin, piece, captured, notation, promotedTo, currentPosition] = action.payload;
+      return [...newState, [origin, destin, piece, captured, notation, promotedTo, currentPosition]];
       break;
     }
-    case 'GAME_COMPLETED': {
-      const finalNotation = newState.slice(-1)[0][4]; 
-      const withMate = `${finalNotation.slice(0, finalNotation.length - 1)}#`;
-      newState[newState.length - 1][4] = withMate;
-      return newState;
-      break;
+    case 'CHECKMATE': {
+      if (action.payload !== '1/2 - 1/2') {
+        const lastNotation = newState.slice(-1)[0][4]; 
+        const notationWithMate = `${lastNotation.slice(0, lastNotation.length - 1)}#`;
+        newState[newState.length - 1][4] = notationWithMate;
+        return newState;
+        break;
+      }
     }
   }
   return newState;

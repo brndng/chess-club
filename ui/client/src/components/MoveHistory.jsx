@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { printMoves } from '../../rules/utilities/';
+import Result from './Result.jsx';
+import { printMoves } from '../../../../rules/utilities/';
 
 class MoveHistory extends Component {
   constructor(props) {
@@ -12,24 +13,27 @@ class MoveHistory extends Component {
     const { moves } = this.props;
     const chessMoves = printMoves(moves);
     return (
-      <div className="move-history">
-        <ol>
-          {chessMoves.map((pair, i) => (
-            <li key={i}>
-              <div className="move-row">
-                <div>{pair[0]}</div>
-                <div>{pair[1]}</div>
-              </div>
-            </li>
-          ))}
-        </ol>
+      <div className="move-history-container">
+        <div className="move-history-output">
+          <ol>
+            {chessMoves.map((pair, i) => (
+              <li key={i}>
+                <div className="move-history-row">
+                  <div>{pair[0]}</div>
+                  <div>{pair[1]}</div>
+                </div>
+              </li>
+            ))}
+            <Result />
+          </ol>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ userId, game, moves }) => {
-  return { userId, game, moves };
+const mapStateToProps = ({ moves }) => {
+  return { moves };
 }
 
 export default connect(mapStateToProps)(MoveHistory);

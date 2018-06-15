@@ -10,7 +10,7 @@ import { whiteKnight, blackKnight } from '../../images/';
 
 axios.defaults.withCredentials = true;
 
-class GameList extends Component {
+class Archive extends Component {
   constructor(props) {
     super(props)
   }
@@ -30,7 +30,7 @@ class GameList extends Component {
       <div className="game-list">
         <div className="game-list-header">
           <div><img src={whiteKnight} className="image-knight white"/></div>
-          <p>CURRENT GAMES</p>
+          <p>COMPLETED GAMES</p>
 
           <div><img src={blackKnight} className="image-knight black"/></div>
         </div>
@@ -38,9 +38,9 @@ class GameList extends Component {
         <div className="game-list-content">
           <ul>
             {userGames.map((game) => {
-              return !game.completed && (
+              return game.completed && (
                 <li key={game.id}>
-                  <Link to={{ pathname: `/game/${game.id}` }}>
+                  <Link to={{ pathname: `/completed/${game.id}` }}>
                     {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
                   </Link>
                 </li>
@@ -61,4 +61,4 @@ const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({ loadGames, initGame }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(GameList);
+export default connect(mapStateToProps, matchDispatchToProps)(Archive);

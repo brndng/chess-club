@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import { selectPiece, updatePosition } from '../actions/'; 
-import verifyLegalSquare from '../../rules/movement/';
-import { isWhite, convertToChessNotation } from '../../rules/utilities/'
+import { selectPiece, updatePosition, loadPromotingMove } from '../actions/'; 
+import verifyLegalSquare from '../../../../rules/movement/';
+import { isWhite, convertToChessNotation, setSquareColor } from '../../../../rules/utilities/'
 import { 
   isKingInCheck, 
   isGivingCheck,
   willMoveExposeKing,
   willMoveGiveCheck,
-  isPawnPromoting, } from '../../rules/interactions/';
+  isPawnPromoting, } from '../../../../rules/interactions/';
 
 class Square extends Component {
   constructor(props) {
@@ -19,15 +19,11 @@ class Square extends Component {
 
   initSquareColor() {
     const { coords } = this.props;
-    const { row, col } = coords;
-    return ((row % 2 === 0 && col % 2 === 0) || (row % 2 !== 0 && col % 2 !== 0))
-      ? 'white' 
-      : 'black';
+    return setSquareColor(coords);
   }
 
   isSelected() {
     const { coords, selection } = this.props;
-
     if (selection !== null) {
       const { origin } = selection;
       return (coords.row === origin.row && coords.col === origin.col);
@@ -35,9 +31,9 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { userId, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
+    const { user, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
 
-    if ((userId === game.white) === whiteToMove) {
+    if ((user.id === game.white) === whiteToMove) {
       if ((isWhite(piece) === whiteToMove)) { 
         selectPiece(coords, piece);
       }
@@ -51,40 +47,45 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { userId, selectPiece, updatePosition, selection, currentPosition, game, moves, coords, piece } = this.props;
-    const _willMoveExposeKing = willMoveExposeKing(userId, game.white, selection, coords, currentPosition, moves);
-    const _check = willMoveGiveCheck(userId, game.white, selection, coords, currentPosition, moves);
+    const { user, selectPiece, updatePosition, selection, currentPosition, game, whiteToMove, moves, coords, piece, loadPromotingMove } = this.props;
+    const _willMoveExposeKing = willMoveExposeKing(user.id, game.white, selection, coords, currentPosition, moves);
+    const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
+    const _isPawnPromoting = isPawnPromoting(selection, coords);
 
     if (!_willMoveExposeKing) {
-      updatePosition(selection.origin, coords, selection.piece, piece, _notation, moves);
-      selectPiece(null, null);
+      if (_isPawnPromoting) {
+        loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
+      } else {
+        updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);        
+      }
     } 
   }
 
   render() {
+    const { piece, completed } = this.props;
     const classes = [
       'square',
-      this.isSelected() ? 'is-selected' : null
+      this.isSelected() && 'is-selected' 
     ].filter(cls => !!cls).join(' ');
 
-    const onClick = this.props.completed 
+    const onClick = completed 
       ? null
       : () => this.handleSquareClick();
     return (
       <div id={this.initSquareColor()} className={classes} onClick={onClick}>
-        {this.props.piece === null ? null : <Piece piece={this.props.piece} />}
+        {piece === null ? null : <Piece piece={piece} />}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ selection, currentPosition, whiteToMove, moves, userId, game, completed }) => { 
-  return { selection, currentPosition, whiteToMove, moves, userId, game, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, moves, game, completed }) => { 
+  return { user, selection, currentPosition, whiteToMove, moves, game, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, updatePosition }, dispatch);
+  return bindActionCreators({ selectPiece, updatePosition, loadPromotingMove }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);

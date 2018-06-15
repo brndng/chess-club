@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const { Game } = require('../../db/models.js');
+const { initialPosition } = require('../../../rules/utilities/');
 
 module.exports = {
   fetchAllGames: async (req, res) => {
@@ -25,56 +26,63 @@ module.exports = {
     }
   },
   createGame: async (req, res) => {
-    const { white, black } = req.body;
-    const position = [ 
-      ["r","n","b","q","k","b","n","r"],
-      ["p","p","p","p","p","p","p","p"],
-      [null,null,null,null,null,null,null,null],
-      [null,null,null,null,null,null,null,null],
-      [null,null,null,null,null,null,null,null],
-      [null,null,null,null,null,null,null,null],
-      ["P", "P", "P", "P", "P", "P", "P", "P"],
-      ["R", "N", "B", "Q", "K", "B", "N", "R"]
-    ];
+    const { white, black, whiteUsername, blackUsername } = req.body;
     try {
       const game = await Game.create({
-        position, 
+        position: initialPosition, 
         moves: [],
         whiteToMove: true,
         inCheck: null,
-        accepted: true,
         completed: false, 
         white, 
         black,
+        whiteUsername, 
+        blackUsername,
       });
       res.send(game.dataValues);
     } catch (err) {
       console.log('err from createGame', err);
     }
   },
-  confirmGame: async (req, res) => {
-    res.send('hello from gamesController');
-  },
-
-  deleteGame: async (req, res) => {
-    res.send('hello from gamesController');
-  },
-
   registerMove: async (req, res) => {
-    const { id, currentPosition, moves, whiteToMove } = req.body;
+    const { id, user, currentPosition, moves, whiteToMove, positionHistory } = req.body;
+    let isCorrectTurn = true;
+    
     try {
-      const update = await Game.update({
-        position: currentPosition,
-        moves,
-        whiteToMove: !whiteToMove,
-      }, {
-        where: { id },
-        returning: true,
-        plain: true,
-      });
-      res.send(update[1].dataValues);
+      const game = await Game.findOne({ where: { id } });
+      if (
+        !((user.id === game.white && whiteToMove )
+        ||(user.id === game.black && !whiteToMove ))
+      ) {
+        isCorrectTurn = false;
+      }
     } catch (err) {
-      console.log('err from registerMove', err);
+      console.log('err from registerMove findOne', err);
+    }
+
+    console.log('///registerMove isCorrecTurn', isCorrectTurn)
+
+    if (!isCorrectTurn) {
+      res.status(401).send('No hacks allowed. You may only move on your turn.');
+    } else {
+      try {
+        // if (!rules.isLegalMove(....) ) {
+        //   res.status(400).send('no hacks allowed.')
+        // }
+        const update = await Game.update({
+          position: currentPosition,
+          moves,
+          whiteToMove: !whiteToMove,
+          positionHistory
+        }, {
+          where: { id },
+          returning: true,
+          plain: true,
+        });
+        res.send(update[1].dataValues);
+      } catch (err) {
+        console.log('err from registerMove update', err);
+      }
     }
   },
 
@@ -93,9 +101,8 @@ module.exports = {
       console.log('err from updateCheck', err);
     }
   },
-
   documentGame: async (req, res) => {
-    const { id, completed, winner } = req.body
+    const { id, completed, winner } = req.body;
     try {
       const record = await Game.update({
         completed,
@@ -104,10 +111,85 @@ module.exports = {
         where: { id },
         returning: true,
         plain: true,
-    });
-    res.send(record);
+      });
+      res.send(record);
     } catch (err) {
       console.log('err from saveGame', err)
     }
   },
+
+  registerDrawOffer: async (req, res) => {
+    const { id, userId } = req.body;
+    try {
+      const record = await Game.update({
+        drawOfferedBy: userId,
+      }, { 
+        where: { id },
+      });
+      res.status(200).send('draw offered');
+    } catch (err) {
+      console.log('err from registerDrawOffer', err);
+    }
+  },
+  
+  resign: async (req, res) => {
+    const { id, user, completed, winner } = req.body;
+
+    if (user.id !== req.session.user) {
+      res.status(401).send('No hacks allowed. Only authenticated users may resign from games.')
+    } else {
+      try {
+        const record = await Game.update({
+          completed,
+          winner,
+        }, {
+          where: { id },
+          returning: true,
+          plain: true,
+        });
+        res.status(200).send(`${user.username} has resigned.`);
+      } catch (err) {
+        console.log('err from resign', err)
+      }
+    }
+  },
+
+  acceptDraw: async (req, res) => {
+    const { id, user, completed, winner } = req.body;
+    let drawOfferedByOpponent = true;
+  
+    try {
+      const game = await Game.findOne({ where: { id } });
+      if (
+         !((user.id === game.white && game.drawOfferedBy === game.black)
+         && (user.id === game.black && game.drawOfferedBy === game.white))
+      ) {
+        drawOfferedByOpponent = false;
+      }
+    } catch (err) {
+      console.log('err from acceptDraw findOne', err)
+    }
+  
+    if (!drawOfferedByOpponent) {
+      res.status(401).send('No hacks allowed. You may only accept draws if offered by the opponent.');
+    } else {
+      try {
+        const record = await Game.update({
+          completed,
+          winner,
+        }, {
+          where: { id },
+          returning: true,
+          plain: true,
+        });
+        res.send(record);
+      } catch (err) {
+        console.log('err from acceptDraw update', err)
+      }
+    }
+  }
 };
+
+
+
+

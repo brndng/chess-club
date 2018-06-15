@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import MoveHistory from './MoveHistory.jsx';
 import Chat from './Chat.jsx';
 
@@ -9,21 +9,19 @@ class GameDisplay extends Component {
     this.state = {
       message: '',
       messages: [],
-      view: 'moves',
+      view: 'moves', 
     }
     this.setText = this.setText.bind(this);
     this.sendChat = this.sendChat.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.socket) {
-      this.props.socket.on('chat', (message) => {
-        this.setState({ 
-          messages: [...this.state.messages, message], 
-          message: '',
-        });
+    this.props.socket.on('chat', (message) => {
+      this.setState({ 
+        messages: [...this.state.messages, message], 
+        message: '',
       });
-    }
+    });
   }
 
   setText(e) {
@@ -32,12 +30,16 @@ class GameDisplay extends Component {
 
   sendChat() {
     const { message } = this.state;
-    const { id, socket } = this.props;
-    socket.emit('chat', { message, id });
+    const { id, user, socket } = this.props;
+    socket.emit('chat', { message: { username: user.username, text: message }, id });
   }
 
-  setView(view) {
-    this.setState({ view });
+  displayMoves() {
+    this.setState({ view: 'moves' });
+  }
+
+  displayChat() {
+    this.setState({ view: 'chat' });
   }
 
   render() {
@@ -46,24 +48,28 @@ class GameDisplay extends Component {
       <div className="game-display">
         <div className="game-display-toggle">
           <ul>
-            <li><a href="#" onClick={() => {this.setView('moves')}}>Moves</a></li>
-            <li><a href="#" onClick={() => {this.setView('chat')}}>Chat</a></li>
+            <li><a href="#" className="toggle-moves" onClick={() => this.displayMoves()}>📜</a></li>
+            <li><a href="#" className="toggle-chat" onClick={() => this.displayChat()}>💬</a></li>
           </ul>
         </div>
-        <div>
-          {view === 'moves'
-            ? <MoveHistory />
-            : <Chat 
-                message={message}
-                messages={messages}
-                setText={this.setText} 
-                sendChat={this.sendChat} 
-              />
-          }
-        </div>
+        {view === 'moves'
+          ? <MoveHistory />
+          : <Chat 
+              message={message}
+              messages={messages}
+              setText={this.setText} 
+              sendChat={this.sendChat} 
+            />
+        }
       </div>
     );
   }
 }
 
-export default GameDisplay;
+const mapStateToProps = ({ user }) => {
+  return { user };
+}
+
+export default connect(mapStateToProps)(GameDisplay);
+
+

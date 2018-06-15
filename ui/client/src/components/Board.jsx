@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import axios from 'axios';
-import { rotateBoard } from '../../rules/utilities/';
+import { rotateBoard } from '../../../../rules/utilities/';
 
 axios.defaults.withCredentials = true;
 
@@ -23,24 +23,24 @@ class Board extends Component {
   }
 
   indicateTurn() {
-    const { userId, whiteToMove, game } = this.props;
+    const { user, whiteToMove, game } = this.props;
 
     return (
-      (userId === game.white && whiteToMove)
-      || (userId !== game.white && !whiteToMove)
+      (user.id === game.white && whiteToMove)
+      || (user.id !== game.white && !whiteToMove)
     );
   }
 
   render() {
-    const { currentPosition, userId, game } = this.props;
+    const { currentPosition, user, game, completed } = this.props;
     const positionRotated = rotateBoard(this.state.position);
 
     const classes = [
       'board-container',
-      this.indicateTurn() && 'is-my-turn'
+      this.indicateTurn() && !completed && 'is-my-turn'
     ].filter(cls => !!cls).join(' ');
 
-    return userId === game.white 
+    return user.id === game.white 
       ? <div className={classes}>
           <div className="board">{this.state.position.map((row, i) => 
             <div className="row" key={i}>{row.map((elem, j) => {
@@ -60,8 +60,8 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = ({ userId, game, currentPosition, whiteToMove }) => {
-  return { userId, game, currentPosition, whiteToMove };
+const mapStateToProps = ({ user, game, currentPosition, whiteToMove, completed }) => {
+  return { user, game, currentPosition, whiteToMove, completed };
 }
 
 export default connect(mapStateToProps)(Board);

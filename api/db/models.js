@@ -4,7 +4,6 @@ const sequelize = require('./index.js');
 const User = sequelize.define('user', {
   username: Sequelize.STRING,
   password: Sequelize.STRING,
-  bio: Sequelize.STRING,
   wins: Sequelize.INTEGER,
   losses: Sequelize.INTEGER,
   draws: Sequelize.INTEGER,
@@ -15,22 +14,19 @@ const Game = sequelize.define('game', {
   moves: Sequelize.JSON,
   whiteToMove: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
   inCheck: Sequelize.INTEGER,
-  accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+  whiteUsername: Sequelize.STRING,
+  blackUsername: Sequelize.STRING,
+  drawOfferedBy: Sequelize.INTEGER,
+  positionHistory: { type: Sequelize.JSON, allowNull: false, defaultValue: [] },
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   winner: Sequelize.INTEGER,
-});
-
-const Friend = sequelize.define('friends', {
-  accepted: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
 });
 
 // Associations
 Game.belongsTo(User, { foreignKey: 'white' });
 Game.belongsTo(User, { foreignKey: 'black' });
-Friend.belongsTo(User, { foreignKey: 'user1' });
-Friend.belongsTo(User, { foreignKey: 'user2' });
 
-module.exports = { User, Game, Friend };
+module.exports = { User, Game };
 
 
 // CREATING/DROPPING PROGRAMATICALLY 

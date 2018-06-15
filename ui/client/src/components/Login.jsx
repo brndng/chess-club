@@ -38,7 +38,7 @@ class LogIn extends Component {
       storeUser(response.data);
       authenticate(true);
       this.setState({ 
-        redirectToReferrer: true
+        redirectToReferrer: true,
       });
     }
   }
@@ -61,19 +61,42 @@ class LogIn extends Component {
         <Redirect to={from} />
       )
     }
-    return view === 'login'
+
+    const currentView = view === 'login'
       ? <div className="login-form">
-          <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-          <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
-          <button onClick={() => this.logIn()}>Log In</button>
-          <div>Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a></div>
+          <div className="login-form-input">
+            <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
+            <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
+          </div>
+          <div className="login-form-submit">
+            <button onClick={() => this.logIn()}>Log In</button>
+          </div>
+          <div className="login-form-toggle">
+            Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a>
+          </div>
         </div> 
       : <div className="login-form">
-          <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-          <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
-          <button onClick={() => this.signUp()}>Sign Up</button>
-          <div>Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a></div>
+          <div className="login-form-input">
+            <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
+            <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
+          </div>
+          <div className="login-form-submit">
+            <button onClick={() => this.signUp()}>Sign Up</button>
+          </div>
+          <div className="login-form-toggle">
+            Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a>
+          </div>
         </div> 
+
+    return (
+      <div className="login">
+        <div className="login-left">
+        </div>
+        <div className="login-right">
+          {currentView}
+        </div>
+      </div>
+    )
   }
 }
 
