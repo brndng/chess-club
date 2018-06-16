@@ -83,28 +83,22 @@ const convertToChessNotation = (origin, destin, piece, captured, check, promoted
 
 const printMoves = (moves, index) => {
   const movePairs = [];
-  const newMoves = moves.map(move => [...move]).slice(0, index + 1);
-  console.log('newMoves',newMoves)
-  if (newMoves.length === 0) {
+  const currMoves = moves.map(move => [...move]).slice(0, index + 1);
+
+  if (currMoves.length === 0) {
     return movePairs;
   }
-
-  for (let i = 0; i <= index; i += 2) {
-    console.log('newMoves, i, index', newMoves, i, index)
-    
-    if (!newMoves[i + 1]) {
-      movePairs.push([newMoves[i][4], '']);
+  
+  for (let i = 0; i <= index; i += 2) {    
+    if (!currMoves[i + 1]) {
+      movePairs.push([currMoves[i][4], '']);
     } else {
-      movePairs.push([newMoves[i][4], newMoves[i + 1][4]]);
+      movePairs.push([currMoves[i][4], currMoves[i + 1][4]]);
     }
-    console.log('​printMoves -> movePairs', movePairs);
-    if (!newMoves[i + 2]) {
+    if (!currMoves[i + 2]) {
       break;
     }
-    
   }
-
-  
   return movePairs;
 }
 
@@ -126,9 +120,9 @@ const isCapturedPiece = (userId, game, piece) => {
 
 const printCapturedPieces = (userId, game, moves, index) => {
   const pieces = [];
-  newMoves = moves.map(move => [...move]).slice(0, index);
+  currMoves = moves.map(move => [...move]).slice(0, index + 1);
   
-  newMoves.forEach(move => {
+  currMoves.forEach(move => {
     const piece = move[3];
     if (isCapturedPiece(userId, game, piece)) {
       pieces.push(figurines[piece]);
