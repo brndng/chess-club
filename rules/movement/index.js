@@ -2,7 +2,6 @@ const baseMoves = require('./movement-base-moves.js');
 const validatePath = require('./movement-validate-path.js'); 
 
 module.exports = (pieceToMove, origin, destin, position, moves = []) => {
-  // console.log('​module.exports -> pieceToMove, origin, destin, position, moves = []', pieceToMove, origin, destin, position, moves);
   let isLegal = false;
   const piece = pieceToMove.toUpperCase();
   if (baseMoves[piece](origin, destin, position)) {
@@ -43,14 +42,14 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
               if (pieceToMove === 'K') { //white
                 destin.col - origin.col > 0 //kingside?
                   ? rook = { row: 7, col: 7 }
-                  : rook = { row: 7, col: 0 }
+                  : rook = { row: 7, col: 0 }                  
               } else { //black
                 destin.col - origin.col > 0 //kingside? //friendly rooks
                   ? rook = { row: 0, col: 7 }
                   : rook = { row: 0, col: 0 }
               }
 
-              for (let i = 0; i < moves.length; i++) { 
+              for (let i = 0; i < moves.length - 1; i++) { 
                 let [pastOrigin, pastDestin, pastPiece] = moves[i];
                 if (
                   pastPiece === pieceToMove 
@@ -70,6 +69,7 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
       } 
     }      
   }
+  
   return isLegal;
 };
 

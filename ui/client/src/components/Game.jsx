@@ -78,6 +78,7 @@ class Game extends Component {
      ) { 
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
+      const prevMoves = moves.slice(0, moves.length - 1);
         if ((user.id === game.white) === whiteToMove) {
           axios.put(`http://localhost:3000/games/move`, { 
             id,
@@ -88,7 +89,7 @@ class Game extends Component {
             prevPosition,
             currentPosition, 
             positionHistory,
-            moves, 
+            prevMoves, 
             whiteToMove,
           });
         }

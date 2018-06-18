@@ -60,15 +60,10 @@ module.exports = {
       console.log('err from registerMove findOne', err);
     }
 
-    console.log('///registerMove isCorrecTurn', isCorrectTurn)
-
     if (!isCorrectTurn) {
       res.status(401).send('No hacks allowed. You may only move on your turn.');
     } else {
       try {
-        // if (!rules.isLegalMove(....) ) {
-        //   res.status(400).send('no hacks allowed.')
-        // }
         const update = await Game.update({
           position: currentPosition,
           moves,
