@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const { Game } = require('../../db/models.js');
-const { initialPosition } = require('../../../rules/utilities/');
+const { initialPosition, areEqual } = require('../../../rules/utilities/');
 
 module.exports = {
   fetchAllGames: async (req, res) => {
@@ -68,7 +68,7 @@ module.exports = {
           position: currentPosition,
           moves,
           whiteToMove: !whiteToMove,
-          positionHistory: [...positionHistory, currentPosition]
+          positionHistory: [...positionHistory, currentPosition],
         }, {
           where: { id },
           returning: true,

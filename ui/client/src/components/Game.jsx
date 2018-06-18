@@ -90,6 +90,7 @@ class Game extends Component {
             currentPosition, 
             positionHistory,
             prevMoves, 
+            moves,
             whiteToMove,
           });
         }
