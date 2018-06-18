@@ -361,7 +361,7 @@ button:focus {
   width: 200px;
   height: 422px;
   padding: 14px;
-  border: 1px inset black;
+  border: 1px solid black;
   border-radius: 4px;
 }
 
@@ -479,24 +479,37 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 180px;
+    height: 200px;
     overflow: auto;
     background: white;
-    padding: 8px 0px 12px 12px;
+    padding: 0px 0px 0px 12px;
     background-color: #d4d4dc;
-    font-size: 14px;
-    margin-top: 21.6px;
+    font-size: 13px;
   }
 
   .move-history-output ol {
     flex-shrink: 0;
-    padding-left: 24px;
+    padding-left: 16px;
   }
     .move-history-row {
+      padding: 0px;
+      margin: 0px;
       display: flex;
       flex-direction: row;
-      width: 140px;
-      justify-content: space-between;
+    }
+
+    .move-pair {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0.5px 2px 0.5px 2px;
+      margin: 0;
+      width: 58px;
+    }
+    .move-pair.white {
+      flex-shrink: 0;
+    }
+    .move-pair.black {
+      margin: 0 auto;
     }
   .result-container {
     margin-top: auto;
@@ -894,7 +907,7 @@ button:focus {
   .modal-dialogue-btn-container button {
     width: 80px;
     height: 40px;
-    font-size: 12px;
+    font-size: 16px;
     border: 1px solid #1d1e22;
     border-radius: 2px;
     margin: 4px;
