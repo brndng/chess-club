@@ -36,26 +36,22 @@ class Board extends Component {
     const positionRotated = rotateBoard(this.state.position);
 
     const classes = [
-      'board-container',
+      'board',
       this.indicateTurn() && !completed && 'is-my-turn'
     ].filter(cls => !!cls).join(' ');
 
     return user.id === game.white 
-      ? <div className={classes}>
-          <div className="board">{this.state.position.map((row, i) => 
-            <div className="row" key={i}>{row.map((elem, j) => {
-              let coords = { row: i, col: j };
-              return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
-            </div>)}
-          </div>   
-        </div>
-      : <div className={classes}>
-          <div className="board">{positionRotated.map((row, i) => 
-            <div className="row" key={i}>{row.map((elem, j) => {
-              let coords = { row: positionRotated.length-1-i, col: row.length-1-j };
-              return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
-            </div>)}
-          </div>
+      ? <div className={classes}>{this.state.position.map((row, i) => 
+          <div className="row" key={i}>{row.map((elem, j) => {
+            let coords = { row: i, col: j };
+            return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
+          </div>)}
+        </div>  
+      : <div className={classes}>{positionRotated.map((row, i) => 
+          <div className="row" key={i}>{row.map((elem, j) => {
+            let coords = { row: positionRotated.length-1-i, col: row.length-1-j };
+            return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
+          </div>)}
         </div>
   }
 }

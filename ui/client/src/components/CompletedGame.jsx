@@ -49,7 +49,7 @@ class CompletedGame extends Component {
     const { user, game, positionHistory, loadSnapshot, loadTurn } = this.props;
     const { index } = this.state;
     let targetIndex;
-    
+
     switch(target) {
       case 'INIT':
         targetIndex = 0;
@@ -86,6 +86,7 @@ class CompletedGame extends Component {
           <Board />
           <div className="game-info">
             <PlayerCard player={opponent} index={currMoveIndex} />
+            <div className="game-display-toggle"></div>
             <div className="game-display">
             <MoveHistory index={currMoveIndex} />
           </div>

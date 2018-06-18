@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
-import Board from './Board.jsx';
+import BoardContainer from './BoardContainer.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import PlayerCard from './PlayerCard.jsx';
 import Draw from './Draw.jsx';
@@ -139,7 +139,7 @@ class Game extends Component {
     const index = moves.length;
     const loadedComponent = (game !== null && opponent !== null && this.socket)
       ? <div className="game-container">
-          <Board />
+          <BoardContainer />
           <div className="game-info">
             <PlayerCard player={opponent} index={index} />
             <GameDisplay id={id} socket={this.socket} />
