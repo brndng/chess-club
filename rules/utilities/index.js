@@ -155,6 +155,22 @@ const initialPosition = [
   ["R", "N", "B", "Q", "K", "B", "N", "R"]
 ]
 
+const printRanks = (userId, white) => {
+  const ranks = userId === white 
+  ? [8, 7, 6, 5, 4, 3, 2, 1]
+  : [1, 2, 3, 4, 5, 6, 7, 8];
+
+  return ranks;
+}
+
+const printFiles = (userId, white) => {
+  const files = userId === white
+  ? ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+  : ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
+
+  return files;
+}
+
 module.exports = { 
   isWhite, 
   rotateBoard, 
@@ -166,7 +182,10 @@ module.exports = {
   printCapturedPieces, 
   areEqual, 
   setSquareColor, 
-  initialPosition }
+  initialPosition,
+  printRanks,
+  printFiles,
+ }
 
 
 

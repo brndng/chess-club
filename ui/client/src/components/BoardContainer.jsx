@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Board from './Board.jsx';
+import { printRanks, printFiles } from '../../../../rules/utilities/'
 
 class BoardContainer extends Component {
   constructor(props) {
@@ -16,14 +18,17 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { showCoords } = this.state
+    const { user, game } = this.props;
+    const { showCoords } = this.state;
     const isDisplayed = showCoords && "is-displayed";
+    const ranks = printRanks(user.id, game.white);
+    const files = printFiles(user.id, game.white);
     return (
       <div className="outer-board-container">
         <div className="upper-board-container">
-          <label class="switch">
+          <label className="switch">
             <input type="checkbox" defaultChecked={showCoords} onChange={() => this.toggleCoords()} />
-            <span class="slider round"></span>
+            <span className="slider round"></span>
           </label>
         </div>
         <div className="mid-board-container">
@@ -45,7 +50,8 @@ class BoardContainer extends Component {
   }
 }
 
-var ranks = [8, 7, 6, 5, 4, 3, 2, 1];
-var files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const mapStateToProps = ({ user, game }) => {
+  return { user, game };
+}
 
-export default BoardContainer;
+export default connect(mapStateToProps)(BoardContainer);

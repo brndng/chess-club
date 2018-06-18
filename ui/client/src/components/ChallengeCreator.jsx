@@ -78,17 +78,7 @@ class ChallengeCreator extends Component {
   render() {
     const { showModal, gameId, white, black } = this.state;
     const { opponent, selectedPlayer } = this.props;
-    
-    console.log('white, black', white, black)
-    console.log('​ChallengeCreator -> render -> white !== null', white !== null);
-    console.log('​ChallengeCreator -> render -> black !== null', black !== null);
-
-
-    // const createGame = white !== null && black !== null
-    //   ? () => this.createGame()
-    //   : null;
     const isDisabled = !(white !== null && black !== null);
-
     const modal = showModal
       && <div >
            <Modal>

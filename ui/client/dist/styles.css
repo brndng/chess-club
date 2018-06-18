@@ -316,7 +316,7 @@ button:focus {
   align-items: center;
   font-size: 13px;
   height: 50px;
-  transition: ease-out 0.4s;
+  transition: ease-out 0.5s;
   color: #694629;
 }
 
@@ -326,16 +326,13 @@ button:focus {
   align-items: center;
   font-size: 13px;
   width: 50px;
-  transition: ease-out 0.4s;
+  transition: ease-out 0.5s;
   color: #694629;
 }
 
 .is-displayed {
   color: #eec28c;
-
-  transition: ease-out 0.4s;
-
-  
+  transition: ease-out 0.5s;
 }
 
 /* Board */
@@ -1032,8 +1029,8 @@ button:focus {
   right: 0;
   bottom: 0;
   background-color: #B27645;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 .slider:before {
@@ -1044,8 +1041,8 @@ button:focus {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 input:checked + .slider {

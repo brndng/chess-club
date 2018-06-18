@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import Board from './Board.jsx';
+import BoardContainer from './BoardContainer.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import MoveHistory from './MoveHistory.jsx';
 import PlayerCard from './PlayerCard.jsx';
@@ -83,7 +83,7 @@ class CompletedGame extends Component {
     const currMoveIndex = index - 1;
     const loadedComponent = (game !== null && opponent !== null && index !== null)
       ? <div className="game-container">
-          <Board />
+          <BoardContainer />
           <div className="game-info">
             <PlayerCard player={opponent} index={currMoveIndex} />
             <div className="game-display-toggle"></div>
