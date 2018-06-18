@@ -7,45 +7,37 @@ class BoardContainer extends Component {
     this.state = {
       showCoords: false,
     };
-    this.showCoords = this.showCoords.bind(this);
-    this.hideCoords = this.hideCoords.bind(this);
   }
 
-  showCoords() {
+  toggleCoords() {
     this.setState({
-      showCoords: true,
-    });
-  }
-  
-  hideCoords() {
-    this.setState({
-      showCoords: false,
+      showCoords: !this.state.showCoords,
     });
   }
 
   render() {
-    const isDisplayed = this.state.showCoords && "is-displayed";
+    const { showCoords } = this.state
+    const isDisplayed = showCoords && "is-displayed";
     return (
       <div className="outer-board-container">
         <div className="upper-board-container">
-        <button onClick={() => this.hideCoords()}>hide</button>
-
-          <button onClick={() => this.showCoords()}>show</button>
+          <label class="switch">
+            <input type="checkbox" defaultChecked={showCoords} onChange={() => this.toggleCoords()} />
+            <span class="slider round"></span>
+          </label>
         </div>
         <div className="mid-board-container">
-          <div className="coords-ranks">
-            {
-              ranks.map((rank, i) => <div className={`rank ${isDisplayed}`} key={i}>{rank}</div>)
-            }
+          <div className="coords-ranks">{
+            ranks.map((rank, i) => <div className={`rank ${isDisplayed}`} key={i}>{rank}</div>)
+          }
           </div>
           <Board />
           <div className="coords-ranks"></div>
         </div>
         <div className="lower-board-container">
-          <div className="coords-files">
-            {
-              files.map((file, i) => <div className={`file ${isDisplayed}`} key={i}>{file}</div>)
-            }
+          <div className="coords-files">{
+            files.map((file, i) => <div className={`file ${isDisplayed}`} key={i}>{file}</div>)
+          }
           </div>
         </div>
       </div>
