@@ -432,6 +432,7 @@ button:focus {
   justify-content: space-between;
   /* background: #393f4d; */
   background: #5B544A;
+  /* background: #8E8474; */
   width: 200px;
   height: 436px;
   padding: 14px;
@@ -821,7 +822,6 @@ button:focus {
 
   .login-left {
     width: 160px;
-    /* height: 642.4px; */
   }
 
   .login-right {
@@ -836,18 +836,20 @@ button:focus {
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
+    margin: 0 auto;
     opacity: 0.4;
   }
 .login-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 360px;
   width: 360px;
   margin-top: 64px;
   margin-left: 175px;
+  
   padding: 24px;
   background-color: black;
   opacity: .9;
@@ -855,6 +857,24 @@ button:focus {
   border-radius: 2px;
   /* margin: auto; */
 } 
+
+.login-form span {
+  color: white;
+  font-size: 14px;
+  padding: 4px;
+  text-align: center;
+  width: 312px;
+  height: 24.8px;
+  /* margin-bottom: auto; */
+}
+
+.login-form-content {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: auto;
+  align-items: center;
+}
 
   .login-form-input {
     display: flex;
@@ -869,6 +889,7 @@ button:focus {
       height: 32px;
       padding: 12px;
       margin-bottom: 14px;
+      font-size: 14px;
       background-color: #f6f5f3;
     }
 
@@ -879,7 +900,8 @@ button:focus {
       box-sizing: border-box;
       width: 320px;
       height: 32px;
-      padding: 12px;
+      font-size: 16px;
+      padding: 2px;
       color: black;
       background-color: rgba(255, 255, 255, 1);
       align-items: center;

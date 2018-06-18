@@ -15,6 +15,7 @@ class LogIn extends Component {
       password: '',
       view: 'login',
       redirectToReferrer: false,
+      feedback: '',
     }
   }
 
@@ -33,12 +34,18 @@ class LogIn extends Component {
   async logIn() {
     const { storeUser, updateVerified, authenticate } = this.props;
     const { username, password } = this.state;
-    const response = await axios.post('http://localhost:3000/users/login', { username, password });
-    if (response.status === 200) {
-      storeUser(response.data);
-      authenticate(true);
-      this.setState({ 
-        redirectToReferrer: true,
+    try {
+      const response = await axios.post('http://localhost:3000/users/login', { username, password });
+      if (response.status === 200) {
+        storeUser(response.data);
+        authenticate(true);
+        this.setState({ 
+          redirectToReferrer: true,
+        });
+      } 
+    } catch (err) {
+      this.setState({
+        feedback: 'Invalid username/password combination.',
       });
     }
   }
@@ -47,13 +54,22 @@ class LogIn extends Component {
     const { username, password } = this.state;
     try {
       const response = await axios.post('http://localhost:3000/users/signup', { username, password });
+      if (response.status === 200) {
+        this.setState({
+          feedback: response.data,
+        });
+      } 
     } catch (err) {
-      console.log('err from signup', err);
+      this.setState({
+        feedback: 'Sorry, that username is already taken.',
+      });
     }
   }
 
+
+
   render() {
-    const { username, password, view, redirectToReferrer } = this.state;
+    const { username, password, view, redirectToReferrer, feedback } = this.state;
     const { from } = this.props.location.state || { from: { pathname: '/'} } 
 
     if (redirectToReferrer === true) {
@@ -64,30 +80,36 @@ class LogIn extends Component {
 
     const currentView = view === 'login'
       ? <div className="login-form">
-          <div className="login-form-input">
-            <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-            <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
-          </div>
-          <div className="login-form-submit">
-            <button onClick={() => this.logIn()}>Log In</button>
-          </div>
-          <div className="login-form-toggle">
-            Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a>
+          <span>{feedback}</span>
+          <div className="login-form-content">
+            <div className="login-form-input">
+              <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
+              <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
+            </div>
+            <div className="login-form-submit">
+              <button onClick={() => this.logIn()}>Log In</button>
+            </div>
+            <div className="login-form-toggle">
+              Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a>
+            </div>
           </div>
         </div> 
       : <div className="login-form">
-          <div className="login-form-input">
-            <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
-            <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
-          </div>
-          <div className="login-form-submit">
-            <button onClick={() => this.signUp()}>Sign Up</button>
-          </div>
-          <div className="login-form-toggle">
-            Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a>
+          <span>{feedback}</span>
+          <div className="login-form-content">
+            <div className="login-form-input">
+              <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
+              <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
+            </div>
+            <div className="login-form-submit">
+              <button onClick={() => this.signUp()}>Sign Up</button>
+            </div>
+            <div className="login-form-toggle">
+              Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a>
+            </div>
           </div>
         </div> 
-
+        
     return (
       <div className="login">
         <div className="login-left">
