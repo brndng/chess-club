@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from './Modal.jsx';
 import { selectPiece, updatePosition, loadPromotingMove } from '../actions/';
-import { convertToChessNotation } from '../../../../rules/utilities/'
+import { convertToChessNotation, figurines } from '../../../../rules/utilities/'
 import { willMoveGiveCheck } from '../../../../rules/interactions/';
 
 class Promotion extends Component {
@@ -36,10 +36,10 @@ class Promotion extends Component {
               <div className="modal-dialogue">
                 <p> Pawn has promoted! Select: </p>  
                 <div className="modal-dialogue-btn-container">
-                  <button onClick={() => {this.selectPiece('R')}}>{pieces['R']}</button> 
-                  <button onClick={() => {this.selectPiece('N')}}>{pieces['N']}</button> 
-                  <button onClick={() => {this.selectPiece('B')}}>{pieces['B']}</button> 
-                  <button onClick={() => {this.selectPiece('Q')}}>{pieces['Q']}</button> 
+                  <button onClick={() => {this.selectPiece('R')}}>{figurines['R'].symbol}</button> 
+                  <button onClick={() => {this.selectPiece('N')}}>{figurines['N'].symbol}</button> 
+                  <button onClick={() => {this.selectPiece('B')}}>{figurines['B'].symbol}</button> 
+                  <button onClick={() => {this.selectPiece('Q')}}>{figurines['Q'].symbol}</button> 
                 </div>
               </div>
             </div>
@@ -55,17 +55,6 @@ const mapStateToProps = ({ user, game, promotingMove, currentPosition, moves, se
 
 const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({ selectPiece, updatePosition, loadPromotingMove }, dispatch);
-}
-
-var pieces = {
-  n: '♞', 
-  b: '♝', 
-  r: '♜', 
-  q: '♛', 
-  N: '♘', 
-  B: '♗', 
-  R: '♖', 
-  Q: '♕', 
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Promotion);

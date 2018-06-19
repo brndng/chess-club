@@ -53,17 +53,17 @@ class GameDisplay extends Component {
             <li><a href="#" className="toggle-moves" onClick={() => this.displayMoves()}>📜</a></li>
             <li><a href="#" className="toggle-chat" onClick={() => this.displayChat()}>💬</a></li>
           </ul>
-        </div>
-        {view === 'moves'
-          ? <MoveHistory index={currMoveIndex} />
-          : <Chat 
-              message={message}
-              messages={messages}
-              setText={this.setText} 
-              sendChat={this.sendChat} 
-            />
+        </div>{
+          view === 'moves'
+            ? <MoveHistory index={currMoveIndex} />
+            : <Chat 
+                message={message}
+                messages={messages}
+                setText={this.setText} 
+                sendChat={this.sendChat} 
+              />
         }
-      </div>
+        </div>
     );
   }
 }

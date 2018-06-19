@@ -376,7 +376,10 @@ button:focus {
         left: 0;
         opacity: 0.7;
         z-index: 2;
-        background-color: #34925E;
+        /* background-color: #34925E; OG*/
+        background-color: #66AB8C;
+        /* background-color: #0E8044 */
+        /* background-color: #82AC89; */
         /* background-color: pink; */
         /* background-color: #479761; */
         /* 
@@ -386,7 +389,8 @@ button:focus {
         /* background-color: #a16E83; */
       }
         #black {
-          background-color: #B27645;
+          /* background-color: #B27645; */
+          background-color: #AA7047;
 
         }
         #white {
@@ -432,12 +436,14 @@ button:focus {
   justify-content: space-between;
   /* background: #393f4d; */
   background: #5B544A;
+
+  background: #7C7063;
   /* background: #8E8474; */
   width: 200px;
   height: 436px;
   padding: 14px;
   border: 1px solid black;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
   .game-options {
@@ -470,7 +476,11 @@ button:focus {
     border-radius: 2px;
   }
   .player-card-container.is-my-turn {
-    border: 4px solid rgba(46,131,87,0.8);
+    /* border: 4px solid rgba(46,131,87,0.8); */
+    /* border: 4px solid #34925E; */
+    border: 4px solid #66AB8C;
+    
+    
   }
     .player-card-username {
       font-size: 12px;
@@ -1049,7 +1059,7 @@ button:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #B27645;
+  background-color: #AA7047;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }

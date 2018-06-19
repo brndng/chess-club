@@ -80,7 +80,6 @@ module.exports = {
       }
     }
   },
-
   updateCheck: async (req, res) => {
     const { id, inCheck } = req.body;
     try {
@@ -112,7 +111,6 @@ module.exports = {
       console.log('err from saveGame', err)
     }
   },
-
   registerDrawOffer: async (req, res) => {
     const { id, userId } = req.body;
     try {
@@ -126,7 +124,6 @@ module.exports = {
       console.log('err from registerDrawOffer', err);
     }
   },
-  
   resign: async (req, res) => {
     const { id, user, completed, winner } = req.body;
 
@@ -148,7 +145,6 @@ module.exports = {
       }
     }
   },
-
   acceptDraw: async (req, res) => {
     const { id, user, completed, winner } = req.body;
     let drawOfferedByOpponent = true;

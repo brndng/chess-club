@@ -58,7 +58,6 @@ class ChallengeCreator extends Component {
     }
   }
 
-
   async createGame() {
     const { white, black, whiteUsername, blackUsername } = this.state;
     const newGame = await axios.post('http://localhost:3000/games/challenge', { 
@@ -70,8 +69,7 @@ class ChallengeCreator extends Component {
     if (newGame) {
       this.setState({
         gameId: newGame.data.id,
-      });
-      this.showModal();
+      }, () => this.showModal());
     }
   }
 

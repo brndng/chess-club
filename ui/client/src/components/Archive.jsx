@@ -7,7 +7,6 @@ import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
 import { whiteKnight, blackKnight } from '../../images/';
 
-
 axios.defaults.withCredentials = true;
 
 class Archive extends Component {
@@ -30,7 +29,6 @@ class Archive extends Component {
         <div className="game-list-header">
           <div><img src={whiteKnight} className="image-knight white"/></div>
           <p>COMPLETED GAMES</p>
-
           <div><img src={blackKnight} className="image-knight black"/></div>
         </div>
         <br/>
@@ -43,7 +41,7 @@ class Archive extends Component {
                     {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
                   </Link>
                 </li>
-              )
+              );
             })}
           </ul>
         </div>

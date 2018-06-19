@@ -24,7 +24,6 @@ import {
   declareGameOver, } from '../actions/';
 
 axios.defaults.withCredentials = true;
-window.axios = axios;
 
 class Game extends Component {
   constructor(props) {
@@ -101,7 +100,6 @@ class Game extends Component {
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
       const _checkMate = evaluateCheckmateConditions(user.id, game.white, currentPosition, moves);
-      console.log('​Game -> componentDidUpdate -> _checkMate', _checkMate);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
         axios.put(`http://localhost:3000/games/document`, { 

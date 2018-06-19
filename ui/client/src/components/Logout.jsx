@@ -20,13 +20,11 @@ class Logout extends Component {
   }
 
   render() {
-
     return (
       <div className="logout">
         <a onClick={() => this.logout()}>LOG OUT</a>
       </div>
     );
-   
   }
 }
 

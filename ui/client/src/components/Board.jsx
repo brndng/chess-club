@@ -12,32 +12,25 @@ class Board extends Component {
     this.state = {
       position: this.props.currentPosition,
     }
+    this.moveSound = new Sound();
   }
   
   componentDidUpdate(prevProps, prevState) {
     const { currentPosition } = this.props;
     const { position } = prevState;
     if (!areEqual(position, currentPosition)) {
-      this.setState({ position: currentPosition });
+      this.setState({ position: currentPosition }, () => {
+        this.moveSound.play();
+      });
     }
   }
 
-  indicateTurn() {
-    const { user, whiteToMove, game } = this.props;
-
-    return (
-      (user.id === game.white && whiteToMove)
-      || (user.id !== game.white && !whiteToMove)
-    );
-  }
-
   render() {
-    const { currentPosition, user, game, completed } = this.props;
+    const { user, game, completed, isMyTurn } = this.props;
     const positionRotated = rotateBoard(this.state.position);
-
     const classes = [
       'board',
-      this.indicateTurn() && !completed && 'is-my-turn'
+      isMyTurn && !completed && 'is-my-turn'
     ].filter(cls => !!cls).join(' ');
 
     return user.id === game.white 
@@ -56,8 +49,37 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = ({ user, game, currentPosition, whiteToMove, completed }) => {
-  return { user, game, currentPosition, whiteToMove, completed };
+const mapStateToProps = ({ user, game, currentPosition, whiteToMove, completed, isMyTurn }) => {
+  return { user, game, currentPosition, whiteToMove, completed, isMyTurn };
 }
 
 export default connect(mapStateToProps)(Board);
+
+function Sound() {
+  this.sound = document.createElement("audio");
+  this.sound.src = "http://freesound.org/data/previews/351/351518_4502687-lq.mp3"
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function() {
+      this.sound.play();
+  }
+}
+
+// class Sound {
+//   constructor() {
+//     this.sound = document.createElement("audio");
+//     this.sound.src = "http://freesound.org/data/previews/351/351518_4502687-lq.mp3"
+//     this.sound.setAttribute("preload", "auto");
+//     this.sound.setAttribute("controls", "none");
+//     this.sound.style.display = "none";
+//     document.body.appendChild(this.sound);
+//     this.play = this.play.bind(this);
+//     this.sound.src = "../../../../../../../Downloads/chess.wav";
+//   }
+
+//   play() {
+//     this.sound.play();
+//   }
+// }

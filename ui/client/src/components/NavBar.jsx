@@ -8,7 +8,6 @@ const NavBar = () => {
         <li><Link to='/'>▣</Link></li>
       </ul>
       <ul className="nav-right">
-        
         <li><Link to='/gamelist'>MY GAMES</Link></li>
         <li><Link to='/challenge'>CHALLENGE</Link></li>
         <li><Link to='/archive'>ARCHIVE</Link></li>
