@@ -171,6 +171,28 @@ const printFiles = (userId, white) => {
   return files;
 }
 
+const formatDate = (input) => {
+  const year = input.slice(0, 4);
+  const month = input.slice(5, 7);
+  const day = input.slice(8, 10);
+  const months = {
+    '01': 'Jan',
+    '02': 'Feb',
+    '03': 'Mar',
+    '04': 'Apr',
+    '05': 'May',
+    '06': 'Jun',
+    '07': 'Jul',
+    '08': 'Aug',
+    '09': 'Sep',
+    '10': 'Oct',
+    '11': 'Nov',
+    '12': 'Dec',
+  }
+
+  return `${months[month]} ${day} ${year}`;
+}
+
 module.exports = { 
   isWhite, 
   rotateBoard, 
@@ -185,6 +207,7 @@ module.exports = {
   initialPosition,
   printRanks,
   printFiles,
+  formatDate,
  }
 
 

@@ -54,40 +54,39 @@ class Challenge extends Component {
     const { user } = this.props;
     return (
       <div className="players-container">
-        <div className="players-search">
-            <input type="search" placeholder="Find a player..." value={targetPlayer} onChange={(e) => {this.setSearchText(e)}} />
+        <div className="players-select">
+          <div className="players-search">
+            <input type="search" placeholder="Username" value={targetPlayer} onChange={(e) => {this.setSearchText(e)}} />
             <button className="players-search-button" onClick={() => {this.filterPlayers()}}>⌕</button>
           </div>
-        {players.length === 0
-          ? <div className="players-invalid">
-              Sorry, that player doesn't exist
-              <button className="btn" onClick={() => {this.displayAllPlayers()}}>Display All</button>
-            </div>
-          : <div className="players-default">
-              <div className="players-list">
-                <div>
-                  <p>SELECT OPPONENT</p>:
+          {players.length === 0
+            ? <div className="players-default">
+                Sorry, that player doesn't exist
+                <button className="btn" onClick={() => {this.displayAllPlayers()}}>Display All</button>
+              </div>
+            : <div className="players-default">
+                <div className="players-list">
+                  <ul>
+                    {players.map(player => {
+                      const opponent = { id: player.id, username: player.username };
+                      if (user.id !== player.id) {
+                        return (
+                          <li key={player.id}>
+                            <div>
+                              <input type="radio" name="opponent" onClick={() => this.selectPlayer(opponent)} />
+                              <label>{opponent.username}</label>
+                            </div>
+                          </li>
+                        )
+                      }})}
+                  </ul>
                 </div>
-                <ul>
-                  {players.map(player => {
-                    const opponent = { id: player.id, username: player.username };
-                    if (user.id !== player.id) {
-                      return (
-                        <li key={player.id}>
-                          <div>
-                            <input type="radio" name="opponent" onClick={() => this.selectPlayer(opponent)} />
-                            <label>{opponent.username}</label>
-                          </div>
-                        </li>
-                      )
-                    }})}
-                </ul>
               </div>
-              <div className="players-challenge">
-                <ChallengeCreator opponent={opponent} />
-              </div>
-            </div>
           }
+        </div>
+        <div className="players-challenge">
+          <ChallengeCreator opponent={opponent} />
+        </div>
       </div>
     ) 
   }
@@ -98,4 +97,6 @@ const mapStateToProps = ({ user }) => {
 }
 
 export default connect(mapStateToProps)(Challenge);
+
+
 

@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
-import { whiteKnight, blackKnight } from '../../images/';
+import { formatDate } from '../../../../rules/utilities/';
+// import { whiteKnight, blackKnight } from '../../images/';
 
 axios.defaults.withCredentials = true;
 
@@ -27,9 +28,11 @@ class Archive extends Component {
     return (
       <div className="game-list">
         <div className="game-list-header">
-          <div><img src={whiteKnight} className="image-knight white"/></div>
           <p>COMPLETED GAMES</p>
-          <div><img src={blackKnight} className="image-knight black"/></div>
+          <div className="content-header">
+            <span className="match">MATCH</span>
+            <span className="date">DATE CREATED</span>
+          </div>
         </div>
         <br/>
         <div className="game-list-content">
@@ -40,6 +43,7 @@ class Archive extends Component {
                   <Link to={{ pathname: `/completed/${game.id}` }}>
                     {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
                   </Link>
+                  <span><small>{formatDate(game.createdAt)}</small></span>
                 </li>
               );
             })}
