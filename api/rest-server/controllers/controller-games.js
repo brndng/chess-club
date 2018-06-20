@@ -96,9 +96,10 @@ module.exports = {
     }
   },
   documentGame: async (req, res) => {
-    const { id, completed, winner } = req.body;
+    const { id, moves, completed, winner } = req.body;
     try {
       const record = await Game.update({
+        moves,
         completed,
         winner,
       }, {

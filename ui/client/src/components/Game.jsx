@@ -105,6 +105,7 @@ class Game extends Component {
         axios.put(`http://localhost:3000/games/document`, { 
           id, 
           user,
+          moves,
           completed: true,
           winner: opponent.id,
         });

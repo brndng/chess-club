@@ -330,7 +330,7 @@ button:focus {
     
       .slct {
         /* display: flex; */
-        background-color: #F0EBE8;
+        background-color: white;
         width: 130px;
         height: 28px;
         font-size: 13px;
@@ -590,7 +590,7 @@ button:focus {
     font-family: Arial, Helvetica, sans-serif; 
     padding: 4px;
     border: 4px solid #ECECE8;
-    border-radius: 2px;
+    border-radius: 1px;
   }
   .player-card-container.is-my-turn {
     /* border: 4px solid rgba(46,131,87,0.8); */
