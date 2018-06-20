@@ -41,6 +41,7 @@ class ChallengeCreator extends Component {
 
   setMatchup(color) {
     const { user, opponent, whiteUsername, blackUsername } = this.props;
+    console.log('this.props.opponent', this.props.opponent)
     if (color === 'white') {
       this.setState({ 
         white: user.id, 
@@ -77,6 +78,9 @@ class ChallengeCreator extends Component {
     const { showModal, gameId, white, black } = this.state;
     const { opponent, selectedPlayer } = this.props;
     const isDisabled = !(white !== null && black !== null);
+    const selectedOpponent = opponent
+      ? opponent.username
+      : '';
     const modal = showModal
       && <div >
            <Modal>
@@ -96,9 +100,12 @@ class ChallengeCreator extends Component {
     
     return (
       <div className="challenge-creator">  
+        <div className="challenge-creator-header"><p>NEW GAME</p></div>
         <div className="challenge-creator-content">
+          <div>{`OPPONENT: ${selectedOpponent}`}</div>
           <div className="slct-container">
-            <select className="slct" onChange={(e) => this.setMatchup(e.target.value)}>
+            <div>{`PLAY AS: `}</div>
+            <select className="slct" onChange={(e) => this.setMatchup(e.target.value)} disabled={opponent === null}>
               <option value={null} defaultValue>SELECT COLOR</option>
               <option value="white">♔ WHITE</option>
               <option value="black">♚ BLACK</option>
@@ -114,8 +121,8 @@ class ChallengeCreator extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => {
-  return { user }
+const mapStateToProps = ({ user, opponent }) => {
+  return { user, opponent };
 }
 
 export default withRouter(connect(mapStateToProps)(ChallengeCreator));

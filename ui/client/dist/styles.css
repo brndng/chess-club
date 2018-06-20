@@ -19,7 +19,7 @@ html, body, #app-root, .route-container, .wrapper {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 button {
@@ -169,112 +169,153 @@ button:focus {
 /* Players */
 .players-container {
   display: flex;
-  flex-direction: column;
-}
-
-  .players-search {
+  flex-direction: row;
+  height: 75vh;
+  margin-top: 32px;
+} 
+  .players-select {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #CBC6BD;
     margin-left: 16px;
-    margin-top: 32px;
-    margin-bottom: 32px;
-
-    
+    width: 280px;
+    border-radius: 2px;
   }
-    .players-search input {
-      border: none;
-      width: 240px;
-      padding: 8px;
-      font-size: 14px;
-      outline: none;
-    }
 
-    /* .player-search input:focus {
-      outline: none;
-    } */
-    .players-search-button {
-      font-size: 24px;
-      padding-bottom: 8px;
-      width: 41px;
-      border: none;
+    .players-search {
+      display: flex;
+      margin: 16px 16px 32px 16px;
+      border: 1px solid white;
+      height: 54px;
+
     }
+      .players-search input {
+        border: none;
+        padding: 8px 28px 8px 8px;
+        font-size: 13px;
+        outline: none;
+        width: 248px;
+        border-radius: 1px;
+      }
+      .players-search-button {
+        font-size: 24px;
+        width: 24px;
+        margin: -4px 0px 0px -24px;
+        padding: 0px 4px 4px 0px;
+        background: transparent;
+        border: none;
+        border-radius: 1px;
+      }
+  
+  .players-invalid {
+    display: flex;  
+    flex-direction: column;
+    align-items: center;
+    padding-right: 16px;
+  }
+  .players-invalid span {
+    font-size: 13px;
+    padding: 4px 0px;
+  }
 
   .players-default {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
-    /* border: 1px solid floralwhite; */
+    border: 1px solid floralwhite;
     height: 100vh;
-    margin-left: 16px;
+    margin: 0px 16px 16px 16px;  
+  }
+
+  .players-default p {
+    margin: 12px 16px -8px 16px;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .players-default button {
+    margin-top: 32px;
   }
     .players-list {
       display: flex;
-      width: 50%;
       flex-direction: column;
       /* border: 1px solid floralwhite; */
       overflow: auto;
     }
     
-
-    .players-list div p {
-      border: 2px solid floralwhite;
-      background-color: #1d1e22;
-      color: floralwhite;
-      width: 280px;
-      padding: 8px 16px 8px 16px;
-      margin: 0px 0px 0px 0px;
-      display: flex;
-      justify-content: center;
-      font-size: 16px;
-    }
-
     .players-list ul {
-      padding-left: 16px;
-      margin-right: 64px;
+      height: 360px;
+      border-radius: 1px;
+      overflow: auto;
+      background-color: white;
+      padding: 8px 0px 8px 16px;
+      margin: 16px 0px 0px 0px;
+      
+
+      /* margin-right: 64px; */
     }
       .players-list li {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         list-style: none;
+        padding-top: 4px;
       } 
+
+        .players-list li a {
+          text-decoration: none;
+          font-size: 14px;
+        }
         
-        .players-list li div {
-          padding: 4px;
-        }
-        /* .players-list li div input {
-          padding: 12px;
-        } */
-        .players-list li div label {
-          color: floralwhite;
-          padding: 8px;
-        }
     .players-challenge {
       display: flex;
       flex-direction: row;
-      width: 50%;
-      border-top: 1px solid floralwhite;
+      width: 420px;
+      background-color: lightgray;
+      margin: 0 auto;
+
     }
 
-    .challenge-creator-content {
-      display: flex;
-      flex-direction: row;
-      margin-top: 52px;
+    .challenge-creator {
+      width: 100%;
     }
-      .challenge-creator {
-        flex-grow: 1;
+
+    .challenge-creator div {
+      margin: 2px 2px 2px 2px 16px;
+      background-color: green;
+    }
+
+      .challenge-creator-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+        margin-top: 52px;
+      }
+
+      .challenge-creator-header {
+        background-color: green;
+      }
+      .challenge-creator-header p {
+        margin: 0px;
+        /* padding: 16px 8px 0px 8px; */
+        font-size: 18px;
       }
 
     /**/
    .slct-container {
       display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
     }
       .slct {
-        display: flex;
+        /* display: flex; */
         background-color: #d4d4dc;
         width: 130px;
         height: 32px;
-        margin: 24px 32px 0px 0px;
-        font-size: 14px;
+        font-size: 13px;
       }
       .btn.btn-challenge {
         margin: 24px 0px 0px 32px;
