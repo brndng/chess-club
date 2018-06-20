@@ -20,6 +20,7 @@ const Game = sequelize.define('game', {
   positionHistory: { type: Sequelize.JSON, allowNull: false, defaultValue: [] },
   completed: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
   winner: Sequelize.INTEGER,
+  result: Sequelize.STRING,
 });
 
 // Associations

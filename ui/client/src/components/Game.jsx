@@ -63,7 +63,7 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck } = this.props;
+    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck, result } = this.props;
     const { id } = this.state;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
@@ -105,8 +105,10 @@ class Game extends Component {
         axios.put(`http://localhost:3000/games/document`, { 
           id, 
           user,
+          moves,
           completed: true,
           winner: opponent.id,
+          result,
         });
       }
       this.socket.emit('check', { userId: user.id, id });
@@ -158,8 +160,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }) => {
-  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }
+const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, result }) => {
+  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, result }
 }
 
 const matchDispatchToProps = (dispatch) => {
