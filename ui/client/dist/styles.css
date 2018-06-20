@@ -194,6 +194,7 @@ button:focus {
         border: none;
         padding: 8px 28px 8px 8px;
         font-size: 13px;
+        color: #6E6561;
         outline: none;
         width: 248px;
         border-radius: 1px;
@@ -206,6 +207,7 @@ button:focus {
         background: transparent;
         border: none;
         border-radius: 1px;
+        color: #6E6561;
       }
   
   .players-invalid {
@@ -223,7 +225,7 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border: 1px solid floralwhite;
+    border: 1px solid #ECECE8;
     height: 100vh;
     margin: 0px 16px 16px 16px;  
   }
@@ -232,6 +234,7 @@ button:focus {
     margin: 12px 16px -8px 16px;
     font-size: 13px;
     text-align: center;
+    color: #383838;
   }
 
   .players-default button {
@@ -248,9 +251,9 @@ button:focus {
       height: 360px;
       border-radius: 1px;
       overflow: auto;
-      background-color: white;
       padding: 8px 0px 8px 16px;
       margin: 16px 0px 0px 0px;
+      background-color: #ECECE8;
       
 
       /* margin-right: 64px; */
@@ -272,35 +275,51 @@ button:focus {
       display: flex;
       flex-direction: row;
       width: 420px;
-      background-color: lightgray;
-      margin: 0 auto;
+      height: 320px;
+      
+      background-color: #ECECE8;
+      margin-left: 120px;
 
     }
 
     .challenge-creator {
       width: 100%;
+      margin: 24px;
     }
 
-    .challenge-creator div {
-      margin: 2px 2px 2px 2px 16px;
-      background-color: green;
-    }
+   
 
       .challenge-creator-content {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         justify-content: space-around;
-        margin-top: 52px;
+        flex-shrink: 0;
+        margin: 52px 0px;
+        padding: 8px 8px 8px 0px;
+        border-radius: 1px;
       }
 
-      .challenge-creator-header {
-        background-color: green;
+      .challenge-creator-content div {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-bottom: 16px;
       }
+
+      .challenge-creator-content span {
+        width: 100px;
+        font-size: 13px;
+        padding: 8px 8px 8px 0px;
+        color: #6E6561;
+      }
+
+      
       .challenge-creator-header p {
         margin: 0px;
         /* padding: 16px 8px 0px 8px; */
         font-size: 18px;
+        color: #383838;
       }
 
     /**/
@@ -310,20 +329,27 @@ button:focus {
       justify-content: flex-start;
       align-items: center;
     }
+
+    
       .slct {
         /* display: flex; */
         background-color: #d4d4dc;
         width: 130px;
-        height: 32px;
+        height: 28px;
         font-size: 13px;
       }
-      .btn.btn-challenge {
-        margin: 24px 0px 0px 32px;
+
+      .challenge-button {
+        display: flex;
+        justify-content: center;
+      }
+      .challenge-button button {
+        margin: auto;
         height: 32px;
         width: 160px;
         letter-spacing: 1px;
-        font-size: 16px;
-        padding: 6px 8px 8px 8px;
+        font-size: 18px;
+        padding: 4px 8px 8px 8px;
         border: 1px solid floralwhite;
         background-color: white;
       }
@@ -1110,7 +1136,7 @@ button:focus {
 
 
 ::placeholder {
-  color: black;
+  color: #6E6561;
 }
 
 .image-knight {

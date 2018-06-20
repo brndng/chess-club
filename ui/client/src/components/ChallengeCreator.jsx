@@ -41,7 +41,6 @@ class ChallengeCreator extends Component {
 
   setMatchup(color) {
     const { user, opponent, whiteUsername, blackUsername } = this.props;
-    console.log('this.props.opponent', this.props.opponent)
     if (color === 'white') {
       this.setState({ 
         white: user.id, 
@@ -100,20 +99,21 @@ class ChallengeCreator extends Component {
     
     return (
       <div className="challenge-creator">  
-        <div className="challenge-creator-header"><p>NEW GAME</p></div>
+        <div className="challenge-creator-header"><p>▧ NEW GAME</p></div>
         <div className="challenge-creator-content">
-          <div>{`OPPONENT: ${selectedOpponent}`}</div>
+          <div><span>{`OPPONENT: `}</span><span>{selectedOpponent}</span></div>
           <div className="slct-container">
-            <div>{`PLAY AS: `}</div>
+            <span>{`I PLAY AS: `}</span>
             <select className="slct" onChange={(e) => this.setMatchup(e.target.value)} disabled={opponent === null}>
               <option value={null} defaultValue>SELECT COLOR</option>
               <option value="white">♔ WHITE</option>
               <option value="black">♚ BLACK</option>
             </select>
           </div>
-          <div>
-            <button className="btn btn-challenge" onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>
-          </div>
+          
+        </div>
+        <div className="challenge-button">
+          <button onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>
         </div>
         {modal}
       </div>

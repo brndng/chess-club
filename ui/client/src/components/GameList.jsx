@@ -29,7 +29,7 @@ class GameList extends Component {
     return (
       <div className="game-list">
         <div className="game-list-header">
-          <p>CURRENT GAMES</p>
+          <p>▧ CURRENT GAMES</p>
           <div className="content-header">
             <span className="match">MATCH</span>
             <span className="date">DATE CREATED</span>

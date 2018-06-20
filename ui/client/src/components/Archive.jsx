@@ -28,7 +28,7 @@ class Archive extends Component {
     return (
       <div className="game-list">
         <div className="game-list-header">
-          <p>COMPLETED GAMES</p>
+          <p>▧ COMPLETED GAMES</p>
           <div className="content-header">
             <span className="match">MATCH</span>
             <span className="date">DATE CREATED</span>
