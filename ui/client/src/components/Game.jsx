@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import io from 'socket.io-client/dist/socket.io.js';
 import axios from 'axios';
-import Board from './Board.jsx';
+import BoardContainer from './BoardContainer.jsx';
 import GameDisplay from './GameDisplay.jsx';
 import PlayerCard from './PlayerCard.jsx';
 import Draw from './Draw.jsx';
@@ -24,7 +24,6 @@ import {
   declareGameOver, } from '../actions/';
 
 axios.defaults.withCredentials = true;
-window.axios = axios;
 
 class Game extends Component {
   constructor(props) {
@@ -59,7 +58,7 @@ class Game extends Component {
         updateCheckStatus(player);
       }
     });
-    initGame(game.data); 
+    initGame(user.id, game.data); 
     this.initOpponent(game.data);
   }
 
@@ -78,28 +77,29 @@ class Game extends Component {
      ) { 
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
-      if ((user.id === game.white) === whiteToMove) {
-        axios.put(`http://localhost:3000/games/move`, { 
-          id,
-          user, 
-          game,
-          selection, 
-          destin,
-          prevPosition,
-          currentPosition, 
-          positionHistory,
-          moves, 
-          whiteToMove,
-        });
-      }
+      const prevMoves = moves.slice(0, moves.length - 1);
+        if ((user.id === game.white) === whiteToMove) {
+          axios.put(`http://localhost:3000/games/move`, { 
+            id,
+            user, 
+            game,
+            selection, 
+            destin,
+            prevPosition,
+            currentPosition, 
+            positionHistory,
+            prevMoves, 
+            moves,
+            whiteToMove,
+          });
+        }
       this.socket.emit('move', { id, newMove });
-      toggleTurn();
+      toggleTurn(user.id, game.white, whiteToMove);
       selectPiece(null, null);
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
       const _checkMate = evaluateCheckmateConditions(user.id, game.white, currentPosition, moves);
-      console.log('​Game -> componentDidUpdate -> _checkMate', _checkMate);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
         axios.put(`http://localhost:3000/games/document`, { 
@@ -136,17 +136,18 @@ class Game extends Component {
   render() {
     const { user, opponent, game, whiteToMove, moves } = this.props;
     const { id } = this.state;
+    const index = moves.length;
     const loadedComponent = (game !== null && opponent !== null && this.socket)
       ? <div className="game-container">
-          <Board />
+          <BoardContainer />
           <div className="game-info">
-            <PlayerCard player={opponent} />
+            <PlayerCard player={opponent} index={index} />
             <GameDisplay id={id} socket={this.socket} />
-          <div className="game-options">
-            <Draw id={id} socket={this.socket} />
-            <Resignation id={id} socket={this.socket} />
-          </div>
-            <PlayerCard player={user} />
+            <div className="game-options">
+              <Draw id={id} socket={this.socket} />
+              <Resignation id={id} socket={this.socket} />
+            </div>
+            <PlayerCard player={user} index={index}/>
           </div>
             <Checkmate id={id} socket={this.socket} />
             <Promotion />

@@ -21,14 +21,14 @@ module.exports = {
     }
 
     if (isUsernameTaken) {
-      res.status(401).send('Username taken');
+      res.status(401).send('Sorry, that username is already taken.');
     } else {
       try {
         const user = await User.create({
           username,
           password,
         });
-        res.send(user);
+        res.status(200).send('Your account has been created!');
       } catch (err) {
         console.log('err from createUser', err);
       }
@@ -41,12 +41,12 @@ module.exports = {
         where: { username },
       });
 			if (!user) {
-				res.status(401).send('Incorrect username');
+				res.status(401).send('Incorrect username.');
 			}
 			if (user) {
         const isVerified = await bcrypt.compare(password, user.dataValues.password);
         if (!isVerified) {
-          res.status(401).send('Incorrect password');
+          res.status(401).send('Incorrect password.');
         }
         req.session.user = user.id;
         const userData = { id: user.id, username: user.username }
@@ -57,8 +57,6 @@ module.exports = {
     }
   },
   fetchCurrentUser: async (req, res) => {
-    console.log('fetchCurrentUser req.session', req.session)
-
     if (req.session.user) { 
       const id = req.session.user;
       try {

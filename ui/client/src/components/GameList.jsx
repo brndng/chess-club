@@ -4,9 +4,9 @@ import { bindActionCreators } from 'redux';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
-import { loadGames, initGame } from '../actions/';
+import { loadGames } from '../actions/';
+import { formatDate } from '../../../../rules/utilities/';
 import { whiteKnight, blackKnight } from '../../images/';
-
 
 axios.defaults.withCredentials = true;
 
@@ -29,10 +29,11 @@ class GameList extends Component {
     return (
       <div className="game-list">
         <div className="game-list-header">
-          <div><img src={whiteKnight} className="image-knight white"/></div>
-          <p>CURRENT GAMES</p>
-
-          <div><img src={blackKnight} className="image-knight black"/></div>
+          <p>▧ CURRENT GAMES</p>
+          <div className="content-header">
+            <span className="match">MATCH</span>
+            <span className="date">DATE CREATED</span>
+          </div>
         </div>
         <br/>
         <div className="game-list-content">
@@ -43,6 +44,7 @@ class GameList extends Component {
                   <Link to={{ pathname: `/game/${game.id}` }}>
                     {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
                   </Link>
+                  <span><small>{formatDate(game.createdAt)}</small></span>
                 </li>
               )
             })}
@@ -58,7 +60,7 @@ const mapStateToProps = ({ user, userGames, game }) => {
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ loadGames, initGame }, dispatch);
+  return bindActionCreators({ loadGames }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(GameList);

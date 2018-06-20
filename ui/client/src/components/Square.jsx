@@ -17,11 +17,6 @@ class Square extends Component {
     super(props);
   }
 
-  initSquareColor() {
-    const { coords } = this.props;
-    return setSquareColor(coords);
-  }
-
   isSelected() {
     const { coords, selection } = this.props;
     if (selection !== null) {
@@ -31,9 +26,9 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { user, game, selection, selectPiece, coords, piece, whiteToMove, currentPosition, moves } = this.props;
+    const { selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves } = this.props;
 
-    if ((user.id === game.white) === whiteToMove) {
+    if (isMyTurn) {
       if ((isWhite(piece) === whiteToMove)) { 
         selectPiece(coords, piece);
       }
@@ -47,7 +42,7 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { user, selectPiece, updatePosition, selection, currentPosition, game, whiteToMove, moves, coords, piece, loadPromotingMove } = this.props;
+    const { user, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
     const _willMoveExposeKing = willMoveExposeKing(user.id, game.white, selection, coords, currentPosition, moves);
     const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
@@ -63,25 +58,26 @@ class Square extends Component {
   }
 
   render() {
-    const { piece, completed } = this.props;
+    const { piece, coords, completed, whiteToMove, isMyTurn } = this.props;
+    const color = setSquareColor(coords);
     const classes = [
       'square',
       this.isSelected() && 'is-selected' 
     ].filter(cls => !!cls).join(' ');
-
     const onClick = completed 
       ? null
       : () => this.handleSquareClick();
+
     return (
-      <div id={this.initSquareColor()} className={classes} onClick={onClick}>
-        {piece === null ? null : <Piece piece={piece} />}
+      <div id={color} className={classes} onClick={onClick}>
+        {piece === null ? null : <Piece piece={piece} isMyTurn={isMyTurn} whiteToMove={whiteToMove} />}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, moves, game, completed }) => { 
-  return { user, selection, currentPosition, whiteToMove, moves, game, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed }) => { 
+  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {

@@ -58,7 +58,6 @@ class ChallengeCreator extends Component {
     }
   }
 
-
   async createGame() {
     const { white, black, whiteUsername, blackUsername } = this.state;
     const newGame = await axios.post('http://localhost:3000/games/challenge', { 
@@ -70,28 +69,17 @@ class ChallengeCreator extends Component {
     if (newGame) {
       this.setState({
         gameId: newGame.data.id,
-      });
-      this.showModal();
+      }, () => this.showModal());
     }
   }
 
   render() {
     const { showModal, gameId, white, black } = this.state;
     const { opponent, selectedPlayer } = this.props;
-    
-    console.log('white, black', white, black)
-    console.log('​ChallengeCreator -> render -> white !== null', white !== null);
-    console.log('​ChallengeCreator -> render -> black !== null', black !== null);
-
-
-    // const createGame = white !== null && black !== null
-    //   ? () => this.createGame()
-    //   : null;
-    console.log('white !== null && black !== null && "btn-disabled"',white !== null && black !== null && "btn-disabled")
     const isDisabled = !(white !== null && black !== null);
-    
-
-
+    const selectedOpponent = opponent
+      ? opponent.username
+      : '';
     const modal = showModal
       && <div >
            <Modal>
@@ -111,17 +99,21 @@ class ChallengeCreator extends Component {
     
     return (
       <div className="challenge-creator">  
+        <div className="challenge-creator-header"><p>▧ NEW GAME</p></div>
         <div className="challenge-creator-content">
+          <div><span>{`OPPONENT: `}</span><span><strong>{selectedOpponent}</strong></span></div>
           <div className="slct-container">
-            <select className="slct" onChange={(e) => this.setMatchup(e.target.value)}>
+            <span>{`I PLAY AS: `}</span>
+            <select className="slct" onChange={(e) => this.setMatchup(e.target.value)} disabled={opponent === null}>
               <option value={null} defaultValue>SELECT COLOR</option>
               <option value="white">♔ WHITE</option>
               <option value="black">♚ BLACK</option>
             </select>
           </div>
-          <div>
-            <button className="btn btn-challenge" onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>
-          </div>
+          
+        </div>
+        <div className="challenge-button">
+          <button onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>
         </div>
         {modal}
       </div>
@@ -129,8 +121,8 @@ class ChallengeCreator extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => {
-  return { user }
+const mapStateToProps = ({ user, opponent }) => {
+  return { user, opponent };
 }
 
 export default withRouter(connect(mapStateToProps)(ChallengeCreator));

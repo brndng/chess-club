@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const { Game } = require('../../db/models.js');
-const { initialPosition } = require('../../../rules/utilities/');
+const { initialPosition, areEqual } = require('../../../rules/utilities/');
 
 module.exports = {
   fetchAllGames: async (req, res) => {
@@ -60,20 +60,15 @@ module.exports = {
       console.log('err from registerMove findOne', err);
     }
 
-    console.log('///registerMove isCorrecTurn', isCorrectTurn)
-
     if (!isCorrectTurn) {
       res.status(401).send('No hacks allowed. You may only move on your turn.');
     } else {
       try {
-        // if (!rules.isLegalMove(....) ) {
-        //   res.status(400).send('no hacks allowed.')
-        // }
         const update = await Game.update({
           position: currentPosition,
           moves,
           whiteToMove: !whiteToMove,
-          positionHistory
+          positionHistory: [...positionHistory, currentPosition],
         }, {
           where: { id },
           returning: true,
@@ -85,7 +80,6 @@ module.exports = {
       }
     }
   },
-
   updateCheck: async (req, res) => {
     const { id, inCheck } = req.body;
     try {
@@ -117,7 +111,6 @@ module.exports = {
       console.log('err from saveGame', err)
     }
   },
-
   registerDrawOffer: async (req, res) => {
     const { id, userId } = req.body;
     try {
@@ -131,7 +124,6 @@ module.exports = {
       console.log('err from registerDrawOffer', err);
     }
   },
-  
   resign: async (req, res) => {
     const { id, user, completed, winner } = req.body;
 
@@ -153,7 +145,6 @@ module.exports = {
       }
     }
   },
-
   acceptDraw: async (req, res) => {
     const { id, user, completed, winner } = req.body;
     let drawOfferedByOpponent = true;

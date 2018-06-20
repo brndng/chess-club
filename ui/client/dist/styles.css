@@ -9,6 +9,7 @@ html, body, #app-root, .route-container, .wrapper {
   /* color: floralwhite;      */
 }
 
+
 .btn {
   background-color: #d4d4dc;
   border: none;
@@ -18,7 +19,7 @@ html, body, #app-root, .route-container, .wrapper {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 button {
@@ -29,12 +30,7 @@ button:focus {
   outline: 0;
 }
 
-.btn-challenge:disabled {
-  background: lightgray;
-  color: gray;
-  opacity: 0.6;
-  cursor: default;
-}
+
 
 /* Landing */
 .landing {
@@ -79,181 +75,289 @@ button:focus {
 /* Gamelist */
 
 .game-list {
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 32px;
+  justify-content: space-between;
+  margin: 48px auto;
+  height: 75vh;
+  width: 75%;
 }
 
 .game-list-header {
   display: flex;
   flex-shrink: 0;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: 80px;
-  /* align-items: center; */
+  background-color: #CBC6BD;
+  border-radius: 1px;
+  color: #383838;
 }
 
   .game-list-header p {
-    border: 2px solid floralwhite;
-    background-color: #1d1e22;
-    color: #d4d4dc;
+    color: #241C15;
     width: 312px;
-    
-    padding: 8px 16px 8px 16px;
-    /*margin: 8px 0px 8px 0px; */
+    padding: 16px 8px 0px 8px;
+    margin: 0px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    font-size: 18px;
+    
+  }
+
+  .content-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    font-size: 16px;
+  }
+
+  .content-header span {
+    text-align: center;
+    font-size: 11px;
+    padding-bottom: 4px;
+  }
+
+  .content-header span.match {
+    margin-left: 24px;
+  }
+
+  .content-header span.date {
+    margin-right: 36px;
+  }
+
+  .game-list-content {
+    width: 100%;
+    overflow: auto;
+    background-color: #ECECE8;
   }
 
   .game-list-content ul {
     display: flex;
     flex-direction: column;
     margin: 0; 
-    padding: 0;
+    padding: 8px 0px 8px 0px;
     list-style: none;
     overflow: hidden;
     list-style-position: inside;
+    border-radius: 2px;
   }
 
   .game-list-content li {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     letter-spacing: 2px;
-    padding: 8px;
+    padding: 12px 24px 0px 24px;
   }
 
   .game-list-content a {
     text-decoration: none;
-    color: floralwhite;
+    color: #383838;
+  }
+
+  .game-list-content span {
+    color: #6E6561;
   }
 
 /* Players */
 .players-container {
   display: flex;
-  flex-direction: column;
-}
-
-  .players-search {
+  flex-direction: row;
+  height: 75vh;
+  margin-top: 32px;
+} 
+  .players-select {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #CBC6BD;
     margin-left: 16px;
-    margin-top: 32px;
-    margin-bottom: 32px;
-
-    
+    width: 280px;
+    border-radius: 2px;
   }
-    .players-search input {
-      margin-right: 16px; 
-      width: 200px;
-      padding: 8px;
+
+    .players-search {
+      display: flex;
+      margin: 16px 16px 32px 16px;
+      height: 54px;
+
     }
-    .players-search-button {
-      font-size: 24px;
-      padding-bottom: 8px;
-      width: 41px;
-      border-radius: 2px;
-    }
+      .players-search input {
+        border: none;
+        padding: 8px 28px 8px 8px;
+        font-size: 13px;
+        color: #6E6561;
+        outline: none;
+        width: 248px;
+        border-radius: 1px;
+        background-color: white;
+      }
+      .players-search-button {
+        font-size: 24px;
+        width: 24px;
+        margin: -4px 0px 0px -24px;
+        padding: 0px 4px 4px 0px;
+        background: transparent;
+        border: none;
+        border-radius: 1px;
+        color: #6E6561;
+      }
+  
+  .players-invalid {
+    display: flex;  
+    flex-direction: column;
+    align-items: center;
+    padding-right: 16px;
+  }
+  .players-invalid span {
+    font-size: 13px;
+    padding: 4px 0px;
+  }
 
   .players-default {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
-    /* border: 1px solid floralwhite; */
+    border: 1px solid #ECECE8;
     height: 100vh;
-    margin-left: 16px;
+    margin: 0px 16px 16px 16px;  
+  }
+
+  .players-default p {
+    margin: 12px 16px -8px 16px;
+    font-size: 13px;
+    text-align: center;
+    color: #383838;
+  }
+
+  .players-default button {
+    margin-top: 32px;
   }
     .players-list {
       display: flex;
-      width: 50%;
       flex-direction: column;
       /* border: 1px solid floralwhite; */
       overflow: auto;
     }
     
-
-    .players-list div p {
-      border: 2px solid floralwhite;
-      background-color: #1d1e22;
-      color: floralwhite;
-      width: 280px;
-      padding: 8px 16px 8px 16px;
-      margin: 0px 0px 0px 0px;
-      display: flex;
-      justify-content: center;
-      font-size: 16px;
-    }
-
     .players-list ul {
-      padding-left: 16px;
-      margin-right: 64px;
+      height: 360px;
+      border-radius: 1px;
+      overflow: auto;
+      padding: 8px 0px 8px 16px;
+      margin: 16px 0px 0px 0px;
+      background-color: #ECECE8;
+      
+
+      /* margin-right: 64px; */
     }
       .players-list li {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         list-style: none;
+        padding-top: 4px;
       } 
+
+        .players-list li a {
+          text-decoration: none;
+          font-size: 14px;
+          color: #383838;
+        }
         
-        .players-list li div {
-          padding: 4px;
-        }
-        /* .players-list li div input {
-          padding: 12px;
-        } */
-        .players-list li div label {
-          color: floralwhite;
-          padding: 8px;
-        }
     .players-challenge {
       display: flex;
       flex-direction: row;
-      width: 50%;
-      border-top: 1px solid floralwhite;
+      width: 420px;
+      height: 320px;
+      
+      background-color: #ECECE8;
+      margin-left: 120px;
+
     }
 
-    .challenge-creator-content {
-      display: flex;
-      flex-direction: row;
-      margin-top: 52px;
+    .challenge-creator {
+      width: 100%;
+      margin: 24px;
     }
-      .challenge-creator {
-        flex-grow: 1;
+
+   
+
+      .challenge-creator-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-around;
+        flex-shrink: 0;
+        margin: 52px 0px;
+        padding: 8px 8px 8px 0px;
+        border-radius: 1px;
+      }
+
+      .challenge-creator-content div {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-bottom: 16px;
+      }
+
+      .challenge-creator-content span {
+        width: 100px;
+        font-size: 13px;
+        padding: 8px 8px 8px 0px;
+        color: #6E6561;
+      }
+
+      
+      .challenge-creator-header p {
+        margin: 0px;
+        /* padding: 16px 8px 0px 8px; */
+        font-size: 18px;
+        color: #383838;
       }
 
     /**/
    .slct-container {
       display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
     }
+
+    
       .slct {
-        display: flex;
-        background-color: #d4d4dc;
+        /* display: flex; */
+        background-color: #F0EBE8;
         width: 130px;
-        height: 32px;
-        margin: 24px 32px 0px 0px;
-        font-size: 14px;
+        height: 28px;
+        font-size: 13px;
       }
-      .btn.btn-challenge {
-        margin: 24px 0px 0px 32px;
+
+      .challenge-button {
+        display: flex;
+        justify-content: center;
+      }
+      .challenge-button button {
+        margin: auto;
         height: 32px;
         width: 160px;
         letter-spacing: 1px;
         font-size: 16px;
-        padding: 6px 8px 8px 8px;
-        border: 1px solid floralwhite;
+        padding: 4px 8px 4px 8px;
+        border: 1px solid #383838;
         background-color: white;
+        border-radius: 1px;
       }
 
-      
-  
-  
-    
-  /* .push {
-    margin-left: auto;
-  } */
+      .challenge-button button:disabled {
+        color: gray;
+        border-color: gray;
+        opacity: 0.5;
+        cursor: default;
+      }
 
 /* Game */
 .game-container {
@@ -263,30 +367,102 @@ button:focus {
   justify-content: center;
 }
 
-/* Board */
-.board-container {
-  align-items: center;
+/* BoardContainer */
+.outer-board-container {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  background-color: #965b31b6;
-  padding: 8px;
-  border: 1px solid #965b31b6;
+  background-color: #593B2E;
+  opacity: 1;
+  border: 1px solid black;
   border-radius: 4px;
-  margin: 24px;
-  -webkit-user-select: none; /* Chrome/Safari */        
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
-  user-select: none;  
+  margin: 32px;
+  height: 464px;
+  width: 464px;
 }
-.board-container.is-my-turn:hover {
-  cursor: pointer;
+
+.upper-board-container {
+  width: 400px;
+  height: 20px;
+  display: flex;
+  justify-content: flex-end;
+  margin: auto;
 }
+
+.mid-board-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.lower-board-container {
+  width: 400px;
+  margin: auto;
+}
+
+.coords-ranks {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 400px;
+  width: 20px;
+}
+
+.coords-files {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 400px;
+  height: 20px;
+}
+
+.rank {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  height: 50px;
+  transition: ease-out 0.5s;
+  color: #593B2E;
+}
+
+.file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  width: 50px;
+  transition: ease-out 0.5s;
+  color: #593B2E;
+}
+
+.is-displayed {
+  color: #eec28c;
+  transition: ease-out 0.5s;
+}
+
+/* Board */
   .board {
     display: flex;
     flex-direction: column;
-    background-color: #fed6a4;
-    margin: 12px;
+    flex-shrink: 0;
+    background-color: #F2CB9B;
+    /* margin: 0 auto; */
     padding: 4px;
-    border: 1px solid #8F4F2C;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    user-select: none;  
+  }
+
+  .board.is-my-turn:hover {
+    cursor: pointer;
   }
     .row {
       display: flex;
@@ -310,22 +486,46 @@ button:focus {
         height: 100%;
         top: 0;
         left: 0;
-        opacity: 0.6;
+        opacity: 0.7;
         z-index: 2;
+        background-color: #61887A;
+        /* background-color: #34925E; OG*/
+        /* background-color: #549876; */
+
+        /* background-color: #0E8044 */
+        /* background-color: #82AC89; */
         /* background-color: pink; */
         /* background-color: #479761; */
-        background-color: #34925E;
+        /* 
+         */
+         /* background-color: #3F7F60; */
+
         /* background-color: #a16E83; */
       }
         #black {
-          background-color: #B27645;
+          /* background-color: #B27645; */
+          background-color: #AA7047;
+
         }
         #white {
-          background-color: #F2CB9B;
+          /* background-color: #F2CB9B; */
+          /* background-color: #ebc18e; */
+          /* background-color: #f0c48e; */
+          /* background-color: #f0c28a; */
+          background-color: #eec28c;
         }
-          .piece-white {      
+
+        .piece.is-my-turn {
+          transition: transform 150ms;
+        }
+
+        .piece.is-my-turn:active {
+          transform: scale(1.25);
+        }
+          .piece.white {      
             /* color: floralwhite; */
-            color: #f6f5f3;
+            /* color: #f6f5f3; */
+            color: #ECECE8;
             position: absolute;
             width: 100%;
             height: 100%;
@@ -334,7 +534,7 @@ button:focus {
             text-shadow: 1px 1px 1px black;
             z-index: 3;
           }
-          .piece-black {
+          .piece.black {
             color: black;  
             position: absolute;
             width: 100%;
@@ -349,12 +549,17 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #393f4d;
+  /* background: #393f4d; */
+  /* background: #5B544A; */
+  background: #CBC6BD;
+
+  /* background: #7C7063; */
+  /* background: #8E8474; */
   width: 200px;
-  height: 412px;
-  padding: 20px;
-  border: 1px inset black;
-  border-radius: 4px;
+  height: 408px;
+  padding: 28px 14px;
+  border: 1px solid black;
+  border-radius: 2px;
 }
 
   .game-options {
@@ -371,34 +576,44 @@ button:focus {
     padding: 2px;
     letter-spacing: 1px;
     border-radius: 2px;
-    background-color: #1d1e22;
-    color: floralwhite;
-    width: 60px;
+    background-color: #383838;
+    color: #F0EBE8;
+    width: 54px;
+    font-size: 10px;
+    border: 0.5px solid #F0EBE8;
   }
   .player-card-container {
     display: flex;
     flex-direction: column;
-    background-color: #d4d4dc;
+    /* background-color: #d4d4dc; */
+    background-color: #ECECE8;
     font-family: Arial, Helvetica, sans-serif; 
-    padding: 5px;
-    border: 4px solid rgba(255, 255, 255, 0.5);
+    padding: 4px;
+    border: 4px solid #ECECE8;
     border-radius: 2px;
   }
   .player-card-container.is-my-turn {
-    /* border: 2px solid pink;  */
-    /* border: 4px solid  #479761;    */
-    border: 4px solid #34925E;    
-
+    /* border: 4px solid rgba(46,131,87,0.8); */
+    /* border: 4px solid #34925E; */
+    /* border: 4px solid #549876; */
+    border: 4px solid #61887A;
+    
+    
   }
     .player-card-username {
       font-size: 12px;
       padding: 1px;
+      color: #383838;
+    }
+
+    .player-card-username strong {
+      color: #383838;
     }
     .player-card-pieces {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      height: 21px;
+      height: 32px;
     } 
       .captured-piece {
         font-size: 13px;
@@ -428,7 +643,7 @@ button:focus {
       flex-direction: row;
       justify-content: center;
       list-style: none;
-
+      height: 22px;
     }
 
     .game-display-toggle a {
@@ -470,23 +685,56 @@ button:focus {
   flex-direction: column;
 }
   .move-history-output {
-    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 200px;
     overflow: auto;
     background: white;
-    padding: 8px 0px 12px 12px;
-    background-color: #d4d4dc;
-    font-size: 15px;
+    padding: 0px 0px 0px 16px;
+    /* background-color: #d4d4dc; */
+    /* background-color: #D6D5D1;   */
+    background-color: #ECECE8;  
+    font-size: 13px;
+    border-radius: 1px;
   }
 
   .move-history-output ol {
-    padding-left: 24px;
+    flex-shrink: 0;
+    padding-left: 16px;
   }
     .move-history-row {
+      padding: 0px;
+      margin: 0px;
       display: flex;
       flex-direction: row;
-      width: 140px;
-      justify-content: space-between;
     }
+
+    .move-pair {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0.5px 2px 0.5px 2px;
+      margin: 0;
+      width: 58px;
+      color: #383838;
+    }
+    .move-pair.white {
+      flex-shrink: 0;
+    }
+    .move-pair.black {
+      margin: 0 auto;
+    }
+  .result-container {
+    margin-top: auto;
+  }
+  .result-container ul {
+    list-style: none;
+    margin: 0px 0px 0px -16px;
+    padding: 0px 0px 0px 0px;
+    display: flex;
+    justify-content: center;
+
+  }
       
 /* Chat */
 .chat-container {
@@ -498,7 +746,8 @@ button:focus {
   .chat-output {
     height: 180px;
     overflow: auto;
-    background-color: #d4d4dc;
+    /* background-color: #d4d4dc; */
+    background-color: #F0EBE8;
     padding: 12px;
     font-size: 12px;
   }
@@ -550,13 +799,14 @@ button:focus {
     .nav-left li {
       display: flex;
       align-items: center;
-      padding: 0px
+      padding: 0px;
+      color: #F0EBE8;
     }
       .nav-left li a {
         text-decoration: none;
         text-align: center;
         font-size: 32px;
-        color: floralwhite;
+        color: #F0EBE8;
         display: block;
         padding: 16px;
       }
@@ -577,15 +827,15 @@ button:focus {
         text-decoration: none;
         text-align: center;
         font-size: 11px;
-        color: floralwhite;
+        color: #E6E0DA;
         display: block;
         padding: 16px;
         position: relative;
-        transition: color 0.1s, background-color 0.1s, padding 0.2s ease-in;
+        transition: color 0.1s, background-color 0.1s, padding 0.2s ease-out;
       }
       .nav-right a:hover, .nav-right a:focus, .nav-right a:active {
         /* color: #479761; */
-        color: #34925E;
+        color: #61887A;
 
         /* text-decoration: none; */
       }
@@ -624,7 +874,7 @@ button:focus {
 
 
   .welcome {
-    color: floralwhite;
+    color: #F0EBE8;
     padding: 16px;
     margin: 48px 0px 48px 0px;
     position: relative;
@@ -639,7 +889,6 @@ button:focus {
       animation: slide 0.6s forwards;
       animation-delay: 0.4s;
       top: 32px;
-      
 
     }
 
@@ -676,19 +925,21 @@ button:focus {
       
     }
 
-    
+.icon {
+  color: #383838;
+} 
 
 
 /* Logout */
 .logout {
   display: flex;
   text-align: center; 
-  color: floralwhite;
+  /* color: floralwhite; */
 }
   .logout a {
     text-decoration: none;
     text-align: center;
-    color: floralwhite;
+    color: #F0EBE8;
     display: block;
     font-size: 11px;
     /* padding: 8px; */
@@ -710,7 +961,6 @@ button:focus {
 
   .login-left {
     width: 160px;
-    /* height: 642.4px; */
   }
 
   .login-right {
@@ -725,18 +975,20 @@ button:focus {
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
+    margin: 0 auto;
     opacity: 0.4;
   }
 .login-form {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 360px;
   width: 360px;
   margin-top: 64px;
   margin-left: 175px;
+  
   padding: 24px;
   background-color: black;
   opacity: .9;
@@ -744,6 +996,24 @@ button:focus {
   border-radius: 2px;
   /* margin: auto; */
 } 
+
+.login-form span {
+  color: white;
+  font-size: 14px;
+  padding: 4px;
+  text-align: center;
+  width: 312px;
+  height: 24.8px;
+  /* margin-bottom: auto; */
+}
+
+.login-form-content {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  margin: auto;
+  align-items: center;
+}
 
   .login-form-input {
     display: flex;
@@ -758,6 +1028,7 @@ button:focus {
       height: 32px;
       padding: 12px;
       margin-bottom: 14px;
+      font-size: 14px;
       background-color: #f6f5f3;
     }
 
@@ -768,7 +1039,8 @@ button:focus {
       box-sizing: border-box;
       width: 320px;
       height: 32px;
-      padding: 12px;
+      font-size: 16px;
+      padding: 2px;
       color: black;
       background-color: rgba(255, 255, 255, 1);
       align-items: center;
@@ -821,34 +1093,27 @@ button:focus {
   }
 
   .modal-btn-container button {
-    background-color: rgba(0,0,0,0.8);
+    background: transparent;
     color: white;
     font-size: 24px;
     border: none;
     cursor: pointer;
   }
 
-
-  
-
- 
   .modal-dialogue {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: #F0EBE8;
     width: 348px;
     height: 174px;
-    border-radius: 2px;
+    border-radius: 1px;
     padding: 12px;
     margin-bottom: 224px;
     font-family: Arial, Helvetica, sans-serif; 
     letter-spacing: 1px;
     font-size: 16px
-
-
-    /* color: floralwhite; */
   }
 
   .modal-dialogue p {
@@ -857,6 +1122,7 @@ button:focus {
     font-size: 16px;
     display: flex;
     justify-content: center;
+    color: #383838;
   }
 
   .modal-dialogue-btn-container {
@@ -872,18 +1138,16 @@ button:focus {
   .modal-dialogue-btn-container button {
     width: 80px;
     height: 40px;
-    font-size: 12px;
-    border: 1px solid #1d1e22;
+    font-size: 16px;
+    border: 1px solid #383838;
     border-radius: 2px;
     margin: 4px;
   }
 
 
-::placeholder {
-  color: black;
-}
 
-.image-knight {
+
+/* .image-knight {
   width: 60px;
   height: 60px;
 }
@@ -898,7 +1162,68 @@ button:focus {
 .image-knight.black {
   margin-left: 60px;
 
+} */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 20px;
 }
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #AA7047;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #F0EBE8;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+input:checked + .slider {
+  background-color: #eec28c;
+
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #D6D5D1;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(28px);
+  -ms-transform: translateX(28px);
+  transform: translateX(28px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+
+
 
 
 

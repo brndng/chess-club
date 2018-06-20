@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import Board from './Board.jsx';
+import axios from 'axios';
+import BoardContainer from './BoardContainer.jsx';
 import GameDisplay from './GameDisplay.jsx';
+import MoveHistory from './MoveHistory.jsx';
 import PlayerCard from './PlayerCard.jsx';
 import { 
   initGame,
-  storeOpponent,
-  toggleTurn, 
-  loadSnapshot, } from '../actions/';
+  storeOpponent, 
+  loadSnapshot,
+  loadTurn, } from '../actions/';
 
 axios.defaults.withCredentials = true;
 
@@ -27,8 +29,12 @@ class CompletedGame extends Component {
     const { user, initGame } = this.props;
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
-    initGame(game.data); 
+    const index = game.data.moves.length;
+    initGame(user.id, game.data); 
     this.initOpponent(game.data);
+    this.setState({
+      index, 
+    });
   }
 
   async initOpponent(game) {
@@ -36,73 +42,67 @@ class CompletedGame extends Component {
     const opponentId = user.id === game.white 
       ? game.black
       : game.white;
-    
     const opponent = await axios.get(`http://localhost:3000/users/profile/${opponentId}`);
     storeOpponent(opponent.data);
   }
 
-  displayInitPosition() {
-    const { loadSnapshot, positionHistory } = this.props;    
+  displayTargetPosition(target) {
+    const { user, game, positionHistory, loadSnapshot, loadTurn } = this.props;
     const { index } = this.state;
+    let targetIndex;
 
-    this.setState({
-      index: 0,
-    }, () => {loadSnapshot(positionHistory[this.state.index])});
-  }
-
-  displayPrevPosition() {
-    const { loadSnapshot, positionHistory } = this.props;
-    const { index } = this.state;
-
-    if (positionHistory[index - 1]) {
-      this.setState({
-        index: index - 1,
-      }, () => {loadSnapshot(positionHistory[this.state.index])});
+    switch(target) {
+      case 'INIT':
+        targetIndex = 0;
+        break;
+      case 'PREV':
+        targetIndex = index - 1;
+        break;
+      case 'NEXT':
+        targetIndex = index + 1;
+        break;
+      case 'LAST': 
+        targetIndex = positionHistory.length - 1;
+        break;
+      default:
+        targetIndex = index;
     }
-    
-  }
 
-  displayNextPosition() {
-    const { loadSnapshot, positionHistory } = this.props;
-    const { index } = this.state;
-
-    if (positionHistory[index + 1]) {
+    if (positionHistory[targetIndex]) {
       this.setState({
-        index: index + 1,
-      }, () => {loadSnapshot(positionHistory[this.state.index])});
+        index: targetIndex,
+      }, () => {
+        loadSnapshot(positionHistory[this.state.index]);
+        loadTurn(user.id, game.white, this.state.index);
+      });
     }
-  }
-
-  displayLastPosition() {
-    const { loadSnapshot, positionHistory } = this.props;
-    const { index } = this.state;
-    this.setState({
-      index: positionHistory.length - 1,
-    }, () => {loadSnapshot(positionHistory[this.state.index])});
   }
 
   render() {
     const { user, opponent, game } = this.props;
-    const { id } = this.state;
-    const loadedComponent = (game !== null && opponent !== null)
+    const { id, index } = this.state;
+    const currMoveIndex = index - 1;
+    const loadedComponent = (game !== null && opponent !== null && index !== null)
       ? <div className="game-container">
-          <Board />
+          <BoardContainer />
           <div className="game-info">
-            <PlayerCard player={opponent} />
-            {/* <GameDisplay id={id} socket={this.socket} /> */}
-          <div className="game-options">
-            <button onClick={() => this.displayInitPosition()}>◀◀</button>
-            <button onClick={() => this.displayPrevPosition()}>◀ </button>
-            <button onClick={() => this.displayNextPosition()}>▶ </button>
-            <button onClick={() => this.displayLastPosition()}>▶▶</button>
+            <PlayerCard player={opponent} index={currMoveIndex} />
+            <div className="game-display-toggle"></div>
+            <div className="game-display">
+            <MoveHistory index={currMoveIndex} />
           </div>
-            <PlayerCard player={user} />
+            <div className="game-options">
+              <button onClick={() => this.displayTargetPosition('INIT')}>◀◀</button>
+              <button onClick={() => this.displayTargetPosition('PREV')}>◀ </button>
+              <button onClick={() => this.displayTargetPosition('NEXT')}>▶ </button>
+              <button onClick={() => this.displayTargetPosition('LAST')}>▶▶</button>
+            </div>
+            <PlayerCard player={user} index={currMoveIndex} />
           </div>
         </div>
       : <div>Loading...</div>;
 
     return loadedComponent;
-  
   }
 }
 
@@ -111,7 +111,7 @@ const mapStateToProps = ({ user, opponent, game, positionHistory }) => {
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ initGame, storeOpponent, toggleTurn, loadSnapshot }, dispatch);
+  return bindActionCreators({ initGame, storeOpponent, loadSnapshot, loadTurn }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(CompletedGame);
