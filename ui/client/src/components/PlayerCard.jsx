@@ -26,7 +26,7 @@ class PlayerCard extends Component {
     return (
       <div className={classes}>
         <div className="player-card-username">
-          <strong>{player.username}</strong>
+          <strong>{`▧  ${player.username}`}</strong>
         </div>
         <div className="player-card-pieces">
           {capturedPieces.map((piece, i) => (

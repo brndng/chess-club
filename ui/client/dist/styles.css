@@ -30,12 +30,7 @@ button:focus {
   outline: 0;
 }
 
-.btn-challenge:disabled {
-  background: lightgray;
-  color: gray;
-  opacity: 0.6;
-  cursor: default;
-}
+
 
 /* Landing */
 .landing {
@@ -97,6 +92,7 @@ button:focus {
   height: 80px;
   background-color: #CBC6BD;
   border-radius: 1px;
+  color: #383838;
 }
 
   .game-list-header p {
@@ -159,7 +155,7 @@ button:focus {
 
   .game-list-content a {
     text-decoration: none;
-    color: black;
+    color: #383838;
   }
 
   .game-list-content span {
@@ -186,7 +182,6 @@ button:focus {
     .players-search {
       display: flex;
       margin: 16px 16px 32px 16px;
-      border: 1px solid white;
       height: 54px;
 
     }
@@ -198,6 +193,7 @@ button:focus {
         outline: none;
         width: 248px;
         border-radius: 1px;
+        background-color: white;
       }
       .players-search-button {
         font-size: 24px;
@@ -269,6 +265,7 @@ button:focus {
         .players-list li a {
           text-decoration: none;
           font-size: 14px;
+          color: #383838;
         }
         
     .players-challenge {
@@ -333,7 +330,7 @@ button:focus {
     
       .slct {
         /* display: flex; */
-        background-color: #d4d4dc;
+        background-color: #F0EBE8;
         width: 130px;
         height: 28px;
         font-size: 13px;
@@ -348,10 +345,18 @@ button:focus {
         height: 32px;
         width: 160px;
         letter-spacing: 1px;
-        font-size: 18px;
-        padding: 4px 8px 8px 8px;
-        border: 1px solid floralwhite;
+        font-size: 16px;
+        padding: 4px 8px 4px 8px;
+        border: 1px solid #383838;
         background-color: white;
+        border-radius: 1px;
+      }
+
+      .challenge-button button:disabled {
+        color: gray;
+        border-color: gray;
+        opacity: 0.5;
+        cursor: default;
       }
 
 /* Game */
@@ -519,7 +524,8 @@ button:focus {
         }
           .piece.white {      
             /* color: floralwhite; */
-            color: #f6f5f3;
+            /* color: #f6f5f3; */
+            color: #ECECE8;
             position: absolute;
             width: 100%;
             height: 100%;
@@ -545,13 +551,13 @@ button:focus {
   justify-content: space-between;
   /* background: #393f4d; */
   /* background: #5B544A; */
-  background: #BBAFA0;
+  background: #CBC6BD;
 
   /* background: #7C7063; */
   /* background: #8E8474; */
   width: 200px;
-  height: 436px;
-  padding: 14px;
+  height: 408px;
+  padding: 28px 14px;
   border: 1px solid black;
   border-radius: 2px;
 }
@@ -570,19 +576,20 @@ button:focus {
     padding: 2px;
     letter-spacing: 1px;
     border-radius: 2px;
-    background-color: #1d1e22;
-    color: floralwhite;
+    background-color: #383838;
+    color: #F0EBE8;
     width: 54px;
     font-size: 10px;
+    border: 0.5px solid #F0EBE8;
   }
   .player-card-container {
     display: flex;
     flex-direction: column;
     /* background-color: #d4d4dc; */
-    background-color: #F0EBE8;
+    background-color: #ECECE8;
     font-family: Arial, Helvetica, sans-serif; 
     padding: 4px;
-    border: 4px solid rgba(255, 255, 255, 0.5);
+    border: 4px solid #ECECE8;
     border-radius: 2px;
   }
   .player-card-container.is-my-turn {
@@ -596,6 +603,11 @@ button:focus {
     .player-card-username {
       font-size: 12px;
       padding: 1px;
+      color: #383838;
+    }
+
+    .player-card-username strong {
+      color: #383838;
     }
     .player-card-pieces {
       display: flex;
@@ -704,6 +716,7 @@ button:focus {
       padding: 0.5px 2px 0.5px 2px;
       margin: 0;
       width: 58px;
+      color: #383838;
     }
     .move-pair.white {
       flex-shrink: 0;
@@ -734,7 +747,7 @@ button:focus {
     height: 180px;
     overflow: auto;
     /* background-color: #d4d4dc; */
-    background-color: #D6D5D1;
+    background-color: #F0EBE8;
     padding: 12px;
     font-size: 12px;
   }
@@ -786,13 +799,14 @@ button:focus {
     .nav-left li {
       display: flex;
       align-items: center;
-      padding: 0px
+      padding: 0px;
+      color: #F0EBE8;
     }
       .nav-left li a {
         text-decoration: none;
         text-align: center;
         font-size: 32px;
-        color: floralwhite;
+        color: #F0EBE8;
         display: block;
         padding: 16px;
       }
@@ -813,7 +827,7 @@ button:focus {
         text-decoration: none;
         text-align: center;
         font-size: 11px;
-        color: floralwhite;
+        color: #E6E0DA;
         display: block;
         padding: 16px;
         position: relative;
@@ -860,7 +874,7 @@ button:focus {
 
 
   .welcome {
-    color: floralwhite;
+    color: #F0EBE8;
     padding: 16px;
     margin: 48px 0px 48px 0px;
     position: relative;
@@ -911,19 +925,21 @@ button:focus {
       
     }
 
-    
+.icon {
+  color: #383838;
+} 
 
 
 /* Logout */
 .logout {
   display: flex;
   text-align: center; 
-  color: floralwhite;
+  /* color: floralwhite; */
 }
   .logout a {
     text-decoration: none;
     text-align: center;
-    color: floralwhite;
+    color: #F0EBE8;
     display: block;
     font-size: 11px;
     /* padding: 8px; */
@@ -1077,34 +1093,27 @@ button:focus {
   }
 
   .modal-btn-container button {
-    background-color: rgba(0,0,0,0.8);
+    background: transparent;
     color: white;
     font-size: 24px;
     border: none;
     cursor: pointer;
   }
 
-
-  
-
- 
   .modal-dialogue {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: #F0EBE8;
     width: 348px;
     height: 174px;
-    border-radius: 2px;
+    border-radius: 1px;
     padding: 12px;
     margin-bottom: 224px;
     font-family: Arial, Helvetica, sans-serif; 
     letter-spacing: 1px;
     font-size: 16px
-
-
-    /* color: floralwhite; */
   }
 
   .modal-dialogue p {
@@ -1113,6 +1122,7 @@ button:focus {
     font-size: 16px;
     display: flex;
     justify-content: center;
+    color: #383838;
   }
 
   .modal-dialogue-btn-container {
@@ -1129,17 +1139,15 @@ button:focus {
     width: 80px;
     height: 40px;
     font-size: 16px;
-    border: 1px solid #1d1e22;
+    border: 1px solid #383838;
     border-radius: 2px;
     margin: 4px;
   }
 
 
-::placeholder {
-  color: #6E6561;
-}
 
-.image-knight {
+
+/* .image-knight {
   width: 60px;
   height: 60px;
 }
@@ -1154,7 +1162,7 @@ button:focus {
 .image-knight.black {
   margin-left: 60px;
 
-}
+} */
 
 .switch {
   position: relative;
@@ -1184,7 +1192,7 @@ button:focus {
   width: 12px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: #F0EBE8;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }

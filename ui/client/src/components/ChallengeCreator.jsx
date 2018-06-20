@@ -101,7 +101,7 @@ class ChallengeCreator extends Component {
       <div className="challenge-creator">  
         <div className="challenge-creator-header"><p>▧ NEW GAME</p></div>
         <div className="challenge-creator-content">
-          <div><span>{`OPPONENT: `}</span><span>{selectedOpponent}</span></div>
+          <div><span>{`OPPONENT: `}</span><span><strong>{selectedOpponent}</strong></span></div>
           <div className="slct-container">
             <span>{`I PLAY AS: `}</span>
             <select className="slct" onChange={(e) => this.setMatchup(e.target.value)} disabled={opponent === null}>
