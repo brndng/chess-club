@@ -96,12 +96,13 @@ module.exports = {
     }
   },
   documentGame: async (req, res) => {
-    const { id, moves, completed, winner } = req.body;
+    const { id, moves, completed, winner, result } = req.body;
     try {
       const record = await Game.update({
         moves,
         completed,
         winner,
+        result,
       }, {
         where: { id },
         returning: true,
@@ -126,7 +127,7 @@ module.exports = {
     }
   },
   resign: async (req, res) => {
-    const { id, user, completed, winner } = req.body;
+    const { id, user, completed, winner, result } = req.body;
 
     if (user.id !== req.session.user) {
       res.status(401).send('No hacks allowed. Only authenticated users may resign from games.')
@@ -135,6 +136,7 @@ module.exports = {
         const record = await Game.update({
           completed,
           winner,
+          result,
         }, {
           where: { id },
           returning: true,
@@ -147,7 +149,7 @@ module.exports = {
     }
   },
   acceptDraw: async (req, res) => {
-    const { id, user, completed, winner } = req.body;
+    const { id, user, completed, winner, result } = req.body;
     let drawOfferedByOpponent = true;
   
     try {
@@ -169,6 +171,7 @@ module.exports = {
         const record = await Game.update({
           completed,
           winner,
+          result,
         }, {
           where: { id },
           returning: true,

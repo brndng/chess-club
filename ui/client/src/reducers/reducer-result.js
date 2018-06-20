@@ -9,6 +9,10 @@ export default (state = null, action) => {
     case 'RESIGN': 
       return action.payload;
       break;
+    case 'GAME_INITIALIZED':
+      const { result } = action.payload;
+      return result;
+      break;
   }
   return state;
 };

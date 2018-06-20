@@ -66,11 +66,12 @@ class Draw extends Component {
   }
 
   async acceptDraw() {
-    const { user, id, socket, declareGameOver } = this.props;
+    const { user, id, socket, declareGameOver, result } = this.props;
     const response = await axios.put(`http://localhost:3000/games/draw/accept`, { 
       id, 
       completed: true,
       winner: null,
+      result,
     });
 
     if (response.status === 200) {
@@ -131,8 +132,8 @@ class Draw extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, completed }) => {
-  return { user, opponent, completed }
+const mapStateToProps = ({ user, opponent, completed, result }) => {
+  return { user, opponent, completed, result }
 }
 
 const matchDispatchToProps = (dispatch) => {
