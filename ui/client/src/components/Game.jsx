@@ -63,11 +63,12 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck, result } = this.props;
+    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck } = this.props;
     const { id } = this.state;
+    const { white, black } = game;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    const _isKingInCheck = isKingInCheck(user.id, game.white, currentPosition, moves);
+    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves);
     
     if (
       prevProps.game !== null
@@ -78,7 +79,7 @@ class Game extends Component {
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
       const prevMoves = moves.slice(0, moves.length - 1);
-        if ((user.id === game.white) === whiteToMove) {
+        if ((user.id === white) === whiteToMove) {
           axios.put(`http://localhost:3000/games/move`, { 
             id,
             user, 
@@ -94,21 +95,21 @@ class Game extends Component {
           });
         }
       this.socket.emit('move', { id, newMove });
-      toggleTurn(user.id, game.white, whiteToMove);
+      toggleTurn(user.id, white, whiteToMove);
       selectPiece(null, null);
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
-      const _checkMate = evaluateCheckmateConditions(user.id, game.white, currentPosition, moves);
+      const _checkMate = evaluateCheckmateConditions(user.id, white, currentPosition, moves);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
         axios.put(`http://localhost:3000/games/document`, { 
           id, 
           user,
           moves,
+          white,
           completed: true,
           winner: opponent.id,
-          result,
         });
       }
       this.socket.emit('check', { userId: user.id, id });
@@ -160,8 +161,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, result }) => {
-  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, result }
+const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }) => {
+  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }
 }
 
 const matchDispatchToProps = (dispatch) => {

@@ -80,7 +80,7 @@ button:focus {
   justify-content: space-between;
   margin: 48px auto;
   height: 75vh;
-  width: 75%;
+  width: 50%;
 }
 
 .game-list-header {
@@ -131,7 +131,7 @@ button:focus {
   .game-list-content {
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: scroll;
     background-color: #ECECE8;
     
   }
@@ -169,7 +169,7 @@ button:focus {
   display: flex;
   flex-direction: row;
   height: 75vh;
-  margin-top: 32px;
+  margin-top: 48px;
 } 
   .players-select {
     display: flex;
@@ -178,7 +178,7 @@ button:focus {
     background-color: #CBC6BD;
     margin-left: 16px;
     width: 280px;
-    border-radius: 2px;
+    border-radius: 1px;
   }
 
     .players-search {
@@ -277,7 +277,7 @@ button:focus {
       height: 320px;
       
       background-color: #ECECE8;
-      margin-left: 120px;
+      margin: 0 auto;
 
     }
 
@@ -294,7 +294,7 @@ button:focus {
         align-items: flex-start;
         justify-content: space-around;
         flex-shrink: 0;
-        margin: 52px 0px;
+        margin: 40px 0px 18px 0px;
         padding: 8px 8px 8px 0px;
         border-radius: 1px;
       }
@@ -303,7 +303,7 @@ button:focus {
         display: flex;
         flex-direction: row;
         width: 100%;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
       }
 
       .challenge-creator-content span {
@@ -341,7 +341,10 @@ button:focus {
       .challenge-button {
         display: flex;
         justify-content: center;
+        padding: 28px 0px;
+        border-top: 1px solid #CBC6BD;
       }
+
       .challenge-button button {
         margin: auto;
         height: 32px;
@@ -352,6 +355,7 @@ button:focus {
         border: 1px solid #383838;
         background-color: white;
         border-radius: 1px;
+        
       }
 
       .challenge-button button:disabled {
@@ -580,7 +584,6 @@ button:focus {
     color: #F0EBE8;
     width: 54px;
     font-size: 10px;
-    border: 0.5px solid #F0EBE8;
   }
   .player-card-container {
     display: flex;
@@ -733,7 +736,11 @@ button:focus {
     padding: 0px 0px 0px 0px;
     display: flex;
     justify-content: center;
+  }
 
+  .result-container li {
+    font-size: 12px;
+    padding: 2px;
   }
       
 /* Chat */
@@ -747,7 +754,7 @@ button:focus {
     height: 180px;
     overflow: auto;
     /* background-color: #d4d4dc; */
-    background-color: #F0EBE8;
+    background-color: #ECECE8;
     padding: 12px;
     font-size: 12px;
   }
@@ -987,7 +994,7 @@ button:focus {
   height: 360px;
   width: 360px;
   margin-top: 64px;
-  margin-left: 175px;
+  margin-left: 205px;
   
   padding: 24px;
   background-color: black;
@@ -1106,6 +1113,7 @@ button:focus {
     justify-content: space-around;
     align-items: center;
     background-color: #F0EBE8;
+    opacity: 0.75;
     width: 348px;
     height: 174px;
     border-radius: 1px;
@@ -1168,7 +1176,7 @@ button:focus {
   position: relative;
   display: inline-block;
   width: 48px;
-  height: 20px;
+  height: 18px;
 }
 
 .switch input {display:none;}
@@ -1188,22 +1196,22 @@ button:focus {
 .slider:before {
   position: absolute;
   content: "";
-  height: 12px;
-  width: 12px;
+  height: 11px;
+  width: 11px;
   left: 4px;
   bottom: 4px;
-  background-color: #F0EBE8;
+  background-color: #CBC6BD;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 input:checked + .slider {
-  background-color: #eec28c;
+  background-color: #AA7047;
 
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #D6D5D1;
+  box-shadow: 0 0 1px #CBC6BD;
 }
 
 input:checked + .slider:before {
