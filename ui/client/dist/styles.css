@@ -400,40 +400,32 @@ button:focus {
   opacity: 1;
   border: 1px solid black;
   border-radius: 4px;
-  margin: 32px;
-  height: 464px;
-  width: 464px;
 }
 
-.upper-board-container {
-  width: 400px;
-  height: 20px;
+.switch-container {
   display: flex;
+  flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  margin: auto;
+  flex: 1;
 }
 
-.mid-board-container {
+.switch {
+  margin-right: 24px;
+}
+
+.inner-board-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.lower-board-container {
-  width: 400px;
-  margin: auto;
-}
-
 .coords-ranks {
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  margin: auto;
-  height: 400px;
-  width: 20px;
+  width: 24px;
 }
 
 .coords-files {
@@ -441,9 +433,7 @@ button:focus {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
-  width: 400px;
-  height: 20px;
+  height: 24px;
 }
 
 .rank {
@@ -451,8 +441,8 @@ button:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 13px;
-  height: 50px;
+  font-size: 14px;
+  height: 64px;
   transition: ease-out 0.5s;
   color: #593B2E;
 }
@@ -461,8 +451,8 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 13px;
-  width: 50px;
+  font-size: 14px;
+  width: 64px;
   transition: ease-out 0.5s;
   color: #593B2E;
 }
@@ -494,12 +484,12 @@ button:focus {
       flex-direction: row;
     }
       .square {
-        line-height: 50px;
-        height: 50px;
         position: relative;
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
         padding: 0;
         text-align: center;
-        width: 50px;
       }
       .square:focus {
         outline: none; 
@@ -511,60 +501,39 @@ button:focus {
         height: 100%;
         top: 0;
         left: 0;
-        opacity: 0.8;
-        z-index: 2;
-        /* background-color: #61887A; */
-        /* background-color: #34925E; OG*/
         background-color: #549876;
-
-        /* background-color: #0E8044 */
-        /* background-color: #82AC89; */
-        /* background-color: #479761; */
-        /* 
-         /* background-color: #3F7F60; */
-
-        /* background-color: #a16E83; */
+        opacity: 0.8;
       }
         #black {
-          /* background-color: #B27645; */
           background-color: #AA7047;
 
         }
         #white {
-          /* background-color: #F2CB9B; */
-          /* background-color: #ebc18e; */
-          /* background-color: #f0c48e; */
-          /* background-color: #f0c28a; */
           background-color: #eec28c;
         }
 
+        .piece {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          font-size: 40px !important;
+          box-shadow: none;
+          z-index: 3;
+        }
+
         .piece.is-my-turn {
-          transition: transform 150ms;
+          transition: transform 160ms;
         }
 
         .piece.is-my-turn:active {
           transform: scale(1.25);
         }
           .piece.white {      
-            /* color: floralwhite; */
-            /* color: #f6f5f3; */
             color: #ECECE8;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            font-size: 32px !important;
-            box-shadow:none;
             text-shadow: 1px 1px 1px black;
-            z-index: 3;
           }
           .piece.black {
-            color: black;  
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            font-size: 32px !important;
-            box-shadow:none;
-            z-index: 3;
+            color: black;
           }
 
 /* Game Info */
