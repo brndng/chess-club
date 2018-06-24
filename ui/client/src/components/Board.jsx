@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import axios from 'axios';
+import SoundPlayer from '../lib/sound-player.js';
 import { rotateBoard, areEqual } from '../../../../rules/utilities/';
 
 axios.defaults.withCredentials = true;
@@ -12,7 +13,7 @@ class Board extends Component {
     this.state = {
       position: this.props.currentPosition,
     }
-    this.moveSound = new Sound();
+    this.moveSound = new SoundPlayer("http://freesound.org/data/previews/351/351518_4502687-lq.mp3");
   }
   
   componentDidUpdate(prevProps, prevState) {
@@ -54,32 +55,3 @@ const mapStateToProps = ({ user, game, currentPosition, whiteToMove, completed, 
 }
 
 export default connect(mapStateToProps)(Board);
-
-function Sound() {
-  this.sound = document.createElement("audio");
-  this.sound.src = "http://freesound.org/data/previews/351/351518_4502687-lq.mp3"
-  this.sound.setAttribute("preload", "auto");
-  this.sound.setAttribute("controls", "none");
-  this.sound.style.display = "none";
-  document.body.appendChild(this.sound);
-  this.play = function() {
-      this.sound.play();
-  }
-}
-
-// class Sound {
-//   constructor() {
-//     this.sound = document.createElement("audio");
-//     this.sound.src = "http://freesound.org/data/previews/351/351518_4502687-lq.mp3"
-//     this.sound.setAttribute("preload", "auto");
-//     this.sound.setAttribute("controls", "none");
-//     this.sound.style.display = "none";
-//     document.body.appendChild(this.sound);
-//     this.play = this.play.bind(this);
-//     this.sound.src = "../../../../../../../Downloads/chess.wav";
-//   }
-
-//   play() {
-//     this.sound.play();
-//   }
-// }

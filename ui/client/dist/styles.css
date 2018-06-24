@@ -1,4 +1,4 @@
-html, body, #app-root, .route-container, .wrapper {
+html, body, #app-root, .route-container {
   height: 100vh;
   width: 100%;
   /* background-color: #f6f5f3; */
@@ -7,6 +7,24 @@ html, body, #app-root, .route-container, .wrapper {
   font-family: Arial, Helvetica, sans-serif; 
   letter-spacing: 1px;
   /* color: floralwhite;      */
+}
+
+html, body, div, section {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+}
+
+.route-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: flex;
+  flex: 1;
 }
 
 
@@ -34,7 +52,7 @@ button:focus {
 
 /* Landing */
 .landing {
-  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   /* background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg'); */
@@ -47,7 +65,7 @@ button:focus {
   .landing-content {
     display: flex;
     justify-content: center;
-    flex-grow: 2;
+    flex: 1;
     align-items: center;
     background-color: #1d1e22;
     background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
@@ -79,7 +97,6 @@ button:focus {
   flex-direction: column;
   justify-content: space-between;
   margin: 48px auto;
-  height: 75vh;
   width: 50%;
 }
 
@@ -130,7 +147,6 @@ button:focus {
 
   .game-list-content {
     width: 100%;
-    height: 100%;
     overflow: scroll;
     background-color: #ECECE8;
     
@@ -167,6 +183,7 @@ button:focus {
 /* Players */
 .players-container {
   display: flex;
+  flex: 1;
   flex-direction: row;
   height: 75vh;
   margin-top: 48px;
@@ -371,6 +388,7 @@ button:focus {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  flex: 1;
 }
 
 /* BoardContainer */
@@ -392,6 +410,7 @@ button:focus {
   height: 20px;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin: auto;
 }
 
@@ -559,8 +578,8 @@ button:focus {
 
   /* background: #7C7063; */
   /* background: #8E8474; */
-  width: 200px;
-  height: 408px;
+  width: 224px;
+  height: 464px;
   padding: 28px 14px;
   border: 1px solid black;
   border-radius: 2px;
@@ -754,7 +773,7 @@ button:focus {
     height: 180px;
     overflow: auto;
     /* background-color: #d4d4dc; */
-    background-color: #ECECE8;
+    background-color: white;
     padding: 12px;
     font-size: 12px;
   }
@@ -788,6 +807,7 @@ button:focus {
 .nav {
   display: flex;
   justify-content: space-between;
+  flex-shrink: 0;
   /* background: #1d1e22; */
   background: transparent;
   /* margin-bottom: 24px; */
@@ -922,7 +942,7 @@ button:focus {
   .sidebar-bottom {
     color: floralwhite;
     padding: 16px;
-    margin: 48px 0px 48px 0px;
+    /* margin: 48px 0px 48px 0px; */
     border-bottom: 1px solid floralwhite;
     
   }
@@ -968,6 +988,7 @@ button:focus {
 
   .login-left {
     width: 160px;
+    flex-shrink: 0;
   }
 
   .login-right {
@@ -976,7 +997,7 @@ button:focus {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     background-color: #1d1e22;
     background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
     background-repeat: no-repeat;
@@ -993,8 +1014,7 @@ button:focus {
   align-items: center;
   height: 360px;
   width: 360px;
-  margin-top: 64px;
-  margin-left: 205px;
+  margin-left: 230px;
   
   padding: 24px;
   background-color: black;
@@ -1018,6 +1038,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  width: 100%;
   margin: auto;
   align-items: center;
 }
@@ -1027,11 +1048,12 @@ button:focus {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 28px;
+    width: 100%;
+    /* margin-top: 28px; */
   }
     .login-form-input input {
       box-sizing: border-box;
-      width: 320px;
+      width: 100%;
       height: 32px;
       padding: 12px;
       margin-bottom: 14px;
@@ -1039,12 +1061,13 @@ button:focus {
       background-color: #f6f5f3;
     }
 
-    /* .login-form-submit {
-      margin-bottom: 24px;
-    } */
+    .login-form-submit {
+      width: 100%;
+    }
+
     .login-form-submit button {
       box-sizing: border-box;
-      width: 320px;
+      width: 100%;
       height: 32px;
       font-size: 16px;
       padding: 2px;
@@ -1113,7 +1136,7 @@ button:focus {
     justify-content: space-around;
     align-items: center;
     background-color: #F0EBE8;
-    opacity: 0.75;
+    opacity: 0.8;
     width: 348px;
     height: 174px;
     border-radius: 1px;
@@ -1176,7 +1199,7 @@ button:focus {
   position: relative;
   display: inline-block;
   width: 48px;
-  height: 18px;
+  height: 16px;
 }
 
 .switch input {display:none;}
@@ -1189,6 +1212,8 @@ button:focus {
   right: 0;
   bottom: 0;
   background-color: #AA7047;
+  /* background-color: #593B2E; */
+
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -1196,11 +1221,11 @@ button:focus {
 .slider:before {
   position: absolute;
   content: "";
-  height: 11px;
-  width: 11px;
+  height: 12px;
+  width: 12px;
   left: 4px;
-  bottom: 4px;
-  background-color: #CBC6BD;
+  bottom: 2px;
+  background-color: #593B2E;
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
