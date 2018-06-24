@@ -1,12 +1,9 @@
 html, body, #app-root, .route-container {
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  /* background-color: #f6f5f3; */
   background-color: #1d1e22;
-  /* background: linear-gradient(to right, #393f4d 32%, #1d1e22 34%); */
   font-family: Arial, Helvetica, sans-serif; 
-  letter-spacing: 1px;
-  /* color: floralwhite;      */
+  letter-spacing: 1.2px;
 }
 
 html, body, div, section {
@@ -55,12 +52,8 @@ button:focus {
   width: 100%;
   display: flex;
   flex-direction: row;
-  /* background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg'); */
-  /* background-size: cover;
-  background-repeat: no-repeat; */
+  margin-left: 24px;
 }
-
-
 
   .landing-content {
     display: flex;
@@ -69,8 +62,7 @@ button:focus {
     align-items: center;
     background-color: #1d1e22;
     background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
-
-    /* background-image: url('https://c1.staticflickr.com/4/3797/33209039036_5dca7c010c_z.jpg');  */
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
@@ -185,7 +177,7 @@ button:focus {
   display: flex;
   flex: 1;
   flex-direction: row;
-  height: 75vh;
+  height: 75%;
   margin-top: 48px;
 } 
   .players-select {
@@ -241,7 +233,7 @@ button:focus {
     flex-direction: column;
     justify-content: flex-start;
     border: 1px solid #ECECE8;
-    height: 100vh;
+    height: 100%;
     margin: 0px 16px 16px 16px;  
   }
 
@@ -396,6 +388,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex-shrink: 0;
   background-color: #593B2E;
   opacity: 1;
   border: 1px solid black;
@@ -414,7 +407,7 @@ button:focus {
   margin-right: 24px;
 }
 
-.inner-board-container {
+.board-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -541,17 +534,11 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background: #393f4d; */
-  /* background: #5B544A; */
   background: #CBC6BD;
-
-  /* background: #7C7063; */
-  /* background: #8E8474; */
-  width: 224px;
-  height: 464px;
-  padding: 28px 14px;
+  padding: 28px 12px;
   border: 1px solid black;
   border-radius: 2px;
+  margin-left: 48px;
 }
 
   .game-options {
@@ -777,10 +764,7 @@ button:focus {
   display: flex;
   justify-content: space-between;
   flex-shrink: 0;
-  /* background: #1d1e22; */
   background: transparent;
-  /* margin-bottom: 24px; */
-  /* border: 1px solid white; */
 }
   .nav ul {
     list-style: none;
@@ -789,7 +773,6 @@ button:focus {
   } 
   .nav-left {
     display: flex;
-
 
   }
     .nav-left li {
@@ -801,31 +784,31 @@ button:focus {
       .nav-left li a {
         text-decoration: none;
         text-align: center;
-        font-size: 32px;
+        font-size: 40px;
         color: #F0EBE8;
         display: block;
-        padding: 16px;
+        padding: 24px;
       }
   .nav-right {
     display: flex;
-    justify-content: space-between;
-    width: 360px;
-    
+    flex-shrink: 0;
+    width: 40%;
   }
 
   
     .nav-right li {
       display: flex;
+      justify-content: center;
       align-items: center;
       padding: 0;
     }
       .nav-right a {
         text-decoration: none;
         text-align: center;
-        font-size: 11px;
+        font-size: 14px;
         color: #E6E0DA;
         display: block;
-        padding: 16px;
+        padding: 24px;
         position: relative;
         transition: color 0.1s, background-color 0.1s, padding 0.2s ease-out;
       }
@@ -861,64 +844,50 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background: #1d1e22; */
   background: transparent;
-  margin-bottom: 36px;
-  /* border: 1px solid white; */
-  width: 160px;
+  width: 16%;
 } 
 
 
   .welcome {
     color: #F0EBE8;
-    padding: 16px;
-    margin: 48px 0px 48px 0px;
+    margin-top: 64px;
     position: relative;
+  }
+
+  .welcome p {
+    font-size: 22px;
   }
 
     .welcome-greeting {
       left: -100px;
-      height: 100px;
       position: absolute;
       -webkit-animation: slide 0.4s forwards;
       -webkit-animation-delay: 1s;
       animation: slide 0.6s forwards;
       animation-delay: 0.4s;
       top: 32px;
-
+      margin: 0px;
     }
 
     .welcome-username {
       left: -100px;
-      height: 100px;
       position: absolute;
       -webkit-animation: slide 0.4s forwards;
       -webkit-animation-delay: 1s;
       animation: slide 0.6s forwards;
       animation-delay: 0.4s;
-      top: 60px;
+      top: 64px;
+      margin: 0px;
     }
 
     
     @-webkit-keyframes slide {
-      100% { left: 16px; }
+      100% { left: 0px; }
     }
 
     @keyframes slide {
-      100% { left: 16px; }
-    }
-
-  .sidebar-bottom {
-    color: floralwhite;
-    padding: 16px;
-    /* margin: 48px 0px 48px 0px; */
-    border-bottom: 1px solid floralwhite;
-    
-  }
-    .sidebar div p {
-      margin: 0px;
-      padding: 4px 0px 4px 0px;
-      
+      100% { left: 0px; }
     }
 
 .icon {
@@ -929,16 +898,16 @@ button:focus {
 /* Logout */
 .logout {
   display: flex;
+  flex-shrink: 0;
   text-align: center; 
-  /* color: floralwhite; */
+  margin-bottom: 24px;
 }
   .logout a {
     text-decoration: none;
     text-align: center;
     color: #F0EBE8;
     display: block;
-    font-size: 11px;
-    /* padding: 8px; */
+    font-size: 14px;
     cursor: pointer;
   }
   .logout a:hover, .logout a:focus {
@@ -949,31 +918,28 @@ button:focus {
 /* Login */
 
 .login {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: row;
-
+  margin-left: 24px;
 }
 
-  .login-left {
-    width: 160px;
-    flex-shrink: 0;
-  }
-
-  .login-right {
-    width: 980px;
-    /* height: 642.4px; */
+  .login-content {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    flex: 1;
+    justify-content: flex-end;
     align-items: center;
     background-color: #1d1e22;
     background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
-    margin: 0 auto;
+    /* margin: 0 auto; */
+    margin-left: 16%;
     opacity: 0.4;
+    
   }
 .login-form {
   display: flex;
@@ -981,16 +947,16 @@ button:focus {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  height: 360px;
-  width: 360px;
-  margin-left: 230px;
-  
-  padding: 24px;
+  height: 480px;
+  width: 480px;
+  padding: 48px;
   background-color: black;
   opacity: .9;
   border: 1px solid black;
   border-radius: 2px;
-  /* margin: auto; */
+  margin-right: 407.73px;
+  transition: ease-out 0.5s;
+
 } 
 
 .login-form span {
@@ -998,9 +964,7 @@ button:focus {
   font-size: 14px;
   padding: 4px;
   text-align: center;
-  width: 312px;
   height: 24.8px;
-  /* margin-bottom: auto; */
 }
 
 .login-form-content {
@@ -1008,7 +972,7 @@ button:focus {
   flex-direction: column;
   flex-shrink: 0;
   width: 100%;
-  margin: auto;
+  margin: auto auto 64px auto;
   align-items: center;
 }
 
@@ -1023,9 +987,9 @@ button:focus {
     .login-form-input input {
       box-sizing: border-box;
       width: 100%;
-      height: 32px;
-      padding: 12px;
-      margin-bottom: 14px;
+      height: 40px;
+      padding: 8px;
+      margin-bottom: 20px;
       font-size: 14px;
       background-color: #f6f5f3;
     }
@@ -1037,8 +1001,8 @@ button:focus {
     .login-form-submit button {
       box-sizing: border-box;
       width: 100%;
-      height: 32px;
-      font-size: 16px;
+      height: 40px;
+      font-size: 18px;
       padding: 2px;
       color: black;
       background-color: rgba(255, 255, 255, 1);
@@ -1061,17 +1025,9 @@ button:focus {
   position: relative;
   z-index: 999;
 }
-.app { 
-  /* TEST DELETE LATER */
-  height: 10em;
-  width: 10em;
-  background: lightblue;
-  overflow: hidden;
-}
+
 .modal {
   background-color: rgba(0,0,0,0.8);
-  /* background-color: rgba(255, 255, 255, 0.8); */
-  /* background-color: rgba(128, 128, 128, 0.8); */
   position: fixed;
   height: 100%;
   width: 100%;
@@ -1144,26 +1100,6 @@ button:focus {
     margin: 4px;
   }
 
-
-
-
-/* .image-knight {
-  width: 60px;
-  height: 60px;
-}
-
-.image-knight.white {
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-  margin-right: 60px;
-
-}
-
-.image-knight.black {
-  margin-left: 60px;
-
-} */
-
 .switch {
   position: relative;
   display: inline-block;
@@ -1181,7 +1117,6 @@ button:focus {
   right: 0;
   bottom: 0;
   background-color: #AA7047;
-  /* background-color: #593B2E; */
 
   -webkit-transition: 0.5s;
   transition: 0.5s;

@@ -45,7 +45,7 @@ class LogIn extends Component {
       } 
     } catch (err) {
       this.setState({
-        feedback: 'Invalid username/password combination.',
+        feedback: 'Invalid username/password combination',
       });
     }
   }
@@ -61,7 +61,7 @@ class LogIn extends Component {
       } 
     } catch (err) {
       this.setState({
-        feedback: 'Sorry, that username is already taken.',
+        feedback: 'Sorry, that username is already taken',
       });
     }
   }
@@ -112,9 +112,7 @@ class LogIn extends Component {
         
     return (
       <div className="login">
-        <div className="login-left">
-        </div>
-        <div className="login-right">
+        <div className="login-content">
           {currentView}
         </div>
       </div>

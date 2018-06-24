@@ -33,15 +33,21 @@ class BoardContainer extends Component {
             </label>
           </div>
         </div>
-        <div className="inner-board-container">
+        <div className="board-container">
           <div className="coords-ranks">
-            {ranks.map((rank, i) => <div className={`rank ${isDisplayed}`} key={i}>{rank}</div>)}
+            {ranks.map((rank, i) => 
+              <div className={`rank ${isDisplayed}`} key={i}>
+                {rank}
+              </div>)}
           </div>
           <Board />
           <div className="coords-ranks"></div>
         </div>
         <div className="coords-files">
-          {files.map((file, i) => <div className={`file ${isDisplayed}`} key={i}>{file}</div>)}
+          {files.map((file, i) => 
+            <div className={`file ${isDisplayed}`} key={i}>
+              {file}
+            </div>)}
         </div>
       </div>
     );
