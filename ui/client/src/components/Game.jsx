@@ -40,7 +40,7 @@ class Game extends Component {
     const { id } = this.state;
     const game = await axios.get(`http://localhost:3000/games/${id}`);
 
-    this.socket = await io(`http://localhost:1337/`);
+    this.socket = await io(`http://localhost:3000/`);
 
     this.socket.on('connect', () => {
       this.setState({ socket: this.socket.id });
