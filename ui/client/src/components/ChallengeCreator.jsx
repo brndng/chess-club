@@ -88,7 +88,7 @@ class ChallengeCreator extends Component {
                  <button onClick={() => this.hideModal()}>╳</button> 
                </div>
                <div className="modal-dialogue">
-                 <p> New game created! Go to game {gameId}:</p>
+                 <p> New game created! Go to game: </p>
                  <div className="modal-dialogue-btn-container">
                    <button onClick={() => this.redirectToGame(gameId)}>➤</button>
                  </div>

@@ -18,7 +18,7 @@ class BoardContainer extends Component {
   }
 
   render() {
-    const { user, game } = this.props;
+    const { user, game, index } = this.props;
     const { showCoords } = this.state;
     const isDisplayed = showCoords && "is-displayed";
     const ranks = printRanks(user.id, game.white);
@@ -40,7 +40,7 @@ class BoardContainer extends Component {
                 {rank}
               </div>)}
           </div>
-          <Board />
+          <Board index={index} />
           <div className="coords-ranks"></div>
         </div>
         <div className="coords-files">

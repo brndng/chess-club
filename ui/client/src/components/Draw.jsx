@@ -96,31 +96,28 @@ class Draw extends Component {
     const response = isAccepted
       ? 'accepted'
       : 'declined'
-    const modal = showModal
-      && <div >
-           <Modal>
-             <div className="modal"> 
-               <div className="modal-btn-container">
-                {view !== 'offer' && <button onClick={() => this.hideModal()}>╳</button>}
-              </div>
-
-             {
-               view === 'offer'
-                 ? <div className="modal-dialogue">
-                     <p> {opponent.username} has offered a draw </p>
-                     <div className="modal-dialogue-btn-container">
-                       <button className="btn" onClick={() => this.acceptDraw()}>ACCEPT</button>
-                       <button className="btn" onClick={() => this.declineDraw()}>DECLINE</button>
-                     </div>
-                   </div>
-                 : <div className="modal-dialogue">
-                     <p> {opponent.username} has {response} your draw offer </p>
-                     <div className="modal-dialogue-btn-container"></div>
-                   </div>
-             }
-             </div>
-           </Modal>
-         </div>
+    const modal = showModal && 
+      <div>
+        <Modal>
+          <div className="modal"> 
+            <div className="modal-btn-container">
+            {view !== 'offer' && <button onClick={() => this.hideModal()}>╳</button>}
+          </div>
+            {view === 'offer'
+              ? <div className="modal-dialogue">
+                  <p>{`${opponent.username} offered a draw`}</p>
+                  <div className="modal-dialogue-btn-container">
+                    <button onClick={() => this.acceptDraw()}>ACCEPT</button>
+                    <button onClick={() => this.declineDraw()}>DECLINE</button>
+                  </div>
+                </div>
+              : <div className="modal-dialogue">
+                  <p>{`${opponent.username} ${response} your draw offer`}</p>
+                  <div className="modal-dialogue-btn-container"></div>
+                </div>}
+          </div>
+        </Modal>
+      </div>
 
     return (
       <div>         

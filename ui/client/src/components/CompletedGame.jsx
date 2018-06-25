@@ -84,7 +84,7 @@ class CompletedGame extends Component {
     const currMoveIndex = index - 1;
     const loadedComponent = (game !== null && opponent !== null && index !== null)
       ? <div className="game-container">
-          <BoardContainer />
+          <BoardContainer index={currMoveIndex}/>
           <div className="game-info">
             <PlayerCard player={opponent} index={currMoveIndex} />
             <div></div>

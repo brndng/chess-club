@@ -139,19 +139,18 @@ class Game extends Component {
   render() {
     const { user, opponent, game, whiteToMove, moves } = this.props;
     const { id } = this.state;
-    const index = moves.length;
+    const maxIndex = moves.length;
     const loadedComponent = (game !== null && opponent !== null && this.socket)
       ? <div className="game-container">
-          <BoardContainer />
+          <BoardContainer index={maxIndex - 1} />
           <div className="game-info">
-            <PlayerCard player={opponent} index={index} />
-            {/* <div></div> */}
+            <PlayerCard player={opponent} index={maxIndex} />
             <GameDisplay id={id} socket={this.socket} />
             <div className="game-options">
               <Draw id={id} socket={this.socket} />
               <Resignation id={id} socket={this.socket} />
             </div>
-            <PlayerCard player={user} index={index}/>
+            <PlayerCard player={user} index={maxIndex}/>
           </div>
             <Checkmate id={id} socket={this.socket} />
             <Promotion />

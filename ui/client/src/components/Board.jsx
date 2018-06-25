@@ -15,9 +15,9 @@ class Board extends Component {
   }
   
   componentDidUpdate(prevProps) {
-    const { currentPosition, moves } = this.props;
-    const wasCaptured = moves.slice(-1).length > 0 && moves.slice(-1)[0][3];
-    
+    const { currentPosition, moves, index } = this.props;
+    const wasCaptured = index > 0 && moves[index][3];
+
     if (!areEqual(prevProps.currentPosition, currentPosition)) {
       this.moveSound.play();
       if (wasCaptured) {
