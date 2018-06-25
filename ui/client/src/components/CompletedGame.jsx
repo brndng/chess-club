@@ -87,15 +87,16 @@ class CompletedGame extends Component {
           <BoardContainer />
           <div className="game-info">
             <PlayerCard player={opponent} index={currMoveIndex} />
-            <div className="game-display-toggle"></div>
+            <div></div>
             <div className="game-display">
-            <MoveHistory index={currMoveIndex} />
-          </div>
+              <div className="game-display-toggle"></div>
+              <MoveHistory index={currMoveIndex} />
+            </div>
             <div className="game-options">
-              <button onClick={() => this.displayTargetPosition('INIT')}>◀◀</button>
-              <button onClick={() => this.displayTargetPosition('PREV')}>◀ </button>
-              <button onClick={() => this.displayTargetPosition('NEXT')}>▶ </button>
-              <button onClick={() => this.displayTargetPosition('LAST')}>▶▶</button>
+              <div><button onClick={() => this.displayTargetPosition('INIT')}>◀◀</button></div>
+              <div><button onClick={() => this.displayTargetPosition('PREV')}>◀ </button></div>
+              <div><button onClick={() => this.displayTargetPosition('NEXT')}>▶ </button></div>
+              <div><button onClick={() => this.displayTargetPosition('LAST')}>▶▶</button></div>
             </div>
             <PlayerCard player={user} index={currMoveIndex} />
           </div>

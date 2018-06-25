@@ -145,6 +145,7 @@ class Game extends Component {
           <BoardContainer />
           <div className="game-info">
             <PlayerCard player={opponent} index={index} />
+            {/* <div></div> */}
             <GameDisplay id={id} socket={this.socket} />
             <div className="game-options">
               <Draw id={id} socket={this.socket} />

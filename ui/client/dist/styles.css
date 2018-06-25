@@ -111,8 +111,7 @@ button:focus {
     margin: 0px;
     display: flex;
     justify-content: flex-start;
-    font-size: 18px;
-    
+    font-size: 18px; 
   }
 
   .content-header {
@@ -139,7 +138,7 @@ button:focus {
 
   .game-list-content {
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: #ECECE8;
     
   }
@@ -177,15 +176,15 @@ button:focus {
   display: flex;
   flex: 1;
   flex-direction: row;
+  justify-content: center;
   height: 75%;
-  margin-top: 48px;
+  margin: auto;
 } 
   .players-select {
     display: flex;
     flex-direction: column;
     justify-content: center;
     background-color: #CBC6BD;
-    margin-left: 16px;
     width: 280px;
     border-radius: 1px;
   }
@@ -282,12 +281,9 @@ button:focus {
     .players-challenge {
       display: flex;
       flex-direction: row;
-      width: 420px;
-      height: 320px;
-      
+      width: 420px;      
       background-color: #ECECE8;
-      margin: 0 auto;
-
+      margin-left: 48px;
     }
 
     .challenge-creator {
@@ -393,6 +389,7 @@ button:focus {
   opacity: 1;
   border: 1px solid black;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .switch-container {
@@ -535,20 +532,23 @@ button:focus {
   flex-direction: column;
   justify-content: space-between;
   background: #CBC6BD;
-  padding: 28px 12px;
+  padding: 24px 12px;
   border: 1px solid black;
   border-radius: 2px;
   margin-left: 48px;
+  height: 569.89px;
+  width: 272px;
 }
 
   .game-options {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-around;
+    width: 100%;
   }
 
   .game-options div {
-    margin: 0px 4px 0px 4px;
+    width: 25%;
   }
 
   .game-options button {
@@ -557,29 +557,25 @@ button:focus {
     border-radius: 2px;
     background-color: #383838;
     color: #F0EBE8;
-    width: 54px;
-    font-size: 10px;
+    font-size: 12px;
+    width: 100%;
   }
   .player-card-container {
     display: flex;
     flex-direction: column;
-    /* background-color: #d4d4dc; */
     background-color: #ECECE8;
     font-family: Arial, Helvetica, sans-serif; 
     padding: 4px;
     border: 4px solid #ECECE8;
     border-radius: 1px;
+    height: 64px;
+
   }
   .player-card-container.is-my-turn {
-    /* border: 4px solid rgba(46,131,87,0.8); */
-    /* border: 4px solid #34925E; */
-    /* border: 4px solid #549876; */
-    border: 4px solid #61887A;
-    
-    
+    border: 4px solid #61887A; 
   }
     .player-card-username {
-      font-size: 12px;
+      font-size: 14px;
       padding: 1px;
       color: #383838;
     }
@@ -594,12 +590,13 @@ button:focus {
       height: 32px;
     } 
       .captured-piece {
-        font-size: 13px;
+        font-size: 14px;
       }
 
   .game-display {
     display: flex;
     flex-direction: column;
+    margin-top: 16px;
   }
     .game-display-toggle {
       display: flex;
@@ -621,16 +618,13 @@ button:focus {
       flex-direction: row;
       justify-content: center;
       list-style: none;
-      height: 22px;
     }
 
     .game-display-toggle a {
       color: floralwhite;
-      font-size: 14px;
+      font-size: 16px;
       padding: 0px;
-      width: 58px;
       text-decoration: none;
-      /* text-align: center; */
     }
 
     .toggle-moves {
@@ -666,20 +660,20 @@ button:focus {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 200px;
-    overflow: auto;
+    overflow-y: scroll;
     background: white;
-    padding: 0px 0px 0px 16px;
-    /* background-color: #d4d4dc; */
-    /* background-color: #D6D5D1;   */
+    padding: 16px;
     background-color: #ECECE8;  
-    font-size: 13px;
+    font-size: 15px;
     border-radius: 1px;
+    height: 256px;
+    border: 1px solid #A0A0A0;
   }
 
   .move-history-output ol {
     flex-shrink: 0;
-    padding-left: 16px;
+    margin: 0px;
+    padding-left: 24px;
   }
     .move-history-row {
       padding: 0px;
@@ -691,16 +685,16 @@ button:focus {
     .move-pair {
       display: flex;
       justify-content: flex-start;
-      padding: 0.5px 2px 0.5px 2px;
+      padding: 1px 2px 1px 2px;
       margin: 0;
-      width: 58px;
+      flex: 1;
       color: #383838;
     }
     .move-pair.white {
-      flex-shrink: 0;
+      flex: 1;
     }
     .move-pair.black {
-      margin: 0 auto;
+      margin-left: 8px;
     }
   .result-container {
     margin-top: auto;
@@ -714,7 +708,7 @@ button:focus {
   }
 
   .result-container li {
-    font-size: 12px;
+    font-size: 14px;
     padding: 2px;
   }
       
@@ -722,16 +716,15 @@ button:focus {
 .chat-container {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  height: 200px;
+  height: 256px;
+  border: 1px solid #A0A0A0;
 }
   .chat-output {
-    height: 180px;
-    overflow: auto;
-    /* background-color: #d4d4dc; */
+    flex: 1;
+    overflow-y: scroll;
     background-color: white;
     padding: 12px;
-    font-size: 12px;
+    font-size: 15px;
   }
 
     .chat-output li {
@@ -739,14 +732,17 @@ button:focus {
     }
   .chat-message {
     display: flex;
+    flex-direction: row;
+
   }
   .chat-message input {
     padding: 4px;
-    width: 160px;
+    width: 80%;
+    /* flex: 1; */
   }
   .chat-message button {
     padding: 4px;
-    width: 40px;
+    flex: 1;
   }
 
 /* NavBar */
@@ -1012,7 +1008,6 @@ button:focus {
     .login-form-toggle {
       opacity: 1;
       color: white;
-      margin-top: 24px;
     }
   
     .login-form-toggle a {
@@ -1044,7 +1039,6 @@ button:focus {
     justify-content: center;
     width: 100%;
     margin-top: 26px; 
-    margin-bottom: auto; 
   }
 
   .modal-btn-container button {
@@ -1066,7 +1060,7 @@ button:focus {
     height: 174px;
     border-radius: 1px;
     padding: 12px;
-    margin-bottom: 224px;
+    margin: auto;
     font-family: Arial, Helvetica, sans-serif; 
     letter-spacing: 1px;
     font-size: 16px
