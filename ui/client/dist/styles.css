@@ -948,6 +948,7 @@ button:focus {
 
     .login-form-submit {
       width: 100%;
+      margin-bottom: 24px;
     }
 
     .login-form-submit button {

@@ -22,5 +22,22 @@ accept draw only other player in record x
 
 
 1. cd ui // cd client // npm run build
-2. cd ui // cd server // nodemon
-3. cd api // npm start
+
+2. cd api // npm start
+
+
+(2. cd ui // cd server // nodemon)
+
+
+ui/server/index.js
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const PORT = 8080;
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html')));
+
+app.listen(PORT, () => console.log(`serving static files on port: ${PORT}`));
