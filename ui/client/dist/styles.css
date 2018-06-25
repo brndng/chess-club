@@ -55,7 +55,6 @@ button:focus {
   }
 
 /* Gamelist */
-
 .game-list {
   display: flex;
   flex-direction: column;
@@ -83,7 +82,7 @@ button:focus {
     margin: 0px;
     display: flex;
     justify-content: flex-start;
-    font-size: 18px; 
+    font-size: 20px; 
   }
 
   .content-header {
@@ -112,7 +111,6 @@ button:focus {
     width: 100%;
     overflow-y: scroll;
     background-color: #ECECE8;
-    
   }
 
   .game-list-content ul {
@@ -149,9 +147,9 @@ button:focus {
   flex: 1;
   flex-direction: row;
   justify-content: center;
-  height: 75%;
   margin: auto;
 } 
+
   .players-select {
     display: flex;
     flex-direction: column;
@@ -165,8 +163,8 @@ button:focus {
       display: flex;
       margin: 16px 16px 32px 16px;
       height: 54px;
-
     }
+
       .players-search input {
         border: none;
         padding: 8px 28px 8px 8px;
@@ -177,6 +175,7 @@ button:focus {
         border-radius: 1px;
         background-color: white;
       }
+
       .players-search-button {
         font-size: 24px;
         width: 24px;
@@ -194,6 +193,7 @@ button:focus {
     align-items: center;
     padding-right: 16px;
   }
+
   .players-invalid span {
     font-size: 13px;
     padding: 4px 0px;
@@ -221,32 +221,29 @@ button:focus {
     .players-list {
       display: flex;
       flex-direction: column;
-      /* border: 1px solid floralwhite; */
       overflow: auto;
     }
     
     .players-list ul {
-      height: 360px;
+      height: 364px;
       border-radius: 1px;
       overflow: auto;
       padding: 8px 0px 8px 16px;
       margin: 16px 0px 0px 0px;
       background-color: #ECECE8;
-      
-
-      /* margin-right: 64px; */
     }
+
       .players-list li {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         list-style: none;
-        padding-top: 4px;
+        padding-top: 8px;
       } 
 
         .players-list li a {
           text-decoration: none;
-          font-size: 14px;
+          font-size: 15px;
           color: #383838;
         }
         
@@ -255,15 +252,15 @@ button:focus {
       flex-direction: row;
       width: 420px;      
       background-color: #ECECE8;
-      margin-left: 48px;
+      margin-left: 42px;
     }
 
     .challenge-creator {
-      width: 100%;
-      margin: 24px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 28px;
     }
-
-   
 
       .challenge-creator-content {
         display: flex;
@@ -271,34 +268,29 @@ button:focus {
         align-items: flex-start;
         justify-content: space-around;
         flex-shrink: 0;
-        margin: 40px 0px 18px 0px;
-        padding: 8px 8px 8px 0px;
+        padding: 80px 16px;
         border-radius: 1px;
       }
 
       .challenge-creator-content div {
         display: flex;
         flex-direction: row;
-        width: 100%;
+        flex: 1;
         margin-bottom: 24px;
       }
 
       .challenge-creator-content span {
-        width: 100px;
-        font-size: 13px;
+        font-size: 14px;
         padding: 8px 8px 8px 0px;
         color: #6E6561;
       }
-
       
       .challenge-creator-header p {
         margin: 0px;
-        /* padding: 16px 8px 0px 8px; */
-        font-size: 18px;
+        font-size: 20px;
         color: #383838;
       }
 
-    /**/
    .slct-container {
       display: flex;
       flex-direction: row;
@@ -306,33 +298,29 @@ button:focus {
       align-items: center;
     }
 
-    
       .slct {
-        /* display: flex; */
         background-color: white;
         width: 130px;
         height: 28px;
-        font-size: 13px;
+        font-size: 14px;
+        margin-left: 10px;
       }
 
       .challenge-button {
         display: flex;
         justify-content: center;
-        padding: 28px 0px;
+        flex: 1;
         border-top: 1px solid #CBC6BD;
       }
 
       .challenge-button button {
         margin: auto;
-        height: 32px;
-        width: 160px;
-        letter-spacing: 1px;
-        font-size: 16px;
-        padding: 4px 8px 4px 8px;
+        letter-spacing: 1.2px;
+        font-size: 18px;
+        padding: 12px 24px;
         border: 1px solid #383838;
         background-color: white;
         border-radius: 1px;
-        
       }
 
       .challenge-button button:disabled {
@@ -441,10 +429,12 @@ button:focus {
   .board.is-my-turn:hover {
     cursor: pointer;
   }
+
     .row {
       display: flex;
       flex-direction: row;
     }
+
       .square {
         position: relative;
         width: 64px;
@@ -453,9 +443,11 @@ button:focus {
         padding: 0;
         text-align: center;
       }
+
       .square:focus {
         outline: none; 
       }  
+
       .square.is-selected::before {
         content: '';
         position: absolute;
@@ -466,10 +458,11 @@ button:focus {
         background-color: #549876;
         opacity: 0.8;
       }
+
         #black {
           background-color: #AA7047;
-
         }
+
         #white {
           background-color: #eec28c;
         }
@@ -494,6 +487,7 @@ button:focus {
             color: #ECECE8;
             text-shadow: 1px 1px 1px black;
           }
+
           .piece.black {
             color: black;
           }
@@ -509,7 +503,7 @@ button:focus {
   border-radius: 2px;
   margin-left: 48px;
   height: 569.89px;
-  width: 272px;
+  width: 274px;
 }
 
   .game-options {
@@ -524,7 +518,7 @@ button:focus {
   }
 
   .game-options button {
-    padding: 2px;
+    padding: 2px 4px;
     letter-spacing: 1px;
     border-radius: 2px;
     background-color: #383838;
@@ -532,6 +526,7 @@ button:focus {
     font-size: 12px;
     width: 100%;
   }
+
   .player-card-container {
     display: flex;
     flex-direction: column;
@@ -541,11 +536,12 @@ button:focus {
     border: 4px solid #ECECE8;
     border-radius: 1px;
     height: 64px;
-
   }
+
   .player-card-container.is-my-turn {
     border: 4px solid #61887A; 
   }
+
     .player-card-username {
       font-size: 14px;
       padding: 1px;
@@ -555,15 +551,17 @@ button:focus {
     .player-card-username strong {
       color: #383838;
     }
+
     .player-card-pieces {
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
+      align-items: flex-end;
       height: 32px;
-    } 
+    }
+
       .captured-piece {
         font-size: 15px;
-        letter-spacing: .4px;
+        letter-spacing: .2px;
       }
 
   .game-display {
@@ -583,7 +581,6 @@ button:focus {
       flex-direction: row;
       justify-content: space-between;
       width: 100%;
-      /* margin-bottom: 4px; */
     }
 
     .game-display-toggle li {
@@ -596,33 +593,17 @@ button:focus {
     .game-display-toggle a {
       color: floralwhite;
       font-size: 16px;
-      padding: 0px;
+      padding: 1px;
       text-decoration: none;
     }
 
     .toggle-moves {
       text-align: left;
     }
+
     .toggle-chat {
       text-align: right;
     }
-    /* .game-display ul {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      width: 200px;
-    }
-      .game-display li {
-        padding: 0;
-      }
-        .game-display a {
-          text-decoration: none;
-          display: block;
-          padding: 8px;
-        } */
 
 /* MoveHistory */
 .move-history-container {
@@ -648,6 +629,7 @@ button:focus {
     margin: 0px;
     padding-left: 24px;
   }
+
     .move-history-row {
       padding: 0px;
       margin: 0px;
@@ -663,24 +645,19 @@ button:focus {
       flex: 1;
       color: #383838;
     }
+
     .move-pair.white {
       flex: 1;
     }
+
     .move-pair.black {
       margin-left: 8px;
     }
+
   .result-container {
     margin-top: auto;
-  }
-  .result-container ul {
-    list-style: none;
-    margin: 8px 0px 0px 0px;
-    padding: 0px 0px 0px 0px;
     display: flex;
     justify-content: center;
-  }
-
-  .result-container li {
     font-size: 14px;
     padding: 2px;
   }
@@ -690,32 +667,42 @@ button:focus {
   display: flex;
   flex-direction: column;
   height: 256px;
-  border: 1px solid #A0A0A0;
 }
+
   .chat-output {
     flex: 1;
     overflow-y: scroll;
     background-color: white;
     padding: 12px;
     font-size: 15px;
+    margin-bottom: 8px;
+    border: 1px solid #A0A0A0;
   }
 
     .chat-output li {
       list-style: none;
     }
+
   .chat-message {
     display: flex;
     flex-direction: row;
+    border: 1px solid #A0A0A0;
+  }
 
-  }
   .chat-message input {
-    padding: 4px;
+    padding: 6px;
     width: 80%;
-    /* flex: 1; */
+    border: none;
+    outline: none;
+    /* background-color: #ECECE8; */
+    font-size: 13px;
   }
+
   .chat-message button {
-    padding: 4px;
+    padding: 6px;
     flex: 1;
+    border: none;
+    /* background-color: #ECECE8; */
   }
 
 /* NavBar */
@@ -735,14 +722,15 @@ button:focus {
   flex-shrink: 0;
   background: transparent;
 }
+
   .nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
   } 
+
   .nav-left {
     display: flex;
-
   }
     .nav-left li {
       display: flex;
@@ -750,6 +738,7 @@ button:focus {
       padding: 0px;
       color: #F0EBE8;
     }
+
       .nav-left li a {
         text-decoration: none;
         text-align: center;
@@ -758,19 +747,20 @@ button:focus {
         display: block;
         padding: 24px;
       }
+
   .nav-right {
     display: flex;
     flex-shrink: 0;
     width: 40%;
   }
 
-  
     .nav-right li {
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 0;
     }
+
       .nav-right a {
         text-decoration: none;
         text-align: center;
@@ -781,11 +771,9 @@ button:focus {
         position: relative;
         transition: color 0.1s, background-color 0.1s, padding 0.2s ease-out;
       }
-      .nav-right a:hover, .nav-right a:focus, .nav-right a:active {
-        /* color: #479761; */
-        color: #61887A;
 
-        /* text-decoration: none; */
+      .nav-right a:hover, .nav-right a:focus, .nav-right a:active {
+        color: #61887A;
       }
 
       .nav-right a::before {
@@ -804,6 +792,7 @@ button:focus {
       .nav-right a:active::before {
         background-color: floralwhite;
       }
+
       .nav-right a:hover::before, .nav-right a:focus::before {
         transform-origin: left top;
         transform: scale(1, 1);
@@ -816,7 +805,6 @@ button:focus {
   background: transparent;
   width: 16%;
 } 
-
 
   .welcome {
     color: #F0EBE8;
@@ -850,7 +838,6 @@ button:focus {
       margin: 0px;
     }
 
-    
     @-webkit-keyframes slide {
       100% { left: 0px; }
     }
@@ -862,7 +849,6 @@ button:focus {
 .icon {
   color: #383838;
 } 
-
 
 /* Logout */
 .logout {
@@ -879,10 +865,10 @@ button:focus {
     font-size: 14px;
     cursor: pointer;
   }
+
   .logout a:hover, .logout a:focus {
     color: #999;
   }
-
 
 /* Login */
 
@@ -905,11 +891,10 @@ button:focus {
     background-repeat: no-repeat;
     background-size: cover;
     background-blend-mode: lighten;
-    /* margin: 0 auto; */
     margin-left: 16%;
-    opacity: 0.4;
-    
+    opacity: 0.4;   
   }
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -925,7 +910,6 @@ button:focus {
   border-radius: 2px;
   margin-right: 407.73px;
   transition: ease-out 0.5s;
-
 } 
 
 .login-form span {
@@ -951,7 +935,6 @@ button:focus {
     justify-content: center;
     align-items: center;
     width: 100%;
-    /* margin-top: 28px; */
   }
     .login-form-input input {
       box-sizing: border-box;
@@ -1027,7 +1010,7 @@ button:focus {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background-color: #CBC6BD;
+    background-color: white;
     opacity: 0.8;
     width: 384px;
     height: 192px;
@@ -1037,7 +1020,6 @@ button:focus {
     font-family: Arial, Helvetica, sans-serif; 
     letter-spacing: 1px;
     font-size: 16px;
-    
   }
 
   .modal-dialogue p {
@@ -1052,18 +1034,19 @@ button:focus {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
   }
 
   .modal-dialogue-btn-container button {
     font-size: 18px;
-    background-color: #ECECE8;
-    border: 1px solid #A0A0A0;
+    background-color: white;
+    opacity: 1;
+    border: 1px solid #383838;
     border-radius: 2px;
     padding: 16px 32px;
     margin: 4px;
   }
 
+/* Slider */
 .switch {
   position: relative;
   display: inline-block;
@@ -1081,7 +1064,6 @@ button:focus {
   right: 0;
   bottom: 0;
   background-color: #AA7047;
-
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
@@ -1100,7 +1082,6 @@ button:focus {
 
 input:checked + .slider {
   background-color: #AA7047;
-
 }
 
 input:focus + .slider {
@@ -1113,7 +1094,6 @@ input:checked + .slider:before {
   transform: translateX(28px);
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 16px;
 }
@@ -1121,10 +1101,3 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
-
-
-
-
-
-
-

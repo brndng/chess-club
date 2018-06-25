@@ -46,7 +46,7 @@ class GameList extends Component {
                   </Link>
                   <span><small>{formatDate(game.createdAt)}</small></span>
                 </li>
-              )
+              );
             })}
           </ul>
         </div>

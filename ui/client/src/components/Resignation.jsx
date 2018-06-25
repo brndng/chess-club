@@ -68,30 +68,29 @@ class Resignation extends Component {
     const onClick = completed
       ? null
       : () => this.showModal();
-    const modal = showModal
-      && <div >
-           <Modal>
-             <div className="modal"> 
-               <div className="modal-btn-container">
-                {view !== 'confirm' && <button onClick={() => this.hideModal()}>╳</button>}
-               </div> 
-             {
-               view === 'confirm'
-                 ? <div className="modal-dialogue">
-                     <p> Are you sure you want to resign? </p>
-                     <div className="modal-dialogue-btn-container">
-                       <button onClick={() => this.resign()}>YES</button>
-                       <button onClick={() => this.hideModal()}>NO</button>
-                     </div>
-                   </div>
-                 : <div className="modal-dialogue">
-                     <p> {player.username} has resigned! </p>
-                     <div className="modal-dialogue-btn-container"></div>
-                   </div>
-             }
-             </div>
-           </Modal>
-         </div>
+    const modal = showModal && 
+      <div>
+        <Modal>
+          <div className="modal"> 
+            <div className="modal-btn-container">
+              {view !== 'confirm' && 
+                <button onClick={() => this.hideModal()}>╳</button>}
+            </div> 
+              {view === 'confirm'
+                ? <div className="modal-dialogue">
+                    <p> Are you sure you want to resign? </p>
+                    <div className="modal-dialogue-btn-container">
+                      <button onClick={() => this.resign()}>YES</button>
+                      <button onClick={() => this.hideModal()}>NO</button>
+                    </div>
+                  </div>
+                : <div className="modal-dialogue">
+                    <p> {player.username} has resigned! </p>
+                    <div className="modal-dialogue-btn-container"></div>
+                  </div>}
+          </div>
+        </Modal>
+      </div>
 
     return (
       <div>         

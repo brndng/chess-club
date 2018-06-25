@@ -20,7 +20,7 @@ class BoardContainer extends Component {
   render() {
     const { user, game, index } = this.props;
     const { showCoords } = this.state;
-    const isDisplayed = showCoords && "is-displayed";
+    const isDisplayed = showCoords && 'is-displayed';
     const ranks = printRanks(user.id, game.white);
     const files = printFiles(user.id, game.white);
     return (

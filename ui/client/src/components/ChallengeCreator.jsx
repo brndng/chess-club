@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Modal from './Modal.jsx';
+import { genRandomColor } from '../../../../rules/utilities';
 
 axios.defaults.withCredentials = true;
 
@@ -76,10 +77,11 @@ class ChallengeCreator extends Component {
   render() {
     const { showModal, gameId, white, black } = this.state;
     const { opponent, selectedPlayer } = this.props;
+    const random = genRandomColor();
     const isDisabled = !(white !== null && black !== null);
     const selectedOpponent = opponent
       ? opponent.username
-      : '';
+      : 'Please select an opponent';
     const modal = showModal
       && <div >
            <Modal>
@@ -106,8 +108,9 @@ class ChallengeCreator extends Component {
             <span>{`I PLAY AS: `}</span>
             <select className="slct" onChange={(e) => this.setMatchup(e.target.value)} disabled={opponent === null}>
               <option value={null} defaultValue>SELECT COLOR</option>
-              <option value="white">♔ WHITE</option>
-              <option value="black">♚ BLACK</option>
+              <option value="white">♔  WHITE</option>
+              <option value="black">♚  BLACK</option>
+              <option value={random}>�  RANDOM</option>
             </select>
           </div>
           

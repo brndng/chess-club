@@ -13,9 +13,9 @@ class PlayerCard extends Component {
   generateClasses() {
     const { user, opponent, player, isMyTurn } = this.props;
     return [
-      "player-card-container",
+      'player-card-container',
       ((isMyTurn && player.id === user.id) || (!isMyTurn && player.id === opponent.id)) 
-        && "is-my-turn",
+        && 'is-my-turn',
     ].filter(cls => !!cls).join(' ');
   }
 

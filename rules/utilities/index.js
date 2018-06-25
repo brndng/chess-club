@@ -189,8 +189,12 @@ const formatDate = (input) => {
     '11': 'Nov',
     '12': 'Dec',
   }
-
   return `${months[month]} ${day} ${year}`;
+}
+
+const genRandomColor = () => {
+  const color = Math.random() < 0.5 ? 'white' : 'black';
+  return color;
 }
 
 module.exports = { 
@@ -208,6 +212,7 @@ module.exports = {
   printRanks,
   printFiles,
   formatDate,
+  genRandomColor,
  }
 
 
