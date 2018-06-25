@@ -1,7 +1,6 @@
 import { areEqual } from '../../../../rules/utilities/'
 
 export default (state = [], action) => {
-  // const newState = state.map(board => board.map(row => [...row]));
   switch(action.type) {
     case 'GAME_INITIALIZED': {
       const { positionHistory } = action.payload;

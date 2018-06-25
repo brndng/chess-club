@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import SelectionReducer from './reducer-selection.js';
-import WhiteToMoveReducer from './reducer-white-tomove.js';
+import WhiteToMoveReducer from './reducer-white-to-move.js';
 import CurrentPositionReducer from './reducer-current-position.js';
 import MovesReducer from './reducer-moves.js';
 import GameReducer from './reducer-game.js';
