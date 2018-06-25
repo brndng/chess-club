@@ -543,7 +543,7 @@ button:focus {
   }
 
     .player-card-username {
-      font-size: 14px;
+      font-size: 15px;
       padding: 1px;
       color: #383838;
     }
@@ -675,7 +675,7 @@ button:focus {
     background-color: white;
     padding: 12px;
     font-size: 15px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     border: 1px solid #A0A0A0;
   }
 
