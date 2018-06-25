@@ -19,10 +19,10 @@ class Board extends Component {
     const wasCaptured = index > 0 && moves[index][3];
 
     if (!areEqual(prevProps.currentPosition, currentPosition)) {
-      this.moveSound.play();
       if (wasCaptured) {
         this.captureSound.play();
       }
+      this.moveSound.play();
     }
   }
 

@@ -3,8 +3,8 @@ const socket = require('socket.io');
 const path = require('path');
 const sequelize = require('../db');
 const router = require('./routes');
-const { apiMiddleware } = require('./middleware/');
 const createSocketHandlers = require('./socket/');
+const { apiMiddleware } = require('./middleware/');
 
 const app = express();
 const PORT = 3000;
