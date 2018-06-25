@@ -10,32 +10,32 @@ axios.defaults.withCredentials = true;
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      position: this.props.currentPosition,
-    }
     this.moveSound = new SoundPlayer("http://freesound.org/data/previews/351/351518_4502687-lq.mp3");
+    this.captureSound = new SoundPlayer("http://freesound.org/data/previews/333/333608_5890169-lq.mp3");
   }
   
-  componentDidUpdate(prevProps, prevState) {
-    const { currentPosition } = this.props;
-    const { position } = prevState;
-    if (!areEqual(position, currentPosition)) {
-      this.setState({ position: currentPosition }, () => {
-        this.moveSound.play();
-      });
+  componentDidUpdate(prevProps) {
+    const { currentPosition, moves } = this.props;
+    const wasCaptured = moves.slice(-1).length > 0 && moves.slice(-1)[0][3];
+    
+    if (!areEqual(prevProps.currentPosition, currentPosition)) {
+      this.moveSound.play();
+      if (wasCaptured) {
+        this.captureSound.play();
+      }
     }
   }
 
   render() {
-    const { user, game, completed, isMyTurn } = this.props;
-    const positionRotated = rotateBoard(this.state.position);
+    const { user, game, currentPosition, completed, isMyTurn } = this.props;
+    const positionRotated = rotateBoard(currentPosition);
     const classes = [
       'board',
       isMyTurn && !completed && 'is-my-turn'
     ].filter(cls => !!cls).join(' ');
 
     return user.id === game.white 
-      ? <div className={classes}>{this.state.position.map((row, i) => 
+      ? <div className={classes}>{currentPosition.map((row, i) => 
           <div className="row" key={i}>{row.map((elem, j) => {
             let coords = { row: i, col: j };
             return <Square piece={elem} coords={coords} key={[coords.row, coords.col]} /> })}
@@ -50,8 +50,8 @@ class Board extends Component {
   }
 }
 
-const mapStateToProps = ({ user, game, currentPosition, whiteToMove, completed, isMyTurn }) => {
-  return { user, game, currentPosition, whiteToMove, completed, isMyTurn };
+const mapStateToProps = ({ user, game, currentPosition, moves, whiteToMove, completed, isMyTurn }) => {
+  return { user, game, currentPosition, moves, whiteToMove, completed, isMyTurn };
 }
 
 export default connect(mapStateToProps)(Board);

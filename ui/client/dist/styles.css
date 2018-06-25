@@ -590,7 +590,8 @@ button:focus {
       height: 32px;
     } 
       .captured-piece {
-        font-size: 14px;
+        font-size: 15px;
+        letter-spacing: .4px;
       }
 
   .game-display {
@@ -701,7 +702,7 @@ button:focus {
   }
   .result-container ul {
     list-style: none;
-    margin: 0px 0px 0px -16px;
+    margin: 8px 0px 0px 0px;
     padding: 0px 0px 0px 0px;
     display: flex;
     justify-content: center;
