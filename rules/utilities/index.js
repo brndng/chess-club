@@ -67,7 +67,7 @@ const convertToChessNotation = (origin, destin, piece, captured, check, promoted
     ? `=${figurines[promotedTo].symbol}`
     : '';
   const warning = check 
-    ? '+'
+    ? '﹢'
     : '';
 
   if (selection === '♔') {

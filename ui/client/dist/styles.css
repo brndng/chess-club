@@ -589,21 +589,14 @@ button:focus {
   flex-direction: row;
   justify-content: center;
   list-style: none;
+  text-shadow: 1px 1px 4px black;
 }
 
 .game-display-toggle a {
   color: floralwhite;
   font-size: 16px;
-  padding: 1px;
+  padding: 0px 1px;
   text-decoration: none;
-}
-
-.toggle-moves {
-  text-align: left;
-}
-
-.toggle-chat {
-  text-align: right;
 }
 
 /* MoveHistory */
@@ -632,23 +625,23 @@ button:focus {
 }
 
   .move-history-row {
-    padding: 0px;
-    margin: 0px;
+    padding: 2px 0px;
+    margin: 0px 0px 4px 0px;
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 
   .move-pair {
     display: flex;
     justify-content: flex-start;
-    padding: 1px 2px 1px 2px;
-    margin: 0;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif; 
+    line-height: 1em;
+    margin: 0px;
+    padding: 2px;
     flex: 1;
     color: #383838;
-  }
-
-  .move-pair.white {
-    flex: 1;
   }
 
   .move-pair.black {
@@ -676,6 +669,7 @@ button:focus {
   background-color: white;
   padding: 12px;
   font-size: 15px;
+  color: #383838;
   margin-bottom: 6px;
   border: 1px solid #A0A0A0;
 }
