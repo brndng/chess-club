@@ -11,7 +11,8 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.moveSound = new SoundPlayer("http://freesound.org/data/previews/351/351518_4502687-lq.mp3");
-    this.captureSound = new SoundPlayer("http://freesound.org/data/previews/333/333608_5890169-lq.mp3");
+    this.captureSound = new SoundPlayer("http://freesound.org/data/previews/240/240313_3624044-lq.mp3");
+    // this.captureSound = new SoundPlayer("http://freesound.org/data/previews/333/333608_5890169-lq.mp3");
   }
   
   componentDidUpdate(prevProps) {
@@ -55,3 +56,4 @@ const mapStateToProps = ({ user, game, currentPosition, moves, whiteToMove, comp
 }
 
 export default connect(mapStateToProps)(Board);
+
