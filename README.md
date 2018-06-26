@@ -1,5 +1,5 @@
 # chess
-A chess app from scratch. Challenge friends and play at your convenience.
+Players only.
 
 # instructions to run locally
 
