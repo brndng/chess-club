@@ -107,3 +107,10 @@ io.on('connection', (socket) => {
 });
 
 app.use(...middleware);
+
+api script package.json
+    // "start": "npm-run-all -p server",
+
+ui script package.json
+  "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+
