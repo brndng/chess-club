@@ -16,9 +16,7 @@ class SideBar extends Component {
           <p className="welcome-greeting">Welcome,</p>
           <p className="welcome-username">{user.username}</p>
         </div>
-        <div className="sidebar-bottom">
-          <Logout />
-        </div>
+        <Logout />
       </div>
     )
   }

@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "rest": "nodemon ./rest-server",
-    "socket": "nodemon ./socket-server",
-    "start": "npm-run-all -p rest socket"
+    "start": "node ./server"
   },
   "author": "",
   "license": "ISC",

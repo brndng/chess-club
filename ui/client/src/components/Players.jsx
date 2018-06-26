@@ -55,11 +55,12 @@ class Players extends Component {
         <div className="players-default">
           <p>SELECT OPPONENT</p>
           <div className="players-list">
-            <ul>{players.length === 0 &&
-              <div className="players-invalid">
-                <span>{`Sorry, that player doesn't exist`}</span>
-                <button className="btn" onClick={() => {this.displayAllPlayers()}}>Display All</button>
-              </div>}
+            <ul>
+              {players.length === 0 &&
+                <div className="players-invalid">
+                  <span>{`Sorry, that player doesn't exist`}</span>
+                  <button className="btn" onClick={() => {this.displayAllPlayers()}}>Display All</button>
+                </div>}
               {players.map(player => {
                 const opponent = { id: player.id, username: player.username };
                 if (user.id !== player.id) {
@@ -68,8 +69,7 @@ class Players extends Component {
                       <div>
                         <a href="#" onClick={() => storeOpponent(opponent)}>{opponent.username}</a>
                       </div>
-                    </li>
-                  );
+                    </li>);
                 }})}
             </ul>
           </div>

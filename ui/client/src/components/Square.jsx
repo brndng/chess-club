@@ -70,7 +70,8 @@ class Square extends Component {
 
     return (
       <div id={color} className={classes} onClick={onClick}>
-        {piece === null ? null : <Piece piece={piece} isMyTurn={isMyTurn} whiteToMove={whiteToMove} />}
+        {piece !== null && 
+          <Piece piece={piece} isMyTurn={isMyTurn} whiteToMove={whiteToMove} />}
       </div>
     )
   }

@@ -21,3 +21,89 @@ resign ...either player in record
 accept draw only other player in record x
 
 
+1. cd ui // cd client // npm run build
+
+2. cd api // npm start
+
+
+(2. cd ui // cd server // nodemon)
+
+
+ui/server/index.js
+const express = require('express');
+const path = require('path');
+
+const app = express();
+const PORT = 8080;
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html')));
+
+app.listen(PORT, () => console.log(`serving static files on port: ${PORT}`));
+
+api/socket-server/index.js
+const express = require('express');
+const socket = require('socket.io');
+const parser = require('body-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+// const path = require('path');
+
+const app = express();
+const PORT = 1337;
+const server = app.listen(PORT, () => console.log(`listening on port: ${PORT}`));
+const io = socket(server);
+
+const middleware = [
+  helmet(),
+  parser.json(),
+  parser.urlencoded({ extended: true }),
+  cors({
+    allowedHeaders: 'Content-Type, authorization',
+    methods: ['GET, POST, PUT, DELETE', 'OPTIONS'],
+  }),
+];
+
+io.on('connection', (socket) => {
+  console.log('made SOCKET connection!', socket.id);
+
+  socket.on('game_id', (data) => {
+    socket.join(data);
+    io.sockets.in(data).emit('guest', data);
+  });
+
+  socket.on('chat', (data) => {
+    io.sockets.in(data.id).emit('chat', data.message);
+  });
+
+  socket.on('move', (data) => {
+    socket.broadcast.to(data.id).emit('move', data.newMove);
+  });
+
+  socket.on('check', (data) => {
+    io.sockets.in(data.id).emit('check', data.userId);
+  });
+
+  socket.on('resign', (data) => {  
+    io.sockets.in(data.id).emit('resign', data.user);
+  });
+
+  socket.on('checkmate', (data) => {
+    io.sockets.in(data.id).emit('checkmate', data.userId);
+  });
+
+  socket.on('draw_offer', (data) => {
+    socket.broadcast.to(data.id).emit('draw_offer', data.userId);
+  });
+
+  socket.on('draw_accept', (data) => {
+    socket.broadcast.to(data.id).emit('draw_accept', data.userId);
+  });
+
+  socket.on('draw_decline', (data) => {
+    socket.broadcast.to(data.id).emit('draw_decline', data.userId);
+  });
+});
+
+app.use(...middleware);

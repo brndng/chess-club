@@ -47,14 +47,15 @@ class Resignation extends Component {
   }
 
   async resign() {
-    const { id, user, game, socket, result } = this.props;
-    const opponentId = user.id === game.white ? game.black : game.white;
+    const { id, user, game, socket } = this.props;
+    const { white, black } = game;
+    const opponentId = user.id === white ? black : white;
     const resignation = await axios.put(`http://localhost:3000/games/resign`, { 
       id, 
       user,
+      white,
       completed: true,
       winner: opponentId,
-      result,
     });
     if (resignation.status === 200) {
       socket.emit('resign', { id, user });
@@ -67,30 +68,29 @@ class Resignation extends Component {
     const onClick = completed
       ? null
       : () => this.showModal();
-    const modal = showModal
-      && <div >
-           <Modal>
-             <div className="modal"> 
-               <div className="modal-btn-container">
-                {view !== 'confirm' && <button onClick={() => this.hideModal()}>╳</button>}
-               </div> 
-             {
-               view === 'confirm'
-                 ? <div className="modal-dialogue">
-                     <p> Are you sure you want to resign? </p>
-                     <div className="modal-dialogue-btn-container">
-                       <button onClick={() => this.resign()}>YES</button>
-                       <button onClick={() => this.hideModal()}>NO</button>
-                     </div>
-                   </div>
-                 : <div className="modal-dialogue">
-                     <p> {player.username} has resigned! </p>
-                     <div className="modal-dialogue-btn-container"></div>
-                   </div>
-             }
-             </div>
-           </Modal>
-         </div>
+    const modal = showModal && 
+      <div>
+        <Modal>
+          <div className="modal"> 
+            <div className="modal-btn-container">
+              {view !== 'confirm' && 
+                <button onClick={() => this.hideModal()}>╳</button>}
+            </div> 
+              {view === 'confirm'
+                ? <div className="modal-dialogue">
+                    <p> Are you sure you want to resign? </p>
+                    <div className="modal-dialogue-btn-container">
+                      <button onClick={() => this.resign()}>YES</button>
+                      <button onClick={() => this.hideModal()}>NO</button>
+                    </div>
+                  </div>
+                : <div className="modal-dialogue">
+                    <p> {player.username} has resigned! </p>
+                    <div className="modal-dialogue-btn-container"></div>
+                  </div>}
+          </div>
+        </Modal>
+      </div>
 
     return (
       <div>         
@@ -101,8 +101,8 @@ class Resignation extends Component {
   }
 }
 
-const mapStateToProps = ({ user, completed, game, result }) => {
-  return { user, completed, game, result }
+const mapStateToProps = ({ user, completed, game }) => {
+  return { user, completed, game }
 }
 
 const matchDispatchToProps = (dispatch) => {

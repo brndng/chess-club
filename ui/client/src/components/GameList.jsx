@@ -6,7 +6,6 @@ import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames } from '../actions/';
 import { formatDate } from '../../../../rules/utilities/';
-import { whiteKnight, blackKnight } from '../../images/';
 
 axios.defaults.withCredentials = true;
 
@@ -46,7 +45,7 @@ class GameList extends Component {
                   </Link>
                   <span><small>{formatDate(game.createdAt)}</small></span>
                 </li>
-              )
+              );
             })}
           </ul>
         </div>

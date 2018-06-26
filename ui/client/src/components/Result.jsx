@@ -7,12 +7,7 @@ class Result extends Component {
   }
   render() {
     const { completed, result } = this.props;
-    return completed
-      && <ul>
-           <li> 
-             {result} 
-           </li>
-         </ul>
+    return completed && result; 
   }
 }
 

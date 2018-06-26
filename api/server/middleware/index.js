@@ -1,3 +1,7 @@
+const parser = require('body-parser');
+const session = require('express-session');
+const cors = require('cors');
+const helmet = require('helmet');
 const { willMoveExposeKing } = require('../../../rules/interactions/');
 const verifyLegalSquare = require('../../../rules/movement/');
 
@@ -19,6 +23,26 @@ module.exports = {
     } else {
       res.status(401).send('No hacks allowed. You must make a legal move.');
     }
-  }
+  },
+  apiMiddleware: [
+    helmet(),
+    parser.json(),
+    parser.urlencoded({ extended: true }),
+    session({
+      secret: 'secret',
+      saveUninitialized: false,
+      resave: false,
+      cookie: {
+        httpOnly: false,
+        secure: false,
+      },
+    }),
+    cors({
+      credentials: true,
+      origin: 'http://localhost:8080',
+      allowedHeaders: 'Content-Type, authorization',
+      methods: ['GET, POST, PUT, DELETE', 'OPTIONS'],
+    }),
+  ],
 }
 

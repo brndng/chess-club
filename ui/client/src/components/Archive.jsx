@@ -6,7 +6,6 @@ import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
 import { formatDate } from '../../../../rules/utilities/';
-// import { whiteKnight, blackKnight } from '../../images/';
 
 axios.defaults.withCredentials = true;
 
