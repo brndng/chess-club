@@ -14,7 +14,7 @@ const Sequelize = require('sequelize');
 // console.log('SEQUELIZE INDEX process.env.DATABASE_URL',process.env.DATABASE_URL)
 
 
-const sequelize = new Sequelize('postgres://Brian@localhost:5432/chess', {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   pool: {
     max: 5,
     min: 0,

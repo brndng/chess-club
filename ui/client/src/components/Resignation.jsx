@@ -50,7 +50,7 @@ class Resignation extends Component {
     const { id, user, game, socket } = this.props;
     const { white, black } = game;
     const opponentId = user.id === white ? black : white;
-    const resignation = await axios.put(`${process.env.SERVER}/games/resign`, { 
+    const resignation = await axios.put(`${process.env.PATH}:${process.env.PORT}/games/resign`, { 
       id, 
       user,
       white,

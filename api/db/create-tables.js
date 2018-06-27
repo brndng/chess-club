@@ -1,5 +1,5 @@
-// const sequelize = require('./index.js');
-// const { User, Game } = require('./models.js');
+const sequelize = require('./index.js');
+const { User, Game } = require('./models.js');
 
 // const createDatabase = async (database) => {
 //   try {

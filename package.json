@@ -15,7 +15,7 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
     "create-tables": "cd api && cd db && node create-tables.js",
     "start": "cd api && node server.js",
-    "heroku-postbuild": "npm install && npm start && cd .. && cd ui && cd client && npm install && npm install --only=dev --no-shrinkwrap && npm build:prod"
+    "heroku-postbuild": "npm install && concurrently --kill-others-on-fail \"npm start\" \"cd ui/client && npm install && npm install --only=dev --no-shrinkwrap && npm build:prod\""
   },
   "repository": {
     "type": "git",

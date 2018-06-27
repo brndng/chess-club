@@ -59,7 +59,7 @@ class Draw extends Component {
 
   async offerDraw() {
     const { id, user, socket } =  this.props;
-    const offer = await axios.put(`${process.env.SERVER}/games/draw/offer`, { id, userId: user.id });
+    const offer = await axios.put(`${process.env.PATH}:${process.env.PORT}/games/draw/offer`, { id, userId: user.id });
     if (offer.status === 200) {
       socket.emit('draw_offer', { id, userId: user.id });
     }
@@ -67,7 +67,7 @@ class Draw extends Component {
 
   async acceptDraw() {
     const { user, id, socket, declareGameOver } = this.props;
-    const response = await axios.put(`${process.env.SERVER}/games/draw/accept`, { 
+    const response = await axios.put(`${process.env.PATH}:${process.env.PORT}/games/draw/accept`, { 
       id, 
       completed: true,
       winner: null,
@@ -82,7 +82,7 @@ class Draw extends Component {
 
   async declineDraw() {
     const { user, id, socket } = this.props;
-    const response = await axios.put(`${process.env.SERVER}/games/draw/offer`, { id, userId: user.id });
+    const response = await axios.put(`${process.env.PATH}:${process.env.PORT}/games/draw/offer`, { id, userId: user.id });
     
     if (response.status === 200) {
       socket.emit('draw_decline', { id, userId: null });
