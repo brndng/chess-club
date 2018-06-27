@@ -2,8 +2,8 @@ const parser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
 const helmet = require('helmet');
-const { willMoveExposeKing } = require('../../../rules/interactions/');
-const verifyLegalSquare = require('../../../rules/movement/');
+const { willMoveExposeKing } = require('../../rules/interactions/');
+const verifyLegalSquare = require('../../rules/movement/');
 
 module.exports = {
   isAuthenticated: (req, res, next) => {

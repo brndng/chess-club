@@ -28,23 +28,3 @@ Game.belongsTo(User, { foreignKey: 'white' });
 Game.belongsTo(User, { foreignKey: 'black' });
 
 module.exports = { User, Game };
-
-
-// CREATING/DROPPING PROGRAMATICALLY 
-// const createDatabase = async database => {
-//   try {
-//     await sequelize.queryAsync(`CREATE DATABASE ${database}`);
-//     success('successfully created database ', database);
-//   } catch (err) {
-//     error('error creating database ', err);
-//   }
-// };
-
-// const dropDatabase = async database => {
-//   try {
-//     await sequelize.queryAsync(`DROP DATABASE IF EXISTS ${database}`);
-//     success('successfully dropped database ', database);
-//   } catch (err) {
-//     error('error dropping database ', err);
-//   }
-// };
