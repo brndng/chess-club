@@ -39,7 +39,6 @@ module.exports = {
     }),
     cors({
       credentials: true,
-      origin: 'http://localhost:8080',
       allowedHeaders: 'Content-Type, authorization',
       methods: ['GET, POST, PUT, DELETE', 'OPTIONS'],
     }),

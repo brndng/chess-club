@@ -10,6 +10,9 @@ const Sequelize = require('sequelize');
 //   },
 //   logging: false,
 // });
+// console.log('process.env.PORT',process.env.PORT)
+// console.log('SEQUELIZE INDEX process.env.DATABASE_URL',process.env.DATABASE_URL)
+
 
 const sequelize = new Sequelize('postgres://Brian@localhost:5432/chess', {
   pool: {
@@ -20,5 +23,4 @@ const sequelize = new Sequelize('postgres://Brian@localhost:5432/chess', {
   logging: false,
 });
 
-console.log('process.env.PORT DB', process.env.PORT);
 module.exports = sequelize;

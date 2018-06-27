@@ -17,7 +17,7 @@ class Players extends Component {
   }
 
   async componentDidMount() {
-    const dbPlayers = await axios.get(`http://localhost:3000/users/players`);
+    const dbPlayers = await axios.get(`${process.env.SERVER}/users/players`);
     this.setState({ 
       dbPlayers: [...dbPlayers.data],
       players: [...dbPlayers.data]

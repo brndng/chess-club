@@ -1049,7 +1049,7 @@ input:checked + .slider:before {
 .modal-btn-container {
   display: flex;
   justify-content: center;
-  width: 100%;
+  height: 32.1px;
   margin-top: 32px; 
 }
 

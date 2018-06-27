@@ -17,7 +17,7 @@ class Archive extends Component {
   async componentDidMount() {
     const { loadGames, user } = this.props;
     const { id } = user;
-    const games = await axios(`http://localhost:3000/games/all/${id}`)
+    const games = await axios(`${process.env.SERVER}/games/all/${id}`)
     loadGames(games.data);
   }
 

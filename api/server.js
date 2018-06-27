@@ -24,8 +24,6 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../ui/client/dist/index.html')));
 }
 
-console.log('​process.env.PORT SERVER', process.env.PORT);
-
 sequelize.sync().then(() => console.log('DB synced'));
 
 

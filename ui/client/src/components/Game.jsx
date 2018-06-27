@@ -38,9 +38,9 @@ class Game extends Component {
   async componentDidMount() {    
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
-    const game = await axios.get(`http://localhost:3000/games/${id}`);
+    const game = await axios.get(`${process.env.SERVER}/games/${id}`);
 
-    this.socket = await io(`http://localhost:3000/`);
+    this.socket = await io(`${process.env.SERVER}/`);
 
     this.socket.on('connect', () => {
       this.setState({ socket: this.socket.id });
@@ -80,7 +80,7 @@ class Game extends Component {
       const prevPosition = positionHistory.slice(-1)[0];
       const prevMoves = moves.slice(0, moves.length - 1);
         if ((user.id === white) === whiteToMove) {
-          axios.put(`http://localhost:3000/games/move`, { 
+          axios.put(`${process.env.SERVER}/games/move`, { 
             id,
             user, 
             game,
@@ -103,7 +103,7 @@ class Game extends Component {
       const _checkMate = evaluateCheckmateConditions(user.id, white, currentPosition, moves);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
-        axios.put(`http://localhost:3000/games/document`, { 
+        axios.put(`${process.env.SERVER}/games/document`, { 
           id, 
           user,
           moves,
@@ -113,12 +113,12 @@ class Game extends Component {
         });
       }
       this.socket.emit('check', { userId: user.id, id });
-      axios.put(`http://localhost:3000/games/check`, { id, inCheck: user.id });
+      axios.put(`${process.env.SERVER}/games/check`, { id, inCheck: user.id });
     }
 
     if (!_isKingInCheck && prevProps.inCheck === user.id) {
       this.socket.emit('check', { userId: null, id });
-      axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
+      axios.put(`${process.env.SERVER}/games/check`, { id, inCheck: null });
     }
   }
 
@@ -132,7 +132,7 @@ class Game extends Component {
       ? game.black
       : game.white;
     
-    const opponent = await axios.get(`http://localhost:3000/users/profile/${opponentId}`);
+    const opponent = await axios.get(`${process.env.SERVER}/users/profile/${opponentId}`);
     storeOpponent(opponent.data);
   }
 

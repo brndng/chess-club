@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./index.js');
 
+console.log('process MODELS', process.env.PORT)
+
 const User = sequelize.define('user', {
   username: Sequelize.STRING,
   password: Sequelize.STRING,
