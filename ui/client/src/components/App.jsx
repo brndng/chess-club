@@ -19,7 +19,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('TESTING process.env.BANANA', process.env.BANANA);
     return (
       <div className="route-container">
         <NavBar />
