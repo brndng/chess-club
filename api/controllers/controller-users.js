@@ -1,6 +1,8 @@
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
-const { User } = require('../db/models.js');
+// const { User } = require('../db/models.js');
+
+const User = global.db.User;
 
 module.exports = {
   registerUser: async (req, res) => {

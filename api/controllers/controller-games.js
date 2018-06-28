@@ -1,6 +1,8 @@
 const { Op } = require('sequelize');
-const { Game } = require('../db/models.js');
+// const { Game } = require('../db/models.js');
 const { initialPosition, areEqual } = require('../../rules/utilities/');
+
+const Game = global.db.Game;
 
 module.exports = {
   fetchAllGames: async (req, res) => {

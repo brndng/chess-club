@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const sequelize = require('./index.js');
+// const Sequelize = require('sequelize');
+// const sequelize = require('./index.js');
 
 
 // // Models

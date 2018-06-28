@@ -1,5 +1,5 @@
-const sequelize = require('./index.js');
-const { User, Game } = require('./models.js');
+// const sequelize = require('./index.js');
+// const { User, Game } = require('./models.js');
 
 // const createDatabase = async (database) => {
 //   try {
@@ -21,8 +21,8 @@ const { User, Game } = require('./models.js');
 
 // https://stackoverflow.com/questions/11175676/restart-node-upon-changing-a-file
 // https://stackoverflow.com/questions/44915758/node-process-env-variable-name-returning-undefined
-console.log('///BUILD TABLES.js PORT', process.env.PORT);
-console.log('process.env', process.env.NODE_ENV)
+// console.log('///BUILD TABLES.js PORT', process.env.PORT);
+// console.log('process.env', process.env.NODE_ENV)
 
 // const createTables = async () => {
 //   try {
