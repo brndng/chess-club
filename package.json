@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A chess app from scratch. Challenge friends and play at your convenience.",
   "main": "index.js",
-  "engines" :{
+  "engines": {
     "node": "8.9.4",
     "npm": "5.6.0"
   },
@@ -15,9 +15,7 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
     "create-tables": "cd api && cd db && node create-tables.js",
     "start": "cd api && node server.js",
-    "heroku-postbuild": "concurrently --kill-others-on-fail \"npm install && npm start\" \"cd ui/client && npm install && npm install --only=dev --no-shrinkwrap && npm run build:prod\""
-    
-    
+    "heroku-postbuild": "npm install && concurrently --kill-others-on-fail \"npm start\" \"cd ui/client && npm install && npm install --only=dev --no-shrinkwrap && npm run build:prod\""
   },
   "repository": {
     "type": "git",
