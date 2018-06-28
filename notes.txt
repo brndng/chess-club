@@ -1,3 +1,27 @@
+heroku run printenv | sort
+DYNO=run.8515
+HOME=/app
+MEMORY_AVAILABLE=512
+NODE_ENV=production
+NODE_HOME=/app/.heroku/node
+NPM_CONFIG_PRODUCTION=false
+PATH=/app/.heroku/node/bin:/app/.heroku/yarn/bin:/usr/local/bin:/usr/bin:/bin:/app/bin:/app/node_modules/.bin
+PORT=57410
+PS1=\[\033[01;34m\]\w\[\033[00m\] \[\033[01;32m\]$ \[\033[00m\]
+PWD=/app
+SHLVL=1
+TERM=xterm-256color
+WEB_CONCURRENCY=1
+WEB_MEMORY=512
+
+
+
+
+
+
+
+
+
 #Bugs
 resign first game, try resigning next game, accept doesn't work - backend socket emit does not hit handler
 resign first game, next game offer draw (drawOfferedBy !== opponent), response doesn't come back

@@ -35,7 +35,7 @@ class LogIn extends Component {
     const { storeUser, updateVerified, authenticate } = this.props;
     const { username, password } = this.state;
     try {
-      const response = await axios.post(`${process.env.PATH}:${process.env.PORT}/users/login`, { username, password });
+      const response = await axios.post(`${process.env.SERVER}/users/login`, { username, password });
       if (response.status === 200) {
         storeUser(response.data);
         authenticate(true);
@@ -53,7 +53,7 @@ class LogIn extends Component {
   async signUp() {
     const { username, password } = this.state;
     try {
-      const response = await axios.post(`${process.env.PATH}:${process.env.PORT}/users/signup`, { username, password });
+      const response = await axios.post(`${process.env.SERVER}/users/signup`, { username, password });
       if (response.status === 200) {
         this.setState({
           feedback: response.data,

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
-import axios from 'axios';
 import SoundPlayer from '../lib/sound-player.js';
 import { rotateBoard, areEqual } from '../../../../rules/utilities/';
-
-axios.defaults.withCredentials = true;
 
 class Board extends Component {
   constructor(props) {

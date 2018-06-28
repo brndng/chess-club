@@ -28,7 +28,7 @@ class CompletedGame extends Component {
   async componentDidMount() {    
     const { user, initGame } = this.props;
     const { id } = this.state;
-    const game = await axios.get(`${process.env.PATH}:${process.env.PORT}/games/${id}`);
+    const game = await axios.get(`${process.env.SERVER}/games/${id}`);
     const index = game.data.moves.length;
     initGame(user.id, game.data); 
     this.initOpponent(game.data);
@@ -42,7 +42,7 @@ class CompletedGame extends Component {
     const opponentId = user.id === game.white 
       ? game.black
       : game.white;
-    const opponent = await axios.get(`${process.env.PATH}:${process.env.PORT}/users/profile/${opponentId}`);
+    const opponent = await axios.get(`${process.env.SERVER}/users/profile/${opponentId}`);
     storeOpponent(opponent.data);
   }
 
