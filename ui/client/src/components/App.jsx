@@ -17,6 +17,7 @@ class App extends Component {
 
   render() {
     console.log('PROCESS.ENV.SERVER', process.env.SERVER);
+    console.log('PROCESS.ENV.NODE_ENV', process.env.NODE_ENV)
     return (
       <div className="route-container">
         <NavBar />

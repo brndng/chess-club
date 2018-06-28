@@ -61,7 +61,7 @@ class ChallengeCreator extends Component {
 
   async createGame() {
     const { white, black, whiteUsername, blackUsername } = this.state;
-    const newGame = await axios.post(`${process.env.SERVER}/games/challenge`, { 
+    const newGame = await axios.post(`https://chess-club.herokuapp.com/games/challenge`, { 
       white, 
       black,
       whiteUsername,
