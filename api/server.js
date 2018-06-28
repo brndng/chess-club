@@ -19,7 +19,7 @@ db.sequelize.sync().then(function() {
   // http.createServer(app).listen(app.get('port'), function(){
   //   console.log('Express server listening on port ' + app.get('port'));
   // });
-  const server = app.listen(process.env.PORT || 3000, () => console.log(`listening on port: ${PORT}`));
+  const server = app.listen(PORT, () => console.log(`listening on port: ${PORT}`));
   const io = socket(server);
   createSocketHandlers(io);
 });
