@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import { printCapturedPieces } from '../../../../rules/utilities/';
-
-axios.defaults.withCredentials = true;
 
 class PlayerCard extends Component {
   constructor(props) {

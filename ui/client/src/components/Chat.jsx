@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-
-axios.defaults.withCredentials = true;
 
 class Chat extends Component {
   constructor(props) {
