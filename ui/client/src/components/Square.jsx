@@ -27,7 +27,7 @@ class Square extends Component {
 
   inCheck() {
     const { user, inCheck, piece } = this.props;
-    return (user.id === inCheck) && (piece.toUpperCase() === 'K');
+    return (piece !== null) && (user.id === inCheck) && (piece.toUpperCase() === 'K');
   }
 
   handleSquareClick() {

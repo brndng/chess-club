@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config(); //writes .env contents to process.env
 const express = require('express');
 const socket = require('socket.io');
 const path = require('path');
@@ -8,7 +8,7 @@ const createSocketHandlers = require('./socket/');
 const { apiMiddleware } = require('./middleware/');
 
 const app = express();
-console.log('------***--server.js--process.env.PORT', process.env.PORT);
+console.log('------***--server.js--process.env.PORT', process.env.PORT); /// 27314 overrides in prod
 const PORT = process.env.PORT || 3000;
 
 app.use(...apiMiddleware);
@@ -21,19 +21,6 @@ db.sequelize.sync().then(() => {
   const io = socket(server);
   createSocketHandlers(io);
 });
-
-
-
-
-
-
-// db.sequelize.sync().then(() => console.log('DB synced'));
-
-// db.sequelize.sync().then(function() {
-//   http.createServer(app).listen(app.get('port'), function(){
-//     console.log('Express server listening on port ' + app.get('port'));
-//   });
-// });
 
 
 

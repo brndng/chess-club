@@ -1,8 +1,11 @@
 if (!global.hasOwnProperty('db')) {
   const Sequelize = require('sequelize');
   console.log('------***--models/-----process.env',process.env)
+  /// 
   console.log('------***--models/-----process.env.DATABASE_URL',process.env.DATABASE_URL)
+  /// heroku's URL
   console.log('------***--models/-----process.env.NODE_ENV',process.env.NODE_ENV)
+  /// production
   const DATABASE_URL = process.env.DATABASE_URL || 'postgres://Brian@localhost:5432/chess';
   
   // let sequelize = null;
