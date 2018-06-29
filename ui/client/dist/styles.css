@@ -461,6 +461,17 @@ button:focus {
   opacity: 0.8;
 }
 
+.square.in-check::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #A8434F;
+  opacity: 0.6;
+}
+
 #black {
   background-color: #AA7047;
 }
@@ -501,6 +512,7 @@ button:focus {
   flex-direction: column;
   justify-content: space-between;
   background: #CBC6BD;
+  /* background: #797979; */
   padding: 24px 12px;
   border: 1px solid black;
   border-radius: 2px;

@@ -1,19 +1,32 @@
 if (!global.hasOwnProperty('db')) {
-  var Sequelize = require('sequelize')
-    , sequelize = null
+  const Sequelize = require('sequelize');
+  console.log('------***--models/-----process.env',process.env)
+  console.log('------***--models/-----process.env.DATABASE_URL',process.env.DATABASE_URL)
+  console.log('------***--models/-----process.env.NODE_ENV',process.env.NODE_ENV)
+  const DATABASE_URL = process.env.DATABASE_URL || 'postgres://Brian@localhost:5432/chess';
+  
+  // let sequelize = null;
 
-  if (process.env.DATABASE_URL) {
-    // the application is executed on Heroku ... use the postgres database
-    sequelize = new Sequelize(process.env.DATABASE_URL, {
-      // dialect:  'postgres',
-      // protocol: 'postgres',
-      // port:     match[4],
-      // host:     match[3],
-      logging:  true
-    });
-  } else {
-    // local
-    sequelize = new Sequelize('postgres://Brian@localhost:5432/chess', {
+  // if (process.env.DATABASE_URL) {
+  //   sequelize = new Sequelize(process.env.DATABASE_URL, {
+  //     // dialect:  'postgres',
+  //     // protocol: 'postgres',
+  //     // port:     match[4],
+  //     // host:     match[3],
+  //     logging:  true
+  //   });
+  // } else {
+  //   sequelize = new Sequelize('postgres://Brian@localhost:5432/chess', {
+  //     pool: {
+  //       max: 5,
+  //       min: 0,
+  //       idle: 10000,
+  //     },
+  //     logging: false,
+  //   });
+  // }
+
+  sequelize = new Sequelize(DATABASE_URL, {
       pool: {
         max: 5,
         min: 0,
@@ -21,7 +34,6 @@ if (!global.hasOwnProperty('db')) {
       },
       logging: false,
     });
-  }
 
   global.db = {
     Sequelize: Sequelize,
@@ -30,15 +42,8 @@ if (!global.hasOwnProperty('db')) {
     Game: sequelize.import(__dirname + '/game.js')
   }
 
-  /*
-    Associations can be defined here. E.g. like this:
-    global.db.User.hasMany(global.db.SomethingElse)
-  */
-
   global.db.Game.belongsTo(global.db.User, { foreignKey: 'white' });
   global.db.Game.belongsTo(global.db.User, { foreignKey: 'black' });
 }
 
-module.exports = global.db
-
-// DATABASE_URL=postgres://Brian@localhost:5432/chess
+module.exports = global.db;

@@ -1,4 +1,4 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   return sequelize.define('game', {
     position: DataTypes.ARRAY(DataTypes.TEXT),
     moves: DataTypes.JSON,

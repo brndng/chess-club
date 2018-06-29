@@ -25,6 +25,11 @@ class Square extends Component {
     }
   }
 
+  inCheck() {
+    const { user, inCheck, piece } = this.props;
+    return (user.id === inCheck) && (piece.toUpperCase() === 'K');
+  }
+
   handleSquareClick() {
     const { selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves } = this.props;
 
@@ -58,11 +63,12 @@ class Square extends Component {
   }
 
   render() {
-    const { piece, coords, completed, whiteToMove, isMyTurn } = this.props;
+    const { user, piece, coords, completed, whiteToMove, isMyTurn, inCheck } = this.props;
     const color = setSquareColor(coords);
     const classes = [
       'square',
-      this.isSelected() && 'is-selected' 
+      this.isSelected() && 'is-selected',
+      this.inCheck() && 'in-check',
     ].filter(cls => !!cls).join(' ');
     const onClick = completed 
       ? null
@@ -77,8 +83,8 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed }) => { 
-  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, completed }) => { 
+  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {
