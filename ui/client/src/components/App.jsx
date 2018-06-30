@@ -16,12 +16,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('---process.env.SERVER', process.env.SERVER); //local
-    console.log('---process.env.NODE_ENV', process.env.NODE_ENV); //dev and prod works
-    // //heroku config vars not getting through, prod/dev based on webpack script
-    // console.log('---process.env.DATABASE_URL', process.env.DATABASE_URL); //UD
-    // console.log('---process.env.PORT', process.env.PORT); //UD
-
     return (
       <div className="route-container">
         <NavBar />

@@ -20,7 +20,7 @@ function withAuthentication(BaseComponent) {
     async componentDidMount() {
       const { hasFetchedCurrUser, updateUserFetched, storeUser, authenticate } = this.props;
       if (!hasFetchedCurrUser) { 
-        const user = await axios.get(`https://chess-club.herokuapp.com/users/current`).catch(err => console.log(err));
+        const user = await axios.get(`${process.env.HOST}/users/current`).catch(err => console.log(err));
         if (user) { 
           storeUser(user.data);
           authenticate(true);

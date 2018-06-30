@@ -7,8 +7,8 @@ import { rotateBoard, areEqual } from '../../../../rules/utilities/';
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.moveSound = new SoundPlayer("http://freesound.org/data/previews/351/351518_4502687-lq.mp3");
-    this.captureSound = new SoundPlayer("http://freesound.org/data/previews/240/240313_3624044-lq.mp3");
+    this.moveSound = new SoundPlayer("https://freesound.org/data/previews/351/351518_4502687-lq.mp3");
+    this.captureSound = new SoundPlayer("https://freesound.org/data/previews/240/240313_3624044-lq.mp3");
   }
   
   componentDidUpdate(prevProps) {
