@@ -11,10 +11,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "client:dev": "cd ui/client && npm run build:dev",
-    "server:dev": "cd api && node server.js",
+    "server:dev": "node server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
-    "create-tables": "cd api && cd db && node create-tables.js",
-    "start": "cd api && node server.js",
+    "start": "node server.js",
     "heroku-postbuild": "cd ui/client && npm install && npm install --only=dev --no-shrinkwrap && npm run build:prd"
   },
   "repository": {

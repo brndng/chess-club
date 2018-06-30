@@ -511,7 +511,6 @@ button:focus {
   flex-direction: column;
   justify-content: space-between;
   background: #CBC6BD;
-  /* background: #797979; */
   padding: 24px 12px;
   border: 1px solid black;
   border-radius: 2px;
@@ -593,7 +592,7 @@ button:focus {
   padding: 0px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
 }
 
@@ -601,13 +600,23 @@ button:focus {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   list-style: none;
-  text-shadow: 1px 1px 4px black;
+  padding: 0px 8px 0px 4px;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+  border-radius: 0px 10px 0px 0px;
+}
+
+.game-display-toggle li span {
+  font-size: 11px;
+  letter-spacing: 0px;
 }
 
 .game-display-toggle a {
   color: floralwhite;
-  font-size: 16px;
+  font-size: 15px;
   padding: 0px 1px;
   text-decoration: none;
 }
@@ -628,7 +637,9 @@ button:focus {
   font-size: 15px;
   border-radius: 1px;
   height: 256px;
-  border: 1px solid #A0A0A0;
+  border-right: 1px solid #A0A0A0;
+  border-bottom: 1px solid #A0A0A0;
+  border-left: 1px solid #A0A0A0;
 }
 
 .move-history-output ol {

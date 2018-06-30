@@ -1,35 +1,6 @@
 if (!global.hasOwnProperty('db')) {
   const Sequelize = require('sequelize');
-  console.log('------***--models/-----process.env',process.env)
-  /// 
-  console.log('------***--models/-----process.env.DATABASE_URL',process.env.DATABASE_URL)
-  /// heroku's URL
-  console.log('------***--models/-----process.env.NODE_ENV',process.env.NODE_ENV)
-  /// production
-  const DATABASE_URL = process.env.DATABASE_URL || 'postgres://Brian@localhost:5432/chess';
-  
-  // let sequelize = null;
-
-  // if (process.env.DATABASE_URL) {
-  //   sequelize = new Sequelize(process.env.DATABASE_URL, {
-  //     // dialect:  'postgres',
-  //     // protocol: 'postgres',
-  //     // port:     match[4],
-  //     // host:     match[3],
-  //     logging:  true
-  //   });
-  // } else {
-  //   sequelize = new Sequelize('postgres://Brian@localhost:5432/chess', {
-  //     pool: {
-  //       max: 5,
-  //       min: 0,
-  //       idle: 10000,
-  //     },
-  //     logging: false,
-  //   });
-  // }
-
-  sequelize = new Sequelize(DATABASE_URL, {
+  const sequelize = new Sequelize(process.env.DATABASE_URL, {
       pool: {
         max: 5,
         min: 0,
@@ -50,3 +21,4 @@ if (!global.hasOwnProperty('db')) {
 }
 
 module.exports = global.db;
+

@@ -50,8 +50,8 @@ class GameDisplay extends Component {
       <div className="game-display">
         <div className="game-display-toggle">
           <ul>
-            <li><a href="#" className="toggle-moves" onClick={() => this.displayMoves()}>📜</a></li>
-            <li><a href="#" className="toggle-chat" onClick={() => this.displayChat()}>💬</a></li>
+            <li onClick={() => this.displayMoves()}><a href="#" className="toggle-moves" >📜 </a><span>MOVES</span></li>
+            <li onClick={() => this.displayChat()}><a href="#" className="toggle-chat">🗨️ </a><span>CHAT </span></li>
           </ul>
         </div>
           {view === 'moves'
