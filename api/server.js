@@ -10,7 +10,7 @@ const createSocketHandlers = require('./socket/');
 const { apiMiddleware } = require('./middleware/');
 
 const app = express();
-console.log('------***--server.js--process.env.PORT', process.env.PORT); /// 27314 overrides in prod
+// console.log('------***--server.js--process.env.PORT', process.env.PORT); /// 27314 overrides in prod
 const PORT = process.env.PORT || 3000;
 
 app.use(...apiMiddleware);

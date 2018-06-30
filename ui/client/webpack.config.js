@@ -1,4 +1,10 @@
 const Dotenv = require('dotenv-webpack');
+const environment = process.env.NODE_ENV === 'production'
+  ? 'prd'
+  : 'dev';
+
+console.log('///--webpack.config--///environment', environment)
+console.log('///--webpack.config--/// process.env.NODE_ENV',  process.env.NODE_ENV)
 
 module.exports = {
   entry: ['babel-polyfill', './src/index.js'],
@@ -23,7 +29,9 @@ module.exports = {
     contentBase: './dist',
   },
   plugins: [
-    new Dotenv()
+    new Dotenv({
+      path: `./.env.${environment}`,
+    })
   ],
 };
 
