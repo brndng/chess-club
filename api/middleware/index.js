@@ -39,6 +39,7 @@ module.exports = {
     }),
     cors({
       origin: 'http://chess-club.herokuapp.com',
+      // origin: 'http://localhost:3000',
       credentials: true,
       allowedHeaders: 'Content-Type, authorization',
       methods: ['GET, POST, PUT, DELETE', 'OPTIONS'],

@@ -1,4 +1,6 @@
-// require('dotenv').config(); //writes .env contents to process.env
+require('dotenv').config(); 
+  //DEV: writes .env contents to process.env...
+  //PROD: process.env.PORT overwritten by heroku config var
 const express = require('express');
 const socket = require('socket.io');
 const path = require('path');
