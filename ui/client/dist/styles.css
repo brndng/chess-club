@@ -603,10 +603,6 @@ button:focus {
   align-items: center;
   list-style: none;
   padding: 0px 8px 0px 4px;
-  border-top: 1px solid black;
-  border-right: 1px solid black;
-  border-left: 1px solid black;
-  border-radius: 0px 10px 0px 0px;
 }
 
 .game-display-toggle li span {
