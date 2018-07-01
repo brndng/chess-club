@@ -15,6 +15,8 @@ import PromotingMoveReducer from './reducer-promoting-move.js';
 import ResultReducer from './reducer-result.js';
 import PositionHistoryReducer from './reducer-position-history';
 import IsMyTurnReducer from './reducer-is-my-turn.js';
+import ShowCoordsReducer from './reducer-show-coords.js';
+import ShowVisualizerReducer from './reducer-show-visualizer';
 
 export default combineReducers({
   selection: SelectionReducer,
@@ -33,4 +35,6 @@ export default combineReducers({
   result: ResultReducer,
   positionHistory: PositionHistoryReducer,
   isMyTurn: IsMyTurnReducer,
+  showCoords: ShowCoordsReducer,
+  showVisualizer: ShowVisualizerReducer,
 });

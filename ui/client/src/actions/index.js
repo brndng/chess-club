@@ -143,6 +143,20 @@ export const loadTurn = (userId, white, index) => {
   };
 }
 
+export const toggleCoords = () => {
+  return {
+    type: 'COORDS_TOGGLED',
+    payload: null,
+  };
+};
+
+export const toggleVisualizer = () => {
+  return {
+    type: 'VISUALIZER_TOGGLED',
+    payload: null,
+  };
+}
+
 
 
 

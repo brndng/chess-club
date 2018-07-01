@@ -58,12 +58,10 @@ class Square extends Component {
   }
 
   isVisualized() {
-    const { coords, selection } = this.props;
+    const { coords, selection, showVisualizer } = this.props;
     if (selection !== null) {
-      if(isCandidate(coords, selection.candidateSquares)) {
-        console.log('V coords', coords)
-      }
-      return isCandidate(coords, selection.candidateSquares);
+     
+      return showVisualizer && isCandidate(coords, selection.candidateSquares);
     }
   }
 
@@ -123,7 +121,7 @@ class Square extends Component {
       'square',
       this.isSelected() && 'is-selected',
       this.inCheck() && 'in-check',
-      this.isVisualized() && 'is-visualized',
+      this.isVisualized() && !completed && 'is-visualized',
     ].filter(cls => !!cls).join(' ');
     const onClick = completed 
       ? null
@@ -138,8 +136,8 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, completed }) => { 
-  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed }) => { 
+  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed };
 }
 
 const matchDispatchToProps = (dispatch) => {

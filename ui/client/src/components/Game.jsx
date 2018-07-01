@@ -11,6 +11,7 @@ import Draw from './Draw.jsx';
 import Resignation from './Resignation.jsx';
 import Promotion from './Promotion.jsx';
 import Checkmate from './Checkmate.jsx';
+import Slider from './Slider.jsx';
 import verifyLegalSquare from '../../../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../../../rules/interactions/';
 import { areEqual } from '../../../../rules/utilities/';
@@ -21,7 +22,9 @@ import {
   toggleTurn, 
   selectPiece,
   updateCheckStatus,
-  declareGameOver, } from '../actions/';
+  declareGameOver,
+  toggleCoords,
+  toggleVisualizer } from '../actions/';
 
 axios.defaults.withCredentials = true;
 
@@ -137,24 +140,36 @@ class Game extends Component {
   }
 
   render() {
-    const { user, opponent, game, whiteToMove, moves } = this.props;
+    const { user, opponent, game, whiteToMove, moves, toggleCoords, toggleVisualizer } = this.props;
     const { id } = this.state;
     const maxIndex = moves.length;
     const loadedComponent = (game !== null && opponent !== null && this.socket)
       ? <div className="game-container">
           <BoardContainer index={maxIndex - 1} />
-          <div className="game-info">
+          <div className="game-panel">
             <PlayerCard player={opponent} index={maxIndex} />
-            <GameDisplay id={id} socket={this.socket} />
-            <div className="game-options">
-              <Draw id={id} socket={this.socket} />
-              <Resignation id={id} socket={this.socket} />
+            <div className="game-info">
+              <GameDisplay id={id} socket={this.socket} />
+              <div className="game-assistance">
+                <div>
+                  <span>COORDINATES: </span>
+                  <Slider handleChange={toggleCoords.bind(this)}/>
+                </div>
+                <div>
+                  <span>VISUALIZER: </span>
+                  <Slider handleChange={toggleVisualizer.bind(this)}/>
+                </div>
+              </div>
+              <div className="game-options">
+                <Draw id={id} socket={this.socket} />
+                <Resignation id={id} socket={this.socket} />
+              </div>
+            </div>           
+              <PlayerCard player={user} index={maxIndex}/>          
             </div>
-            <PlayerCard player={user} index={maxIndex}/>
+          <Checkmate id={id} socket={this.socket} />
+          <Promotion />
           </div>
-            <Checkmate id={id} socket={this.socket} />
-            <Promotion />
-        </div>
       : <div>Loading...</div>;
 
    return loadedComponent;
@@ -166,7 +181,7 @@ const mapStateToProps = ({ user, opponent, selection, moves, game, currentPositi
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, selectPiece, updateCheckStatus, declareGameOver }, dispatch);
+  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, selectPiece, updateCheckStatus, declareGameOver, toggleCoords, toggleVisualizer }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game);

@@ -22,15 +22,17 @@ class PlayerCard extends Component {
     const classes = this.generateClasses();
     return (
       <div className={classes}>
-        <div className="player-card-username">
-          <strong>{`▧  ${player.username}`}</strong>
-        </div>
-        <div className="player-card-pieces">
-          {capturedPieces.map((piece, i) => (
-            <div className="captured-piece" key={i}>
-              {piece}
-            </div>
-          ))}
+        <div className="player-card">
+          <div className="player-card-username">
+            <strong>{`▧  ${player.username}`}</strong>
+          </div>
+          <div className="player-card-pieces">
+            {capturedPieces.map((piece, i) => (
+              <div className="captured-piece" key={i}>
+                {piece}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
