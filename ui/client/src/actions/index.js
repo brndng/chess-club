@@ -12,7 +12,7 @@ export const loadGames = (games) => {
   };
 };
 
-export const selectPiece = (origin, piece) => {
+export const selectPiece = (origin, piece, candidateSquares) => {
   if (origin === null && piece === null) {
     return {
       type: 'PIECE_SELECTED',
@@ -22,7 +22,10 @@ export const selectPiece = (origin, piece) => {
 
   return {
     type: 'PIECE_SELECTED',
-    payload: { origin: { ...origin }, piece },
+    payload: { 
+      origin: { ...origin }, 
+      piece, 
+      candidateSquares },
   };
 };
 

@@ -1,4 +1,5 @@
 const verifyLegalSquare = require('../movement/');
+const { areEqual, isWhite } = require('../utilities');
 
 const locateKing = (king, position) => {
   for (let row = 0; row < position.length; row++) {
@@ -64,6 +65,7 @@ const locateCheckThreats = (userId, white, position, moves) => {
 const isKingInCheck = (userId, white, position, moves) => {
   const king = userId === white ? 'K' : 'k';
   const kingSquare = locateKing(king, position);
+  
   return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
 };
 
@@ -76,6 +78,8 @@ const isOpponentInCheck = (userId, white, position, moves) => {
 const locateFlightSquares = (userId, white, position, moves) => {
   const flightSquares = [];
   const king = userId === white ? 'K' : 'k';
+  const kingSquare = locateKing(king, position);
+  const selection = { origin: kingSquare, piece: king };
 
   for (let row = 0; row < position.length; row++) {
     for (let col = 0; col < position[row].length; col++) {
@@ -83,12 +87,18 @@ const locateFlightSquares = (userId, white, position, moves) => {
         const piece = position[row][col];
         const ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
         if (piece !== ally) {
-          if (verifyLegalSquare(king, locateKing(king, position), { row, col }, position, moves)) {
+          if (
+            verifyLegalSquare(king, kingSquare, { row, col }, position, moves)
+            && !willMoveExposeKing(userId, white, selection, { row, col }, position, moves)
+            ) {
             flightSquares.push({ row, col });
           }
         }
       } else {
-        if (verifyLegalSquare(king, locateKing(king, position), { row, col }, position, moves)) {
+        if (
+          verifyLegalSquare(king, kingSquare, { row, col }, position, moves)
+          && !willMoveExposeKing(userId, white, selection, { row, col }, position, moves)
+          ) {
           flightSquares.push({ row, col });
         }
       }
@@ -106,7 +116,10 @@ const willMoveExposeKing = (userId, white, selection, destin, position, moves) =
   const { origin, piece } = selection;
   const preview = position.map(row => row.slice());
 
-  if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
+  if (
+    !(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)
+    && (preview[destin.row][destin.col] !== 'K' && preview[destin.row][destin.col] !== 'k')
+    ) {
     preview[origin.row][origin.col] = null;
     preview[destin.row][destin.col] = piece;
     return isKingInCheck(userId, white, preview, moves);
@@ -120,7 +133,6 @@ const willMoveExposeKing = (userId, white, selection, destin, position, moves) =
 
       preview[origin.row][origin.col] = null;
       preview[origin.row][x + dx] = piece;
-      
       if (isKingInCheck(userId, white, preview, moves)) {
         return true;
       }
@@ -248,27 +260,6 @@ const evaluateCheckmateConditions = (userId, white, position, moves) => {
   return false;
 };
 
-// const locatePiecesWithLegalMoves = (userId, white, position) => {
-//   let hasLegalMoves = true;
-  
-//   for (let row = 0; row < position.length; row++) {
-//     for (let col = 0; col < position[row].length; col++) {
-//       const piece = position[row][col];
-//       const ally = userId === white ? piece.toUpperCase() : piece.toLowerCase();
-//       for (let m = 0; m < position.length; m++) {
-//         for (let n = 0; n < position[m].length; n++) {
-//           if (verifyLegalSquare(ally, {row, col}, {m, n}, position)) {
-//             console.log('found a legal move');
-//             hasLegalMoves = false;
-//             break;
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   return hasLegalMoves;
-// }
 
 const isPawnPromoting = (selection, destin) => {
   if (
@@ -279,6 +270,38 @@ const isPawnPromoting = (selection, destin) => {
   }
   return false;
 }
+
+const getCandidateSquares = (userId, white, piece, origin, position, moves) => {
+  const candidateSquares = [];
+
+  for (let row = 0; row < position.length; row++) {
+    for (let col = 0; col < position[row].length; col++) {
+      const destin = { row, col };
+      if (
+        verifyLegalSquare(piece, origin, destin, position, moves)
+        && (isWhite(piece) !== isWhite(position[row][col]))
+        && !willMoveExposeKing(userId, white, { origin, piece }, destin, position, moves)
+      ) {
+        candidateSquares.push(destin);
+      }
+    }
+  }
+  return candidateSquares
+}
+
+const isCandidate = (coords, candidateSquares) => {
+  let isCandidate = false;
+
+  candidateSquares.forEach(square => {
+    if (areEqual(square, coords)) {
+      isCandidate = true;
+      return isCandidate;
+    }
+  });
+
+  return isCandidate;
+}
+
 
 module.exports = { 
   locateKing, 
@@ -294,4 +317,6 @@ module.exports = {
   canBlock,
   evaluateCheckmateConditions,
   isPawnPromoting,
+  getCandidateSquares,
+  isCandidate,
 }

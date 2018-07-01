@@ -471,6 +471,21 @@ button:focus {
   background-color: #A8434F;
 }
 
+.square.is-visualized::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 0.5px solid #383838;
+  margin: -0.5px;
+  width: 20%;
+  height: 20%;
+  top: 40%;
+  left: 40%;
+  background-color: #549876;
+  opacity: 0.8;
+  z-index: 3;
+}
+
 #black {
   background-color: #AA7047;
 }
@@ -485,7 +500,7 @@ button:focus {
   height: 100%;
   font-size: 40px !important;
   box-shadow: none;
-  z-index: 3;
+  z-index: 2;
 }
 
 .piece.is-my-turn {
