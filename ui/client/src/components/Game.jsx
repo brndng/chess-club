@@ -152,11 +152,11 @@ class Game extends Component {
               <GameDisplay id={id} socket={this.socket} />
               <div className="game-assistance">
                 <div>
-                  <span>COORDINATES: </span>
+                  <span>Coordinates </span>
                   <Slider handleChange={toggleCoords.bind(this)}/>
                 </div>
                 <div>
-                  <span>VISUALIZER: </span>
+                  <span>Visualizer </span>
                   <Slider handleChange={toggleVisualizer.bind(this)}/>
                 </div>
               </div>

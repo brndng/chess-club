@@ -119,8 +119,8 @@ class Square extends Component {
     const color = setSquareColor(coords);
     const classes = [
       'square',
-      this.isSelected() && 'is-selected',
-      this.inCheck() && 'in-check',
+      this.isSelected() && !completed && 'is-selected',
+      this.inCheck() && !completed && 'in-check',
       this.isVisualized() && !completed && 'is-visualized',
     ].filter(cls => !!cls).join(' ');
     const onClick = completed 

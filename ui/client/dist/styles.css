@@ -395,7 +395,7 @@ button:focus {
   align-items: center;
   font-size: 14px;
   height: 64px;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.4s;
   color: #593B2E;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -413,7 +413,7 @@ button:focus {
   align-items: center;
   font-size: 14px;
   width: 64px;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.4s;
   color: #593B2E;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
@@ -427,7 +427,7 @@ button:focus {
 
 .is-displayed {
   color: #eec28c;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.4s;
 }
 
 /* Board */
@@ -581,6 +581,7 @@ button:focus {
   color: #F0EBE8;
   font-size: 12px;
   width: 100%;
+  border: 0.5px solid #ECECE8;
 }
 
 .player-card-container {
@@ -632,7 +633,7 @@ button:focus {
 }
 
 .captured-piece {
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: .2px;
 }
 
@@ -662,15 +663,23 @@ button:focus {
   justify-content: center;
   align-items: center;
   list-style: none;
-  /* padding: 0px 8px 0px 4px; */
   width: 36%;
-  border-radius: 0px 5px 0px 0px;
   border-bottom: 2px solid #B2ADA4;
+}
+
+.game-display-toggle li.light-bkgrd {
+  
+  background-color:#ECECE8;
+}
+
+.game-display-toggle li.dark-bkgrd {
+  background-color: #B2ADA4;
 }
 
 .game-display-toggle li span {
   font-size: 12px;
   letter-spacing: 0px;
+  font-weight: bolder;
 }
 
 .game-display-toggle a {
@@ -763,6 +772,11 @@ button:focus {
   display: flex;
   flex-direction: row;
   border: 1px solid #A0A0A0;
+}
+
+.chat-message form{
+  width: 100%;
+  display: flex;
 }
 
 .chat-message input {
@@ -982,21 +996,37 @@ button:focus {
   height: 480px;
   width: 480px;
   padding: 48px;
-  background-color: black;
-  opacity: .9;
-  border: 1px solid black;
   border-radius: 2px;
   margin-right: 472.5px;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.2s;
 } 
 
+.login-form.login-view {
+  background-color: black;
+  opacity: .9;
+}
+
+.login-form.signup-view {
+  background-color: #ECECE8;
+  opacity: .9;
+}
+
+
 .login-form span {
-  color: white;
-  font-size: 14px;
+  font-size: 15px;
   padding: 4px;
   text-align: center;
   height: 24.8px;
 }
+
+.login-form.login-view span {
+  color: #eec28c;
+}
+
+.login-form.signup-view span {
+  color: #AA7047;
+}
+
 
 .login-form-content {
   display: flex;
@@ -1020,8 +1050,18 @@ button:focus {
   height: 40px;
   padding: 8px;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: 15px;
+  border: none;
+}
+
+.login-form-input.login-view input {
   background-color: #f6f5f3;
+  color: black;
+}
+
+.login-form-input.signup-view input {
+  background-color: black;
+  color: white;
 }
 
 .login-form-submit {
@@ -1035,14 +1075,34 @@ button:focus {
   height: 40px;
   font-size: 18px;
   padding: 2px;
-  color: black;
-  background-color: rgba(255, 255, 255, 1);
   align-items: center;
+  font-weight: bold;
+  border: none;
+  opacity: 1;
+  letter-spacing: 0.5px;
+
 }
 
-.login-form-toggle {
+.login-form-submit.login-view button {
+  color: black;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.login-form-submit.signup-view button {
+  color: white;
+  background-color: black;
+}
+
+.login-form-toggle.login-view {
   opacity: 1;
   color: white;
+  font-style: italic;
+}
+
+.login-form-toggle.signup-view {
+  opacity: 1;
+  color: black;
+  font-style: italic;
 }
 
 .login-form-toggle a {
@@ -1067,9 +1127,9 @@ button:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ECECE8;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  background-color: #B2ADA4;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -1080,8 +1140,8 @@ button:focus {
   left: 4px;
   bottom: 2px;
   background-color: #383838;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -1181,21 +1241,14 @@ input:checked + .slider:before {
   margin: 4px;
 }
 
-.game-display-toggle li.light-bkgrd {
-  
-  background-color:#ECECE8;
-}
 
-.game-display-toggle li.dark-bkgrd {
-  background-color: #B2ADA4;
-}
 
 .game-assistance {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 4px 0px;
-  border: 2px solid #ECECE8;
+  padding: 6px 0px;
+  background: #ECECE8;
   margin: 12px 0px auto 0px;
 }
 
@@ -1205,13 +1258,15 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 4px 8px;
+  padding: 2px 2px 2px 18px;
 }
 
 .game-assistance div span {
-  font-size: 15px; 
-  letter-spacing: 0px;
+  font-size: 18px; 
+  letter-spacing: 0.5px;
   font-style: italic;
+  font-variant: small-caps;
+  font-weight: bolder;
 }
 
 game-assistance div.switch-container {

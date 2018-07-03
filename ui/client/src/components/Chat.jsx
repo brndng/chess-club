@@ -13,8 +13,10 @@ class Chat extends Component {
           {messages.map((message, i) => <li key={i}><strong>{message.username}</strong>{`: ${message.text}`}</li>)}
         </div>
         <div className="chat-message">
-          <input type="text" placeholder="message" value={message} onChange={(e) => {setText(e)}} />
-          <button onClick={() => {sendChat()}}>➤</button>
+          <form onSubmit={(e) => {sendChat(e)}}>
+            <input type="text" placeholder="message" value={message} onChange={(e) => {setText(e)}} />
+            <button type="submit">➤</button>
+          </form>
         </div>
       </div>
     );

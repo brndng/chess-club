@@ -29,10 +29,14 @@ class GameDisplay extends Component {
     this.setState({ message: e.target.value });
   }
 
-  sendChat() {
-    const { message } = this.state;
+  sendChat(e) {
     const { id, user, socket } = this.props;
-    socket.emit('chat', { message: { username: user.username, text: message }, id });
+    const message = { username: user.username, text: this.state.message }
+    e.preventDefault();
+    this.setState({
+      messages: [...this.state.messages, message],
+      message: '',
+    }, () => socket.emit('chat', { message, id }));
   }
 
   displayMoves(e) {
