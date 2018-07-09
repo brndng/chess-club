@@ -761,7 +761,7 @@ button:focus {
   padding: 12px;
   font-size: 15px;
   color: #383838;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .chat-output li {
