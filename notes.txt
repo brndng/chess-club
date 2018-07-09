@@ -38,7 +38,7 @@ Active UI Color – pick a brighter accent color to indicate the parts of the UI
 Bugs
 No trim() or enforcement of username length on the signup – I created a user who's username is a blank space
 
-
+smothered mate bug
 
 
 

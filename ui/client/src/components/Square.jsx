@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import { selectPiece, updatePosition, loadPromotingMove } from '../actions/'; 
+import { selectPiece, updatePosition, loadPromotingMove, loadSquareDetails } from '../actions/'; 
 import verifyLegalSquare from '../../../../rules/movement/';
 import { isWhite, convertToChessNotation, setSquareColor, areEqual } from '../../../../rules/utilities/'
 import { 
@@ -17,30 +17,26 @@ import {
 class Square extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      candidateSquares: [],
-    }
   }
 
   componentDidMount() {
-    const { user, game, piece, coords, currentPosition, moves, whiteToMove } = this.props;
+    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails } = this.props;
+    const candidateSquares = piece !== null
+      ? getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves)
+      : [];
 
-    if (piece !== null) {
-      const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves);
-      this.setState({ candidateSquares });
-    } 
+    loadSquareDetails(coords, piece, candidateSquares);
   }
 
   componentDidUpdate(prevProps) {
-    const { user, game, piece, coords, currentPosition, moves, whiteToMove } = this.props;
-   
+    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails } = this.props;
+    
     if (!areEqual(currentPosition, prevProps.currentPosition)) {
-      if (piece !== null) {
-        const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves);
-        this.setState({ candidateSquares });
-      } else {
-        this.setState({ candidateSquares: [] });
-      }
+      const candidateSquares = piece !== null
+      ? getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves)
+      : [];
+
+      loadSquareDetails(coords, piece, candidateSquares);
     }
   }
 
@@ -66,8 +62,8 @@ class Square extends Component {
   }
 
   handleSquareClick() {
-    const { selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves } = this.props;
-    const { candidateSquares } = this.state;
+    const { selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves, squares } = this.props;
+    const { candidateSquares } = squares[JSON.stringify(coords)];
 
     if (isMyTurn) {
       if ((isWhite(piece) === whiteToMove)) { 
@@ -81,31 +77,14 @@ class Square extends Component {
         ) {
         this.placeSelectedPiece();
       }
-
-      
-      // if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
-      //   const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves);
-      //   if (_isLegalSquare) {
-      //     this.placeSelectedPiece(); 
-      //   }
-      // }
     }
   }
 
   placeSelectedPiece() {
     const { user, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
-    // const _willMoveExposeKing = willMoveExposeKing(user.id, game.white, selection, coords, currentPosition, moves);
     const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
     const _isPawnPromoting = isPawnPromoting(selection, coords);
-
-    // if (!_willMoveExposeKing) {
-    //   if (_isPawnPromoting) {
-    //     loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
-    //   } else {
-    //     updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);        
-    //   }
-    // } 
 
     if (_isPawnPromoting) {
       loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
@@ -136,12 +115,12 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed }) => { 
-  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares }) => { 
+  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares };
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, updatePosition, loadPromotingMove }, dispatch);
+  return bindActionCreators({ selectPiece, updatePosition, loadPromotingMove, loadSquareDetails }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);

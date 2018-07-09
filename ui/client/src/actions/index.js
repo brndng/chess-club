@@ -157,6 +157,14 @@ export const toggleVisualizer = () => {
   };
 }
 
+export const loadSquareDetails = (coords, piece, candidateSquares) => {
+  const location = JSON.stringify(coords);
+  return {
+    type: 'SQUARE_UPDATED',
+    payload: { location, piece, candidateSquares },
+  };
+}
+
 
 
 
