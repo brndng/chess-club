@@ -14,7 +14,7 @@ class Logout extends Component {
 
   async logout() {
     const { authenticate, history } = this.props;
-    const response = await axios.get(`http://localhost:3000/users/logout`);
+    const response = await axios.get(`${process.env.HOST}/users/logout`);
     authenticate(false);
     history.push('/');
   }

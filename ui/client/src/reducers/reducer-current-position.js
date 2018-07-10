@@ -53,7 +53,7 @@ export default (state = [], action) => {
       return newState;
       break;
     }
-    case 'EN_PASSANT': {
+    case 'EN_PASSANT_APPLIED': {
       const [origin, destin, piece, captured, notation, promotedTo, currentPosition, prevMove]  = action.payload;
       const [prevOrigin, prevDestin, prevPiece] = prevMove;
       newState[destin.row][destin.col] = piece;

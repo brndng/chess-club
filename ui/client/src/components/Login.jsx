@@ -28,14 +28,14 @@ class LogIn extends Component {
   }
 
   setView(view) {
-    this.setState({ view });
+    this.setState({ view, feedback: '', });
   }
 
   async logIn() {
     const { storeUser, updateVerified, authenticate } = this.props;
     const { username, password } = this.state;
     try {
-      const response = await axios.post('http://localhost:3000/users/login', { username, password });
+      const response = await axios.post(`${process.env.HOST}/users/login`, { username, password });
       if (response.status === 200) {
         storeUser(response.data);
         authenticate(true);
@@ -53,10 +53,13 @@ class LogIn extends Component {
   async signUp() {
     const { username, password } = this.state;
     try {
-      const response = await axios.post('http://localhost:3000/users/signup', { username, password });
+      const response = await axios.post(`${process.env.HOST}/users/signup`, { username, password });
       if (response.status === 200) {
         this.setState({
-          feedback: response.data,
+          feedback: `${response.data} Please log in:`,
+          view: 'login',
+          username: '',
+          password: '',
         });
       } 
     } catch (err) {
@@ -65,8 +68,6 @@ class LogIn extends Component {
       });
     }
   }
-
-
 
   render() {
     const { username, password, view, redirectToReferrer, feedback } = this.state;
@@ -79,32 +80,32 @@ class LogIn extends Component {
     }
 
     const currentView = view === 'login'
-      ? <div className="login-form">
+      ? <div className="login-form login-view">
           <span>{feedback}</span>
           <div className="login-form-content">
-            <div className="login-form-input">
+            <div className="login-form-input login-view">
               <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
               <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
             </div>
-            <div className="login-form-submit">
+            <div className="login-form-submit login-view">
               <button onClick={() => this.logIn()}>Log In</button>
             </div>
-            <div className="login-form-toggle">
+            <div className="login-form-toggle login-view">
               Don't have an account? <a href="#" onClick={() => {this.setView('signup')}}>Sign Up</a>
             </div>
           </div>
         </div> 
-      : <div className="login-form">
+      : <div className="login-form signup-view">
           <span>{feedback}</span>
           <div className="login-form-content">
-            <div className="login-form-input">
+            <div className="login-form-input signup-view">
               <input type="text" placeholder="Username" value={username} onChange={e => this.setUsername(e)} />
               <input type="password" placeholder="Password" value={password} onChange={e => this.setPassword(e)} />
             </div>
-            <div className="login-form-submit">
+            <div className="login-form-submit signup-view">
               <button onClick={() => this.signUp()}>Sign Up</button>
             </div>
-            <div className="login-form-toggle">
+            <div className="login-form-toggle signup-view">
               Already have an account? <a href="#" onClick={() => {this.setView('login')}}>Log In</a>
             </div>
           </div>
@@ -124,4 +125,4 @@ const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({ storeUser, authenticate }, dispatch);
 }
 
-export default connect(null, matchDispatchToProps)(LogIn)
+export default connect(null, matchDispatchToProps)(LogIn);

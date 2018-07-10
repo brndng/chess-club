@@ -52,7 +52,8 @@ module.exports = {
   },
   R: (origin, destin, position) => {
     let isBaseMove = false;
-
+   
+    
     if (origin.col === destin.col || origin.row === destin.row) {
       isBaseMove = true;
     }

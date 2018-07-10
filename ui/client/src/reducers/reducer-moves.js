@@ -19,7 +19,7 @@ export default (state = [], action) => {
       return [...newState, action.payload];
       break;
     }
-    case 'EN_PASSANT': {
+    case 'EN_PASSANT_APPLIED': {
       const [origin, destin, piece, captured, notation, promotedTo, currentPosition] = action.payload;
       return [...newState, [origin, destin, piece, captured, notation, promotedTo, currentPosition]];
       break;

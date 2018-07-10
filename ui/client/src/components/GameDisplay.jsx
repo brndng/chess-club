@@ -10,6 +10,7 @@ class GameDisplay extends Component {
       message: '',
       messages: [],
       view: 'moves', 
+      showMoves: true,
     }
     this.setText = this.setText.bind(this);
     this.sendChat = this.sendChat.bind(this);
@@ -28,30 +29,47 @@ class GameDisplay extends Component {
     this.setState({ message: e.target.value });
   }
 
-  sendChat() {
-    const { message } = this.state;
+  sendChat(e) {
     const { id, user, socket } = this.props;
-    socket.emit('chat', { message: { username: user.username, text: message }, id });
+    const message = { username: user.username, text: this.state.message }
+    e.preventDefault();
+    this.setState({
+      messages: [...this.state.messages, message],
+      message: '',
+    }, () => socket.emit('chat', { message, id }));
   }
 
-  displayMoves() {
+  displayMoves(e) {
+
+    if (!e.target.value) {
+      this.setState({ showMoves: true })
+    }
     this.setState({ view: 'moves' });
+
   }
 
-  displayChat() {
+  displayChat(e) {
+    if (!e.target.value) {
+      this.setState({ showMoves: false })
+    }
     this.setState({ view: 'chat' });
   }
 
   render() {
-    const { message, messages, view } = this.state;
+    const { message, messages, view, showMoves } = this.state;
     const currMoveIndex = this.props.moves.length - 1;
+    const movesBackground = showMoves ? 'light-bkgrd' : 'dark-bkgrd';
+    const chatBackground = showMoves ? 'dark-bkgrd' : 'light-bkgrd';
     
     return (
       <div className="game-display">
         <div className="game-display-toggle">
           <ul>
-            <li><a href="#" className="toggle-moves" onClick={() => this.displayMoves()}>📜</a></li>
-            <li><a href="#" className="toggle-chat" onClick={() => this.displayChat()}>💬</a></li>
+            <li className={`toggle-moves ${movesBackground}`}>
+              <a href="#" value={showMoves} onClick={(e) => {this.displayMoves(e)}}>📜 <span>MOVES</span></a>
+            </li>
+            <li className={`toggle-chat ${chatBackground}`}>
+              <a href="#" value={!showMoves}  onClick={(e) => {this.displayChat(e)}} >🗨️ <span>CHAT </span></a></li>
           </ul>
         </div>
           {view === 'moves'

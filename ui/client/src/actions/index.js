@@ -12,7 +12,7 @@ export const loadGames = (games) => {
   };
 };
 
-export const selectPiece = (origin, piece) => {
+export const selectPiece = (origin, piece, candidateSquares) => {
   if (origin === null && piece === null) {
     return {
       type: 'PIECE_SELECTED',
@@ -22,7 +22,10 @@ export const selectPiece = (origin, piece) => {
 
   return {
     type: 'PIECE_SELECTED',
-    payload: { origin: { ...origin }, piece },
+    payload: { 
+      origin: { ...origin }, 
+      piece, 
+      candidateSquares },
   };
 };
 
@@ -137,6 +140,28 @@ export const loadTurn = (userId, white, index) => {
   return {
     type: 'SNAPSHOT_CHANGED',
     payload: { userId, white, index },
+  };
+}
+
+export const toggleCoords = () => {
+  return {
+    type: 'COORDS_TOGGLED',
+    payload: null,
+  };
+};
+
+export const toggleVisualizer = () => {
+  return {
+    type: 'VISUALIZER_TOGGLED',
+    payload: null,
+  };
+}
+
+export const loadSquareDetails = (coords, piece, candidateSquares) => {
+  const location = JSON.stringify(coords);
+  return {
+    type: 'SQUARE_UPDATED',
+    payload: { location, piece, candidateSquares },
   };
 }
 

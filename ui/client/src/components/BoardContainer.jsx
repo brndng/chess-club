@@ -6,32 +6,19 @@ import { printRanks, printFiles } from '../../../../rules/utilities/';
 class BoardContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showCoords: false,
-    };
+   
   }
 
-  toggleCoords() {
-    this.setState({
-      showCoords: !this.state.showCoords,
-    });
-  }
+
 
   render() {
-    const { user, game, index } = this.props;
-    const { showCoords } = this.state;
+    const { user, game, index, showCoords } = this.props;
     const isDisplayed = showCoords && 'is-displayed';
     const ranks = printRanks(user.id, game.white);
     const files = printFiles(user.id, game.white);
     return (
       <div className="outer-board-container">
         <div className="coords-files">
-          <div className="switch-container">
-            <label className="switch">
-              <input type="checkbox" defaultChecked={showCoords} onChange={() => this.toggleCoords()} />
-              <span className="slider round"></span>
-            </label>
-          </div>
         </div>
         <div className="board-container">
           <div className="coords-ranks">
@@ -54,8 +41,8 @@ class BoardContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ user, game }) => {
-  return { user, game };
+const mapStateToProps = ({ user, game, showCoords }) => {
+  return { user, game, showCoords };
 }
 
 export default connect(mapStateToProps)(BoardContainer);

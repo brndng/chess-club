@@ -28,7 +28,7 @@ class CompletedGame extends Component {
   async componentDidMount() {    
     const { user, initGame } = this.props;
     const { id } = this.state;
-    const game = await axios.get(`http://localhost:3000/games/${id}`);
+    const game = await axios.get(`${process.env.HOST}/games/${id}`);
     const index = game.data.moves.length;
     initGame(user.id, game.data); 
     this.initOpponent(game.data);
@@ -42,7 +42,7 @@ class CompletedGame extends Component {
     const opponentId = user.id === game.white 
       ? game.black
       : game.white;
-    const opponent = await axios.get(`http://localhost:3000/users/profile/${opponentId}`);
+    const opponent = await axios.get(`${process.env.HOST}/users/profile/${opponentId}`);
     storeOpponent(opponent.data);
   }
 
@@ -85,18 +85,20 @@ class CompletedGame extends Component {
     const loadedComponent = (game !== null && opponent !== null && index !== null)
       ? <div className="game-container">
           <BoardContainer index={currMoveIndex}/>
-          <div className="game-info">
+          <div className="game-panel">
             <PlayerCard player={opponent} index={currMoveIndex} />
-            <div></div>
-            <div className="game-display">
-              <div className="game-display-toggle"></div>
-              <MoveHistory index={currMoveIndex} />
-            </div>
-            <div className="game-options">
-              <div><button onClick={() => this.displayTargetPosition('INIT')}>◀◀</button></div>
-              <div><button onClick={() => this.displayTargetPosition('PREV')}>◀ </button></div>
-              <div><button onClick={() => this.displayTargetPosition('NEXT')}>▶ </button></div>
-              <div><button onClick={() => this.displayTargetPosition('LAST')}>▶▶</button></div>
+            <div className="game-info">
+              <div></div>
+              <div className="game-display">
+                <div className="game-display-toggle"></div>
+                <MoveHistory index={currMoveIndex} />
+              </div>
+              <div className="game-options">
+                <div><button onClick={() => this.displayTargetPosition('INIT')}>◀◀</button></div>
+                <div><button onClick={() => this.displayTargetPosition('PREV')}>◀ </button></div>
+                <div><button onClick={() => this.displayTargetPosition('NEXT')}>▶ </button></div>
+                <div><button onClick={() => this.displayTargetPosition('LAST')}>▶▶</button></div>
+              </div>
             </div>
             <PlayerCard player={user} index={currMoveIndex} />
           </div>

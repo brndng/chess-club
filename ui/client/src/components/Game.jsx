@@ -11,6 +11,7 @@ import Draw from './Draw.jsx';
 import Resignation from './Resignation.jsx';
 import Promotion from './Promotion.jsx';
 import Checkmate from './Checkmate.jsx';
+import Slider from './Slider.jsx';
 import verifyLegalSquare from '../../../../rules/movement/';
 import { isKingInCheck, evaluateCheckmateConditions } from '../../../../rules/interactions/';
 import { areEqual } from '../../../../rules/utilities/';
@@ -21,7 +22,9 @@ import {
   toggleTurn, 
   selectPiece,
   updateCheckStatus,
-  declareGameOver, } from '../actions/';
+  declareGameOver,
+  toggleCoords,
+  toggleVisualizer } from '../actions/';
 
 axios.defaults.withCredentials = true;
 
@@ -38,9 +41,9 @@ class Game extends Component {
   async componentDidMount() {    
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
-    const game = await axios.get(`http://localhost:3000/games/${id}`);
+    const game = await axios.get(`${process.env.HOST}/games/${id}`);
 
-    this.socket = await io(`http://localhost:3000/`);
+    this.socket = await io(`${process.env.HOST}/`);
 
     this.socket.on('connect', () => {
       this.setState({ socket: this.socket.id });
@@ -80,7 +83,7 @@ class Game extends Component {
       const prevPosition = positionHistory.slice(-1)[0];
       const prevMoves = moves.slice(0, moves.length - 1);
         if ((user.id === white) === whiteToMove) {
-          axios.put(`http://localhost:3000/games/move`, { 
+          axios.put(`${process.env.HOST}/games/move`, { 
             id,
             user, 
             game,
@@ -103,7 +106,7 @@ class Game extends Component {
       const _checkMate = evaluateCheckmateConditions(user.id, white, currentPosition, moves);
       if(_checkMate) {
         this.socket.emit('checkmate', { userId: user.id, id });
-        axios.put(`http://localhost:3000/games/document`, { 
+        axios.put(`${process.env.HOST}/games/document`, { 
           id, 
           user,
           moves,
@@ -113,12 +116,12 @@ class Game extends Component {
         });
       }
       this.socket.emit('check', { userId: user.id, id });
-      axios.put(`http://localhost:3000/games/check`, { id, inCheck: user.id });
+      axios.put(`${process.env.HOST}/games/check`, { id, inCheck: user.id });
     }
 
     if (!_isKingInCheck && prevProps.inCheck === user.id) {
       this.socket.emit('check', { userId: null, id });
-      axios.put(`http://localhost:3000/games/check`, { id, inCheck: null });
+      axios.put(`${process.env.HOST}/games/check`, { id, inCheck: null });
     }
   }
 
@@ -132,29 +135,41 @@ class Game extends Component {
       ? game.black
       : game.white;
     
-    const opponent = await axios.get(`http://localhost:3000/users/profile/${opponentId}`);
+    const opponent = await axios.get(`${process.env.HOST}/users/profile/${opponentId}`);
     storeOpponent(opponent.data);
   }
 
   render() {
-    const { user, opponent, game, whiteToMove, moves } = this.props;
+    const { user, opponent, game, whiteToMove, moves, toggleCoords, toggleVisualizer } = this.props;
     const { id } = this.state;
     const maxIndex = moves.length;
     const loadedComponent = (game !== null && opponent !== null && this.socket)
       ? <div className="game-container">
           <BoardContainer index={maxIndex - 1} />
-          <div className="game-info">
+          <div className="game-panel">
             <PlayerCard player={opponent} index={maxIndex} />
-            <GameDisplay id={id} socket={this.socket} />
-            <div className="game-options">
-              <Draw id={id} socket={this.socket} />
-              <Resignation id={id} socket={this.socket} />
+            <div className="game-info">
+              <GameDisplay id={id} socket={this.socket} />
+              <div className="game-assistance">
+                <div>
+                  <span>Coordinates </span>
+                  <Slider handleChange={toggleCoords.bind(this)}/>
+                </div>
+                <div>
+                  <span>Visualizer </span>
+                  <Slider handleChange={toggleVisualizer.bind(this)}/>
+                </div>
+              </div>
+              <div className="game-options">
+                <Draw id={id} socket={this.socket} />
+                <Resignation id={id} socket={this.socket} />
+              </div>
+            </div>           
+              <PlayerCard player={user} index={maxIndex}/>          
             </div>
-            <PlayerCard player={user} index={maxIndex}/>
+          <Checkmate id={id} socket={this.socket} />
+          <Promotion />
           </div>
-            <Checkmate id={id} socket={this.socket} />
-            <Promotion />
-        </div>
       : <div>Loading...</div>;
 
    return loadedComponent;
@@ -166,7 +181,7 @@ const mapStateToProps = ({ user, opponent, selection, moves, game, currentPositi
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, selectPiece, updateCheckStatus, declareGameOver }, dispatch);
+  return bindActionCreators({ initGame, storeOpponent, updatePosition, toggleTurn, selectPiece, updateCheckStatus, declareGameOver, toggleCoords, toggleVisualizer }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Game);

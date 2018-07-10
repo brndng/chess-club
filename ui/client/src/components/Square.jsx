@@ -2,19 +2,42 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import { selectPiece, updatePosition, loadPromotingMove } from '../actions/'; 
+import { selectPiece, updatePosition, loadPromotingMove, loadSquareDetails } from '../actions/'; 
 import verifyLegalSquare from '../../../../rules/movement/';
-import { isWhite, convertToChessNotation, setSquareColor } from '../../../../rules/utilities/'
+import { isWhite, convertToChessNotation, setSquareColor, areEqual } from '../../../../rules/utilities/'
 import { 
   isKingInCheck, 
   isGivingCheck,
   willMoveExposeKing,
   willMoveGiveCheck,
-  isPawnPromoting, } from '../../../../rules/interactions/';
+  isPawnPromoting,
+  getCandidateSquares,
+  isCandidate } from '../../../../rules/interactions/';
 
 class Square extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails } = this.props;
+    const candidateSquares = piece !== null
+      ? getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves)
+      : [];
+
+    loadSquareDetails(coords, piece, candidateSquares);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails } = this.props;
+    
+    if (!areEqual(currentPosition, prevProps.currentPosition)) {
+      const candidateSquares = piece !== null
+      ? getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves)
+      : [];
+
+      loadSquareDetails(coords, piece, candidateSquares);
+    }
   }
 
   isSelected() {
@@ -25,44 +48,59 @@ class Square extends Component {
     }
   }
 
+  inCheck() {
+    const { user, game, inCheck, piece } = this.props;
+    return (inCheck === game.white && piece === 'K') || (inCheck === game.black && piece === 'k'); 
+  }
+
+  isVisualized() {
+    const { coords, selection, showVisualizer } = this.props;
+    if (selection !== null) {
+     
+      return showVisualizer && isCandidate(coords, selection.candidateSquares);
+    }
+  }
+
   handleSquareClick() {
-    const { selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves } = this.props;
+    const { selection, selectPiece, coords, piece, whiteToMove, isMyTurn, currentPosition, moves, squares } = this.props;
+    const { candidateSquares } = squares[JSON.stringify(coords)];
 
     if (isMyTurn) {
       if ((isWhite(piece) === whiteToMove)) { 
-        selectPiece(coords, piece);
+        selectPiece(coords, piece, candidateSquares);
       }
-      if (selection !== null && (isWhite(piece) !== isWhite(selection.piece))) {
-        const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, coords, currentPosition, moves);
-        if (_isLegalSquare) {
-          this.placeSelectedPiece(); 
-        }
+      
+      if (
+        selection !== null 
+        && (isWhite(selection.piece) !== isWhite(piece))
+        && isCandidate(coords, selection.candidateSquares)
+        ) {
+        this.placeSelectedPiece();
       }
     }
   }
 
   placeSelectedPiece() {
     const { user, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
-    const _willMoveExposeKing = willMoveExposeKing(user.id, game.white, selection, coords, currentPosition, moves);
     const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
     const _isPawnPromoting = isPawnPromoting(selection, coords);
 
-    if (!_willMoveExposeKing) {
-      if (_isPawnPromoting) {
-        loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
-      } else {
-        updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);        
-      }
-    } 
+    if (_isPawnPromoting) {
+      loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
+    } else {
+      updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);        
+    }
   }
 
   render() {
-    const { piece, coords, completed, whiteToMove, isMyTurn } = this.props;
+    const { user, piece, game, coords, completed, whiteToMove, isMyTurn, inCheck } = this.props;
     const color = setSquareColor(coords);
     const classes = [
       'square',
-      this.isSelected() && 'is-selected' 
+      this.isSelected() && !completed && 'is-selected',
+      this.inCheck() && !completed && 'in-check',
+      this.isVisualized() && !completed && 'is-visualized',
     ].filter(cls => !!cls).join(' ');
     const onClick = completed 
       ? null
@@ -77,12 +115,12 @@ class Square extends Component {
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed }) => { 
-  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, completed };
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares }) => { 
+  return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares };
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ selectPiece, updatePosition, loadPromotingMove }, dispatch);
+  return bindActionCreators({ selectPiece, updatePosition, loadPromotingMove, loadSquareDetails }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Square);

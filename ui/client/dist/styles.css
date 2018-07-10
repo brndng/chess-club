@@ -72,7 +72,7 @@ button:focus {
   height: 80px;
   background-color: #CBC6BD;
   border-radius: 1px;
-  color: #383838;
+  color: black;
 }
 
 .game-list-header p {
@@ -108,7 +108,8 @@ button:focus {
 }
 
 .game-list-content {
-  width: 100%;
+  display: flex;
+  flex: 1;
   overflow-y: scroll;
   background-color: #ECECE8;
 }
@@ -116,6 +117,7 @@ button:focus {
 .game-list-content ul {
   display: flex;
   flex-direction: column;
+  flex: 1;
   margin: 0; 
   padding: 8px 0px 8px 0px;
   list-style: none;
@@ -154,7 +156,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #CBC6BD;
+  background-color: #B2ADA4;
   width: 280px;
   border-radius: 1px;
 }
@@ -212,7 +214,7 @@ button:focus {
   margin: 12px 16px -8px 16px;
   font-size: 13px;
   text-align: center;
-  color: #383838;
+  color: black;
 }
 
 .players-default button {
@@ -282,13 +284,13 @@ button:focus {
 .challenge-creator-content span {
   font-size: 14px;
   padding: 8px 8px 8px 0px;
-  color: #6E6561;
+  color: #383838;
 }
 
 .challenge-creator-header p {
   margin: 0px;
   font-size: 20px;
-  color: #383838;
+  color: black;
 }
 
 .slct-container {
@@ -393,9 +395,17 @@ button:focus {
   align-items: center;
   font-size: 14px;
   height: 64px;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.4s;
   color: #593B2E;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
+
 
 .file {
   display: flex;
@@ -403,13 +413,21 @@ button:focus {
   align-items: center;
   font-size: 14px;
   width: 64px;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.4s;
   color: #593B2E;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
+
 
 .is-displayed {
   color: #eec28c;
-  transition: ease-out 0.5s;
+  transition: ease-out 0.4s;
 }
 
 /* Board */
@@ -459,6 +477,31 @@ button:focus {
   opacity: 0.8;
 }
 
+.square.in-check::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #A8434F;
+}
+
+.square.is-visualized::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 0.5px solid #383838;
+  margin: -0.5px;
+  width: 20%;
+  height: 20%;
+  top: 40%;
+  left: 40%;
+  background-color: #549876;
+  opacity: 0.8;
+  z-index: 3;
+}
+
 #black {
   background-color: #AA7047;
 }
@@ -473,7 +516,7 @@ button:focus {
   height: 100%;
   font-size: 40px !important;
   box-shadow: none;
-  z-index: 3;
+  z-index: 2;
 }
 
 .piece.is-my-turn {
@@ -493,18 +536,29 @@ button:focus {
   color: black;
 }
 
+/* Game Panel */
+.game-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 570px;
+  width: 20%;
+  margin-left: 48px;
+}
+
 /* Game Info */
 .game-info {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #CBC6BD;
-  padding: 24px 12px;
+  background: #B2ADA4;
+  padding: 12px;
   border: 1px solid black;
   border-radius: 2px;
-  margin-left: 48px;
-  height: 569.89px;
-  width: 274px;
+  width: 100%;
+  height: 100%;
+  margin: 8px 0px;
 }
 
 .game-options {
@@ -512,6 +566,7 @@ button:focus {
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
+  /* margin: auto 0px; */
 }
 
 .game-options div {
@@ -526,9 +581,23 @@ button:focus {
   color: #F0EBE8;
   font-size: 12px;
   width: 100%;
+  border: 0.5px solid #ECECE8;
 }
 
 .player-card-container {
+  background-color: #B2ADA4;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid black;
+  
+
+}
+
+.player-card-container.is-my-turn {
+  background-color: #61887A;
+}
+
+.player-card {
   display: flex;
   flex-direction: column;
   background-color: #ECECE8;
@@ -536,43 +605,46 @@ button:focus {
   padding: 4px;
   border: 4px solid #ECECE8;
   border-radius: 1px;
-  height: 64px;
+  height: 58px;
+
+  margin: auto;
 }
 
-.player-card-container.is-my-turn {
+/* .player-card.is-my-turn {
   border: 4px solid #61887A; 
-}
+} */
 
 .player-card-username {
-  font-size: 15px;
+  font-size: 16px;
   padding: 1px;
   color: #383838;
 }
 
 .player-card-username strong {
   color: #383838;
+  letter-spacing: 0.5px;
 }
 
 .player-card-pieces {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
-  height: 32px;
+  height: 28px;
 }
 
 .captured-piece {
-  font-size: 15px;
+  font-size: 16px;
   letter-spacing: .2px;
 }
 
 .game-display {
   display: flex;
   flex-direction: column;
-  margin-top: 16px;
 }
 .game-display-toggle {
   display: flex;
   flex-direction: row;
+  height: 32px;
 }
 
 .game-display-toggle ul {
@@ -580,23 +652,42 @@ button:focus {
   padding: 0px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
+  
 }
 
 .game-display-toggle li {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   list-style: none;
-  text-shadow: 1px 1px 4px black;
+  width: 36%;
+  border-bottom: 2px solid #B2ADA4;
+}
+
+.game-display-toggle li.light-bkgrd {
+  
+  background-color:#ECECE8;
+}
+
+.game-display-toggle li.dark-bkgrd {
+  background-color: #B2ADA4;
+}
+
+.game-display-toggle li span {
+  font-size: 12px;
+  letter-spacing: 0px;
+  font-weight: bolder;
 }
 
 .game-display-toggle a {
-  color: floralwhite;
-  font-size: 16px;
-  padding: 0px 1px;
+  color: #383838;
+  font-size: 15px;
+  padding: 2px 8px;
   text-decoration: none;
+  
 }
 
 /* MoveHistory */
@@ -611,11 +702,11 @@ button:focus {
   overflow-y: scroll;
   background: white;
   padding: 16px;
-  background-color: #ECECE8;  
+  background-color: #ECECE8;
   font-size: 15px;
   border-radius: 1px;
-  height: 256px;
-  border: 1px solid #A0A0A0;
+  height: 224px;
+  
 }
 
 .move-history-output ol {
@@ -635,7 +726,7 @@ button:focus {
   .move-pair {
     display: flex;
     justify-content: flex-start;
-    font-size: 15px;
+    font-size: 16px;
     font-family: Arial, Helvetica, sans-serif; 
     line-height: 1em;
     margin: 0px;
@@ -645,7 +736,7 @@ button:focus {
   }
 
   .move-pair.black {
-    margin-left: 8px;
+    margin-left: 16px;
   }
 
 .result-container {
@@ -660,18 +751,17 @@ button:focus {
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 256px;
+  height: 224px;
 }
 
 .chat-output {
   flex: 1;
   overflow-y: auto;
-  background-color: white;
+  background-color: #ECECE8;
   padding: 12px;
   font-size: 15px;
   color: #383838;
-  margin-bottom: 6px;
-  border: 1px solid #A0A0A0;
+  margin-bottom: 2px;
 }
 
 .chat-output li {
@@ -682,6 +772,11 @@ button:focus {
   display: flex;
   flex-direction: row;
   border: 1px solid #A0A0A0;
+}
+
+.chat-message form{
+  width: 100%;
+  display: flex;
 }
 
 .chat-message input {
@@ -889,7 +984,7 @@ button:focus {
   background-size: cover;
   background-blend-mode: lighten;
   margin-left: 16%;
-  opacity: 0.4;   
+  opacity: 0.6;   
 }
 
 .login-form {
@@ -901,21 +996,37 @@ button:focus {
   height: 480px;
   width: 480px;
   padding: 48px;
-  background-color: black;
-  opacity: .9;
-  border: 1px solid black;
   border-radius: 2px;
-  margin-right: 407.73px;
-  transition: ease-out 0.5s;
+  margin-right: 472.5px;
+  transition: ease-out 0.2s;
 } 
 
+.login-form.login-view {
+  background-color: black;
+  opacity: .9;
+}
+
+.login-form.signup-view {
+  background-color: #ECECE8;
+  opacity: .9;
+}
+
+
 .login-form span {
-  color: white;
-  font-size: 14px;
+  font-size: 15px;
   padding: 4px;
   text-align: center;
   height: 24.8px;
 }
+
+.login-form.login-view span {
+  color: #eec28c;
+}
+
+.login-form.signup-view span {
+  color: #AA7047;
+}
+
 
 .login-form-content {
   display: flex;
@@ -939,8 +1050,18 @@ button:focus {
   height: 40px;
   padding: 8px;
   margin-bottom: 20px;
-  font-size: 14px;
+  font-size: 15px;
+  border: none;
+}
+
+.login-form-input.login-view input {
   background-color: #f6f5f3;
+  color: black;
+}
+
+.login-form-input.signup-view input {
+  background-color: black;
+  color: white;
 }
 
 .login-form-submit {
@@ -954,14 +1075,34 @@ button:focus {
   height: 40px;
   font-size: 18px;
   padding: 2px;
-  color: black;
-  background-color: rgba(255, 255, 255, 1);
   align-items: center;
+  font-weight: bold;
+  border: none;
+  opacity: 1;
+  letter-spacing: 0.5px;
+
 }
 
-.login-form-toggle {
+.login-form-submit.login-view button {
+  color: black;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.login-form-submit.signup-view button {
+  color: white;
+  background-color: black;
+}
+
+.login-form-toggle.login-view {
   opacity: 1;
   color: white;
+  font-style: italic;
+}
+
+.login-form-toggle.signup-view {
+  opacity: 1;
+  color: black;
+  font-style: italic;
 }
 
 .login-form-toggle a {
@@ -986,9 +1127,9 @@ button:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #AA7047;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  background-color: #B2ADA4;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -998,13 +1139,13 @@ button:focus {
   width: 12px;
   left: 4px;
   bottom: 2px;
-  background-color: #593B2E;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  background-color: #383838;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #AA7047;
+  background-color: #61887A;
 }
 
 input:focus + .slider {
@@ -1047,7 +1188,7 @@ input:checked + .slider:before {
 .modal-btn-container {
   display: flex;
   justify-content: center;
-  width: 100%;
+  height: 32.1px;
   margin-top: 32px; 
 }
 
@@ -1099,3 +1240,38 @@ input:checked + .slider:before {
   padding: 16px 32px;
   margin: 4px;
 }
+
+
+
+.game-assistance {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2px 0px;
+  background: #ECECE8;
+  /* margin-top: 8px; */
+}
+
+.game-assistance > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 2px 2px 2px 18px;
+}
+
+.game-assistance div span {
+  font-size: 18px; 
+  letter-spacing: 0.5px;
+  font-style: italic;
+  font-variant: small-caps;
+  font-weight: bolder;
+}
+
+game-assistance div.switch-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+

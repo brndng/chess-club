@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
-import axios from 'axios';
 import Landing from './Landing.jsx';
 import Login from './Login.jsx';
 import GameList from  './GameList.jsx';
@@ -10,8 +9,6 @@ import Challenge from './Challenge.jsx';
 import Archive from './Archive.jsx';
 import NavBar from './NavBar.jsx';
 import withAuthentication from '../HOC/withAuthentication.jsx';
-
-axios.defaults.withCredentials = true;
 
 class App extends Component {
   constructor(props) {

@@ -18,19 +18,20 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
                 isLegal = true;
               }
             } else { //diagonal
-              if (position[destin.row][destin.col] !== null) { //square occupied
+              if (position[destin.row][destin.col] !== null) { 
                 isLegal = true;
               } else { //en passant
                 const prevMove = moves.slice(-1)[0];
-                const [prevOrigin, prevDestin, prevPiece] = prevMove;
-                if (
-                  prevMove
-                  && (piece.toUpperCase() === 'P' && prevPiece.toUpperCase() === 'P')
-                  && (prevDestin.row === origin.row && prevDestin.col === destin.col)
-                  && Math.abs(prevDestin.row - prevOrigin.row) === 2
-                  && Math.abs(destin.col - origin.col) === 1
-                ) {
-                  isLegal = true
+                if (prevMove) {
+                  const [prevOrigin, prevDestin, prevPiece] = prevMove;
+                  if (
+                    (piece.toUpperCase() === 'P' && prevPiece.toUpperCase() === 'P')
+                    && (prevDestin.row === origin.row && prevDestin.col === destin.col)
+                    && Math.abs(prevDestin.row - prevOrigin.row) === 2
+                    && Math.abs(destin.col - origin.col) === 1
+                  ) {
+                    isLegal = true
+                  }
                 }
               }
             }

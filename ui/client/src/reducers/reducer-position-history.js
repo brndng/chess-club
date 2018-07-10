@@ -27,7 +27,7 @@ export default (state = [], action) => {
         break;
       }
     }
-    case 'EN_PASSANT': {
+    case 'EN_PASSANT_APPLIED': {
       const move = action.payload;
       const prevPosition = move[6];
       const lastPosition = state.slice(-1)[0];

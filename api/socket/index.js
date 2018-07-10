@@ -8,7 +8,7 @@ module.exports = (io) => {
     });
   
     socket.on('chat', (data) => {
-      io.sockets.in(data.id).emit('chat', data.message);
+      socket.broadcast.to(data.id).emit('chat', data.message);
     });
   
     socket.on('move', (data) => {
