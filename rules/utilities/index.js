@@ -155,6 +155,23 @@ const initialPosition = [
   ["R", "N", "B", "Q", "K", "B", "N", "R"]
 ]
 
+const initSquareDetails = (initialPosition) => {
+  const squares = {};
+  for (let i = 0; i < initialPosition.length; i++) {
+    for (let j = 0; j < initialPosition[i].length; j++) {
+      const coords = JSON.stringify({row: i, col: j});
+      const piece = initialPosition[i][j];
+      const candidateSquares = [];
+      const isAlly = null;
+      squares[coords] = { piece, candidateSquares, isAlly };
+    }
+  }
+
+  return squares;
+}
+
+const initialSquares = initSquareDetails(initialPosition);
+
 const printRanks = (userId, white) => {
   const ranks = userId === white 
   ? [8, 7, 6, 5, 4, 3, 2, 1]
@@ -213,6 +230,7 @@ module.exports = {
   printFiles,
   formatDate,
   genRandomColor,
+  initialSquares,
  }
 
 

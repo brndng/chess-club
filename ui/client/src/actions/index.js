@@ -92,7 +92,7 @@ export const updatePosition = (origin, destin, piece, captured, notation, promot
       ? 'p'
       : 'P';
     return {
-      type: 'EN_PASSANT',
+      type: 'EN_PASSANT_APPLIED',
       payload: [origin, destin, piece, captured, notation, promotedTo, currentPosition, prevMove]
     };
   } else if (piece.toUpperCase() === 'K' && Math.abs(destin.col - origin.col) === 2) {
@@ -157,11 +157,12 @@ export const toggleVisualizer = () => {
   };
 }
 
-export const loadSquareDetails = (coords, piece, candidateSquares) => {
+export const loadSquareDetails = (coords, piece, candidateSquares, userId, white) => {
   const location = JSON.stringify(coords);
+  const isAlly = piece !== null && ((userId === white) === (piece === piece.toUpperCase()));
   return {
     type: 'SQUARE_UPDATED',
-    payload: { location, piece, candidateSquares },
+    payload: { location, piece, candidateSquares, isAlly },
   };
 }
 

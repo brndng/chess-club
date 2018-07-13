@@ -14,8 +14,8 @@ module.exports = {
     }
   },
   isLegalMove: (req, res, next) => {
-    const { user, game, selection, destin, prevPosition, prevMoves } = req.body;
-    const _moveExposesKing = willMoveExposeKing(user.id, game.white, selection, destin, prevPosition, prevMoves);
+    const { user, game, selection, destin, prevPosition, prevMoves, squares } = req.body;
+    const _moveExposesKing = willMoveExposeKing(user.id, game.white, selection, destin, prevPosition, prevMoves, squares);
     const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, destin, prevPosition, prevMoves);
     
     if (!_moveExposesKing && _isLegalSquare) {

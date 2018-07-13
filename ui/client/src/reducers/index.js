@@ -1,42 +1,42 @@
 import { combineReducers } from 'redux';
-import SelectionReducer from './reducer-selection.js';
-import WhiteToMoveReducer from './reducer-white-to-move.js';
-import CurrentPositionReducer from './reducer-current-position.js';
-import MovesReducer from './reducer-moves.js';
-import GameReducer from './reducer-game.js';
-import UserGamesReducer from './reducer-user-games.js';
-import UserReducer from './reducer-user.js';
-import OpponentReducer from './reducer-opponent.js';
-import InCheckReducer from './reducer-in-check.js';
-import CompletedReducer from './reducer-completed.js';
-import IsAuthenticatedReducer from './reducer-is-authenticated.js';
-import HasFetchedCurrUserReducer from  './reducer-has-fetched-curr-user.js';
-import PromotingMoveReducer from './reducer-promoting-move.js';
-import ResultReducer from './reducer-result.js';
-import PositionHistoryReducer from './reducer-position-history';
-import IsMyTurnReducer from './reducer-is-my-turn.js';
-import ShowCoordsReducer from './reducer-show-coords.js';
-import ShowVisualizerReducer from './reducer-show-visualizer';
-import SquaresReducer from './reducer-squares.js';
+import selection from './reducer-selection.js';
+import whiteToMove from './reducer-white-to-move.js';
+import currentPosition from './reducer-current-position.js';
+import moves from './reducer-moves.js';
+import game from './reducer-game.js';
+import userGames from './reducer-user-games.js';
+import user from './reducer-user.js';
+import opponent from './reducer-opponent.js';
+import inCheck from './reducer-in-check.js';
+import completed from './reducer-completed.js';
+import isAuthenticated from './reducer-is-authenticated.js';
+import hasFetchedCurrUser from  './reducer-has-fetched-curr-user.js';
+import promotingMove from './reducer-promoting-move.js';
+import result from './reducer-result.js';
+import positionHistory from './reducer-position-history';
+import isMyTurn from './reducer-is-my-turn.js';
+import showCoords from './reducer-show-coords.js';
+import showVisualizer from './reducer-show-visualizer';
+import squares from './reducer-squares.js';
 
 export default combineReducers({
-  selection: SelectionReducer,
-  currentPosition: CurrentPositionReducer,
-  whiteToMove: WhiteToMoveReducer,
-  moves: MovesReducer,
-  game: GameReducer,
-  userGames: UserGamesReducer,
-  user: UserReducer,
-  opponent: OpponentReducer,
-  inCheck: InCheckReducer,
-  completed: CompletedReducer,
-  isAuthenticated: IsAuthenticatedReducer,
-  hasFetchedCurrUser: HasFetchedCurrUserReducer,
-  promotingMove: PromotingMoveReducer,
-  result: ResultReducer,
-  positionHistory: PositionHistoryReducer,
-  isMyTurn: IsMyTurnReducer,
-  showCoords: ShowCoordsReducer,
-  showVisualizer: ShowVisualizerReducer,
-  squares: SquaresReducer,
+  selection,
+  currentPosition,
+  whiteToMove,
+  moves,
+  game,
+  userGames,
+  user,
+  opponent,
+  inCheck,
+  completed,
+  isAuthenticated,
+  hasFetchedCurrUser,
+  promotingMove,
+  result,
+  positionHistory,
+  isMyTurn,
+  showCoords,
+  showVisualizer,
+  squares,
 });

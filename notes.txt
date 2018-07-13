@@ -1,4 +1,4 @@
-hashes showing on db players fetch
+hashes showing on db players fetch x
 isLoading while fetching players...currently show "user doesn't exist" view
 media queries for smaller screens
 search is caps specific
@@ -39,6 +39,21 @@ Bugs
 No trim() or enforcement of username length on the signup – I created a user who's username is a blank space
 
 smothered mate bug
+
+onEnter login
+player left notification
+'visualizer'
+leave button
+
+BUG:
+click landing page, come back, turn doesn't persist --CDUnmount, persist proper game data
+simul chat chops off message
+my turn, opponent leaves, I move, turn toggles, opponent comes back, sees still my turn
+--click to another game, come back, proper turn loads
+
+Cannot destructure property `origin` of 'undefined' or 'null'.
+    at willMoveExposeKing (/Users/Brian/Desktop/Projects/chess-club/rules/interactions/index.js:51:29)
+
 
 
 

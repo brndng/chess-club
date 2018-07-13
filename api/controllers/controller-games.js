@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { initialPosition, areEqual } = require('../../rules/utilities/');
+const { initialPosition, initialSquares, areEqual } = require('../../rules/utilities/');
 const Game = global.db.Game;
 
 module.exports = {
@@ -30,6 +30,7 @@ module.exports = {
     try {
       const game = await Game.create({
         position: initialPosition, 
+        squares: initialSquares,
         moves: [],
         whiteToMove: true,
         inCheck: null,
@@ -45,7 +46,7 @@ module.exports = {
     }
   },
   registerMove: async (req, res) => {
-    const { id, user, currentPosition, moves, whiteToMove, positionHistory } = req.body;
+    const { id, user, currentPosition, whiteToMove, positionHistory, moves, squares } = req.body;
     let isCorrectTurn = true;
     
     try {
@@ -66,9 +67,10 @@ module.exports = {
       try {
         const update = await Game.update({
           position: currentPosition,
-          moves,
           whiteToMove: !whiteToMove,
           positionHistory: [...positionHistory, currentPosition],
+          moves,
+          squares,
         }, {
           where: { id },
           returning: true,

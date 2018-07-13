@@ -13,7 +13,7 @@ import Promotion from './Promotion.jsx';
 import Checkmate from './Checkmate.jsx';
 import Slider from './Slider.jsx';
 import verifyLegalSquare from '../../../../rules/movement/';
-import { isKingInCheck, evaluateCheckmateConditions } from '../../../../rules/interactions/';
+import { isKingInCheck, isCheckmate } from '../../../../rules/interactions/';
 import { areEqual } from '../../../../rules/utilities/';
 import { 
   initGame,
@@ -66,12 +66,12 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck } = this.props;
+    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck, squares } = this.props;
     const { id } = this.state;
     const { white, black } = game;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves);
+    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves, squares);
     
     if (
       prevProps.game !== null
@@ -87,13 +87,14 @@ class Game extends Component {
             id,
             user, 
             game,
-            selection, 
+            selection,
             destin,
             prevPosition,
             currentPosition, 
             positionHistory,
             prevMoves, 
             moves,
+            squares,
             whiteToMove,
           });
         }
@@ -103,8 +104,7 @@ class Game extends Component {
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
-      const _checkMate = evaluateCheckmateConditions(user.id, white, currentPosition, moves);
-      if(_checkMate) {
+      if(isCheckmate(squares)) {
         this.socket.emit('checkmate', { userId: user.id, id });
         axios.put(`${process.env.HOST}/games/document`, { 
           id, 
@@ -176,8 +176,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }) => {
-  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }
+const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, squares }) => {
+  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, squares }
 }
 
 const matchDispatchToProps = (dispatch) => {
