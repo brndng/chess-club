@@ -2,7 +2,6 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define('game', {
     position: DataTypes.ARRAY(DataTypes.TEXT),
     moves: DataTypes.JSON,
-    squares: DataTypes.JSON,
     whiteToMove: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     inCheck: DataTypes.INTEGER,
     whiteUsername: DataTypes.STRING,

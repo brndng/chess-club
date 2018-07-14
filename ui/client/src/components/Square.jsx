@@ -4,9 +4,8 @@ import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import { selectPiece, updatePosition, loadPromotingMove, loadSquareDetails } from '../actions/'; 
 import verifyLegalSquare from '../../../../rules/movement/';
-import { isWhite, convertToChessNotation, setSquareColor, areEqual } from '../../../../rules/utilities/'
+import { isWhite, convertToChessNotation, setSquareColor, isEqual } from '../../../../rules/utilities/'
 import { 
-  willMoveExposeKing,
   willMoveGiveCheck,
   isPawnPromoting,
   getCandidateSquares,
@@ -18,16 +17,16 @@ class Square extends Component {
   }
 
   componentDidMount() {
-    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails, squares } = this.props;
-    const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves, squares);
+    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails } = this.props;
+    const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves);
     loadSquareDetails(coords, piece, candidateSquares, user.id, game.white);
   }
 
   componentDidUpdate(prevProps) {
-    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails, squares } = this.props;
+    const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails } = this.props;
     
-    if (!areEqual(currentPosition, prevProps.currentPosition)) {
-      const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves, squares);
+    if (!isEqual(currentPosition, prevProps.currentPosition)) {
+      const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves);
       loadSquareDetails(coords, piece, candidateSquares, user.id, game.white);
     }
   }
@@ -73,8 +72,8 @@ class Square extends Component {
   }
 
   placeSelectedPiece() {
-    const { user, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove, squares } = this.props;
-    const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves, squares);
+    const { user, updatePosition, selection, currentPosition, game, moves, coords, piece, loadPromotingMove } = this.props;
+    const _check = willMoveGiveCheck(user.id, game.white, selection, coords, currentPosition, moves);
     const _notation = convertToChessNotation(selection.origin, coords, selection.piece, piece, _check);
     const _isPawnPromoting = isPawnPromoting(selection, coords);
 

@@ -133,7 +133,7 @@ const printCapturedPieces = (userId, game, moves, index) => {
   return pieces.map(piece => piece.symbol);
 }
 
-const areEqual = (obj1, obj2) => {
+const isEqual = (obj1, obj2) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
@@ -223,7 +223,7 @@ module.exports = {
   printMoves, 
   isCapturedPiece, 
   printCapturedPieces, 
-  areEqual, 
+  isEqual, 
   setSquareColor, 
   initialPosition,
   printRanks,

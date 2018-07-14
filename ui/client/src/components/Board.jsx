@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Square from './Square.jsx';
 import SoundPlayer from '../lib/sound-player.js';
-import { rotateBoard, areEqual } from '../../../../rules/utilities/';
+import { rotateBoard, isEqual } from '../../../../rules/utilities/';
 
 class Board extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Board extends Component {
     const { currentPosition, moves, index } = this.props;
     const wasCaptured = index > 0 && moves[index][3];
 
-    if (!areEqual(prevProps.currentPosition, currentPosition)) {
+    if (!isEqual(prevProps.currentPosition, currentPosition)) {
       if (wasCaptured) {
         this.captureSound.play();
       }

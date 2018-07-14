@@ -1,4 +1,4 @@
-import { areEqual } from '../../../../rules/utilities/'
+import { isEqual } from '../../../../rules/utilities/'
 
 export default (state = [], action) => {
   switch(action.type) {
@@ -12,7 +12,7 @@ export default (state = [], action) => {
       const prevPosition = move[6];
       const lastPosition = state.slice(-1)[0];
       
-      if (!areEqual(prevPosition, lastPosition)) {
+      if (!isEqual(prevPosition, lastPosition)) {
         return [...state, prevPosition];
         break;
       }
@@ -22,7 +22,7 @@ export default (state = [], action) => {
       const prevPosition = move[6];
       const lastPosition = state.slice(-1)[0];
       
-      if (!areEqual(prevPosition, lastPosition)) {
+      if (!isEqual(prevPosition, lastPosition)) {
         return [...state, prevPosition];
         break;
       }
@@ -32,7 +32,7 @@ export default (state = [], action) => {
       const prevPosition = move[6];
       const lastPosition = state.slice(-1)[0];
       
-      if (!areEqual(prevPosition, lastPosition)) {
+      if (!isEqual(prevPosition, lastPosition)) {
         return [...state, prevPosition];
         break;
       }
@@ -42,7 +42,7 @@ export default (state = [], action) => {
       const prevPosition = move[6];
       const lastPosition = state.slice(-1)[0];
       
-      if (!areEqual(prevPosition, lastPosition)) {
+      if (!isEqual(prevPosition, lastPosition)) {
         return [...state, prevPosition];
         break;
       }

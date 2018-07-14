@@ -14,7 +14,7 @@ import Checkmate from './Checkmate.jsx';
 import Slider from './Slider.jsx';
 import verifyLegalSquare from '../../../../rules/movement/';
 import { isKingInCheck, isCheckmate } from '../../../../rules/interactions/';
-import { areEqual } from '../../../../rules/utilities/';
+import { isEqual } from '../../../../rules/utilities/';
 import { 
   initGame,
   storeOpponent,
@@ -52,7 +52,7 @@ class Game extends Component {
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
     this.socket.on('move', (newMove) => {      
       const currMove = this.props.moves.slice(-1)[0];
-      if (!areEqual(currMove, newMove)) {
+      if (!isEqual(currMove, newMove)) {
         updatePosition(...newMove, this.props.moves);
       }
     });
@@ -71,13 +71,13 @@ class Game extends Component {
     const { white, black } = game;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves, squares);
+    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves);
     
     if (
       prevProps.game !== null
       && id === prevProps.game.id 
       && newMove 
-      && !areEqual(currMove, newMove)
+      && !isEqual(currMove, newMove)
      ) { 
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
@@ -94,7 +94,6 @@ class Game extends Component {
             positionHistory,
             prevMoves, 
             moves,
-            squares,
             whiteToMove,
           });
         }

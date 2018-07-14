@@ -1,18 +1,5 @@
 const verifyLegalSquare = require('../movement/');
-const { areEqual, isWhite } = require('../utilities');
-
-// const locateKing = (squares, isAlly) => {
-//   for (let coords in squares) {
-//     const { piece } = squares[coords];
-//     if (
-//        piece !== null 
-//        && piece.toUpperCase() === 'K' 
-//        && squares[coords].isAlly === isAlly
-//     ) {
-//       return JSON.parse(coords);
-//     }
-//   }
-// }
+const { isEqual, isWhite } = require('../utilities');
 
 const locateKing = (king, position) => {
   for (let row = 0; row < position.length; row++) {
@@ -47,64 +34,66 @@ const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) =>
   return isAttacked;
 };
 
-const isKingInCheck = (userId, white, position, moves, squares) => {
+const isKingInCheck = (userId, white, position, moves) => {
   const king = userId === white ? 'K' : 'k';
   const kingSquare = locateKing(king, position);
-  // const kingSquare = locateKing(squares, true);
   return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
 };
 
-const isOpponentInCheck = (userId, white, position, moves, squares) => {
+const isOpponentInCheck = (userId, white, position, moves) => {
   const king = userId === white ? 'k' : 'K';
   const kingSquare = locateKing(king, position);
-  // const kingSquare = locateKing(squares, false);
   return isSquareAttacked(userId, white, position, moves, kingSquare, 'ally');
 };
 
 const willMoveExposeKing = (userId, white, selection, destin, position, moves, squares) => {
   const { origin, piece } = selection;
   const preview = position.map(row => row.slice());
+  const isAlly = ((userId === white) === (piece === piece.toUpperCase()))
 
-  if (
-    !(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)
-    && (preview[destin.row][destin.col] !== 'K' && preview[destin.row][destin.col] !== 'k')
-    ) {
-    preview[origin.row][origin.col] = null;
-    preview[destin.row][destin.col] = piece;
-    return isKingInCheck(userId, white, preview, moves, squares);
-  } else {
-    const x = origin.col;
-
-    for (let i = 0; i < 3; i++) {
-      let dx = Math.sign(destin.col - origin.col);
-      let preview = position.map(row => row.slice());
-      dx = dx * i;
-
+  if (isAlly) {
+    if (
+      !(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)
+      && (preview[destin.row][destin.col] !== 'K' && preview[destin.row][destin.col] !== 'k')
+      ) {
       preview[origin.row][origin.col] = null;
-      preview[origin.row][x + dx] = piece;
-      if (isKingInCheck(userId, white, preview, moves, squares)) {
-        return true;
+      preview[destin.row][destin.col] = piece;
+      if (destin.row === 1 && destin.col === 3) {
       }
-    }
-
+      return isKingInCheck(userId, white, preview, moves);
+    } else {
+      const x = origin.col;
+  
+      for (let i = 0; i < 3; i++) {
+        let dx = Math.sign(destin.col - origin.col);
+        let preview = position.map(row => row.slice());
+        dx = dx * i;
+  
+        preview[origin.row][origin.col] = null;
+        preview[origin.row][x + dx] = piece;
+        if (isKingInCheck(userId, white, preview, moves)) {
+          return true;
+        }
+      }
+  }
     return false;
   }
 }
 
-const willMoveGiveCheck = (userId, white, selection, destin, position, moves, squares, promotedTo = null) => {
+const willMoveGiveCheck = (userId, white, selection, destin, position, moves, promotedTo = null) => {
   const { origin, piece } = selection;
   const preview = position.map(row => row.slice());
 
   if (promotedTo !== null) {
     preview[destin.row][destin.col] = promotedTo;
     preview[origin.row][origin.col] = null;
-    return isOpponentInCheck(userId, white, preview, moves, squares);
+    return isOpponentInCheck(userId, white, preview, moves);
   }
 
   if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
     preview[origin.row][origin.col] = null;
     preview[destin.row][destin.col] = piece;
-    return isOpponentInCheck(userId, white, preview, moves, squares);
+    return isOpponentInCheck(userId, white, preview, moves);
   } else {
     if (userId === white) { 
       if (destin.col === 6) {
@@ -131,7 +120,7 @@ const willMoveGiveCheck = (userId, white, selection, destin, position, moves, sq
         preview[0][0] = null;
       }
     } 
-    return isOpponentInCheck(userId, white, preview, moves, squares) 
+    return isOpponentInCheck(userId, white, preview, moves) 
   }
 }
 
@@ -181,7 +170,7 @@ const isCandidate = (coords, candidateSquares) => {
   let isCandidate = false;
 
   candidateSquares.forEach(square => {
-    if (areEqual(square, coords)) {
+    if (isEqual(square, coords)) {
       isCandidate = true;
       return isCandidate;
     }
