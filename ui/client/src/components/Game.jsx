@@ -71,7 +71,8 @@ class Game extends Component {
     const { white, black } = game;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves);
+    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves, squares);
+    console.log('​Game -> componentDidUpdate -> _isKingInCheck', _isKingInCheck);
     
     if (
       prevProps.game !== null
@@ -94,6 +95,7 @@ class Game extends Component {
             positionHistory,
             prevMoves, 
             moves,
+            squares,
             whiteToMove,
           });
         }
@@ -103,6 +105,7 @@ class Game extends Component {
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
+      console.log('king in check, squares', squares)
       if(isCheckmate(squares)) {
         this.socket.emit('checkmate', { userId: user.id, id });
         axios.put(`${process.env.HOST}/games/document`, { 

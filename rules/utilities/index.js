@@ -162,8 +162,7 @@ const initSquareDetails = (initialPosition) => {
       const coords = JSON.stringify({row: i, col: j});
       const piece = initialPosition[i][j];
       const candidateSquares = [];
-      const isAlly = null;
-      squares[coords] = { piece, candidateSquares, isAlly };
+      squares[coords] = { piece, candidateSquares };
     }
   }
 

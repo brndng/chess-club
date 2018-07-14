@@ -11,7 +11,7 @@ const locateKing = (king, position) => {
   }
 };
 
-const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) => {
+const isSquareAttacked = (userId, white, position, moves, targetSquare, camp, squares) => {
   let isAttacked = false;
 
   for (let row = 0; row < position.length; row++) {
@@ -34,16 +34,34 @@ const isSquareAttacked = (userId, white, position, moves, targetSquare, camp) =>
   return isAttacked;
 };
 
-const isKingInCheck = (userId, white, position, moves) => {
+// const isSquareAttacked = (targetSquare, squares) => {
+//   const isAttacking = !squares[JSON.stringify(targetSquare)].isAlly
+//   for (let coords in squares) {
+//     const { piece, candidateSquares, isAlly } = squares[coords];
+//     if (piece && isAlly === isAttacking) {
+//       for (let square of candidateSquares) {
+//         if (isEqual(square, targetSquare)) {
+//           return true;
+//         }
+//       }
+//     }
+//   }
+//   return false;
+// }
+
+const isKingInCheck = (userId, white, position, moves, squares) => {
   const king = userId === white ? 'K' : 'k';
-  const kingSquare = locateKing(king, position);
-  return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy');
+  const kingSquare = locateKing(king, position);  
+  return isSquareAttacked(userId, white, position, moves, kingSquare, 'enemy', squares);
+
+  // return isSquareAttacked(kingSquare, squares);
 };
 
-const isOpponentInCheck = (userId, white, position, moves) => {
+const isOpponentInCheck = (userId, white, position, moves, squares) => {
   const king = userId === white ? 'k' : 'K';
   const kingSquare = locateKing(king, position);
-  return isSquareAttacked(userId, white, position, moves, kingSquare, 'ally');
+  return isSquareAttacked(userId, white, position, moves, kingSquare, 'ally', squares);
+  // return isSquareAttacked(kingSquare, squares);
 };
 
 const willMoveExposeKing = (userId, white, selection, destin, position, moves, squares) => {
@@ -60,7 +78,7 @@ const willMoveExposeKing = (userId, white, selection, destin, position, moves, s
       preview[destin.row][destin.col] = piece;
       if (destin.row === 1 && destin.col === 3) {
       }
-      return isKingInCheck(userId, white, preview, moves);
+      return isKingInCheck(userId, white, preview, moves, squares);
     } else {
       const x = origin.col;
   
@@ -71,7 +89,7 @@ const willMoveExposeKing = (userId, white, selection, destin, position, moves, s
   
         preview[origin.row][origin.col] = null;
         preview[origin.row][x + dx] = piece;
-        if (isKingInCheck(userId, white, preview, moves)) {
+        if (isKingInCheck(userId, white, preview, moves, squares)) {
           return true;
         }
       }
@@ -80,20 +98,20 @@ const willMoveExposeKing = (userId, white, selection, destin, position, moves, s
   }
 }
 
-const willMoveGiveCheck = (userId, white, selection, destin, position, moves, promotedTo = null) => {
+const willMoveGiveCheck = (userId, white, selection, destin, position, moves, squares, promotedTo = null) => {
   const { origin, piece } = selection;
   const preview = position.map(row => row.slice());
 
   if (promotedTo !== null) {
     preview[destin.row][destin.col] = promotedTo;
     preview[origin.row][origin.col] = null;
-    return isOpponentInCheck(userId, white, preview, moves);
+    return isOpponentInCheck(userId, white, preview, moves, squares);
   }
 
   if (!(piece.toUpperCase() === 'K' && destin.col - origin.col === 2)) {
     preview[origin.row][origin.col] = null;
     preview[destin.row][destin.col] = piece;
-    return isOpponentInCheck(userId, white, preview, moves);
+    return isOpponentInCheck(userId, white, preview, moves, squares);
   } else {
     if (userId === white) { 
       if (destin.col === 6) {
@@ -120,7 +138,7 @@ const willMoveGiveCheck = (userId, white, selection, destin, position, moves, pr
         preview[0][0] = null;
       }
     } 
-    return isOpponentInCheck(userId, white, preview, moves) 
+    return isOpponentInCheck(userId, white, preview, moves, squares) 
   }
 }
 

@@ -13,12 +13,12 @@ class Promotion extends Component {
   }
 
   selectPiece(p) {
-    const { selectPiece, updatePosition, loadPromotingMove, user, game, promotingMove, currentPosition, moves, selection } = this.props;   
+    const { selectPiece, updatePosition, loadPromotingMove, user, game, promotingMove, currentPosition, moves, selection, squares } = this.props;   
     const [origin, destin, piece, captured] = promotingMove;
     const promotedTo = user.id === game.white
       ? p
       : p.toLowerCase();
-    const _check = willMoveGiveCheck(user.id, game.white, selection, destin, currentPosition, moves, promotedTo);
+    const _check = willMoveGiveCheck(user.id, game.white, selection, destin, currentPosition, moves, squares, promotedTo);
     const _notation = convertToChessNotation(selection.origin, destin, selection.piece, piece, _check, promotedTo);
     
     updatePosition(selection.origin, destin, selection.piece, captured, _notation, promotedTo, currentPosition, moves);
@@ -49,8 +49,8 @@ class Promotion extends Component {
   }
 }
 
-const mapStateToProps = ({ user, game, promotingMove, currentPosition, moves, selection }) => {
-  return { user, game, promotingMove, currentPosition, moves, selection }
+const mapStateToProps = ({ user, game, promotingMove, currentPosition, moves, selection, squares }) => {
+  return { user, game, promotingMove, currentPosition, moves, selection, squares }
 }
 
 const matchDispatchToProps = (dispatch) => {
