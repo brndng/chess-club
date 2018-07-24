@@ -1,7 +1,7 @@
 import { initialSquares } from '../../../../rules/utilities';
 
 export default (state={}, action) => {
-  const newState = {...state};
+  const newState = JSON.parse(JSON.stringify(state));
   switch(action.type) {
     case 'GAME_INITIALIZED': {
       const { userId, white } = action.payload;

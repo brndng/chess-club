@@ -1,4 +1,5 @@
 export const initGame = (userId, data) => {
+  console.log('data from initGame', data)
   return {
     type: 'GAME_INITIALIZED',
     payload: { userId, ...data },
@@ -46,6 +47,7 @@ export const storeOpponent = (opponent) => {
 };
 
 export const toggleTurn = (userId, white, prevWhiteToMove) => {
+  console.log('toggleTurn prevWhiteToMove', prevWhiteToMove);
   return {
     type: 'PLAYER_MOVED',
     payload: { userId, white, prevWhiteToMove },

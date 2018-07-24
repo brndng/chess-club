@@ -69,5 +69,10 @@ should only be black users own pieces that 'expose' his king
 refactor will move expose king so that it only deals with user's pieces exposing own king
 
 
+API_URL
+
+make it clear that game has ended
+chat number
+auto scroll
 
 

@@ -38,10 +38,11 @@ class Game extends Component {
     }
   }
 
-  async componentDidMount() {    
+  async componentDidMount() {   
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`${process.env.HOST}/games/${id}`);
+    console.log('---game from db', game)
 
     this.socket = await io(`${process.env.HOST}/`);
 
@@ -72,8 +73,9 @@ class Game extends Component {
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
     const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves, squares);
-    console.log('​Game -> componentDidUpdate -> _isKingInCheck', _isKingInCheck);
+    // console.log('​Game -> componentDidUpdate -> _isKingInCheck', _isKingInCheck);
     
+    //look inside the if block... mysterious bug
     if (
       prevProps.game !== null
       && id === prevProps.game.id 
@@ -128,7 +130,9 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
+    console.log('unounting')
     this.socket.disconnect();
+    
   }
 
   async initOpponent(game) {

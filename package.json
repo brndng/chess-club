@@ -10,6 +10,7 @@
   "proxy": "http://localhost:3000",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "concurrently --kill-others-on-fail \"npm install\" \"cd ui/client && npm install\"",
     "client:dev": "cd ui/client && npm run build:dev",
     "server:dev": "node server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
