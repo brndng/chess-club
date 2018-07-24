@@ -13,8 +13,8 @@ import Promotion from './Promotion.jsx';
 import Checkmate from './Checkmate.jsx';
 import Slider from './Slider.jsx';
 import verifyLegalSquare from '../../../../rules/movement/';
-import { isKingInCheck, evaluateCheckmateConditions } from '../../../../rules/interactions/';
-import { areEqual } from '../../../../rules/utilities/';
+import { isKingInCheck, isCheckmate } from '../../../../rules/interactions/';
+import { isEqual } from '../../../../rules/utilities/';
 import { 
   initGame,
   storeOpponent,
@@ -38,10 +38,11 @@ class Game extends Component {
     }
   }
 
-  async componentDidMount() {    
+  async componentDidMount() {   
     const { user, initGame, updatePosition, updateCheckStatus, declareGameOver } = this.props;
     const { id } = this.state;
     const game = await axios.get(`${process.env.HOST}/games/${id}`);
+    console.log('---game from db', game)
 
     this.socket = await io(`${process.env.HOST}/`);
 
@@ -52,7 +53,7 @@ class Game extends Component {
     this.socket.on('guest', (data) => console.log(`someone has joined game room ${data}`));
     this.socket.on('move', (newMove) => {      
       const currMove = this.props.moves.slice(-1)[0];
-      if (!areEqual(currMove, newMove)) {
+      if (!isEqual(currMove, newMove)) {
         updatePosition(...newMove, this.props.moves);
       }
     });
@@ -66,18 +67,20 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck } = this.props;
+    const { user, opponent, selection, game, currentPosition, positionHistory, moves, whiteToMove, toggleTurn, selectPiece, updateCheckStatus, inCheck, squares } = this.props;
     const { id } = this.state;
     const { white, black } = game;
     const currMove= prevProps.moves.slice(-1)[0];
     const newMove = moves.slice(-1)[0];
-    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves);
+    const _isKingInCheck = isKingInCheck(user.id, white, currentPosition, moves, squares);
+    // console.log('​Game -> componentDidUpdate -> _isKingInCheck', _isKingInCheck);
     
+    //look inside the if block... mysterious bug
     if (
       prevProps.game !== null
       && id === prevProps.game.id 
       && newMove 
-      && !areEqual(currMove, newMove)
+      && !isEqual(currMove, newMove)
      ) { 
       const destin = newMove[1];
       const prevPosition = positionHistory.slice(-1)[0];
@@ -87,13 +90,14 @@ class Game extends Component {
             id,
             user, 
             game,
-            selection, 
+            selection,
             destin,
             prevPosition,
             currentPosition, 
             positionHistory,
             prevMoves, 
             moves,
+            squares,
             whiteToMove,
           });
         }
@@ -103,8 +107,8 @@ class Game extends Component {
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
-      const _checkMate = evaluateCheckmateConditions(user.id, white, currentPosition, moves);
-      if(_checkMate) {
+      console.log('king in check, squares', squares)
+      if(isCheckmate(squares)) {
         this.socket.emit('checkmate', { userId: user.id, id });
         axios.put(`${process.env.HOST}/games/document`, { 
           id, 
@@ -126,7 +130,9 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
+    console.log('unounting')
     this.socket.disconnect();
+    
   }
 
   async initOpponent(game) {
@@ -176,8 +182,8 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }) => {
-  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted }
+const mapStateToProps = ({ user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, squares }) => {
+  return { user, opponent, selection, moves, game, currentPosition, positionHistory, whiteToMove, inCheck, lastPromoted, squares }
 }
 
 const matchDispatchToProps = (dispatch) => {

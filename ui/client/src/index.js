@@ -6,7 +6,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 import allReducers from './reducers';
 import App from './components/App.jsx';
 
-const store = createStore(allReducers);
+const store = createStore(
+  allReducers, 
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 window.store = store;
 
 ReactDOM.render(

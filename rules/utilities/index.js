@@ -133,7 +133,7 @@ const printCapturedPieces = (userId, game, moves, index) => {
   return pieces.map(piece => piece.symbol);
 }
 
-const areEqual = (obj1, obj2) => {
+const isEqual = (obj1, obj2) => {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
@@ -154,6 +154,22 @@ const initialPosition = [
   ["P", "P", "P", "P", "P", "P", "P", "P"],
   ["R", "N", "B", "Q", "K", "B", "N", "R"]
 ]
+
+const initSquareDetails = (initialPosition) => {
+  const squares = {};
+  for (let i = 0; i < initialPosition.length; i++) {
+    for (let j = 0; j < initialPosition[i].length; j++) {
+      const coords = JSON.stringify({row: i, col: j});
+      const piece = initialPosition[i][j];
+      const candidateSquares = [];
+      squares[coords] = { piece, candidateSquares };
+    }
+  }
+
+  return squares;
+}
+
+const initialSquares = initSquareDetails(initialPosition);
 
 const printRanks = (userId, white) => {
   const ranks = userId === white 
@@ -206,13 +222,14 @@ module.exports = {
   printMoves, 
   isCapturedPiece, 
   printCapturedPieces, 
-  areEqual, 
+  isEqual, 
   setSquareColor, 
   initialPosition,
   printRanks,
   printFiles,
   formatDate,
   genRandomColor,
+  initialSquares,
  }
 
 

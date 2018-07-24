@@ -13,14 +13,14 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
           isLegal = true;
         } else {
           if (piece === 'P') {
-            if (origin.col === destin.col) { //forward
+            if (origin.col === destin.col) { 
               if (position[destin.row][destin.col] === null) {
                 isLegal = true;
               }
-            } else { //diagonal
+            } else { 
               if (position[destin.row][destin.col] !== null) { 
                 isLegal = true;
-              } else { //en passant
+              } else { 
                 const prevMove = moves.slice(-1)[0];
                 if (prevMove) {
                   const [prevOrigin, prevDestin, prevPiece] = prevMove;
@@ -39,17 +39,16 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
           if (piece === 'K') {
             let hasMoved = false;
             let rook;
-            if (Math.abs(destin.col - origin.col) === 2) { //castling
-              if (pieceToMove === 'K') { //white
-                destin.col - origin.col > 0 //kingside?
+            if (Math.abs(destin.col - origin.col) === 2) { 
+              if (pieceToMove === 'K') { 
+                destin.col - origin.col > 0 
                   ? rook = { row: 7, col: 7 }
                   : rook = { row: 7, col: 0 }                  
-              } else { //black
-                destin.col - origin.col > 0 //kingside? //friendly rooks
+              } else { 
+                destin.col - origin.col > 0 
                   ? rook = { row: 0, col: 7 }
                   : rook = { row: 0, col: 0 }
               }
-
               for (let i = 0; i < moves.length - 1; i++) { 
                 let [pastOrigin, pastDestin, pastPiece] = moves[i];
                 if (
@@ -58,11 +57,10 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
                   hasMoved = true;
                 }
               }
-
               if (!hasMoved) {
                 isLegal = true;
               }
-            } else { //not castling
+            } else { 
               isLegal = true; 
             }
           }
@@ -70,7 +68,6 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
       } 
     }      
   }
-  
   return isLegal;
 };
 

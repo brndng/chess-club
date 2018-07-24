@@ -89,7 +89,13 @@ module.exports = {
   },
   fetchPlayers: async (req, res) => {
     try {
-      const players = await User.findAll();
+      const data = await User.findAll();
+      const players = data.map(player => {
+        return {
+          id: player.id, 
+          username: player.username,
+        };
+      })
       res.send(players);
     } catch (err) {
       console.log('err from createUser', err);

@@ -1,4 +1,4 @@
-hashes showing on db players fetch
+hashes showing on db players fetch x
 isLoading while fetching players...currently show "user doesn't exist" view
 media queries for smaller screens
 search is caps specific
@@ -40,5 +40,39 @@ No trim() or enforcement of username length on the signup – I created a user w
 
 smothered mate bug
 
+onEnter login
+player left notification
+'visualizer'
+leave button
+
+BUG:
+click landing page, come back, turn doesn't persist --CDUnmount, persist proper game data
+simul chat chops off message
+my turn, opponent leaves, I move, turn toggles, opponent comes back, sees still my turn
+--click to another game, come back, proper turn loads
+
+Cannot destructure property `origin` of 'undefined' or 'null'.
+    at willMoveExposeKing (/Users/Brian/Desktop/Projects/chess-club/rules/interactions/index.js:51:29)
+
+refactor locateKing from iterating currentPosition to squares...breaks, 
+verifyLegalSq cant read col of undefined, possibly from:
+Game->Square->getCandididateSquares->verifyLegalSquare
+but what does this have to do with currentPosition -> squares?
+don't have squares in time?...only after Sq. component mounts do I have it
+
+bug
+white checks black
+black users candidateSquares (white pieces) !== white users candidateSquares (white pieces)
+should ===
+willMoveExposeKing...white's attacking piece 'exposes' black king
+should only be black users own pieces that 'expose' his king
+refactor will move expose king so that it only deals with user's pieces exposing own king
+
+
+API_URL
+
+make it clear that game has ended
+chat number
+auto scroll
 
 
