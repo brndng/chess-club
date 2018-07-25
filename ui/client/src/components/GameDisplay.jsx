@@ -20,7 +20,6 @@ class GameDisplay extends Component {
     this.props.socket.on('chat', (message) => {
       this.setState({ 
         messages: [...this.state.messages, message], 
-        message: '',
       });
     });
   }
