@@ -10,8 +10,10 @@ Dependencies: Node.js, PostgreSQL
 1. git clone https://github.com/brndng/chess-club.git
 2. npm run setup
 3. npm run dev
-4. http://localhost:3000
-5. Sign Up, Log In, and click "Challenge" to start a game
+4. replace DATABASE_URL in .env to local credentials
+5. http://localhost:3000
+
+Sign Up, Log In, and click "Challenge" to start a game
 
 
 # Deployed version
