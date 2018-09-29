@@ -1,6 +1,6 @@
 # Chess Club
 
-Play chess with friends in real-time!
+Play chess with friends in real-time! Your games persist so you can pick up where you left off. Visit "Archives" to replay your past games.
 
 Built with Node + Express, React + Redux, Websockets, and PostgreSQL.
 
