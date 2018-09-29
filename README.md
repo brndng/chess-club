@@ -1,5 +1,7 @@
 # Chess Club
 
+![checkmate](https://user-images.githubusercontent.com/31902206/46248764-5ddb4600-c3d2-11e8-8811-85b324fed625.gif)
+
 Play chess with friends in real-time! Your games persist so you can pick up where you left off. Visit "Archives" to replay your past games.
 
 Built with Node + Express, React + Redux, Websockets, and PostgreSQL.
