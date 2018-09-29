@@ -2,7 +2,7 @@
 
 ![checkmate](https://user-images.githubusercontent.com/31902206/46249044-2622cd00-c3d7-11e8-91b2-ffaaebe8dc4b.gif)
 
-Play chess with friends in real-time! Your games persist so you can pick up where you left off. Visit "Archives" to replay your past games.
+Play chess with friends in real-time! Your games persist so you can pick up where you left off. Visit "Archive" to replay your past games.
 
 Built with Node + Express, React + Redux, Websockets, and PostgreSQL.
 
