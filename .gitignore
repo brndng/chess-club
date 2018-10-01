@@ -3,3 +3,5 @@ package-lock.json
 bundle.js
 notes.txt
 .DS_Store
+dist
+misc
