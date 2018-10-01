@@ -1,23 +1,23 @@
-import { combineReducers } from 'redux';
-import selection from './reducer-selection.js';
-import whiteToMove from './reducer-white-to-move.js';
-import currentPosition from './reducer-current-position.js';
-import moves from './reducer-moves.js';
-import game from './reducer-game.js';
-import userGames from './reducer-user-games.js';
-import user from './reducer-user.js';
-import opponent from './reducer-opponent.js';
-import inCheck from './reducer-in-check.js';
-import completed from './reducer-completed.js';
-import isAuthenticated from './reducer-is-authenticated.js';
-import hasFetchedCurrUser from  './reducer-has-fetched-curr-user.js';
-import promotingMove from './reducer-promoting-move.js';
-import result from './reducer-result.js';
-import positionHistory from './reducer-position-history';
-import isMyTurn from './reducer-is-my-turn.js';
-import showCoords from './reducer-show-coords.js';
-import showVisualizer from './reducer-show-visualizer';
-import squares from './reducer-squares.js';
+import { combineReducers } from "redux";
+import selection from "./selection.js";
+import whiteToMove from "./white-to-move.js";
+import currentPosition from "./current-position.js";
+import moves from "./moves.js";
+import game from "./game.js";
+import userGames from "./user-games.js";
+import user from "./user.js";
+import opponent from "./opponent.js";
+import inCheck from "./in-check.js";
+import completed from "./completed.js";
+import isAuthenticated from "./is-authenticated.js";
+import hasFetchedCurrUser from "./has-fetched-curr-user.js";
+import promotingMove from "./promoting-move.js";
+import result from "./result.js";
+import positionHistory from "./position-history";
+import isMyTurn from "./is-my-turn.js";
+import showCoords from "./show-coords.js";
+import showVisualizer from "./show-visualizer";
+import squares from "./squares.js";
 
 export default combineReducers({
   selection,
@@ -38,5 +38,5 @@ export default combineReducers({
   isMyTurn,
   showCoords,
   showVisualizer,
-  squares,
+  squares
 });
