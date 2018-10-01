@@ -1,6 +1,6 @@
 export default (state = null, action) => {
-  
-  switch(action.type) {
+
+  switch (action.type) {
     case 'PLAYER_MOVED': {
       const { userId, white, prevWhiteToMove } = action.payload;
       const whiteToMove = !prevWhiteToMove;
@@ -8,7 +8,6 @@ export default (state = null, action) => {
         (userId === white && whiteToMove)
         || (userId !== white && !whiteToMove)
       );
-      break;
     }
     case 'GAME_INITIALIZED': {
       const { userId, white, whiteToMove } = action.payload;
@@ -16,7 +15,6 @@ export default (state = null, action) => {
         (userId === white && whiteToMove)
         || (userId !== white && !whiteToMove)
       );
-      break;
     }
     case 'SNAPSHOT_CHANGED': {
       const { userId, white, index } = action.payload;
@@ -25,7 +23,6 @@ export default (state = null, action) => {
         (userId === white && whiteToMove)
         || (userId !== white && !whiteToMove)
       );
-      break;
     }
   }
   return state;

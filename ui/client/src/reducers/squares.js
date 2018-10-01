@@ -1,8 +1,8 @@
 import { initialSquares } from '../../../../rules/utilities';
 
-export default (state={}, action) => {
+export default (state = {}, action) => {
   const newState = JSON.parse(JSON.stringify(state));
-  switch(action.type) {
+  switch (action.type) {
     case 'GAME_INITIALIZED': {
       const { userId, white } = action.payload;
       for (let square in initialSquares) {
@@ -14,13 +14,11 @@ export default (state={}, action) => {
         }
       }
       return initialSquares;
-      break;
     }
     case 'SQUARE_UPDATED': {
       const { location, piece, candidateSquares, isAlly } = action.payload;
       newState[location] = { piece, candidateSquares, isAlly }
       return newState;
-      break;
     }
   }
   return newState;

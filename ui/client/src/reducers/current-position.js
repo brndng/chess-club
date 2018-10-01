@@ -4,14 +4,12 @@ export default (state = [], action) => {
     case "GAME_INITIALIZED": {
       const { position } = action.payload;
       return [...position];
-      break;
     }
     case "POSITION_CHANGED": {
       const [origin, destin, piece] = action.payload;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;
       return newState;
-      break;
     }
     case "KING_CASTLED": {
       const [origin, destin, piece] = action.payload;
@@ -46,7 +44,6 @@ export default (state = [], action) => {
         }
       }
       return newState;
-      break;
     }
     case "PAWN_PROMOTED": {
       const [
@@ -60,7 +57,6 @@ export default (state = [], action) => {
       newState[destin.row][destin.col] = promotedTo;
       newState[origin.row][origin.col] = null;
       return newState;
-      break;
     }
     case "EN_PASSANT_APPLIED": {
       const [
@@ -78,11 +74,9 @@ export default (state = [], action) => {
       newState[origin.row][origin.col] = null;
       newState[prevDestin.row][prevDestin.col] = null; //captured pawn
       return newState;
-      break;
     }
     case "SNAPSHOT_LOADED": {
       return action.payload;
-      break;
     }
   }
   return newState;

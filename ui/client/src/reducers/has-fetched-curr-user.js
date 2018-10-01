@@ -1,8 +1,7 @@
-export default (state=false, action) => {
+export default (state = false, action) => {
   switch (action.type) {
-    case 'CURRENT_USER_FETCHED': 
+    case 'CURRENT_USER_FETCHED':
       return action.payload;
-      break;
   }
   return state;
 }
