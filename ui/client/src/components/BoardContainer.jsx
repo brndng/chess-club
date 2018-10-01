@@ -6,7 +6,7 @@ import { printRanks, printFiles } from '../../../../rules/utilities/';
 class BoardContainer extends Component {
   constructor(props) {
     super(props);
-   
+
   }
 
 
@@ -22,7 +22,7 @@ class BoardContainer extends Component {
         </div>
         <div className="board-container">
           <div className="coords-ranks">
-            {ranks.map((rank, i) => 
+            {ranks.map((rank, i) =>
               <div className={`rank ${isDisplayed}`} key={i}>
                 {rank}
               </div>)}
@@ -31,7 +31,7 @@ class BoardContainer extends Component {
           <div className="coords-ranks"></div>
         </div>
         <div className="coords-files">
-          {files.map((file, i) => 
+          {files.map((file, i) =>
             <div className={`file ${isDisplayed}`} key={i}>
               {file}
             </div>)}

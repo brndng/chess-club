@@ -37,4 +37,3 @@ const matchDispatchToProps = (dispatch) => {
 }
 
 export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Logout));
-

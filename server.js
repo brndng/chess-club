@@ -24,8 +24,3 @@ db.sequelize.sync().then(() => {
   const io = socket(server);
   initSocketHandlers(io);
 });
-
-
-
-
-

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Link } from "react-router-dom";
 import Landing from './Landing.jsx';
 import Login from './Login.jsx';
-import GameList from  './GameList.jsx';
+import GameList from './GameList.jsx';
 import Game from './Game.jsx';
 import CompletedGame from './CompletedGame.jsx';
 import Challenge from './Challenge.jsx';
@@ -39,5 +39,3 @@ var ArchiveWithAuth = withAuthentication(Archive);
 var CompletedGameWithAuth = withAuthentication(CompletedGame);
 
 export default App;
-
-

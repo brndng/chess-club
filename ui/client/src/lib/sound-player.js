@@ -13,8 +13,3 @@ export default class SoundPlayer {
     this.sound.play();
   }
 }
-
-
-
-
-

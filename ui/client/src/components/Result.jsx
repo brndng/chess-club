@@ -7,7 +7,7 @@ class Result extends Component {
   }
   render() {
     const { completed, result } = this.props;
-    return completed && result; 
+    return completed && result;
   }
 }
 

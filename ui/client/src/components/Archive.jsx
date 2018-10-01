@@ -33,7 +33,7 @@ class Archive extends Component {
             <span className="date">DATE CREATED</span>
           </div>
         </div>
-        <br/>
+        <br />
         <div className="game-list-content">
           <ul>
             {userGames.map((game) => {

@@ -24,7 +24,7 @@ class Draw extends Component {
 
   componentDidMount() {
     const { socket, id, declareGameOver } = this.props;
-    
+
     socket.on('draw_offer', (opponent) => {
       this.showModal('offer');
     });
@@ -49,7 +49,7 @@ class Draw extends Component {
       view,
     });
   }
-  
+
   hideModal() {
     this.setState({
       showModal: false,
@@ -58,7 +58,7 @@ class Draw extends Component {
   }
 
   async offerDraw() {
-    const { id, user, socket } =  this.props;
+    const { id, user, socket } = this.props;
     const offer = await axios.put(`${process.env.HOST}/games/draw/offer`, { id, userId: user.id });
     if (offer.status === 200) {
       socket.emit('draw_offer', { id, userId: user.id });
@@ -67,8 +67,8 @@ class Draw extends Component {
 
   async acceptDraw() {
     const { user, id, socket, declareGameOver } = this.props;
-    const response = await axios.put(`${process.env.HOST}/games/draw/accept`, { 
-      id, 
+    const response = await axios.put(`${process.env.HOST}/games/draw/accept`, {
+      id,
       completed: true,
       winner: null,
     });
@@ -83,7 +83,7 @@ class Draw extends Component {
   async declineDraw() {
     const { user, id, socket } = this.props;
     const response = await axios.put(`${process.env.HOST}/games/draw/offer`, { id, userId: user.id });
-    
+
     if (response.status === 200) {
       socket.emit('draw_decline', { id, userId: null });
     }
@@ -96,31 +96,31 @@ class Draw extends Component {
     const response = isAccepted
       ? 'accepted'
       : 'declined'
-    const modal = showModal && 
+    const modal = showModal &&
       <div>
         <Modal>
-          <div className="modal"> 
+          <div className="modal">
             <div className="modal-btn-container">
-            {view !== 'offer' && <button onClick={() => this.hideModal()}>╳</button>}
-          </div>
+              {view !== 'offer' && <button onClick={() => this.hideModal()}>╳</button>}
+            </div>
             {view === 'offer'
               ? <div className="modal-dialogue">
-                  <p>{`${opponent.username} offered a draw`}</p>
-                  <div className="modal-dialogue-btn-container">
-                    <button onClick={() => this.acceptDraw()}>ACCEPT</button>
-                    <button onClick={() => this.declineDraw()}>DECLINE</button>
-                  </div>
+                <p>{`${opponent.username} offered a draw`}</p>
+                <div className="modal-dialogue-btn-container">
+                  <button onClick={() => this.acceptDraw()}>ACCEPT</button>
+                  <button onClick={() => this.declineDraw()}>DECLINE</button>
                 </div>
+              </div>
               : <div className="modal-dialogue">
-                  <p>{`${opponent.username} ${response} your draw offer`}</p>
-                  <div className="modal-dialogue-btn-container"></div>
-                </div>}
+                <p>{`${opponent.username} ${response} your draw offer`}</p>
+                <div className="modal-dialogue-btn-container"></div>
+              </div>}
           </div>
         </Modal>
       </div>
 
     return (
-      <div>         
+      <div>
         <button onClick={() => this.offerDraw()}>DRAW</button>
         {modal}
       </div>

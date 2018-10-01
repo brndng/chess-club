@@ -6,7 +6,7 @@ module.exports = {
   fetchAllGames: async (req, res) => {
     const { user_id } = req.params;
     try {
-      const games = await Game.findAll({ 
+      const games = await Game.findAll({
         where: {
           [Op.or]: [{ white: user_id }, { black: user_id }],
         },
@@ -29,14 +29,14 @@ module.exports = {
     const { white, black, whiteUsername, blackUsername } = req.body;
     try {
       const game = await Game.create({
-        position: initialPosition, 
+        position: initialPosition,
         moves: [],
         whiteToMove: true,
         inCheck: null,
-        completed: false, 
-        white, 
+        completed: false,
+        white,
         black,
-        whiteUsername, 
+        whiteUsername,
         blackUsername,
       });
       res.send(game.dataValues);
@@ -47,12 +47,12 @@ module.exports = {
   registerMove: async (req, res) => {
     const { id, user, currentPosition, whiteToMove, positionHistory, moves } = req.body;
     let isCorrectTurn = true;
-    
+
     try {
       const game = await Game.findOne({ where: { id } });
       if (
-        !((user.id === game.white && whiteToMove )
-        ||(user.id === game.black && !whiteToMove ))
+        !((user.id === game.white && whiteToMove)
+          || (user.id === game.black && !whiteToMove))
       ) {
         isCorrectTurn = false;
       }
@@ -70,10 +70,10 @@ module.exports = {
           positionHistory: [...positionHistory, currentPosition],
           moves,
         }, {
-          where: { id },
-          returning: true,
-          plain: true,
-        });
+            where: { id },
+            returning: true,
+            plain: true,
+          });
         res.send(update[1].dataValues);
       } catch (err) {
         console.log('err from registerMove update', err);
@@ -86,10 +86,10 @@ module.exports = {
       const update = await Game.update({
         inCheck,
       }, {
-        where: { id },
-        returning: true,
-        plain: true,
-      });
+          where: { id },
+          returning: true,
+          plain: true,
+        });
       res.send(update[1].dataValues);
     } catch (err) {
       console.log('err from updateCheck', err);
@@ -107,10 +107,10 @@ module.exports = {
         winner,
         result,
       }, {
-        where: { id },
-        returning: true,
-        plain: true,
-      });
+          where: { id },
+          returning: true,
+          plain: true,
+        });
       res.send(record);
     } catch (err) {
       console.log('err from saveGame', err)
@@ -121,9 +121,9 @@ module.exports = {
     try {
       const record = await Game.update({
         drawOfferedBy: userId,
-      }, { 
-        where: { id },
-      });
+      }, {
+          where: { id },
+        });
       res.status(200).send('draw offered');
     } catch (err) {
       console.log('err from registerDrawOffer', err);
@@ -143,10 +143,10 @@ module.exports = {
           winner,
           result,
         }, {
-          where: { id },
-          returning: true,
-          plain: true,
-        });
+            where: { id },
+            returning: true,
+            plain: true,
+          });
         res.status(200).send(`${user.username} has resigned.`);
       } catch (err) {
         console.log('err from resign', err)
@@ -156,19 +156,19 @@ module.exports = {
   acceptDraw: async (req, res) => {
     const { id, user, completed, winner } = req.body;
     let drawOfferedByOpponent = true;
-  
+
     try {
       const game = await Game.findOne({ where: { id } });
       if (
-         !((user.id === game.white && game.drawOfferedBy === game.black)
-         && (user.id === game.black && game.drawOfferedBy === game.white))
+        !((user.id === game.white && game.drawOfferedBy === game.black)
+          && (user.id === game.black && game.drawOfferedBy === game.white))
       ) {
         drawOfferedByOpponent = false;
       }
     } catch (err) {
       console.log('err from acceptDraw findOne', err)
     }
-  
+
     if (!drawOfferedByOpponent) {
       res.status(401).send('No hacks allowed. You may only accept draws if offered by the opponent.');
     } else {
@@ -178,10 +178,10 @@ module.exports = {
           winner,
           result: '1/2 - 1/2',
         }, {
-          where: { id },
-          returning: true,
-          plain: true,
-        });
+            where: { id },
+            returning: true,
+            plain: true,
+          });
         res.send(record);
       } catch (err) {
         console.log('err from acceptDraw update', err)
@@ -189,7 +189,3 @@ module.exports = {
     }
   }
 };
-
-
-
-

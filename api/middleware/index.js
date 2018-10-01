@@ -19,7 +19,7 @@ module.exports = {
     if (selection) {
       const _moveExposesKing = willMoveExposeKing(user.id, game.white, selection, destin, prevPosition, prevMoves, squares);
       const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, destin, prevPosition, prevMoves);
-    
+
       if (!_moveExposesKing && _isLegalSquare) {
         next();
       } else {
@@ -48,4 +48,3 @@ module.exports = {
     }),
   ],
 }
-

@@ -13,4 +13,3 @@ module.exports = (sequelize, DataTypes) => {
     result: DataTypes.STRING,
   });
 }
-

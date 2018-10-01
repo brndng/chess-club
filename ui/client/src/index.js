@@ -7,7 +7,7 @@ import allReducers from './reducers';
 import App from './components/App.jsx';
 
 const store = createStore(
-  allReducers, 
+  allReducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 window.store = store;

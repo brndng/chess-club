@@ -28,7 +28,7 @@ class ChallengeCreator extends Component {
       showModal: true,
     });
   }
-  
+
   hideModal() {
     this.setState({
       showModal: false,
@@ -43,16 +43,16 @@ class ChallengeCreator extends Component {
   setMatchup(color) {
     const { user, opponent, whiteUsername, blackUsername } = this.props;
     if (color === 'white') {
-      this.setState({ 
-        white: user.id, 
+      this.setState({
+        white: user.id,
         black: opponent.id,
         whiteUsername: user.username,
         blackUsername: opponent.username,
       });
     } else {
-      this.setState({ 
-        white: opponent.id, 
-        black: user.id, 
+      this.setState({
+        white: opponent.id,
+        black: user.id,
         whiteUsername: opponent.username,
         blackUsername: user.username,
       });
@@ -61,8 +61,8 @@ class ChallengeCreator extends Component {
 
   async createGame() {
     const { white, black, whiteUsername, blackUsername } = this.state;
-    const newGame = await axios.post(`${process.env.HOST}/games/challenge`, { 
-      white, 
+    const newGame = await axios.post(`${process.env.HOST}/games/challenge`, {
+      white,
       black,
       whiteUsername,
       blackUsername,
@@ -84,23 +84,23 @@ class ChallengeCreator extends Component {
       : 'Please select an opponent';
     const modal = showModal
       && <div >
-           <Modal>
-             <div className="modal"> 
-               <div className="modal-btn-container">
-                 <button onClick={() => this.hideModal()}>╳</button> 
-               </div>
-               <div className="modal-dialogue">
-                 <p> New game created! Go to game: </p>
-                 <div className="modal-dialogue-btn-container">
-                   <button onClick={() => this.redirectToGame(gameId)}>➤</button>
-                 </div>
-               </div>
-             </div>
-           </Modal>
-         </div>;
-    
+        <Modal>
+          <div className="modal">
+            <div className="modal-btn-container">
+              <button onClick={() => this.hideModal()}>╳</button>
+            </div>
+            <div className="modal-dialogue">
+              <p> New game created! Go to game: </p>
+              <div className="modal-dialogue-btn-container">
+                <button onClick={() => this.redirectToGame(gameId)}>➤</button>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>;
+
     return (
-      <div className="challenge-creator">  
+      <div className="challenge-creator">
         <div className="challenge-creator-header"><p>▧ NEW GAME</p></div>
         <div className="challenge-creator-content">
           <div><span>{`OPPONENT: `}</span><span><strong>{selectedOpponent}</strong></span></div>
@@ -113,7 +113,7 @@ class ChallengeCreator extends Component {
               <option value={random}>�  RANDOM</option>
             </select>
           </div>
-          
+
         </div>
         <div className="challenge-button">
           <button onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>

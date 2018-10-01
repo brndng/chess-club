@@ -166,19 +166,3 @@ export const loadSquareDetails = (coords, piece, candidateSquares, userId, white
     payload: { location, piece, candidateSquares, isAlly },
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

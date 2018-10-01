@@ -10,7 +10,7 @@ class MoveHistory extends Component {
   }
 
   render() {
-    const { moves, index } = this.props;    
+    const { moves, index } = this.props;
     const chessMoves = printMoves(moves, index);
     return (
       <div className="move-history-container">

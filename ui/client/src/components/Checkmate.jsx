@@ -19,9 +19,9 @@ class Checkmate extends Component {
     const { socket, id, user, game, declareGameOver } = this.props;
     socket.on('checkmate', (defeated) => {
       if (user.id === defeated) {
-        this.setState({ message: 'You Lose!'}, () => this.showModal());
+        this.setState({ message: 'You Lose!' }, () => this.showModal());
       } else {
-        this.setState({ message: 'You Win!'}, () => this.showModal());
+        this.setState({ message: 'You Win!' }, () => this.showModal());
       }
       declareGameOver('checkmate', game, defeated);
     });
@@ -32,7 +32,7 @@ class Checkmate extends Component {
       showModal: true,
     });
   }
-  
+
   hideModal() {
     this.setState({
       showModal: false,
@@ -42,12 +42,12 @@ class Checkmate extends Component {
   render() {
     const { showModal, message } = this.state;
     const { completed } = this.props;
-    const modal = showModal && 
+    const modal = showModal &&
       <div >
         <Modal>
-          <div className="modal"> 
+          <div className="modal">
             <div className="modal-btn-container">
-              <button onClick={() => this.hideModal()}>╳</button> 
+              <button onClick={() => this.hideModal()}>╳</button>
             </div>
             <div className="modal-dialogue">
               <p> Checkmate! {message} </p>
@@ -57,7 +57,7 @@ class Checkmate extends Component {
           </div>
         </Modal>
       </div>
-        
+
     return modal;
   }
 }

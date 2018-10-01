@@ -18,7 +18,7 @@ class Players extends Component {
 
   async componentDidMount() {
     const dbPlayers = await axios.get(`${process.env.HOST}/users/players`);
-    this.setState({ 
+    this.setState({
       dbPlayers: [...dbPlayers.data],
       players: [...dbPlayers.data]
     });
@@ -49,8 +49,8 @@ class Players extends Component {
     return (
       <div className="players-select">
         <div className="players-search">
-          <input type="search" placeholder="Username" value={targetPlayer} onChange={(e) => {this.setSearchText(e)}} />
-          <button className="players-search-button" onClick={() => {this.filterPlayers()}}>⌕</button>
+          <input type="search" placeholder="Username" value={targetPlayer} onChange={(e) => { this.setSearchText(e) }} />
+          <button className="players-search-button" onClick={() => { this.filterPlayers() }}>⌕</button>
         </div>
         <div className="players-default">
           <p>SELECT OPPONENT</p>
@@ -59,7 +59,7 @@ class Players extends Component {
               {players.length === 0 &&
                 <div className="players-invalid">
                   <span>{`Sorry, that player doesn't exist`}</span>
-                  <button className="btn" onClick={() => {this.displayAllPlayers()}}>Display All</button>
+                  <button className="btn" onClick={() => { this.displayAllPlayers() }}>Display All</button>
                 </div>}
               {players.map(player => {
                 const opponent = { id: player.id, username: player.username };
@@ -70,7 +70,8 @@ class Players extends Component {
                         <a href="#" onClick={() => storeOpponent(opponent)}>{opponent.username}</a>
                       </div>
                     </li>);
-                }})}
+                }
+              })}
             </ul>
           </div>
         </div>

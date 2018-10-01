@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
-import { selectPiece, updatePosition, loadPromotingMove, loadSquareDetails } from '../actions/'; 
+import { selectPiece, updatePosition, loadPromotingMove, loadSquareDetails } from '../actions/';
 import verifyLegalSquare from '../../../../rules/movement/';
 import { isWhite, convertToChessNotation, setSquareColor, isEqual } from '../../../../rules/utilities/'
-import { 
+import {
   willMoveGiveCheck,
   isPawnPromoting,
   getCandidateSquares,
-  isCandidate } from '../../../../rules/interactions/';
+  isCandidate
+} from '../../../../rules/interactions/';
 
 class Square extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Square extends Component {
 
   componentDidUpdate(prevProps) {
     const { user, game, piece, coords, currentPosition, moves, whiteToMove, loadSquareDetails, squares } = this.props;
-    
+
     if (!isEqual(currentPosition, prevProps.currentPosition)) {
       const candidateSquares = getCandidateSquares(user.id, game.white, piece, coords, currentPosition, moves, squares);
       loadSquareDetails(coords, piece, candidateSquares, user.id, game.white);
@@ -41,13 +42,13 @@ class Square extends Component {
 
   inCheck() {
     const { user, game, inCheck, piece } = this.props;
-    return (inCheck === game.white && piece === 'K') || (inCheck === game.black && piece === 'k'); 
+    return (inCheck === game.white && piece === 'K') || (inCheck === game.black && piece === 'k');
   }
 
   isVisualized() {
     const { coords, selection, showVisualizer } = this.props;
     if (selection !== null) {
-     
+
       return showVisualizer && isCandidate(coords, selection.candidateSquares);
     }
   }
@@ -57,15 +58,15 @@ class Square extends Component {
     const { candidateSquares } = squares[JSON.stringify(coords)];
 
     if (isMyTurn) {
-      if ((isWhite(piece) === whiteToMove)) { 
+      if ((isWhite(piece) === whiteToMove)) {
         selectPiece(coords, piece, candidateSquares);
       }
-      
+
       if (
-        selection !== null 
+        selection !== null
         && (isWhite(selection.piece) !== isWhite(piece))
         && isCandidate(coords, selection.candidateSquares)
-        ) {
+      ) {
         this.placeSelectedPiece();
       }
     }
@@ -78,9 +79,9 @@ class Square extends Component {
     const _isPawnPromoting = isPawnPromoting(selection, coords);
 
     if (_isPawnPromoting) {
-      loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);  
+      loadPromotingMove([selection.origin, coords, selection.piece, piece, _notation]);
     } else {
-      updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);        
+      updatePosition(selection.origin, coords, selection.piece, piece, _notation, null, currentPosition, moves);
     }
   }
 
@@ -93,20 +94,20 @@ class Square extends Component {
       this.inCheck() && !completed && 'in-check',
       this.isVisualized() && !completed && 'is-visualized',
     ].filter(cls => !!cls).join(' ');
-    const onClick = completed 
+    const onClick = completed
       ? null
       : () => this.handleSquareClick();
 
     return (
       <div id={color} className={classes} onClick={onClick}>
-        {piece !== null && 
+        {piece !== null &&
           <Piece piece={piece} isMyTurn={isMyTurn} whiteToMove={whiteToMove} />}
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares }) => { 
+const mapStateToProps = ({ user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares }) => {
   return { user, selection, currentPosition, whiteToMove, isMyTurn, moves, game, inCheck, showVisualizer, completed, squares };
 }
 

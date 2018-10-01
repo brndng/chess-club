@@ -26,6 +26,3 @@ const mapStateToProps = ({ user, opponent }) => {
 }
 
 export default connect(mapStateToProps)(Challenge);
-
-
-

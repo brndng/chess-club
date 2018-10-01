@@ -13,14 +13,14 @@ class Promotion extends Component {
   }
 
   selectPiece(p) {
-    const { selectPiece, updatePosition, loadPromotingMove, user, game, promotingMove, currentPosition, moves, selection, squares } = this.props;   
+    const { selectPiece, updatePosition, loadPromotingMove, user, game, promotingMove, currentPosition, moves, selection, squares } = this.props;
     const [origin, destin, piece, captured] = promotingMove;
     const promotedTo = user.id === game.white
       ? p
       : p.toLowerCase();
     const _check = willMoveGiveCheck(user.id, game.white, selection, destin, currentPosition, moves, squares, promotedTo);
     const _notation = convertToChessNotation(selection.origin, destin, selection.piece, piece, _check, promotedTo);
-    
+
     updatePosition(selection.origin, destin, selection.piece, captured, _notation, promotedTo, currentPosition, moves);
     loadPromotingMove();
   }
@@ -30,21 +30,21 @@ class Promotion extends Component {
     const modal = promotingMove.length === 0
       ? null
       : <div >
-          <Modal>
-            <div className="modal">
-              <div className="modal-btn-container"></div>
-              <div className="modal-dialogue">
-                <p> Pawn has promoted! Select: </p>  
-                <div className="modal-dialogue-btn-container">
-                  <button onClick={() => {this.selectPiece('R')}}>{figurines['R'].symbol}</button> 
-                  <button onClick={() => {this.selectPiece('N')}}>{figurines['N'].symbol}</button> 
-                  <button onClick={() => {this.selectPiece('B')}}>{figurines['B'].symbol}</button> 
-                  <button onClick={() => {this.selectPiece('Q')}}>{figurines['Q'].symbol}</button> 
-                </div>
+        <Modal>
+          <div className="modal">
+            <div className="modal-btn-container"></div>
+            <div className="modal-dialogue">
+              <p> Pawn has promoted! Select: </p>
+              <div className="modal-dialogue-btn-container">
+                <button onClick={() => { this.selectPiece('R') }}>{figurines['R'].symbol}</button>
+                <button onClick={() => { this.selectPiece('N') }}>{figurines['N'].symbol}</button>
+                <button onClick={() => { this.selectPiece('B') }}>{figurines['B'].symbol}</button>
+                <button onClick={() => { this.selectPiece('Q') }}>{figurines['Q'].symbol}</button>
               </div>
             </div>
-          </Modal>
-        </div>
+          </div>
+        </Modal>
+      </div>
     return modal;
   }
 }
