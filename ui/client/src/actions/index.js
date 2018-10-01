@@ -1,5 +1,4 @@
 export const initGame = (userId, data) => {
-  console.log('data from initGame', data)
   return {
     type: 'GAME_INITIALIZED',
     payload: { userId, ...data },
@@ -23,15 +22,16 @@ export const selectPiece = (origin, piece, candidateSquares) => {
 
   return {
     type: 'PIECE_SELECTED',
-    payload: { 
-      origin: { ...origin }, 
-      piece, 
-      candidateSquares },
+    payload: {
+      origin: { ...origin },
+      piece,
+      candidateSquares
+    },
   };
 };
 
 export const storeUser = (user) => {
-  const { id, username } = user;  
+  const { id, username } = user;
   return {
     type: 'LOGGED_IN',
     payload: { id, username },
@@ -39,7 +39,7 @@ export const storeUser = (user) => {
 };
 
 export const storeOpponent = (opponent) => {
-  const { id, username } = opponent;  
+  const { id, username } = opponent;
   return {
     type: 'OPPONENT_FETCHED',
     payload: { id, username },
@@ -47,7 +47,6 @@ export const storeOpponent = (opponent) => {
 };
 
 export const toggleTurn = (userId, white, prevWhiteToMove) => {
-  console.log('toggleTurn prevWhiteToMove', prevWhiteToMove);
   return {
     type: 'PLAYER_MOVED',
     payload: { userId, white, prevWhiteToMove },
@@ -67,7 +66,7 @@ export const declareGameOver = (status, game = null, defeated = null) => {
     : defeated === game.white
       ? '0 - 1'
       : '1 - 0'
-  
+
   return {
     type: status.toUpperCase(),
     payload: result,
@@ -76,7 +75,7 @@ export const declareGameOver = (status, game = null, defeated = null) => {
 
 export const updatePosition = (origin, destin, piece, captured, notation, promotedTo, currentPosition, moves = []) => {
   const prevMove = moves.slice(-1)[0];
-  const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove: [];
+  const [prevOrigin, prevDestin, prevPiece, ...rest] = prevMove ? prevMove : [];
 
   if ((piece === 'p' && destin.row === 7) || (piece === 'P' && destin.row === 0)) {
     return {
@@ -105,7 +104,7 @@ export const updatePosition = (origin, destin, piece, captured, notation, promot
   }
 
   return {
-    type: 'POSITION_CHANGED', 
+    type: 'POSITION_CHANGED',
     payload: [origin, destin, piece, captured, notation, promotedTo, currentPosition],
   };
 };

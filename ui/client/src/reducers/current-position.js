@@ -14,7 +14,6 @@ export default (state = [], action) => {
     case "KING_CASTLED": {
       const [origin, destin, piece] = action.payload;
       if (piece === "K") {
-        //white
         if (destin.col === 6) {
           newState[7][6] = piece;
           newState[7][5] = "R";
@@ -29,7 +28,6 @@ export default (state = [], action) => {
         }
       }
       if (piece === "k") {
-        //black
         if (destin.col === 6) {
           newState[0][6] = piece;
           newState[0][5] = "r";
@@ -72,7 +70,7 @@ export default (state = [], action) => {
       const [prevOrigin, prevDestin, prevPiece] = prevMove;
       newState[destin.row][destin.col] = piece;
       newState[origin.row][origin.col] = null;
-      newState[prevDestin.row][prevDestin.col] = null; //captured pawn
+      newState[prevDestin.row][prevDestin.col] = null;
       return newState;
     }
     case "SNAPSHOT_LOADED": {

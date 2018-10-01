@@ -49,7 +49,6 @@ class Game extends Component {
     } = this.props;
     const { id } = this.state;
     const game = await axios.get(`${process.env.HOST}/games/${id}`);
-    console.log("---game from db", game);
 
     this.socket = await io(`${process.env.HOST}/`);
 
@@ -102,9 +101,7 @@ class Game extends Component {
       moves,
       squares
     );
-    // console.log('​Game -> componentDidUpdate -> _isKingInCheck', _isKingInCheck);
 
-    //look inside the if block... mysterious bug
     if (
       prevProps.game !== null &&
       id === prevProps.game.id &&
@@ -136,7 +133,6 @@ class Game extends Component {
     }
 
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
-      console.log("king in check, squares", squares);
       if (isCheckmate(squares)) {
         this.socket.emit("checkmate", { userId: user.id, id });
         axios.put(`${process.env.HOST}/games/document`, {
@@ -159,7 +155,6 @@ class Game extends Component {
   }
 
   componentWillUnmount() {
-    console.log("unounting");
     this.socket.disconnect();
   }
 
@@ -214,8 +209,8 @@ class Game extends Component {
           <Promotion />
         </div>
       ) : (
-        <div>Loading...</div>
-      );
+          <div>Loading...</div>
+        );
 
     return loadedComponent;
   }
