@@ -10,12 +10,12 @@
   "proxy": "http://localhost:3000",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "concurrently --kill-others-on-fail \"npm install\" \"cd ui/client && npm install\"",
-    "client:dev": "cd ui/client && npm run build:dev",
+    "setup": "concurrently --kill-others-on-fail \"npm install\" \"cd client && npm install\"",
+    "client:dev": "cd client && npm run build:dev",
     "server:dev": "nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
     "start": "node server.js",
-    "heroku-postbuild": "cd ui/client && npm install && npm install --only=dev --no-shrinkwrap && npm run build:prd"
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build:prd"
   },
   "repository": {
     "type": "git",

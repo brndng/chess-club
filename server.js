@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config(); 
+  require('dotenv').config();
 }
 
 const express = require('express');
@@ -15,16 +15,12 @@ const PORT = process.env.PORT;
 
 app.use(...apiMiddleware);
 app.use(router);
-app.use(express.static(path.join(__dirname, './ui/client/dist')));
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, './ui/client/dist/index.html')));
+app.use(express.static(path.join(__dirname, './client/dist')));
+app.use(express.static(path.join(__dirname, './client/static')));
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, './client/static/index.html')));
 
 db.sequelize.sync().then(() => {
   const server = app.listen(PORT, () => console.log(`listening on port: ${PORT}`));
   const io = socket(server);
   initSocketHandlers(io);
 });
-
-
-
-
-
