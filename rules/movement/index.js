@@ -1,5 +1,5 @@
-const baseMoves = require('./movement-base-moves.js');
-const validatePath = require('./movement-validate-path.js'); 
+const baseMoves = require('./is-base-move.js');
+const validatePath = require('./is-valid-path.js');
 
 module.exports = (pieceToMove, origin, destin, position, moves = []) => {
   let isLegal = false;
@@ -8,19 +8,19 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
     if (piece === 'N') {
       isLegal = true;
     } else {
-      if(validatePath(origin, destin, position)) {
-        if(piece !== 'P' && piece !== 'K') {
+      if (validatePath(origin, destin, position)) {
+        if (piece !== 'P' && piece !== 'K') {
           isLegal = true;
         } else {
           if (piece === 'P') {
-            if (origin.col === destin.col) { 
+            if (origin.col === destin.col) {
               if (position[destin.row][destin.col] === null) {
                 isLegal = true;
               }
-            } else { 
-              if (position[destin.row][destin.col] !== null) { 
+            } else {
+              if (position[destin.row][destin.col] !== null) {
                 isLegal = true;
-              } else { 
+              } else {
                 const prevMove = moves.slice(-1)[0];
                 if (prevMove) {
                   const [prevOrigin, prevDestin, prevPiece] = prevMove;
@@ -39,20 +39,20 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
           if (piece === 'K') {
             let hasMoved = false;
             let rook;
-            if (Math.abs(destin.col - origin.col) === 2) { 
-              if (pieceToMove === 'K') { 
-                destin.col - origin.col > 0 
+            if (Math.abs(destin.col - origin.col) === 2) {
+              if (pieceToMove === 'K') {
+                destin.col - origin.col > 0
                   ? rook = { row: 7, col: 7 }
-                  : rook = { row: 7, col: 0 }                  
-              } else { 
-                destin.col - origin.col > 0 
+                  : rook = { row: 7, col: 0 }
+              } else {
+                destin.col - origin.col > 0
                   ? rook = { row: 0, col: 7 }
                   : rook = { row: 0, col: 0 }
               }
-              for (let i = 0; i < moves.length - 1; i++) { 
+              for (let i = 0; i < moves.length - 1; i++) {
                 let [pastOrigin, pastDestin, pastPiece] = moves[i];
                 if (
-                  pastPiece === pieceToMove 
+                  pastPiece === pieceToMove
                   || (pastOrigin.row === rook.row && pastOrigin.col === rook.col)) {
                   hasMoved = true;
                 }
@@ -60,13 +60,13 @@ module.exports = (pieceToMove, origin, destin, position, moves = []) => {
               if (!hasMoved) {
                 isLegal = true;
               }
-            } else { 
-              isLegal = true; 
+            } else {
+              isLegal = true;
             }
           }
         }
-      } 
-    }      
+      }
+    }
   }
   return isLegal;
 };

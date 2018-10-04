@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames, initGame } from '../actions/';
-import { formatDate } from '../../../../rules/utilities/';
+import { formatDate } from '../../../rules/utilities';
 
 axios.defaults.withCredentials = true;
 

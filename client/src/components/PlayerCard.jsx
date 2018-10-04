@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { printCapturedPieces } from '../../../../rules/utilities/';
+import { printCapturedPieces } from '../../../rules/utilities/';
 
 class PlayerCard extends Component {
   constructor(props) {

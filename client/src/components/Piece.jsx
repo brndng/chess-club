@@ -1,5 +1,5 @@
 import React from 'react';
-import { chessmen } from '../../../../rules/utilities';
+import { chessmen } from '../../../rules/utilities';
 
 const Piece = (props) => {
   const { isMyTurn, whiteToMove, piece } = props;

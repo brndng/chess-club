@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import Game from './Game.jsx';
 import { loadGames } from '../actions/';
-import { formatDate } from '../../../../rules/utilities/';
+import { formatDate } from '../../../rules/utilities/';
 
 axios.defaults.withCredentials = true;
 
@@ -34,7 +34,7 @@ class GameList extends Component {
             <span className="date">DATE CREATED</span>
           </div>
         </div>
-        <br/>
+        <br />
         <div className="game-list-content">
           <ul>
             {userGames.map((game) => {

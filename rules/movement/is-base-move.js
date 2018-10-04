@@ -52,8 +52,8 @@ module.exports = {
   },
   R: (origin, destin, position) => {
     let isBaseMove = false;
-   
-    
+
+
     if (origin.col === destin.col || origin.row === destin.row) {
       isBaseMove = true;
     }
@@ -87,12 +87,12 @@ module.exports = {
           if (destin.row - origin.row === 2 || destin.row - origin.row === 1) {
             isBaseMove = true;
           }
-        } else { //not og 
+        } else {
           if (destin.row - origin.row === 1) {
             isBaseMove = true;
           }
         }
-      } else { //diagonal
+      } else {
         if (destin.row - origin.row === 1 && Math.abs(destin.col - origin.col) === 1) {
           isBaseMove = true;
         }

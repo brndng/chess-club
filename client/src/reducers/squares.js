@@ -1,4 +1,4 @@
-import { initialSquares } from '../../../../rules/utilities';
+import { initialSquares } from '../../../rules/utilities';
 
 export default (state = {}, action) => {
   const newState = JSON.parse(JSON.stringify(state));

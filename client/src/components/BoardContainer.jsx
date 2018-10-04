@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Board from './Board.jsx';
-import { printRanks, printFiles } from '../../../../rules/utilities/';
+import { printRanks, printFiles } from '../../../rules/utilities/';
 
 class BoardContainer extends Component {
   constructor(props) {

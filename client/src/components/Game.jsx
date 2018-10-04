@@ -12,9 +12,9 @@ import Resignation from "./Resignation.jsx";
 import Promotion from "./Promotion.jsx";
 import Checkmate from "./Checkmate.jsx";
 import Slider from "./Slider.jsx";
-import verifyLegalSquare from "../../../../rules/movement/";
-import { isKingInCheck, isCheckmate } from "../../../../rules/interactions/";
-import { isEqual } from "../../../../rules/utilities/";
+import verifyLegalSquare from "../../../rules/movement/";
+import { isKingInCheck, isCheckmate } from "../../../rules/interactions/";
+import { isEqual } from "../../../rules/utilities/";
 import {
   initGame,
   storeOpponent,

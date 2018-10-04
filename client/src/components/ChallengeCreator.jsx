@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import Modal from './Modal.jsx';
-import { genRandomColor } from '../../../../rules/utilities';
+import { genRandomColor } from '../../../rules/utilities';
 
 axios.defaults.withCredentials = true;
 

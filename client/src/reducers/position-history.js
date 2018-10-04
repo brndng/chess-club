@@ -1,4 +1,4 @@
-import { isEqual } from '../../../../rules/utilities/'
+import { isEqual } from '../../../rules/utilities/'
 
 export default (state = [], action) => {
   switch (action.type) {

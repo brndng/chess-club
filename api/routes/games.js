@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const gamesController = require('../controllers/controller-games.js');
+const gamesController = require('../controllers/games.js');
 const { isAuthenticated, isLegalMove } = require('../middleware/');
 
 router.route('/:id').get(isAuthenticated, gamesController.fetchGame);
