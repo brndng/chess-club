@@ -133,8 +133,14 @@ const printCapturedPieces = (userId, game, moves, index) => {
   return pieces.map(piece => piece.symbol);
 }
 
-const isEqual = (obj1, obj2) => {
-  return JSON.stringify(obj1) === JSON.stringify(obj2);
+const isEqual = (a, b) => {
+  if (typeof a === 'object' && typeof b === 'object') {
+    return JSON.stringify(a) === JSON.stringify(b);
+  } else if (typeof a !== 'object' && typeof b !== 'object') {
+    return a === b;
+  } else {
+    return false;
+  }
 }
 
 const setSquareColor = (coords) => {
@@ -213,6 +219,96 @@ const genRandomColor = () => {
   return color;
 }
 
+const isPawn = (piece) => {
+  if (piece.toLowerCase() === 'p') return true;
+  return false;
+}
+const isKnight = (piece) => {
+  if (piece.toLowerCase() === 'n') return true;
+  return false;
+}
+const isBishop = (piece) => {
+  if (piece.toLowerCase() === 'b') return true;
+  return false;
+}
+const isRook = (piece) => {
+  if (piece.toLowerCase() === 'r') return true;
+  return false;
+}
+const isQueen = (piece) => {
+  if (piece.toLowerCase() === 'q') return true;
+  return false;
+}
+const isKing = (piece) => {
+  if (piece.toLowerCase() === 'k') return true;
+  return false;
+}
+
+const isCastling = (piece, origin, destin) => {
+  return piece.toLowerCase() === 'k' && Math.abs(destin.col - origin.col) === 2;
+}
+
+const getCastleSideRook = (piece, origin, destin) => {
+  let rook;
+  if (isWhite(piece)) {
+    destin.col - origin.col > 0
+      ? rook = { row: 7, col: 7 }
+      : rook = { row: 7, col: 0 }
+  } else {
+    destin.col - origin.col > 0
+      ? rook = { row: 0, col: 7 }
+      : rook = { row: 0, col: 0 }
+  }
+  return rook;
+}
+
+const isDiagonalPawnMove = (piece, origin, destin) => {
+  const colDistance = destin.col - origin.col;
+  const rowDistance = destin.row - origin.row;
+
+  return isPawn(piece)
+    && (Math.abs(colDistance) === 1)
+    && ((isWhite(piece) && rowDistance === -1) || (!isWhite(piece) && rowDistance === 1));
+}
+
+const isSquareOccupied = (position, row, col) => {
+  return position[row][col] !== null;
+}
+
+const isEnPassant = (piece, origin, destin, position, moves) => {
+  const _isDiagonalPawnMove = isDiagonalPawnMove(piece, origin, destin);
+  const _isSquareOccupied = isSquareOccupied(position, destin.row, destin.col);
+  const prevMove = moves.slice(-1)[0];
+
+  if (prevMove) {
+    const [prevOrigin, prevDestin, prevPiece] = prevMove;
+    const isEnemyPawn = isPawn(piece) && isPawn(prevPiece) && (piece !== prevPiece);
+    const startsSameRow = prevDestin.row === origin.row;
+    const endsSameCol = prevDestin.col === destin.col;
+    const prevPieceMovedTwoSquares = Math.abs(prevDestin.row - prevOrigin.row) === 2
+
+    if (
+      _isDiagonalPawnMove
+      && !_isSquareOccupied
+      && startsSameRow
+      && endsSameCol
+      && prevPieceMovedTwoSquares
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const isAlly = (pieceToMove, pieceAtDestin) => {
+  if (!pieceAtDestin) return false;
+  return isWhite(pieceToMove) === isWhite(pieceAtDestin);
+}
+
+const hasExceptions = (piece) => {
+  return !isPawn(piece) || !isKing(piece);
+}
+
 module.exports = {
   isWhite,
   rotateBoard,
@@ -230,8 +326,17 @@ module.exports = {
   formatDate,
   genRandomColor,
   initialSquares,
+  isPawn,
+  isKnight,
+  isBishop,
+  isRook,
+  isQueen,
+  isKing,
+  isCastling,
+  getCastleSideRook,
+  isDiagonalPawnMove,
+  isSquareOccupied,
+  isEnPassant,
+  isAlly,
+  hasExceptions
 }
-
-
-
-

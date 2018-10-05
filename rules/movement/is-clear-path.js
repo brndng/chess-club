@@ -1,4 +1,6 @@
-module.exports = (origin, destin, position) => {
+module.exports = function isClearPath(piece, origin, destin, position) {
+
+  if (piece.toLowerCase() === 'n') return true;
   let isClear = true;
   let y = origin.row;
   let x = origin.col;

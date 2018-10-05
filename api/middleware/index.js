@@ -3,24 +3,24 @@ const session = require('express-session');
 const cors = require('cors');
 const helmet = require('helmet');
 const { willMoveExposeKing } = require('../../rules/interactions/');
-const verifyLegalSquare = require('../../rules/movement/');
+const isLegalMove = require('../../rules/movement/');
 
 module.exports = {
-  isAuthenticated: (req, res, next) => {
+  isUserAuthenticated: (req, res, next) => {
     if (req.session.user) {
       next();
     } else {
       res.status(401).send('No hacks allowed. You must be logged in to do that.');
     }
   },
-  isLegalMove: (req, res, next) => {
+  isMoveValidated: (req, res, next) => {
     const { user, game, selection, destin, prevPosition, prevMoves, squares } = req.body;
 
     if (selection) {
       const _moveExposesKing = willMoveExposeKing(user.id, game.white, selection, destin, prevPosition, prevMoves, squares);
-      const _isLegalSquare = verifyLegalSquare(selection.piece, selection.origin, destin, prevPosition, prevMoves);
+      const _isLegalMove = isLegalMove(selection.piece, selection.origin, destin, prevPosition, prevMoves);
 
-      if (!_moveExposesKing && _isLegalSquare) {
+      if (!_moveExposesKing && _isLegalMove) {
         next();
       } else {
         res.status(401).send('No hacks allowed. You must make a legal move.');
