@@ -1,8 +1,6 @@
 const {
-  isPawn,
-  isEqual,
   isCastling,
-  getCastleSideRook,
+  isLegalCastle,
   isDiagonalPawnMove,
   isSquareOccupied,
   isEnPassant,
@@ -10,37 +8,25 @@ const {
 } = require("../utilities/index");
 
 module.exports = function isValidException(piece, origin, destin, position, moves) {
-  switch (piece) {
-    case 'p': {
+
+  switch (piece.toUpperCase()) {
+    case 'P': {
       const _isDiagonalPawnMove = isDiagonalPawnMove(piece, origin, destin);
-      const _isSquareOccupied = isSquareOccupied(position, destin.row, destin.col)
-      const _isAlly = isAlly(piece, position[destin.row][destin.col])
-      const _isEnPassant = isEnPassant(piece, origin, destin, position, moves)
+      const _isSquareOccupied = isSquareOccupied(position, destin.row, destin.col);
+      const _isAlly = isAlly(piece, position[destin.row][destin.col]);
+      const _isEnPassant = isEnPassant(piece, origin, destin, position, moves);
 
       if (_isDiagonalPawnMove) {
-        if (_isSquareOccupied && !_isAlly) {
-          return true;
-        } else {
-          if (_isEnPassant) {
-            return true;
-          }
-        }
+        return (_isSquareOccupied && !_isAlly) || _isEnPassant;
       }
       return true;
     }
-    case 'k': {
-      if (isCastling(piece, origin, destin)) {
-        let rook = getCastleSideRook(piece, origin, destin);
-        for (let i = 0; i < moves.length - 1; i++) {
-          let [pastOrigin, pastDestin, pastPiece] = moves[i];
-          if (
-            isEqual(pastPiece, piece)
-            || (isEqual(rook.row, pastOrigin.row) && isEqual(rook.col, pastOrigin.col))
-          ) {
-            return false;
-          }
-        }
-        return true;
+    case 'K': {
+      const _isCastling = isCastling(piece, origin, destin);
+      const _isLegalCastle = isLegalCastle(piece, origin, destin, moves);
+
+      if (_isCastling) {
+        return _isLegalCastle;
       }
       return true;
     }
