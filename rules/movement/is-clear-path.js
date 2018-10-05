@@ -1,6 +1,7 @@
 module.exports = function isClearPath(piece, origin, destin, position) {
 
   if (piece.toLowerCase() === 'n') return true;
+
   let isClear = true;
   let y = origin.row;
   let x = origin.col;
@@ -14,9 +15,7 @@ module.exports = function isClearPath(piece, origin, destin, position) {
     path.push({ y, x });
   }
 
-  if (path.length === 1) {
-    return isClear;
-  }
+  if (path.length === 1) return isClear;
 
   path.forEach((square) => {
     const { y, x } = square;

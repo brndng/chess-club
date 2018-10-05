@@ -1,103 +1,89 @@
 module.exports = {
   K: (origin, destin, position) => {
-    let isBaseMove = false;
-
     if (destin.row === origin.row) {
       if (Math.abs(destin.col - origin.col) === 1 || Math.abs(destin.col - origin.col) === 2) {
-        isBaseMove = true;
+        return true;
       }
     }
-
     if (Math.abs(destin.row - origin.row) === 1) {
       if (destin.col === origin.col || Math.abs(destin.col - origin.col) === 1) {
-        isBaseMove = true;
+        return true;
       }
     }
-
-    return isBaseMove;
+    return false;
   },
-  Q: (origin, destin, position) => {
-    let isBaseMove = false;
 
+  Q: (origin, destin, position) => {
     if (
       origin.col === destin.col
       || origin.row === destin.row
       || Math.abs(destin.col - origin.col) === Math.abs(destin.row - origin.row)
     ) {
-      isBaseMove = true;
+      return true;
     }
-
-    return isBaseMove;
+    return false;
   },
+
   B: (origin, destin, position) => {
-    let isBaseMove = false;
-
     if (Math.abs(destin.col - origin.col) === Math.abs(destin.row - origin.row)) {
-      isBaseMove = true;
+      return true;
     }
-
-    return isBaseMove;
+    return false;
   },
-  N: (origin, destin, position) => {
-    let isBaseMove = false;
 
+  N: (origin, destin, position) => {
     if (
       (Math.abs(destin.col - origin.col) === 1 && Math.abs(destin.row - origin.row) === 2)
       || (Math.abs(destin.col - origin.col) === 2 && Math.abs(destin.row - origin.row) === 1)
     ) {
-      isBaseMove = true;
+      return true;
     }
-
-    return isBaseMove;
+    return false;
   },
+
   R: (origin, destin, position) => {
-    let isBaseMove = false;
-
-
     if (origin.col === destin.col || origin.row === destin.row) {
-      isBaseMove = true;
+      return true;
     }
-
-    return isBaseMove;
+    return false;
   },
-  P: (origin, destin, position) => {
-    let isBaseMove = false;
 
-    if (position[origin.row][origin.col] === 'P') { //white
-      if (destin.col === origin.col) { //forward
-        if (origin.row === 6) { //og square
+  P: (origin, destin, position) => {
+    if (position[origin.row][origin.col] === 'P') {
+      if (destin.col === origin.col) {
+        if (origin.row === 6) {
           if (destin.row - origin.row === -2 || destin.row - origin.row === -1) {
-            isBaseMove = true;
+            return true;
           }
-        } else { //not og
+        } else {
           if (destin.row - origin.row === -1) {
-            isBaseMove = true;
+            return true;
           }
         }
-      } else {  //diagonal
+      } else {
         if (destin.row - origin.row === -1 && Math.abs(destin.col - origin.col) === 1) {
-          isBaseMove = true;
+          return true;
         }
       }
     }
 
-    if (position[origin.row][origin.col] === 'p') { //black
-      if (destin.col === origin.col) { //forward
-        if (origin.row === 1) { //og square
+    if (position[origin.row][origin.col] === 'p') {
+      if (destin.col === origin.col) {
+        if (origin.row === 1) {
           if (destin.row - origin.row === 2 || destin.row - origin.row === 1) {
-            isBaseMove = true;
+            return true;
           }
         } else {
           if (destin.row - origin.row === 1) {
-            isBaseMove = true;
+            return true;
           }
         }
       } else {
         if (destin.row - origin.row === 1 && Math.abs(destin.col - origin.col) === 1) {
-          isBaseMove = true;
+          return true;
         }
       }
     }
-    return isBaseMove;
+    return false;
   },
 };

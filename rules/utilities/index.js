@@ -248,6 +248,20 @@ const isCastling = (piece, origin, destin) => {
   return piece.toLowerCase() === 'k' && Math.abs(destin.col - origin.col) === 2;
 }
 
+const isLegalCastle = (piece, origin, destin, moves) => {
+  let rook = getCastleSideRook(piece, origin, destin);
+  for (let i = 0; i < moves.length - 1; i++) {
+    let [pastOrigin, pastDestin, pastPiece] = moves[i];
+    if (
+      isEqual(pastPiece, piece)
+      || (isEqual(rook.row, pastOrigin.row) && isEqual(rook.col, pastOrigin.col))
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
 const getCastleSideRook = (piece, origin, destin) => {
   let rook;
   if (isWhite(piece)) {
@@ -338,5 +352,6 @@ module.exports = {
   isSquareOccupied,
   isEnPassant,
   isAlly,
-  hasExceptions
+  hasExceptions,
+  isLegalCastle
 }
