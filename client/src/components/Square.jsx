@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Piece from './Piece.jsx';
 import { selectPiece, updatePosition, loadPromotingMove, loadSquareDetails } from '../actions/';
-import verifyLegalSquare from '../../../rules/movement/';
 import { isWhite, convertToChessNotation, setSquareColor, isEqual } from '../../../rules/utilities/'
 import {
   willMoveGiveCheck,
@@ -48,7 +47,6 @@ class Square extends Component {
   isVisualized() {
     const { coords, selection, showVisualizer } = this.props;
     if (selection !== null) {
-
       return showVisualizer && isCandidate(coords, selection.candidateSquares);
     }
   }

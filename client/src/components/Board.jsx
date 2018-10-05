@@ -9,7 +9,7 @@ class Board extends Component {
   constructor(props) {
     super(props);
     this.moveSound = new SoundPlayer(srcMove);
-    this.captureSound = new SoundPlayer(srcSound);
+    this.captureSound = new SoundPlayer(srcCapture);
   }
 
   componentDidUpdate(prevProps) {
