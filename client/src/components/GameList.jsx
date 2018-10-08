@@ -1,26 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
-import axios from 'axios';
-import Game from './Game.jsx';
-import { loadGames } from '../actions/';
-import { formatDate } from '../../../rules/utilities/';
-
-axios.defaults.withCredentials = true;
+import adapter from "../adapter";
+import Game from "./Game.jsx";
+import { loadGames } from "../actions/";
+import { formatDate } from "../../../rules/utilities/";
 
 class GameList extends Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   async componentDidMount() {
     const { loadGames, user } = this.props;
     const { id } = user;
-    const games = await axios(`${process.env.HOST}/games/all/${id}`)
+    const games = await adapter.get(`/games/all/${id}`);
     loadGames(games.data);
   }
-
 
   render() {
     const { userGames, game } = this.props;
@@ -37,29 +34,37 @@ class GameList extends Component {
         <br />
         <div className="game-list-content">
           <ul>
-            {userGames.map((game) => {
-              return !game.completed && (
-                <li key={game.id}>
-                  <Link to={{ pathname: `/game/${game.id}` }}>
-                    {game.whiteUsername} <small>{'vs'}</small> {game.blackUsername}
-                  </Link>
-                  <span><small>{formatDate(game.createdAt)}</small></span>
-                </li>
+            {userGames.map(game => {
+              return (
+                !game.completed && (
+                  <li key={game.id}>
+                    <Link to={{ pathname: `/game/${game.id}` }}>
+                      {game.whiteUsername} <small>{"vs"}</small>{" "}
+                      {game.blackUsername}
+                    </Link>
+                    <span>
+                      <small>{formatDate(game.createdAt)}</small>
+                    </span>
+                  </li>
+                )
               );
             })}
           </ul>
         </div>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ user, userGames, game }) => {
   return { user, userGames, game };
-}
+};
 
-const matchDispatchToProps = (dispatch) => {
+const matchDispatchToProps = dispatch => {
   return bindActionCreators({ loadGames }, dispatch);
-}
+};
 
-export default connect(mapStateToProps, matchDispatchToProps)(GameList);
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(GameList);

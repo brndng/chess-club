@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { printCapturedPieces } from '../../../rules/utilities/';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { printCapturedPieces } from "../../../rules/utilities/";
 
 class PlayerCard extends Component {
   constructor(props) {
@@ -10,10 +10,13 @@ class PlayerCard extends Component {
   generateClasses() {
     const { user, opponent, player, isMyTurn } = this.props;
     return [
-      'player-card-container',
-      ((isMyTurn && player.id === user.id) || (!isMyTurn && player.id === opponent.id))
-      && 'is-my-turn',
-    ].filter(cls => !!cls).join(' ');
+      "player-card-container",
+      ((isMyTurn && player.id === user.id) ||
+        (!isMyTurn && player.id === opponent.id)) &&
+        "is-my-turn"
+    ]
+      .filter(cls => !!cls)
+      .join(" ");
   }
 
   render() {
@@ -39,8 +42,15 @@ class PlayerCard extends Component {
   }
 }
 
-const mapStateToProps = ({ user, opponent, game, moves, whiteToMove, isMyTurn }) => {
-  return { user, opponent, game, moves, whiteToMove, isMyTurn }
-}
+const mapStateToProps = ({
+  user,
+  opponent,
+  game,
+  moves,
+  whiteToMove,
+  isMyTurn
+}) => {
+  return { user, opponent, game, moves, whiteToMove, isMyTurn };
+};
 
 export default connect(mapStateToProps)(PlayerCard);

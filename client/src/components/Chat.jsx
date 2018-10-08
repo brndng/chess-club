@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Chat extends Component {
   constructor(props) {
@@ -10,11 +10,27 @@ class Chat extends Component {
     return (
       <div className="chat-container">
         <div className="chat-output">
-          {messages.map((message, i) => <li key={i}><strong>{message.username}</strong>{`: ${message.text}`}</li>)}
+          {messages.map((message, i) => (
+            <li key={i}>
+              <strong>{message.username}</strong>
+              {`: ${message.text}`}
+            </li>
+          ))}
         </div>
         <div className="chat-message">
-          <form onSubmit={(e) => { sendChat(e) }}>
-            <input type="text" placeholder="message" value={message} onChange={(e) => { setText(e) }} />
+          <form
+            onSubmit={e => {
+              sendChat(e);
+            }}
+          >
+            <input
+              type="text"
+              placeholder="message"
+              value={message}
+              onChange={e => {
+                setText(e);
+              }}
+            />
             <button type="submit">➤</button>
           </form>
         </div>

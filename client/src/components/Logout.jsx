@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import { authenticate } from '../actions/';
-
-axios.defaults.withCredentials = true;
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
+import adapter from "../adapter";
+import { authenticate } from "../actions/";
 
 class Logout extends Component {
   constructor(props) {
@@ -14,9 +12,9 @@ class Logout extends Component {
 
   async logout() {
     const { authenticate, history } = this.props;
-    const response = await axios.get(`${process.env.HOST}/users/logout`);
+    const response = await adapter.get(`/users/logout`);
     authenticate(false);
-    history.push('/');
+    history.push("/");
   }
 
   render() {
@@ -30,10 +28,15 @@ class Logout extends Component {
 
 const mapStateToProps = ({ isAuthenticated }) => {
   return { isAuthenticated };
-}
+};
 
-const matchDispatchToProps = (dispatch) => {
+const matchDispatchToProps = dispatch => {
   return bindActionCreators({ authenticate }, dispatch);
-}
+};
 
-export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Logout));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    matchDispatchToProps
+  )(Logout)
+);

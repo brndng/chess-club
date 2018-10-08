@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import Modal from './Modal.jsx';
-import { genRandomColor } from '../../../rules/utilities';
-
-axios.defaults.withCredentials = true;
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import adapter from "../adapter";
+import Modal from "./Modal.jsx";
+import { genRandomColor } from "../../../rules/utilities";
 
 class ChallengeCreator extends Component {
   constructor(props) {
@@ -15,8 +13,8 @@ class ChallengeCreator extends Component {
       gameId: null,
       black: null,
       white: null,
-      whiteUsername: '',
-      blackUsername: '',
+      whiteUsername: "",
+      blackUsername: ""
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -25,13 +23,13 @@ class ChallengeCreator extends Component {
 
   showModal() {
     this.setState({
-      showModal: true,
+      showModal: true
     });
   }
 
   hideModal() {
     this.setState({
-      showModal: false,
+      showModal: false
     });
   }
 
@@ -42,35 +40,38 @@ class ChallengeCreator extends Component {
 
   setMatchup(color) {
     const { user, opponent, whiteUsername, blackUsername } = this.props;
-    if (color === 'white') {
+    if (color === "white") {
       this.setState({
         white: user.id,
         black: opponent.id,
         whiteUsername: user.username,
-        blackUsername: opponent.username,
+        blackUsername: opponent.username
       });
     } else {
       this.setState({
         white: opponent.id,
         black: user.id,
         whiteUsername: opponent.username,
-        blackUsername: user.username,
+        blackUsername: user.username
       });
     }
   }
 
   async createGame() {
     const { white, black, whiteUsername, blackUsername } = this.state;
-    const newGame = await axios.post(`${process.env.HOST}/games/challenge`, {
+    const newGame = await adapter.post(`/games/challenge`, {
       white,
       black,
       whiteUsername,
-      blackUsername,
+      blackUsername
     });
     if (newGame) {
-      this.setState({
-        gameId: newGame.data.id,
-      }, () => this.showModal());
+      this.setState(
+        {
+          gameId: newGame.data.id
+        },
+        () => this.showModal()
+      );
     }
   }
 
@@ -81,9 +82,9 @@ class ChallengeCreator extends Component {
     const isDisabled = !(white !== null && black !== null);
     const selectedOpponent = opponent
       ? opponent.username
-      : 'Please select an opponent';
-    const modal = showModal
-      && <div >
+      : "Please select an opponent";
+    const modal = showModal && (
+      <div>
         <Modal>
           <div className="modal">
             <div className="modal-btn-container">
@@ -97,26 +98,41 @@ class ChallengeCreator extends Component {
             </div>
           </div>
         </Modal>
-      </div>;
+      </div>
+    );
 
     return (
       <div className="challenge-creator">
-        <div className="challenge-creator-header"><p>▧ NEW GAME</p></div>
+        <div className="challenge-creator-header">
+          <p>▧ NEW GAME</p>
+        </div>
         <div className="challenge-creator-content">
-          <div><span>{`OPPONENT: `}</span><span><strong>{selectedOpponent}</strong></span></div>
+          <div>
+            <span>{`OPPONENT: `}</span>
+            <span>
+              <strong>{selectedOpponent}</strong>
+            </span>
+          </div>
           <div className="slct-container">
             <span>{`I PLAY AS: `}</span>
-            <select className="slct" onChange={(e) => this.setMatchup(e.target.value)} disabled={opponent === null}>
-              <option value={null} defaultValue>SELECT COLOR</option>
-              <option value="white">♔  WHITE</option>
-              <option value="black">♚  BLACK</option>
-              <option value={random}>�  RANDOM</option>
+            <select
+              className="slct"
+              onChange={e => this.setMatchup(e.target.value)}
+              disabled={opponent === null}
+            >
+              <option value={null} defaultValue>
+                SELECT COLOR
+              </option>
+              <option value="white">♔ WHITE</option>
+              <option value="black">♚ BLACK</option>
+              <option value={random}>� RANDOM</option>
             </select>
           </div>
-
         </div>
         <div className="challenge-button">
-          <button onClick={() => this.createGame()} disabled={isDisabled}>CHALLENGE</button>
+          <button onClick={() => this.createGame()} disabled={isDisabled}>
+            CHALLENGE
+          </button>
         </div>
         {modal}
       </div>
@@ -126,6 +142,6 @@ class ChallengeCreator extends Component {
 
 const mapStateToProps = ({ user, opponent }) => {
   return { user, opponent };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(ChallengeCreator));

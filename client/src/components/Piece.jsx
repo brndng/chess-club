@@ -1,15 +1,17 @@
-import React from 'react';
-import { chessmen } from '../../../rules/utilities';
+import React from "react";
+import { chessmen } from "../../../rules/utilities";
 
-const Piece = (props) => {
+const Piece = props => {
   const { isMyTurn, whiteToMove, piece } = props;
   const { symbol, color } = chessmen[piece];
   const classes = [
     color,
-    (isMyTurn && whiteToMove === (piece === piece.toUpperCase())) && 'is-my-turn',
-  ].filter(cls => !!cls).join(' ');
+    isMyTurn && whiteToMove === (piece === piece.toUpperCase()) && "is-my-turn"
+  ]
+    .filter(cls => !!cls)
+    .join(" ");
 
-  return <div className={classes}>{symbol}</div>
-}
+  return <div className={classes}>{symbol}</div>;
+};
 
 export default Piece;

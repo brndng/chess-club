@@ -9,11 +9,10 @@
   },
   "proxy": "http://localhost:3000",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "setup": "concurrently --kill-others-on-fail \"npm install\" \"cd client && npm install\"",
-    "client:dev": "cd client && npm run build:dev",
-    "server:dev": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server:dev\" \"npm run client:dev\"",
+    "setup": "npm install && cd client && npm install",
+    "dev:client": "cd client && npm run build:dev",
+    "dev:server": "nodemon server.js",
+    "dev": "npm-run-all --parallel dev:*",
     "start": "node server.js",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build:prd"
   },
@@ -45,7 +44,5 @@
     "sequelize": "^4.38.0",
     "socket.io": "^2.1.1"
   },
-  "devDependencies": {
-    "concurrently": "^3.6.0"
-  }
+  "devDependencies": {}
 }

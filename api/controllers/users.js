@@ -1,5 +1,5 @@
-const { Op } = require('sequelize');
-const bcrypt = require('bcryptjs');
+const { Op } = require("sequelize");
+const bcrypt = require("bcryptjs");
 const User = global.db.User;
 
 module.exports = {
@@ -11,26 +11,26 @@ module.exports = {
 
     try {
       const user = await User.findOne({
-        where: { username },
+        where: { username }
       });
       if (user) {
         isUsernameTaken = true;
       }
     } catch (err) {
-      console.log('​err from registerUser', err);
+      console.log("​err from registerUser", err);
     }
 
     if (isUsernameTaken) {
-      res.status(401).send('Sorry, that username is already taken.');
+      res.status(401).send("Sorry, that username is already taken.");
     } else {
       try {
         const user = await User.create({
           username,
-          password,
+          password
         });
-        res.status(200).send('Your account has been created!');
+        res.status(200).send("Your account has been created!");
       } catch (err) {
-        console.log('err from createUser', err);
+        console.log("err from createUser", err);
       }
     }
   },
@@ -38,35 +38,38 @@ module.exports = {
     const { username, password } = req.body;
     try {
       const user = await User.findOne({
-        where: { username },
+        where: { username }
       });
-			if (!user) {
-				res.status(401).send('Incorrect username.');
-			}
-			if (user) {
-        const isVerified = await bcrypt.compare(password, user.dataValues.password);
+      if (!user) {
+        res.status(401).send("Incorrect username.");
+      }
+      if (user) {
+        const isVerified = await bcrypt.compare(
+          password,
+          user.dataValues.password
+        );
         if (!isVerified) {
-          res.status(401).send('Incorrect password.');
+          res.status(401).send("Incorrect password.");
         }
         req.session.user = user.id;
-        const userData = { id: user.id, username: user.username }
+        const userData = { id: user.id, username: user.username };
         res.send(userData);
-			}
+      }
     } catch (err) {
       console.log(err);
     }
   },
   fetchCurrentUser: async (req, res) => {
-    if (req.session.user) { 
+    if (req.session.user) {
       const id = req.session.user;
       try {
         const user = await User.findOne({
-          where: { id },
+          where: { id }
         });
-        const userData = { id: user.id, username: user.username }
+        const userData = { id: user.id, username: user.username };
         res.send(userData);
       } catch (err) {
-        console.log('err from fetchCurrentUser')
+        console.log("err from fetchCurrentUser");
       }
     } else {
       res.status(401).end();
@@ -80,11 +83,11 @@ module.exports = {
     const { id } = req.params;
     try {
       const user = await User.findOne({
-        where: { id },
+        where: { id }
       });
       res.send(user);
     } catch (err) {
-      console.log('err from fetchProfile', err);
+      console.log("err from fetchProfile", err);
     }
   },
   fetchPlayers: async (req, res) => {
@@ -92,13 +95,13 @@ module.exports = {
       const data = await User.findAll();
       const players = data.map(player => {
         return {
-          id: player.id, 
-          username: player.username,
+          id: player.id,
+          username: player.username
         };
-      })
+      });
       res.send(players);
     } catch (err) {
-      console.log('err from createUser', err);
+      console.log("err from createUser", err);
     }
   }
 };

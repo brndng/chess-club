@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import axios from 'axios';
-import Modal from './Modal.jsx';
-import { declareGameOver } from '../actions/';
-
-axios.defaults.withCredentials = true;
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import adapter from "../adapter";
+import Modal from "./Modal.jsx";
+import { declareGameOver } from "../actions/";
 
 class Resignation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showModal: false,
-      player: '',
-      view: 'confirm',
+      player: "",
+      view: "confirm"
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -22,27 +20,30 @@ class Resignation extends Component {
 
   componentDidMount() {
     const { socket, id, declareGameOver, game } = this.props;
-    socket.on('resign', (player) => {
-      this.setState({
-        player,
-        view: 'final',
-      }, () => {
-        this.showModal();
-        declareGameOver('resign', game, player.id);
-      });
-    })
+    socket.on("resign", player => {
+      this.setState(
+        {
+          player,
+          view: "final"
+        },
+        () => {
+          this.showModal();
+          declareGameOver("resign", game, player.id);
+        }
+      );
+    });
   }
 
   showModal() {
     this.setState({
-      showModal: true,
+      showModal: true
     });
   }
 
   hideModal() {
     this.setState({
       showModal: false,
-      view: 'confirm',
+      view: "confirm"
     });
   }
 
@@ -50,47 +51,49 @@ class Resignation extends Component {
     const { id, user, game, socket } = this.props;
     const { white, black } = game;
     const opponentId = user.id === white ? black : white;
-    const resignation = await axios.put(`${process.env.HOST}/games/resign`, {
+    const resignation = await adapter.put(`/games/resign`, {
       id,
       user,
       white,
       completed: true,
-      winner: opponentId,
+      winner: opponentId
     });
     if (resignation.status === 200) {
-      socket.emit('resign', { id, user });
+      socket.emit("resign", { id, user });
     }
   }
 
   render() {
     const { completed } = this.props;
     const { showModal, view, player } = this.state;
-    const onClick = completed
-      ? null
-      : () => this.showModal();
-    const modal = showModal &&
+    const onClick = completed ? null : () => this.showModal();
+    const modal = showModal && (
       <div>
         <Modal>
           <div className="modal">
             <div className="modal-btn-container">
-              {view !== 'confirm' &&
-                <button onClick={() => this.hideModal()}>╳</button>}
+              {view !== "confirm" && (
+                <button onClick={() => this.hideModal()}>╳</button>
+              )}
             </div>
-            {view === 'confirm'
-              ? <div className="modal-dialogue">
+            {view === "confirm" ? (
+              <div className="modal-dialogue">
                 <p> Are you sure you want to resign? </p>
                 <div className="modal-dialogue-btn-container">
                   <button onClick={() => this.resign()}>YES</button>
                   <button onClick={() => this.hideModal()}>NO</button>
                 </div>
               </div>
-              : <div className="modal-dialogue">
+            ) : (
+              <div className="modal-dialogue">
                 <p> {player.username} has resigned! </p>
-                <div className="modal-dialogue-btn-container"></div>
-              </div>}
+                <div className="modal-dialogue-btn-container" />
+              </div>
+            )}
           </div>
         </Modal>
       </div>
+    );
 
     return (
       <div>
@@ -102,11 +105,14 @@ class Resignation extends Component {
 }
 
 const mapStateToProps = ({ user, completed, game }) => {
-  return { user, completed, game }
-}
+  return { user, completed, game };
+};
 
-const matchDispatchToProps = (dispatch) => {
+const matchDispatchToProps = dispatch => {
   return bindActionCreators({ declareGameOver }, dispatch);
-}
+};
 
-export default connect(mapStateToProps, matchDispatchToProps)(Resignation);
+export default connect(
+  mapStateToProps,
+  matchDispatchToProps
+)(Resignation);

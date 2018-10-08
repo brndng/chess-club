@@ -1,12 +1,18 @@
-html, body, #app-root, .route-container {
+html,
+body,
+#app-root,
+.route-container {
   height: 100%;
   width: 100%;
   background-color: #1d1e22;
-  font-family: Arial, Helvetica, sans-serif; 
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 1.2px;
 }
 
-html, body, div, section {
+html,
+body,
+div,
+section {
   box-sizing: border-box;
 }
 
@@ -46,7 +52,7 @@ button:focus {
   flex: 1;
   align-items: center;
   background-color: #1d1e22;
-  background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
+  background-image: url("https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g=");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -70,19 +76,19 @@ button:focus {
   justify-content: space-between;
   width: 100%;
   height: 80px;
-  background-color: #CBC6BD;
+  background-color: #cbc6bd;
   border-radius: 1px;
   color: black;
 }
 
 .game-list-header p {
-  color: #241C15;
+  color: #241c15;
   width: 312px;
   padding: 16px 8px 0px 8px;
   margin: 0px;
   display: flex;
   justify-content: flex-start;
-  font-size: 20px; 
+  font-size: 20px;
 }
 
 .content-header {
@@ -111,14 +117,14 @@ button:focus {
   display: flex;
   flex: 1;
   overflow-y: scroll;
-  background-color: #ECECE8;
+  background-color: #ecece8;
 }
 
 .game-list-content ul {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin: 0; 
+  margin: 0;
   padding: 8px 0px 8px 0px;
   list-style: none;
   overflow: hidden;
@@ -140,7 +146,7 @@ button:focus {
 }
 
 .game-list-content span {
-  color: #6E6561;
+  color: #6e6561;
 }
 
 /* Players */
@@ -150,13 +156,13 @@ button:focus {
   flex-direction: row;
   justify-content: center;
   margin: auto;
-} 
+}
 
 .players-select {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #B2ADA4;
+  background-color: #b2ada4;
   width: 280px;
   border-radius: 1px;
 }
@@ -171,7 +177,7 @@ button:focus {
   border: none;
   padding: 8px 28px 8px 8px;
   font-size: 13px;
-  color: #6E6561;
+  color: #6e6561;
   outline: none;
   width: 248px;
   border-radius: 1px;
@@ -186,11 +192,11 @@ button:focus {
   background: transparent;
   border: none;
   border-radius: 1px;
-  color: #6E6561;
+  color: #6e6561;
 }
-  
+
 .players-invalid {
-  display: flex;  
+  display: flex;
   flex-direction: column;
   align-items: center;
   padding-right: 16px;
@@ -205,9 +211,9 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  border: 1px solid #ECECE8;
+  border: 1px solid #ecece8;
   height: 100%;
-  margin: 0px 16px 16px 16px;  
+  margin: 0px 16px 16px 16px;
 }
 
 .players-default p {
@@ -232,7 +238,7 @@ button:focus {
   overflow: auto;
   padding: 8px 0px 8px 16px;
   margin: 16px 0px 0px 0px;
-  background-color: #ECECE8;
+  background-color: #ecece8;
 }
 
 .players-list li {
@@ -241,19 +247,19 @@ button:focus {
   justify-content: space-between;
   list-style: none;
   padding-top: 8px;
-} 
+}
 
 .players-list li a {
   text-decoration: none;
   font-size: 15px;
   color: #383838;
 }
-        
+
 .players-challenge {
   display: flex;
   flex-direction: row;
-  width: 420px;      
-  background-color: #ECECE8;
+  width: 420px;
+  background-color: #ecece8;
   margin-left: 42px;
 }
 
@@ -312,7 +318,7 @@ button:focus {
   display: flex;
   justify-content: center;
   flex: 1;
-  border-top: 1px solid #CBC6BD;
+  border-top: 1px solid #cbc6bd;
 }
 
 .challenge-button button {
@@ -347,7 +353,7 @@ button:focus {
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
-  background-color: #593B2E;
+  background-color: #593b2e;
   opacity: 1;
   border: 1px solid black;
   border-radius: 4px;
@@ -396,16 +402,15 @@ button:focus {
   font-size: 14px;
   height: 64px;
   transition: ease-out 0.4s;
-  color: #593B2E;
+  color: #593b2e;
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
-
 
 .file {
   display: flex;
@@ -414,16 +419,15 @@ button:focus {
   font-size: 14px;
   width: 64px;
   transition: ease-out 0.4s;
-  color: #593B2E;
+  color: #593b2e;
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
-
 
 .is-displayed {
   color: #eec28c;
@@ -435,13 +439,13 @@ button:focus {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  background-color: #F2CB9B;
+  background-color: #f2cb9b;
   /* margin: 0 auto; */
   padding: 4px;
-  -webkit-user-select: none; /* Chrome/Safari */        
+  -webkit-user-select: none; /* Chrome/Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+ */
-  user-select: none;  
+  user-select: none;
 }
 
 .board.is-my-turn:hover {
@@ -463,11 +467,11 @@ button:focus {
 }
 
 .square:focus {
-  outline: none; 
-}  
+  outline: none;
+}
 
 .square.is-selected::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   height: 100%;
@@ -478,17 +482,17 @@ button:focus {
 }
 
 .square.in-check::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #A8434F;
+  background-color: #a8434f;
 }
 
 .square.is-visualized::after {
-  content: '';
+  content: "";
   position: absolute;
   border-radius: 50%;
   border: 0.5px solid #383838;
@@ -503,7 +507,7 @@ button:focus {
 }
 
 #black {
-  background-color: #AA7047;
+  background-color: #aa7047;
 }
 
 #white {
@@ -527,8 +531,8 @@ button:focus {
   transform: scale(1.25);
 }
 
-.piece.white {      
-  color: #ECECE8;
+.piece.white {
+  color: #ecece8;
   text-shadow: 1px 1px 1px black;
 }
 
@@ -552,7 +556,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #B2ADA4;
+  background: #b2ada4;
   padding: 12px;
   border: 1px solid black;
   border-radius: 2px;
@@ -578,32 +582,30 @@ button:focus {
   letter-spacing: 1px;
   border-radius: 2px;
   background-color: #383838;
-  color: #F0EBE8;
+  color: #f0ebe8;
   font-size: 12px;
   width: 100%;
-  border: 0.5px solid #ECECE8;
+  border: 0.5px solid #ecece8;
 }
 
 .player-card-container {
-  background-color: #B2ADA4;
+  background-color: #b2ada4;
   width: 100%;
   padding: 12px;
   border: 1px solid black;
-  
-
 }
 
 .player-card-container.is-my-turn {
-  background-color: #61887A;
+  background-color: #61887a;
 }
 
 .player-card {
   display: flex;
   flex-direction: column;
-  background-color: #ECECE8;
-  font-family: Arial, Helvetica, sans-serif; 
+  background-color: #ecece8;
+  font-family: Arial, Helvetica, sans-serif;
   padding: 4px;
-  border: 4px solid #ECECE8;
+  border: 4px solid #ecece8;
   border-radius: 1px;
   height: 58px;
 
@@ -634,7 +636,7 @@ button:focus {
 
 .captured-piece {
   font-size: 16px;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
 }
 
 .game-display {
@@ -654,7 +656,6 @@ button:focus {
   flex-direction: row;
   justify-content: flex-start;
   width: 100%;
-  
 }
 
 .game-display-toggle li {
@@ -664,16 +665,15 @@ button:focus {
   align-items: center;
   list-style: none;
   width: 36%;
-  border-bottom: 2px solid #B2ADA4;
+  border-bottom: 2px solid #b2ada4;
 }
 
 .game-display-toggle li.light-bkgrd {
-  
-  background-color:#ECECE8;
+  background-color: #ecece8;
 }
 
 .game-display-toggle li.dark-bkgrd {
-  background-color: #B2ADA4;
+  background-color: #b2ada4;
 }
 
 .game-display-toggle li span {
@@ -687,7 +687,6 @@ button:focus {
   font-size: 15px;
   padding: 2px 8px;
   text-decoration: none;
-  
 }
 
 /* MoveHistory */
@@ -702,11 +701,10 @@ button:focus {
   overflow-y: scroll;
   background: white;
   padding: 16px;
-  background-color: #ECECE8;
+  background-color: #ecece8;
   font-size: 15px;
   border-radius: 1px;
   height: 224px;
-  
 }
 
 .move-history-output ol {
@@ -715,29 +713,29 @@ button:focus {
   padding-left: 24px;
 }
 
-  .move-history-row {
-    padding: 2px 0px;
-    margin: 0px 0px 4px 0px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
+.move-history-row {
+  padding: 2px 0px;
+  margin: 0px 0px 4px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
-  .move-pair {
-    display: flex;
-    justify-content: flex-start;
-    font-size: 16px;
-    font-family: Arial, Helvetica, sans-serif; 
-    line-height: 1em;
-    margin: 0px;
-    padding: 2px;
-    flex: 1;
-    color: #383838;
-  }
+.move-pair {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1em;
+  margin: 0px;
+  padding: 2px;
+  flex: 1;
+  color: #383838;
+}
 
-  .move-pair.black {
-    margin-left: 16px;
-  }
+.move-pair.black {
+  margin-left: 16px;
+}
 
 .result-container {
   margin-top: auto;
@@ -746,7 +744,7 @@ button:focus {
   font-size: 14px;
   padding: 2px;
 }
-      
+
 /* Chat */
 .chat-container {
   display: flex;
@@ -757,7 +755,7 @@ button:focus {
 .chat-output {
   flex: 1;
   overflow-y: auto;
-  background-color: #ECECE8;
+  background-color: #ecece8;
   padding: 12px;
   font-size: 15px;
   color: #383838;
@@ -771,10 +769,10 @@ button:focus {
 .chat-message {
   display: flex;
   flex-direction: row;
-  border: 1px solid #A0A0A0;
+  border: 1px solid #a0a0a0;
 }
 
-.chat-message form{
+.chat-message form {
   width: 100%;
   display: flex;
 }
@@ -818,7 +816,7 @@ button:focus {
   list-style: none;
   padding: 0;
   margin: 0;
-} 
+}
 
 .nav-left {
   display: flex;
@@ -828,14 +826,14 @@ button:focus {
   display: flex;
   align-items: center;
   padding: 0px;
-  color: #F0EBE8;
+  color: #f0ebe8;
 }
 
 .nav-left li a {
   text-decoration: none;
   text-align: center;
   font-size: 40px;
-  color: #F0EBE8;
+  color: #f0ebe8;
   display: block;
   padding: 24px;
 }
@@ -857,19 +855,21 @@ button:focus {
   text-decoration: none;
   text-align: center;
   font-size: 14px;
-  color: #E6E0DA;
+  color: #e6e0da;
   display: block;
   padding: 24px;
   position: relative;
   transition: color 0.1s, background-color 0.1s, padding 0.2s ease-out;
 }
 
-.nav-right a:hover, .nav-right a:focus, .nav-right a:active {
-  color: #61887A;
+.nav-right a:hover,
+.nav-right a:focus,
+.nav-right a:active {
+  color: #61887a;
 }
 
 .nav-right a::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 1px;
   left: 0;
@@ -885,7 +885,8 @@ button:focus {
   background-color: floralwhite;
 }
 
-.nav-right a:hover::before, .nav-right a:focus::before {
+.nav-right a:hover::before,
+.nav-right a:focus::before {
   transform-origin: left top;
   transform: scale(1, 1);
 }
@@ -896,10 +897,10 @@ button:focus {
   justify-content: space-between;
   background: transparent;
   width: 16%;
-} 
+}
 
 .welcome {
-  color: #F0EBE8;
+  color: #f0ebe8;
   margin-top: 64px;
   position: relative;
 }
@@ -931,35 +932,40 @@ button:focus {
 }
 
 @-webkit-keyframes slide {
-  100% { left: 0px; }
+  100% {
+    left: 0px;
+  }
 }
 
 @keyframes slide {
-  100% { left: 0px; }
+  100% {
+    left: 0px;
+  }
 }
 
 .icon {
   color: #383838;
-} 
+}
 
 /* Logout */
 .logout {
   display: flex;
   flex-shrink: 0;
-  text-align: center; 
+  text-align: center;
   margin-bottom: 24px;
 }
 
 .logout a {
   text-decoration: none;
   text-align: center;
-  color: #F0EBE8;
+  color: #f0ebe8;
   display: block;
   font-size: 14px;
   cursor: pointer;
 }
 
-.logout a:hover, .logout a:focus {
+.logout a:hover,
+.logout a:focus {
   color: #999;
 }
 
@@ -978,13 +984,13 @@ button:focus {
   justify-content: flex-end;
   align-items: center;
   background-color: #1d1e22;
-  background-image: url('https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g='); 
+  background-image: url("https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g=");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: lighten;
   margin-left: 16%;
-  opacity: 0.6;   
+  opacity: 0.6;
 }
 
 .login-form {
@@ -999,18 +1005,17 @@ button:focus {
   border-radius: 2px;
   margin-right: 472.5px;
   transition: ease-out 0.2s;
-} 
+}
 
 .login-form.login-view {
   background-color: black;
-  opacity: .9;
+  opacity: 0.9;
 }
 
 .login-form.signup-view {
-  background-color: #ECECE8;
-  opacity: .9;
+  background-color: #ecece8;
+  opacity: 0.9;
 }
-
 
 .login-form span {
   font-size: 15px;
@@ -1024,9 +1029,8 @@ button:focus {
 }
 
 .login-form.signup-view span {
-  color: #AA7047;
+  color: #aa7047;
 }
-
 
 .login-form-content {
   display: flex;
@@ -1080,7 +1084,6 @@ button:focus {
   border: none;
   opacity: 1;
   letter-spacing: 0.5px;
-
 }
 
 .login-form-submit.login-view button {
@@ -1118,7 +1121,9 @@ button:focus {
   height: 16px;
 }
 
-.switch input {display:none;}
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -1127,7 +1132,7 @@ button:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #B2ADA4;
+  background-color: #b2ada4;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -1145,11 +1150,11 @@ button:focus {
 }
 
 input:checked + .slider {
-  background-color: #61887A;
+  background-color: #61887a;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #CBC6BD;
+  box-shadow: 0 0 1px #cbc6bd;
 }
 
 input:checked + .slider:before {
@@ -1173,7 +1178,7 @@ input:checked + .slider:before {
 }
 
 .modal {
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
   position: fixed;
   height: 100%;
   width: 100%;
@@ -1189,7 +1194,7 @@ input:checked + .slider:before {
   display: flex;
   justify-content: center;
   height: 32.1px;
-  margin-top: 32px; 
+  margin-top: 32px;
 }
 
 .modal-btn-container button {
@@ -1212,7 +1217,7 @@ input:checked + .slider:before {
   border-radius: 1px;
   padding: 12px;
   margin: auto;
-  font-family: Arial, Helvetica, sans-serif; 
+  font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 1px;
   font-size: 16px;
 }
@@ -1241,14 +1246,12 @@ input:checked + .slider:before {
   margin: 4px;
 }
 
-
-
 .game-assistance {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: 2px 0px;
-  background: #ECECE8;
+  background: #ecece8;
   /* margin-top: 8px; */
 }
 
@@ -1262,7 +1265,7 @@ input:checked + .slider:before {
 }
 
 .game-assistance div span {
-  font-size: 18px; 
+  font-size: 18px;
   letter-spacing: 0.5px;
   font-style: italic;
   font-variant: small-caps;

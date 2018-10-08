@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import Logout from './Logout.jsx';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link, withRouter } from "react-router-dom";
+import Logout from "./Logout.jsx";
 
 class SideBar extends Component {
   constructor(props) {
@@ -18,12 +18,12 @@ class SideBar extends Component {
         </div>
         <Logout />
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = ({ user }) => {
   return { user };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(SideBar));

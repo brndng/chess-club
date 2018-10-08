@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
 
-const modalRoot = document.getElementById('modal-root');
+const modalRoot = document.getElementById("modal-root");
 
 class Modal extends Component {
   constructor(props) {
     super(props);
-    this.el = document.createElement('div');
+    this.el = document.createElement("div");
   }
 
   componentDidMount() {
@@ -16,12 +16,9 @@ class Modal extends Component {
   componentWillUnmount() {
     modalRoot.removeChild(this.el);
   }
-  
+
   render() {
-    return ReactDOM.createPortal(
-      this.props.children,
-      this.el,
-    );
+    return ReactDOM.createPortal(this.props.children, this.el);
   }
 }
 
