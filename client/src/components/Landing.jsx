@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import SideBar from './SideBar.jsx';
+import React, { Component } from "react";
+import { Link, Redirect } from "react-router-dom";
+import SideBar from "./SideBar.jsx";
 
-const Landing = (props) => {
+const Landing = props => {
   return (
     <div className="landing">
       <SideBar />
-      <div className="landing-content"></div>
+      <div className="landing-content" />
     </div>
-  )
-}
+  );
+};
 
 export default Landing;

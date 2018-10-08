@@ -1,71 +1,83 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import adapter from "../adapter";
 import { Route, Redirect } from "react-router-dom";
-import axios from 'axios';
-import { storeUser, authenticate, updateUserFetched } from '../actions/';
-
-axios.defaults.withCredentials = true;
+import { storeUser, authenticate, updateUserFetched } from "../actions/";
 
 function withAuthentication(BaseComponent) {
-
   class ComponentWithAuth extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        isLoading: true,
-      }
+        isLoading: true
+      };
     }
 
     async componentDidMount() {
-      const { hasFetchedCurrUser, updateUserFetched, storeUser, authenticate } = this.props;
-      if (!hasFetchedCurrUser) { 
-        const user = await axios.get(`${process.env.HOST}/users/current`).catch(err => console.log(err));
-        if (user) { 
+      const {
+        hasFetchedCurrUser,
+        updateUserFetched,
+        storeUser,
+        authenticate
+      } = this.props;
+      if (!hasFetchedCurrUser) {
+        const user = await adapter.get(`/users/current`);
+        if (user) {
           storeUser(user.data);
           authenticate(true);
           updateUserFetched();
-          this.setState({ 
-            isLoading: false, 
+          this.setState({
+            isLoading: false
           });
-        } else { 
+        } else {
           authenticate(false);
-          this.setState({ 
-            isLoading: false, 
+          this.setState({
+            isLoading: false
           });
         }
-      } else { 
-        this.setState({ 
-          isLoading: false, 
+      } else {
+        this.setState({
+          isLoading: false
         });
       }
     }
 
-    render() {  
+    render() {
       const { isAuthenticated } = this.props;
       const { isLoading } = this.state;
-  
-      return isLoading 
-        ? <div className="loading">Loading...</div>
-        : isAuthenticated === true 
-          ? <div className="wrapper">
-              <BaseComponent {...this.props} />
-            </div>
-          : <Redirect to={{
-              pathname: '/login',
-              state: { from: this.props.location }
-            }} />
+
+      return isLoading ? (
+        <div className="loading">Loading...</div>
+      ) : isAuthenticated === true ? (
+        <div className="wrapper">
+          <BaseComponent {...this.props} />
+        </div>
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/login",
+            state: { from: this.props.location }
+          }}
+        />
+      );
     }
   }
   const mapStateToProps = ({ isAuthenticated, hasFetchedCurrUser }) => {
-    return { isAuthenticated, hasFetchedCurrUser }
-  }
+    return { isAuthenticated, hasFetchedCurrUser };
+  };
 
-  const matchDispatchToProps = (dispatch) => {
-    return bindActionCreators({ storeUser, authenticate, updateUserFetched }, dispatch);
-  }
-  
-  return connect(mapStateToProps, matchDispatchToProps)(ComponentWithAuth);
+  const matchDispatchToProps = dispatch => {
+    return bindActionCreators(
+      { storeUser, authenticate, updateUserFetched },
+      dispatch
+    );
+  };
+
+  return connect(
+    mapStateToProps,
+    matchDispatchToProps
+  )(ComponentWithAuth);
 }
 
 export default withAuthentication;

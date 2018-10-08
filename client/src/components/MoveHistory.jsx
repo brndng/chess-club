@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import Result from './Result.jsx';
-import { printMoves } from '../../../rules/utilities/';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import Result from "./Result.jsx";
+import { printMoves } from "../../../rules/utilities/";
 
 class MoveHistory extends Component {
   constructor(props) {
@@ -22,7 +22,8 @@ class MoveHistory extends Component {
                   <div className="move-pair white">{pair[0]}</div>
                   <div className="move-pair black">{pair[1]}</div>
                 </div>
-              </li>))}
+              </li>
+            ))}
           </ol>
           <div className="result-container">
             <Result />
@@ -35,6 +36,6 @@ class MoveHistory extends Component {
 
 const mapStateToProps = ({ moves }) => {
   return { moves };
-}
+};
 
 export default connect(mapStateToProps)(MoveHistory);

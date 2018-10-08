@@ -4,15 +4,24 @@ const {
   isDiagonalPawnMove,
   isSquareOccupied,
   isEnPassant,
-  isAlly,
+  isAlly
 } = require("../utilities/index");
 
-module.exports = function isValidException(piece, origin, destin, position, moves) {
-
+module.exports = function isValidException(
+  piece,
+  origin,
+  destin,
+  position,
+  moves
+) {
   switch (piece.toUpperCase()) {
-    case 'P': {
+    case "P": {
       const _isDiagonalPawnMove = isDiagonalPawnMove(piece, origin, destin);
-      const _isSquareOccupied = isSquareOccupied(position, destin.row, destin.col);
+      const _isSquareOccupied = isSquareOccupied(
+        position,
+        destin.row,
+        destin.col
+      );
       const _isAlly = isAlly(piece, position[destin.row][destin.col]);
       const _isEnPassant = isEnPassant(piece, origin, destin, position, moves);
 
@@ -21,7 +30,7 @@ module.exports = function isValidException(piece, origin, destin, position, move
       }
       return true;
     }
-    case 'K': {
+    case "K": {
       const _isCastling = isCastling(piece, origin, destin);
       const _isLegalCastle = isLegalCastle(piece, origin, destin, moves);
 
@@ -33,4 +42,4 @@ module.exports = function isValidException(piece, origin, destin, position, move
     default:
       return true;
   }
-}
+};

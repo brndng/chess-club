@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import io from "socket.io-client/dist/socket.io.js";
-import axios from "axios";
+import adapter from "../adapter";
 import BoardContainer from "./BoardContainer.jsx";
 import GameDisplay from "./GameDisplay.jsx";
 import PlayerCard from "./PlayerCard.jsx";
@@ -26,8 +26,6 @@ import {
   toggleVisualizer
 } from "../actions/";
 
-axios.defaults.withCredentials = true;
-
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -47,7 +45,7 @@ class Game extends Component {
       declareGameOver
     } = this.props;
     const { id } = this.state;
-    const game = await axios.get(`${process.env.HOST}/games/${id}`);
+    const game = await adapter.get(`/games/${id}`);
 
     this.socket = await io(`${process.env.HOST}/`);
 
@@ -111,7 +109,7 @@ class Game extends Component {
       const prevPosition = positionHistory.slice(-1)[0];
       const prevMoves = moves.slice(0, moves.length - 1);
       if ((user.id === white) === whiteToMove) {
-        axios.put(`${process.env.HOST}/games/move`, {
+        adapter.put(`/games/move`, {
           id,
           user,
           game,
@@ -134,7 +132,7 @@ class Game extends Component {
     if (_isKingInCheck && prevProps.inCheck !== user.id) {
       if (isCheckmate(squares)) {
         this.socket.emit("checkmate", { userId: user.id, id });
-        axios.put(`${process.env.HOST}/games/document`, {
+        adapter.put(`/games/document`, {
           id,
           user,
           moves,
@@ -144,12 +142,12 @@ class Game extends Component {
         });
       }
       this.socket.emit("check", { userId: user.id, id });
-      axios.put(`${process.env.HOST}/games/check`, { id, inCheck: user.id });
+      adapter.put(`/games/check`, { id, inCheck: user.id });
     }
 
     if (!_isKingInCheck && prevProps.inCheck === user.id) {
       this.socket.emit("check", { userId: null, id });
-      axios.put(`${process.env.HOST}/games/check`, { id, inCheck: null });
+      adapter.put(`/games/check`, { id, inCheck: null });
     }
   }
 
@@ -161,9 +159,7 @@ class Game extends Component {
     const { user, storeOpponent } = this.props;
     const opponentId = user.id === game.white ? game.black : game.white;
 
-    const opponent = await axios.get(
-      `${process.env.HOST}/users/profile/${opponentId}`
-    );
+    const opponent = await adapter.get(`/users/profile/${opponentId}`);
     storeOpponent(opponent.data);
   }
 
@@ -208,8 +204,8 @@ class Game extends Component {
           <Promotion />
         </div>
       ) : (
-          <div>Loading...</div>
-        );
+        <div>Loading...</div>
+      );
 
     return loadedComponent;
   }

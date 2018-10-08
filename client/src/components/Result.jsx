@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
 class Result extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Result extends Component {
 }
 
 const mapStateToProps = ({ completed, result }) => {
-  return { completed, result }
-}
+  return { completed, result };
+};
 
 export default connect(mapStateToProps)(Result);
