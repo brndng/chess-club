@@ -1,0 +1,276 @@
+.game-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 48px auto;
+  width: 50%;
+}
+
+.game-list-header {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 80px;
+  background-color: #cbc6bd;
+  border-radius: 1px;
+  color: black;
+}
+
+.game-list-header p {
+  color: #241c15;
+  width: 312px;
+  padding: 16px 8px 0px 8px;
+  margin: 0px;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 20px;
+}
+
+.content-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-header span {
+  text-align: center;
+  font-size: 11px;
+  padding-bottom: 4px;
+}
+
+.content-header span.match {
+  margin-left: 24px;
+}
+
+.content-header span.date {
+  margin-right: 36px;
+}
+
+.game-list-content {
+  display: flex;
+  flex: 1;
+  overflow-y: scroll;
+  background-color: #ecece8;
+}
+
+.game-list-content ul {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin: 0;
+  padding: 8px 0px 8px 0px;
+  list-style: none;
+  overflow: hidden;
+  list-style-position: inside;
+  border-radius: 2px;
+}
+
+.game-list-content li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  letter-spacing: 2px;
+  padding: 12px 24px 0px 24px;
+}
+
+.game-list-content a {
+  text-decoration: none;
+  color: #383838;
+}
+
+.game-list-content span {
+  color: #6e6561;
+}
+
+/* Players */
+.players-container {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+}
+
+.players-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #b2ada4;
+  width: 280px;
+  border-radius: 1px;
+}
+
+.players-search {
+  display: flex;
+  margin: 16px 16px 32px 16px;
+  height: 54px;
+}
+
+.players-search input {
+  border: none;
+  padding: 8px 28px 8px 8px;
+  font-size: 13px;
+  color: #6e6561;
+  outline: none;
+  width: 248px;
+  border-radius: 1px;
+  background-color: white;
+}
+
+.players-search-button {
+  font-size: 24px;
+  width: 24px;
+  margin: -4px 0px 0px -24px;
+  padding: 0px 4px 4px 0px;
+  background: transparent;
+  border: none;
+  border-radius: 1px;
+  color: #6e6561;
+}
+
+.players-invalid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 16px;
+}
+
+.players-invalid span {
+  font-size: 13px;
+  padding: 4px 0px;
+}
+
+.players-default {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid #ecece8;
+  height: 100%;
+  margin: 0px 16px 16px 16px;
+}
+
+.players-default p {
+  margin: 12px 16px -8px 16px;
+  font-size: 13px;
+  text-align: center;
+  color: black;
+}
+
+.players-default button {
+  margin-top: 32px;
+}
+.players-list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.players-list ul {
+  height: 364px;
+  border-radius: 1px;
+  overflow: auto;
+  padding: 8px 0px 8px 16px;
+  margin: 16px 0px 0px 0px;
+  background-color: #ecece8;
+}
+
+.players-list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
+  padding-top: 8px;
+}
+
+.players-list li a {
+  text-decoration: none;
+  font-size: 15px;
+  color: #383838;
+}
+
+.players-challenge {
+  display: flex;
+  flex-direction: row;
+  width: 420px;
+  background-color: #ecece8;
+  margin-left: 42px;
+}
+
+.challenge-creator {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 28px;
+}
+
+.challenge-creator-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  flex-shrink: 0;
+  padding: 80px 16px;
+  border-radius: 1px;
+}
+
+.challenge-creator-content div {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  margin-bottom: 24px;
+}
+
+.challenge-creator-content span {
+  font-size: 14px;
+  padding: 8px 8px 8px 0px;
+  color: #383838;
+}
+
+.challenge-creator-header p {
+  margin: 0px;
+  font-size: 20px;
+  color: black;
+}
+
+.slct-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.slct {
+  background-color: white;
+  width: 130px;
+  height: 28px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.challenge-button {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  border-top: 1px solid #cbc6bd;
+}
+
+.challenge-button button {
+  margin: auto;
+  letter-spacing: 1.2px;
+  font-size: 18px;
+  padding: 12px 24px;
+  border: 1px solid #383838;
+  background-color: white;
+  border-radius: 1px;
+}
+
+.challenge-button button:disabled {
+  color: gray;
+  border-color: gray;
+  opacity: 0.5;
+  cursor: default;
+}

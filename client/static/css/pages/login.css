@@ -1,0 +1,164 @@
+.logout {
+  display: flex;
+  flex-shrink: 0;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.logout a {
+  text-decoration: none;
+  text-align: center;
+  color: #f0ebe8;
+  display: block;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout a:hover,
+.logout a:focus {
+  color: #999;
+}
+
+/* Login */
+.login {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-left: 24px;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #1d1e22;
+  background-image: url("https://media.istockphoto.com/photos/chess-pieces-on-the-board-picture-id512093332?k=6&m=512093332&s=612x612&w=0&h=pMKkhg5VXoQ86FcyfJmd3PCZ7M2ByTRheMuhxt-Q-3g=");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: lighten;
+  margin-left: 16%;
+  opacity: 0.6;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  height: 480px;
+  width: 480px;
+  padding: 48px;
+  border-radius: 2px;
+  margin-right: 472.5px;
+  transition: ease-out 0.2s;
+}
+
+.login-form.login-view {
+  background-color: black;
+  opacity: 0.9;
+}
+
+.login-form.signup-view {
+  background-color: #ecece8;
+  opacity: 0.9;
+}
+
+.login-form span {
+  font-size: 15px;
+  padding: 4px;
+  text-align: center;
+  height: 24.8px;
+}
+
+.login-form.login-view span {
+  color: #eec28c;
+}
+
+.login-form.signup-view span {
+  color: #aa7047;
+}
+
+.login-form-content {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 100%;
+  margin: auto auto 64px auto;
+  align-items: center;
+}
+
+.login-form-input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.login-form-input input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  border: none;
+}
+
+.login-form-input.login-view input {
+  background-color: #f6f5f3;
+  color: black;
+}
+
+.login-form-input.signup-view input {
+  background-color: black;
+  color: white;
+}
+
+.login-form-submit {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.login-form-submit button {
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  padding: 2px;
+  align-items: center;
+  font-weight: bold;
+  border: none;
+  opacity: 1;
+  letter-spacing: 0.5px;
+}
+
+.login-form-submit.login-view button {
+  color: black;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.login-form-submit.signup-view button {
+  color: white;
+  background-color: black;
+}
+
+.login-form-toggle.login-view {
+  opacity: 1;
+  color: white;
+  font-style: italic;
+}
+
+.login-form-toggle.signup-view {
+  opacity: 1;
+  color: black;
+  font-style: italic;
+}
+
+.login-form-toggle a {
+  text-decoration: none;
+  color: #479761;
+}
